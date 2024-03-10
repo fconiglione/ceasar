@@ -1,1 +1,56 @@
-<p>header works!</p>
+<header>
+  <div class="header-container">
+    <div class="header-column">
+      <div class="header-item">
+        <button class="header-nav-btn">
+        <img [src]="appLauncherIcon" alt="App launcher icon">
+      </button>
+      </div>
+      <div class="header-item">
+        <img [src]="CeasarColouredLogo1" alt="Ceasar header logo">
+      </div>
+    </div>
+    <div class="header-column">
+      <div class="header-search-bar">
+        <form action="/search" method="get" id="searchForm">
+          <div class="search-controls">
+            <div class="header-search-inner">
+              <button type="submit" id="searchButton">
+                <fa-icon [icon]="faSearch"></fa-icon>
+              </button>
+              <input type="text" name="q" placeholder="Search for anything..." id="searchInput">
+            </div>
+            <div>
+              <button type="button" id="clearButton">
+                <fa-icon [icon]="faTimes"></fa-icon>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="header-column">
+      <div class="header-item">
+        <a href="/help-center">
+          <fa-icon [icon]="faQuestion"></fa-icon>
+        </a>
+      </div>
+      <div>
+        <a href="/settings">
+          <fa-icon [icon]="faGear"></fa-icon>
+        </a>
+      </div>
+      <div>
+        <button>
+          <fa-icon [icon]="faBell"></fa-icon>
+        </button>
+      </div>
+      |
+      <div>
+        <button>
+          <fa-icon [icon]="faUser"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
