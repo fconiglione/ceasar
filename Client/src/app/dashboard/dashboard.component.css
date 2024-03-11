@@ -1,0 +1,85 @@
+.dashboard-masthead {
+  background-color: #eeeeee;
+}
+.dashboard-masthead h1 {
+  font-size: 1.2em;
+}
+.dashboard-masthead-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+.dashboard-masthead-container-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.templates-btn {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  text-decoration: none;
+  color: #000000;
+  margin: 0;
+  transition: transform 0.3s ease-in-out;
+}
+.templates-btn:hover {
+  transform: translateY(-3px);
+}
+.workspace-template {
+  background-color: #ffffff;
+  border-radius: 15px;
+  border: 1px solid #c7c7c7;
+}
+.workspace-template a {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  color: #000000;
+  text-decoration: none;
+}
+.workspace-template a div:last-child {
+  padding: 15px 25px;
+}
+.workspace-template h2 {
+  font-size: 1.2em;
+  margin: 0;
+}
+.workspace-template p {
+  font-size: 0.9em;
+}
+.workspace-template img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  object-position: top left;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  border-bottom: 1px solid #eeeeee;
+}
+.dashboard-masthead-container-row:last-child .dashboard-masthead-container-column {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.dashboard-masthead-container-row:last-child .dashboard-masthead-container-column > * {
+  flex-grow: 1;
+}
+@media screen and (max-width: 1439px) {
+  .workspace-template:last-child {
+    display: none;
+  }
+}
+@media screen and (max-width: 1074px) {
+  .workspace-template:nth-child(3) {
+    display: none;
+  }
+}
