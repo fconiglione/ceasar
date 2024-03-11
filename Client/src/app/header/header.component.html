@@ -7,7 +7,9 @@
       </button>
       </div>
       <div class="header-item">
-        <img [src]="CeasarColouredLogo1" alt="Ceasar header logo">
+        <a href="/">
+          <img class="header-logo" [src]="CeasarColouredLogo1" alt="Ceasar header logo">
+        </a>
       </div>
     </div>
     <div class="header-column">
@@ -29,25 +31,30 @@
         </form>
       </div>
     </div>
-    <div class="header-column">
+    <div class="header-column header-icon-bar">
+      <div>
+        <button class="header-nav-icon-btn">
+          <fa-icon [icon]="faSearch"></fa-icon>
+        </button>
+      </div>
       <div class="header-item">
-        <a href="/help-center">
+        <a class="header-nav-icon" href="/help-center">
           <fa-icon [icon]="faQuestion"></fa-icon>
         </a>
       </div>
       <div>
-        <a href="/settings">
+        <a class="header-nav-icon" href="/settings">
           <fa-icon [icon]="faGear"></fa-icon>
         </a>
       </div>
       <div>
-        <button>
+        <button class="header-nav-icon-btn">
           <fa-icon [icon]="faBell"></fa-icon>
         </button>
       </div>
-      |
+      <hr>
       <div>
-        <button>
+        <button class="header-nav-icon-btn">
           <fa-icon [icon]="faUser"></fa-icon>
         </button>
       </div>
