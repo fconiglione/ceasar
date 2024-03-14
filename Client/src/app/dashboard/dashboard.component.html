@@ -13,8 +13,19 @@
         </div>
       </div>
       <div class="dashboard-masthead-container-row">
-        <div class="dashboard-masthead-container-column">
-          <div class="workspace-template">
+        <div class="dashboard-masthead-container-column workspace-grid">
+          <div class="workspace-template workspace-container">
+            <a href="#">
+              <div>
+                <img [src]="BlankWorkspace" alt="A blank workspace template">
+              </div>
+              <div>
+                <h2>Blank</h2>
+                <p>Start from scratch </p>
+              </div>
+            </a>
+          </div>
+          <div class="workspace-template workspace-container">
             <a href="#">
               <div>
                 <img [src]="BlankWorkspace" alt="A blank workspace template">
@@ -25,7 +36,7 @@
               </div>
             </a>
           </div>
-          <div class="workspace-template">
+          <div class="workspace-template workspace-container">
             <a href="#">
               <div>
                 <img [src]="BlankWorkspace" alt="A blank workspace template">
@@ -36,7 +47,7 @@
               </div>
             </a>
           </div>
-          <div class="workspace-template">
+          <div class="workspace-template workspace-container">
             <a href="#">
               <div>
                 <img [src]="BlankWorkspace" alt="A blank workspace template">
@@ -47,14 +58,153 @@
               </div>
             </a>
           </div>
-          <div class="workspace-template">
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="dashboard-shelf">
+    <div class="dashboard-shelf-container">
+      <div class="dashboard-shelf-container-row">
+        <div class="dashboard-shelf-container-column">
+          <h1>Recent workspaces</h1>
+        </div>
+        <div class="dashboard-shelf-container-column">
+          <fieldset>
+            <label for="sortBySelector">Sort by:</label>
+            <select name="sortBySelector" id="sortBySelector">
+              <option value="opened">Last opened</option>
+              <option value="modified">Last modified</option>
+              <option value="created">Creation date</option>
+              <option value="name">Name</option>
+            </select>
+          </fieldset>
+        </div>
+      </div>
+      <div class="dashboard-shelf-container-row">
+        <div class="dashboard-shelf-container-column workspace-grid">
+          <div class="workspace-active workspace-container">
             <a href="#">
               <div>
-                <img [src]="BlankWorkspace" alt="A blank workspace template">
+                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
               </div>
+              <div class="workspace-active-details">
+                <div>
+                  <h2>ABC Industries Ltd.</h2>
+                </div>
+                <div class="workspace-active-sub">
+                  <div>
+                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
+                    <p>Opened Mar 13, 2024</p>
+                  </div>
+                  <div>
+                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="workspace-active workspace-container">
+            <a href="#">
               <div>
-                <h2>Blank</h2>
-                <p>Start from scratch with an empty workspace</p>
+                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
+              </div>
+              <div class="workspace-active-details">
+                <div>
+                  <h2>ABC Industries Ltd.</h2>
+                </div>
+                <div class="workspace-active-sub">
+                  <div>
+                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
+                    <p>Opened Mar 13, 2024</p>
+                  </div>
+                  <div>
+                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="workspace-active workspace-container">
+            <a href="#">
+              <div>
+                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
+              </div>
+              <div class="workspace-active-details">
+                <div>
+                  <h2>ABC Industries Ltd.</h2>
+                </div>
+                <div class="workspace-active-sub">
+                  <div>
+                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
+                    <p>Opened Mar 13, 2024</p>
+                  </div>
+                  <div>
+                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="workspace-active workspace-container">
+            <a href="#">
+              <div>
+                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
+              </div>
+              <div class="workspace-active-details">
+                <div>
+                  <h2>ABC Industries Ltd.</h2>
+                </div>
+                <div class="workspace-active-sub">
+                  <div>
+                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
+                    <p>Opened Mar 13, 2024</p>
+                  </div>
+                  <div>
+                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="workspace-active workspace-container">
+            <a href="#">
+              <div>
+                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
+              </div>
+              <div class="workspace-active-details">
+                <div>
+                  <h2>ABC Industries Ltd.</h2>
+                </div>
+                <div class="workspace-active-sub">
+                  <div>
+                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
+                    <p>Opened Mar 13, 2024</p>
+                  </div>
+                  <div>
+                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="workspace-active workspace-container">
+            <a href="#">
+              <div>
+                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
+              </div>
+              <div class="workspace-active-details">
+                <div>
+                  <h2>ABC Industries Ltd.</h2>
+                </div>
+                <div class="workspace-active-sub">
+                  <div>
+                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
+                    <p>Opened Mar 13, 2024</p>
+                  </div>
+                  <div>
+                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                  </div>
+                </div>
               </div>
             </a>
           </div>
