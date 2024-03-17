@@ -3,8 +3,8 @@
     <div class="header-column">
       <div class="header-item">
         <button class="header-nav-btn">
-        <img [src]="appLauncherIcon" alt="App launcher icon">
-      </button>
+          <img [src]="appLauncherIcon" alt="App launcher icon">
+        </button>
       </div>
       <div class="header-item">
         <a href="/">
@@ -57,6 +57,70 @@
         <button class="header-nav-icon-btn">
           <fa-icon [icon]="faUser"></fa-icon>
         </button>
+      </div>
+    </div>
+  </div>
+  <div class="app-launcher">
+    <div class="app-launcher-container inactive">
+      <div class="app-launcher-top">
+        <div class="app-launcher-header">
+          <div>
+            <button class="header-nav-btn">
+              <img [src]="appLauncherIcon" alt="App launcher icon">
+            </button>
+          </div>
+          <div>
+            <a href="https://www.frim.io/cloud" target="_blank">
+              <span>Frim Cloud</span>
+              <fa-icon [icon]="faArrowRight"></fa-icon>
+            </a>
+          </div>
+        </div>
+        <div class="app-launcher-apps">
+          <div class="apps">
+            <div class="app">
+              <a href="#">
+                <img src="#" alt="#">
+                <p>Ceasar</p>
+              </a>
+            </div>
+          </div>
+          <div>
+            <a href="#">
+              <span>See all apps</span>
+              <fa-icon [icon]="faArrowRight"></fa-icon>
+            </a>
+          </div>
+        </div>
+        <hr>
+        <div class="app-launcher-nav">
+          <div>
+            <a href="/help-center">Help Center</a>
+          </div>
+          <div>
+            <a href="/settings">Settings</a>
+          </div>
+          <div>
+            <a href="/logout">Logout</a>
+          </div>
+        </div>
+      </div>
+      <div class="app-launcher-bottom">
+        <div class="app-launcher-footer-nav">
+          <ul>
+            <li>
+              <a href="https://www.frim.io/privacy-policy">Privacy Policy</a>
+            </li>
+            <span class="bullet">&bull;</span>
+            <li>
+              <a href="https://www.frim.io/terms-of-use">Terms of Use</a>
+            </li>
+          </ul>
+        </div>
+        <div class="app-launcher-footer-legal">
+          <p>Copyright © {{ currentYear }} Frim, Inc. All Rights Reserved.</p>
+          <p>Ceasar™ is a subsidiary product of Frim, Inc.</p>
+        </div>
       </div>
     </div>
   </div>

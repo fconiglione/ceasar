@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
-import {faBell, faGear, faQuestion, faSearch, faTimes, faUser} from '@fortawesome/free-solid-svg-icons';
+import {faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
 @Component({
@@ -17,9 +17,11 @@ export class HeaderComponent {
   appLauncherIcon = 'assets/images/app-launcher-icon.png'
   CeasarColouredLogo1 = "assets/images/ceasar-coloured-logo-1.svg";
   faSearch = faSearch;
+  faArrowRight = faArrowRight;
   protected readonly faTimes = faTimes;
   protected readonly faQuestion = faQuestion;
   protected readonly faGear = faGear;
   protected readonly faBell = faBell;
   protected readonly faUser = faUser;
+  currentYear = new Date().getFullYear();
 }

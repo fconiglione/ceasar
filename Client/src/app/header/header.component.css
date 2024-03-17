@@ -1,3 +1,5 @@
+/* Header */
+
 header {
   border-bottom: 1px solid #eeeeee;
   padding: 2px 2%;
@@ -106,4 +108,10 @@ header {
   .header-icon-bar div:first-child {
     display: none;
   }
+}
+
+/* App Launcher */
+
+.inactive {
+  display: none;
 }
