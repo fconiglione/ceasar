@@ -2,7 +2,7 @@
   <div class="header-container">
     <div class="header-column">
       <div class="header-item">
-        <button class="header-nav-btn">
+        <button class="header-nav-btn" id="app-launcher-open-btn" (click)="openAppLauncher()">
           <img [src]="appLauncherIcon" alt="App launcher icon">
         </button>
       </div>
@@ -60,12 +60,12 @@
       </div>
     </div>
   </div>
-  <div class="app-launcher">
-    <div class="app-launcher-container inactive">
+  <div class="app-launcher inactive" id="app-launcher" (click)="closeAppLauncher()" [class.active]="isActive">
+    <div class="app-launcher-container">
       <div class="app-launcher-top">
         <div class="app-launcher-header">
           <div>
-            <button class="header-nav-btn">
+            <button class="header-nav-btn" id="app-launcher-close-btn">
               <img [src]="appLauncherIcon" alt="App launcher icon">
             </button>
           </div>
@@ -77,16 +77,19 @@
           </div>
         </div>
         <div class="app-launcher-apps">
+          <div>
+            <h1>Apps</h1>
+          </div>
           <div class="apps">
             <div class="app">
               <a href="#">
-                <img src="#" alt="#">
+                <img [src]="CeasarColouredLogo2" alt="Ceasar app icon">
                 <p>Ceasar</p>
               </a>
             </div>
           </div>
           <div>
-            <a href="#">
+            <a href="https://www.frim.io/cloud" class="see-all-apps-btn">
               <span>See all apps</span>
               <fa-icon [icon]="faArrowRight"></fa-icon>
             </a>
@@ -118,10 +121,11 @@
           </ul>
         </div>
         <div class="app-launcher-footer-legal">
-          <p>Copyright © {{ currentYear }} Frim, Inc. All Rights Reserved.</p>
-          <p>Ceasar™ is a subsidiary product of Frim, Inc.</p>
+          <p>Copyright © {{ currentYear }} Frim, Inc. All Rights Reserved.<br>
+          Ceasar™ is a product developed and owned by Frim, Inc.</p>
         </div>
       </div>
     </div>
   </div>
+  <div id="overlay" (click)="closeAppLauncher()"></div>
 </header>

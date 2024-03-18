@@ -65,6 +65,9 @@
   margin: 0;
   transition: transform 0.3s ease-in-out;
 }
+.templates-btn fa-icon {
+  margin-bottom: -2px;
+}
 .templates-btn:hover {
   transform: translateY(-3px);
 }

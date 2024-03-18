@@ -2,7 +2,7 @@
 
 header {
   border-bottom: 1px solid #eeeeee;
-  padding: 2px 2%;
+  padding: 2px 25px;
 }
 .header-container {
   display: flex;
@@ -112,6 +112,116 @@ header {
 
 /* App Launcher */
 
+.app-launcher {
+  opacity: 1;
+  width: 350px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: #ffffff;
+  z-index: 9999;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  padding: 16px 25px;
+}
+.active {
+  opacity: 1;
+  transform: translateX(0) !important;
+}
 .inactive {
+  opacity: 1;
+  transform: translateX(-400px);
+}
+#overlay {
+  position: fixed;
   display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 10;
+  cursor: pointer;
+}
+.app-launcher-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+}
+.app-launcher-top {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 40px;
+}
+.app-launcher-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.app-launcher-header a {
+  color: #000000;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 1em;
+}
+.app-launcher-header fa-icon {
+  margin-bottom: -1px;
+}
+.app-launcher-apps {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.app-launcher-apps h1 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.2em;
+}
+.app {
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 2px;
+  width: 75px;
+  height: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease-in-out background-color, transform 0.3s ease-in-out;
+}
+.app a {
+  text-decoration: none;
+  color: #000000;
+  text-align: center;
+}
+.app p {
+  margin: 0;
+  padding: 2px 0;
+  font-size: 0.8em;
+}
+.app:hover {
+  transform: translateY(-3px);
+  background-color: #eeeeee;
+}
+.see-all-apps-btn {
+  color: #000000;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 1em;
+}
+.see-all-apps-btn:hover, .app-launcher-header a:hover {
+  text-decoration: underline;
 }
