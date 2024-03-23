@@ -95,17 +95,28 @@
             </a>
           </div>
         </div>
-        <hr>
+        <hr class="app-launcher-divider">
         <div class="app-launcher-nav">
-          <div>
-            <a href="/help-center">Help Center</a>
-          </div>
-          <div>
-            <a href="/settings">Settings</a>
-          </div>
-          <div>
-            <a href="/logout">Logout</a>
-          </div>
+            <ul>
+              <li>
+                <a href="/help-center">
+                  <fa-icon [icon]="faQuestion"></fa-icon>
+                  <span>Help Center</span>
+                </a>
+              </li>
+              <li>
+                <a href="/settings">
+                  <fa-icon [icon]="faGear"></fa-icon>
+                  <span>Settings</span>
+                </a>
+              </li>
+              <li>
+                <a href="/logout">
+                  <fa-icon [icon]="faRightFromBracket"></fa-icon>
+                  <span>Logout</span>
+                </a>
+              </li>
+            </ul>
         </div>
       </div>
       <div class="app-launcher-bottom">

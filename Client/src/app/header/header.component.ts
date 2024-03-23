@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
-import {faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import {faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
 @Component({
@@ -39,6 +39,7 @@ export class HeaderComponent {
   CeasarColouredLogo2 = "assets/images/ceasar-coloured-logo-2.svg";
   faSearch = faSearch;
   faArrowRight = faArrowRight;
+  faRightFromBracket = faRightFromBracket;
   protected readonly faTimes = faTimes;
   protected readonly faQuestion = faQuestion;
   protected readonly faGear = faGear;
