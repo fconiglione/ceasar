@@ -124,7 +124,7 @@ header {
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
   transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 400px) {
   .app-launcher {
     width: 100vw;
   }
@@ -297,4 +297,8 @@ header {
 .app-launcher-footer-legal p {
   text-align: center;
   font-size: 0.7em;
+}
+.apps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
