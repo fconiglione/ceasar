@@ -28,6 +28,35 @@
     grid-template-columns: repeat(1, 1fr);
   }
 }
+#create-workspace-btn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 2%;
+  margin-right: 2%;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 100%;
+  padding: 20px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  z-index: 9999;
+}
+#create-workspace-btn:hover {
+  background-color: #f4f4f4;
+}
+#create-workspace-btn fa-icon {
+  padding: 2px;
+  margin: 0;
+  color: #000000;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* Dashboard Masthead */
 
@@ -36,6 +65,21 @@
 }
 .dashboard-masthead h1 {
   font-size: 1.2em;
+}
+@media screen and (max-width: 525px) {
+  .dashboard-masthead h1 {
+    font-size: 1em;
+  }
+}
+@media screen and (max-width: 425px) {
+  .dashboard-masthead h1 {
+    font-size: 0.8em;
+  }
+}
+@media screen and (max-width: 365px) {
+  .dashboard-masthead h1 {
+    font-size: 0.6em;
+  }
 }
 .dashboard-masthead-container {
   display: flex;
@@ -109,6 +153,21 @@
 
 .dashboard-shelf h1, .dashboard-shelf select, .dashboard-shelf label {
   font-size: 1.2em;
+}
+@media screen and (max-width: 525px) {
+  .dashboard-shelf h1, .dashboard-shelf select, .dashboard-shelf label{
+    font-size: 1em;
+  }
+}
+@media screen and (max-width: 425px) {
+  .dashboard-shelf h1, .dashboard-shelf select, .dashboard-shelf label {
+    font-size: 0.8em;
+  }
+}
+@media screen and (max-width: 365px) {
+  .dashboard-shelf h1, .dashboard-shelf select, .dashboard-shelf label {
+    font-size: 0.6em;
+  }
 }
 .dashboard-shelf-container {
   display: flex;

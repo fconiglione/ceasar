@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {faArrowRightLong} from "@fortawesome/free-solid-svg-icons";
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faEllipsisVertical} from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,4 +19,5 @@ export class DashboardComponent {
   BlankWorkspace = "assets/images/blank-workspace-img.png";
   CeasarColouredLogo2 = "assets/images/ceasar-coloured-logo-2.svg";
   faEllipsisVertical = faEllipsisVertical;
+  faPlus = faPlus;
 }
