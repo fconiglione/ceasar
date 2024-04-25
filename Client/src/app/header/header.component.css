@@ -20,6 +20,7 @@ header {
   background-color: transparent;
   border: none;
   cursor: pointer;
+  padding: 0;
 }
 .header-nav-btn img {
   width: 20px;
@@ -244,7 +245,7 @@ header {
   display: flex;
   flex-direction: column;
   list-style-type: none;
-  gap: 20px;
+  gap: 8px;
   margin: 0;
   padding: 0;
 }
