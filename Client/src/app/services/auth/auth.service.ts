@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -15,7 +15,8 @@ export class AuthService {
 
   verifyJWTToken() {
     const token_id = this.cookieService.get('token_id');
-    return this.http.post(`${this.cloudServerUrl}/users/verify-session`, { token_id });
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(`${this.cloudServerUrl}/users/verify-session`, { token_id }, {headers, withCredentials: true});
   }
 
 }
