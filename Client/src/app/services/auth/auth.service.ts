@@ -15,6 +15,7 @@ export class AuthService {
 
   verifyJWTToken() {
     const token_id = this.cookieService.get('token_id');
+    console.log(token_id);
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(`${this.cloudServerUrl}/users/verify-session`, { token_id }, {headers, withCredentials: true});
   }
