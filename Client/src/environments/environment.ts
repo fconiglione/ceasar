@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    cloudServerUrl: 'https://www.cloud.frim.io/v1/api'
+    cloudServerUrl: 'https://www.api.cloud.frim.io/v1/api'
 };
