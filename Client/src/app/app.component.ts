@@ -30,9 +30,9 @@ export class AppComponent {
       (error) => {
         console.error(error);
         // Modified for development purposes
-        // this.tokenVerified = true;
-        this.tokenVerified = false;
-        window.location.href = 'https://www.cloud.frim.io/login';
+        this.tokenVerified = true;
+        // this.tokenVerified = false;
+        // window.location.href = 'https://www.cloud.frim.io/login';
       }
     );
   }
