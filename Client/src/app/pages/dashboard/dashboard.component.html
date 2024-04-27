@@ -1,8 +1,8 @@
 <main>
-  <button id="create-workspace-btn">
+  <button id="create-workspace-btn" (click)="openCreateWorkspace()">
     <fa-icon [icon]="faPlus"></fa-icon>
   </button>
-  <div class="create-workspace-pop-up">
+  <div class="create-workspace-pop-up" id="create-workspace-pop-up">
     <div class="create-workspace-pop-up-container">
       <div class="create-workspace-form">
         <div class="create-workspace-pop-up-row">
@@ -45,7 +45,7 @@
               </fieldset>
             </div>
             <div class="create-workspace-pop-up-nav">
-              <button type="button" id="cancelWorkspaceBtn">Cancel</button>
+              <button type="button" id="cancelWorkspaceBtn" (click)="closeCreateWorkspace()">Cancel</button>
               <button type="submit" id="createWorkspaceBtn">Create</button>
             </div>
           </form>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faEllipsisVertical, faCircleInfo, faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -21,4 +21,15 @@ export class DashboardComponent {
   faPlus = faPlus;
   faCircleInfo = faCircleInfo;
   tokenVerified: boolean = false;
+
+  constructor(private elementRef: ElementRef) {}
+
+  openCreateWorkspace() {
+    const createWorkspacePopUp = this.elementRef.nativeElement.querySelector('#create-workspace-pop-up');
+    createWorkspacePopUp.style.display = 'block';
+  }
+  closeCreateWorkspace() {
+    const createWorkspacePopUp = this.elementRef.nativeElement.querySelector('#create-workspace-pop-up');
+    createWorkspacePopUp.style.display = 'none';
+  }
 }
