@@ -2,6 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  constructor(private elementRef: ElementRef) {}
+  constructor(private elementRef: ElementRef, private cookieService : CookieService ) {}
   isActive: boolean = false;
   openAppLauncher() {
     this.isActive = true;
@@ -33,6 +34,11 @@ export class HeaderComponent {
     const overlay = this.elementRef.nativeElement.querySelector('#overlay');
     overlay.style.display = 'none';
     document.body.style.overflow = 'auto';
+  }
+  logoutUser() {
+    sessionStorage.clear();
+    this.cookieService.delete('token_id');
+    window.location.href = 'https://www.cloud.frim.io/login';
   }
   appLauncherIcon = 'assets/images/app-launcher-icon.png'
   CeasarColouredLogo1 = "assets/images/ceasar-coloured-logo-1.svg";

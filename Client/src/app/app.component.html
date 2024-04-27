@@ -1,2 +1,2 @@
-<app-header></app-header>
-<router-outlet></router-outlet>
+<app-header *ngIf="tokenVerified"></app-header>
+<router-outlet *ngIf="tokenVerified"></router-outlet>

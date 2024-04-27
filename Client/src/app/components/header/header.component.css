@@ -3,6 +3,7 @@
 header {
   border-bottom: 1px solid #eeeeee;
   padding: 2px 25px;
+  z-index: 9999;
 }
 .header-container {
   display: flex;
@@ -150,6 +151,7 @@ header {
   background-color: rgba(0,0,0,0.5);
   z-index: 10;
   cursor: pointer;
+  z-index: 9998;
 }
 .app-launcher-container {
   display: flex;
