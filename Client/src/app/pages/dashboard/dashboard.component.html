@@ -10,8 +10,8 @@
         </div>
         <div class="create-workspace-pop-up-row">
           <form>
-            <input type="text" id="workspaceName" name="workspaceName" required placeholder="Enter workspace name" maxlength="50" [(ngModel)]="WORKSPACE.title">
-            <textarea name="text" id="workspaceDescription" name="workspaceDescription" placeholder="Enter workspace description (optional)" maxlength="255" [(ngModel)]="WORKSPACE.description"></textarea>
+            <input type="text" id="workspaceName" name="workspaceName" required placeholder="Enter workspace name" maxlength="50" [(ngModel)]="title">
+            <textarea name="text" id="workspaceDescription" name="workspaceDescription" placeholder="Enter workspace description (optional)" maxlength="255" [(ngModel)]="description"></textarea>
             <div>
               <div class="create-workspace-subtitle">
                 <h2>Select all that apply</h2>
@@ -19,34 +19,34 @@
               </div>
               <fieldset>
                 <div>
-                  <input type="checkbox" id="feature1" name="feature1" value="leads" [(ngModel)]="WORKSPACE.has_leads">
+                  <input type="checkbox" id="feature1" name="feature1" value="leads" [(ngModel)]="has_leads">
                   <label for="feature1">Leads</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature2" name="feature2" value="accounts" [(ngModel)]="WORKSPACE.has_accounts">
+                  <input type="checkbox" id="feature2" name="feature2" value="accounts" [(ngModel)]="has_accounts">
                   <label for="feature2">Accounts</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature3" name="feature3" value="opportunities" [(ngModel)]="WORKSPACE.has_opportunities">
+                  <input type="checkbox" id="feature3" name="feature3" value="opportunities" [(ngModel)]="has_opportunities">
                   <label for="feature3">Opportunities</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature4" name="feature4" value="contacts" [(ngModel)]="WORKSPACE.has_contacts">
+                  <input type="checkbox" id="feature4" name="feature4" value="contacts" [(ngModel)]="has_contacts">
                   <label for="feature4">Contacts</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature5" name="feature5" value="files" [(ngModel)]="WORKSPACE.has_files">
+                  <input type="checkbox" id="feature5" name="feature5" value="files" [(ngModel)]="has_files">
                   <label for="feature5">Files</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature6" name="feature6" value="reports" [(ngModel)]="WORKSPACE.has_reports">
+                  <input type="checkbox" id="feature6" name="feature6" value="reports" [(ngModel)]="has_reports">
                   <label for="feature6">Reports</label>
                 </div>
               </fieldset>
             </div>
             <div class="create-workspace-pop-up-nav">
               <button type="button" id="cancelWorkspaceBtn" (click)="closeCreateWorkspace()">Cancel</button>
-              <button type="submit" id="createWorkspaceBtn">Create</button>
+              <button type="submit" id="createWorkspaceBtn" (click)="createWorkspace()">Create</button>
             </div>
           </form>
         </div>

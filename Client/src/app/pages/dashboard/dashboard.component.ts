@@ -66,6 +66,24 @@ export class DashboardComponent {
     });
   }
 
+  createWorkspace(): void {
+    let newWorkspace = {
+      title: this.title,
+      description: this.description,
+      has_leads: this.has_leads,
+      has_accounts: this.has_accounts,
+      has_opportunities: this.has_opportunities,
+      has_contacts: this.has_contacts,
+      has_files: this.has_files,
+      has_reports: this.has_reports
+    };
+
+    this.workspaceService.addWorkspace(newWorkspace).subscribe(response => {
+      this.getWorkspaces();
+      this.closeCreateWorkspace();
+    });
+  }
+
   ngOnInit() {
     this.getWorkspaces();
   }
