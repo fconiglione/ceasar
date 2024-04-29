@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../auth/auth.service';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +11,15 @@ export class WorkspaceService {
 
   appServerUrl = environment.appServerUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getWorkspaces(userId: string) {
-    return this.http.get(`${this.appServerUrl}/workspaces/${userId}`);
+    return this.authService.getUserDetails().pipe(
+      switchMap((userDetails: any) => {
+        const userId = userDetails.user_id;
+        return this.http.get(`${this.appServerUrl}/workspaces/${userId}`);
+      })
+    );
   }
 
   addWorkspace(workspace: any) {
