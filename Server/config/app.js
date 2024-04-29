@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 dotenv.config();
 
 app.use(cors({
-    origin: ['http://localhost:4200', 'http://localhost:3000', 'https://www.frim.io', 'https://www.api.frim.io', 'https://www.cloud.frim.io', 'https://www.ceasar.frim.io'],
+    origin: ['http://localhost:4200', 'http://localhost:4201', 'http://localhost:3000', 'https://www.frim.io', 'https://www.api.frim.io', 'https://www.cloud.frim.io', 'https://www.ceasar.frim.io'],
     credentials: true
 }))
 
@@ -17,9 +17,11 @@ app.options('*', cors());
 
 const userController = require('../controllers/user');
 app.use('/v1/api/users', userController);
+const workspaceController = require('../controllers/workspace');
+app.use('/v1/api/workspaces', workspaceController);
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
+app.listen(3001, () => {
+    console.log('Server is running on port 3001');
 });
 
 module.exports = app;

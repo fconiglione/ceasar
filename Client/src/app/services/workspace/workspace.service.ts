@@ -13,14 +13,14 @@ export class WorkspaceService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  getWorkspaces(userId: string) {
+  getWorkspaces() {
     return this.authService.getUserDetails().pipe(
       switchMap((userDetails: any) => {
-        const userId = userDetails.user_id;
-        return this.http.get(`${this.appServerUrl}/workspaces/${userId}`);
+        const user_id = userDetails.user_id;
+        return this.http.post(`${this.appServerUrl}/workspaces`, { user_id });
       })
     );
-  }
+  }  
 
   addWorkspace(workspace: any) {
     return this.http.post(`${this.appServerUrl}/workspaces`, workspace);

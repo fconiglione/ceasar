@@ -10,8 +10,8 @@
         </div>
         <div class="create-workspace-pop-up-row">
           <form>
-            <input type="text" id="workspaceName" name="workspaceName" required placeholder="Enter workspace name" maxlength="50">
-            <textarea name="text" id="workspaceDescription" name="workspaceDescription" placeholder="Enter workspace description (optional)" maxlength="255"></textarea>
+            <input type="text" id="workspaceName" name="workspaceName" required placeholder="Enter workspace name" maxlength="50" [(ngModel)]="WORKSPACE.title">
+            <textarea name="text" id="workspaceDescription" name="workspaceDescription" placeholder="Enter workspace description (optional)" maxlength="255" [(ngModel)]="WORKSPACE.description"></textarea>
             <div>
               <div class="create-workspace-subtitle">
                 <h2>Select all that apply</h2>
@@ -19,27 +19,27 @@
               </div>
               <fieldset>
                 <div>
-                  <input type="checkbox" id="feature1" name="feature1" value="leads">
+                  <input type="checkbox" id="feature1" name="feature1" value="leads" [(ngModel)]="WORKSPACE.has_leads">
                   <label for="feature1">Leads</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature2" name="feature2" value="accounts">
+                  <input type="checkbox" id="feature2" name="feature2" value="accounts" [(ngModel)]="WORKSPACE.has_accounts">
                   <label for="feature2">Accounts</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature3" name="feature3" value="opportunities">
+                  <input type="checkbox" id="feature3" name="feature3" value="opportunities" [(ngModel)]="WORKSPACE.has_opportunities">
                   <label for="feature3">Opportunities</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature4" name="feature4" value="contacts">
+                  <input type="checkbox" id="feature4" name="feature4" value="contacts" [(ngModel)]="WORKSPACE.has_contacts">
                   <label for="feature4">Contacts</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature5" name="feature5" value="files">
+                  <input type="checkbox" id="feature5" name="feature5" value="files" [(ngModel)]="WORKSPACE.has_files">
                   <label for="feature5">Files</label>
                 </div>
                 <div>
-                  <input type="checkbox" id="feature6" name="feature6" value="reports">
+                  <input type="checkbox" id="feature6" name="feature6" value="reports" [(ngModel)]="WORKSPACE.has_reports">
                   <label for="feature6">Reports</label>
                 </div>
               </fieldset>
@@ -135,15 +135,15 @@
         </div>
       </div>
       <div class="dashboard-shelf-container-row">
-        <div class="dashboard-shelf-container-column workspace-grid">
-          <div class="workspace-active workspace-container">
+        <div class="dashboard-shelf-container-column workspace-grid" *ngIf="WORKSPACE">
+          <div class="workspace-active workspace-container" *ngFor="let workspace of WORKSPACE">
             <a href="#">
               <div>
                 <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
               </div>
               <div class="workspace-active-details">
                 <div>
-                  <h2>ABC Industries Ltd.</h2>
+                  <h2>{{ workspace?.title || 'Untitled workspace' }}</h2>
                 </div>
                 <div class="workspace-active-sub">
                   <div>
@@ -157,111 +157,9 @@
               </div>
             </a>
           </div>
-          <div class="workspace-active workspace-container">
-            <a href="#">
-              <div>
-                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
-              </div>
-              <div class="workspace-active-details">
-                <div>
-                  <h2>ABC Industries Ltd.</h2>
-                </div>
-                <div class="workspace-active-sub">
-                  <div>
-                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
-                    <p>Opened Mar 13, 2024</p>
-                  </div>
-                  <div>
-                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="workspace-active workspace-container">
-            <a href="#">
-              <div>
-                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
-              </div>
-              <div class="workspace-active-details">
-                <div>
-                  <h2>ABC Industries Ltd.</h2>
-                </div>
-                <div class="workspace-active-sub">
-                  <div>
-                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
-                    <p>Opened Mar 13, 2024</p>
-                  </div>
-                  <div>
-                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="workspace-active workspace-container">
-            <a href="#">
-              <div>
-                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
-              </div>
-              <div class="workspace-active-details">
-                <div>
-                  <h2>ABC Industries Ltd.</h2>
-                </div>
-                <div class="workspace-active-sub">
-                  <div>
-                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
-                    <p>Opened Mar 13, 2024</p>
-                  </div>
-                  <div>
-                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="workspace-active workspace-container">
-            <a href="#">
-              <div>
-                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
-              </div>
-              <div class="workspace-active-details">
-                <div>
-                  <h2>ABC Industries Ltd.</h2>
-                </div>
-                <div class="workspace-active-sub">
-                  <div>
-                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
-                    <p>Opened Mar 13, 2024</p>
-                  </div>
-                  <div>
-                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="workspace-active workspace-container">
-            <a href="#">
-              <div>
-                <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
-              </div>
-              <div class="workspace-active-details">
-                <div>
-                  <h2>ABC Industries Ltd.</h2>
-                </div>
-                <div class="workspace-active-sub">
-                  <div>
-                    <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
-                    <p>Opened Mar 13, 2024</p>
-                  </div>
-                  <div>
-                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
+        </div>
+        <div *ngIf="!WORKSPACE">
+          <p>No workspaces available</p>
         </div>
       </div>
     </div>
