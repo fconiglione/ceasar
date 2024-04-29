@@ -247,6 +247,17 @@
   gap: 5px;
   align-items: center;
 }
+.workspace-sub-setting fa-icon {
+  padding: 2px;
+  border-radius: 100%;
+  text-align: center;
+  width: 25px;
+  height: 25px;
+  transition: 0.1s background-color ease-in-out;
+}
+.workspace-sub-setting fa-icon:hover {
+  background-color: #eeeeee;
+}
 .dashboard-shelf .workspace-container:hover {
   border: 1px solid #878787;
 }

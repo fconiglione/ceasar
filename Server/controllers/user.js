@@ -6,8 +6,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 router.post('/token-details', async (req, res) => {
-    const { token_id } = req.body;
-    // const token_id = process.env.ADMIN_JWT_TOKEN_ID;
+    // const { token_id } = req.body;
+    const token_id = process.env.ADMIN_JWT_TOKEN_ID;
     const user = new User();
     try {
         const result = await user.getUserByJWTTokenId(token_id);
