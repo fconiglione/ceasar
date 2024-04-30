@@ -1,6 +1,8 @@
 import { Component, ElementRef } from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
-import {faEllipsisVertical, faCircleInfo, faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
+import {faEllipsisVertical, faCircleInfo, faArrowRightLong, faTrash,
+  faUpRightFromSquare, faPen
+ } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { WorkspaceService } from '../../services/workspace/workspace.service';
 import { NgFor, NgIf } from '@angular/common';
@@ -47,6 +49,9 @@ export class DashboardComponent {
   faEllipsisVertical = faEllipsisVertical;
   faPlus = faPlus;
   faCircleInfo = faCircleInfo;
+  faTrash = faTrash;
+  faUpRightFromSquare = faUpRightFromSquare;
+  faPen = faPen;
   tokenVerified: boolean = false;
 
   constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService) {}
@@ -58,6 +63,14 @@ export class DashboardComponent {
   closeCreateWorkspace() {
     const createWorkspacePopUp = this.elementRef.nativeElement.querySelector('#create-workspace-pop-up');
     createWorkspacePopUp.style.display = 'none';
+  }
+  openWorkspaceSubSetting(workspace : any) {
+    this.WORKSPACE.forEach((ws: any) => {
+      if (ws !== workspace) {
+        ws.showSubSetting = false;
+      }
+    });
+    workspace.showSubSetting = !workspace.showSubSetting;
   }
 
   getWorkspaces(): void {

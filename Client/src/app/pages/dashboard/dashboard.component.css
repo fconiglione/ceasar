@@ -379,3 +379,42 @@
   padding: 8px 20px;
   font-weight: 600;
 }
+
+/* Workspace sub setting popup (.workspace-sub-setting-popup) */
+
+.workspace-sub-setting-popup {
+  width: 200px;
+  background-color: #ffffff;
+  text-align: left;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  margin-left: 8%;
+  margin-top: -15px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+.workspace-sub-setting-popup div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.workspace-sub-setting-popup div a {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  text-decoration: none;
+  text-align: left;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+}
+.workspace-sub-setting-popup div a:hover {
+  background-color: #eeeeee;
+}
+.workspace-sub-setting-popup div a fa-icon {
+  padding-left: 12px;
+}

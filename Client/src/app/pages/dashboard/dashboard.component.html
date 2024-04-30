@@ -150,12 +150,30 @@
                     <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
                     <p>Opened Mar 13, 2024</p>
                   </div>
-                  <div class="workspace-sub-setting">
-                    <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                  <div class="workspace-sub-setting" (click)="openWorkspaceSubSetting(workspace)">
+                    <a href="javascript:void(0)">
+                      <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                    </a>
                   </div>
                 </div>
               </div>
             </a>
+            <div class="workspace-sub-setting-popup" *ngIf="workspace.showSubSetting">
+              <div>
+                <a href="#">
+                  <fa-icon [icon]="faPen"></fa-icon>
+                  <span>Rename</span>
+                </a>
+                <a href="#">
+                  <fa-icon [icon]="faTrash"></fa-icon>
+                  <span>Delete</span>
+                </a>
+                <a href="#">
+                  <fa-icon [icon]="faUpRightFromSquare"></fa-icon>
+                  <span>Open in new tab</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         <div *ngIf="!WORKSPACE">
