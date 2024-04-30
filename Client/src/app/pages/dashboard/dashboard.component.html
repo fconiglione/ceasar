@@ -53,6 +53,25 @@
       </div>
     </div>
   </div>
+  <div class="edit-workspace-pop-up" id="edit-workspace-pop-up">
+    <div class="edit-workspace-pop-up-container">
+      <div class="edit-workspace-form">
+        <div class="edit-workspace-pop-up-row">
+          <h1>Rename your workspace</h1>
+        </div>
+        <div class="create-workspace-pop-up-row">
+          <form>
+            <input type="text" id="workspaceName" name="workspaceName" required placeholder="Enter workspace name" maxlength="50" [(ngModel)]="title">
+            <input type="hidden" id="workspaceId" name="workspaceId" [(ngModel)]="workspace_id">
+            <div class="create-workspace-pop-up-nav">
+              <button type="button" id="cancelWorkspaceBtn" (click)="closeEditWorkspace()">Cancel</button>
+              <button type="submit" id="saveWorkspaceBtn" (click)="saveWorkspace(workspace_id, title)">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   <section class="dashboard-masthead">
     <div class="dashboard-masthead-container">
       <div class="dashboard-masthead-container-row">
@@ -160,7 +179,7 @@
             </a>
             <div class="workspace-sub-setting-popup" *ngIf="workspace.showSubSetting">
               <div>
-                <a href="#">
+                <a href="javascript:void(0)" (click)="openEditWorkspace(workspace)">
                   <fa-icon [icon]="faPen"></fa-icon>
                   <span>Rename</span>
                 </a>

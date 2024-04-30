@@ -34,6 +34,7 @@ export class workspace {
 })
 export class DashboardComponent {
   WORKSPACE: any;
+  workspace_id: string | undefined;
   title: string | undefined;
   description: string | undefined;
   has_leads: boolean | undefined;
@@ -60,9 +61,25 @@ export class DashboardComponent {
     const createWorkspacePopUp = this.elementRef.nativeElement.querySelector('#create-workspace-pop-up');
     createWorkspacePopUp.style.display = 'block';
   }
+  openEditWorkspace(workspace: any) {
+    this.workspace_id = workspace.workspace_id;
+    this.title = workspace.title;
+    const editWorkspacePopUp = this.elementRef.nativeElement.querySelector('#edit-workspace-pop-up');
+    editWorkspacePopUp.style.display = 'block';
+  }
   closeCreateWorkspace() {
     const createWorkspacePopUp = this.elementRef.nativeElement.querySelector('#create-workspace-pop-up');
     createWorkspacePopUp.style.display = 'none';
+  }
+  closeEditWorkspace() {
+    const editWorkspacePopUp = this.elementRef.nativeElement.querySelector('#edit-workspace-pop-up');
+    editWorkspacePopUp.style.display = 'none';
+  }
+  saveWorkspace(workspace_id : any, title: any) {
+    this.workspaceService.updateWorkspace(workspace_id, title).subscribe(response => {
+      this.getWorkspaces();
+      this.closeEditWorkspace();
+    });
   }
   openWorkspaceSubSetting(workspace : any) {
     this.WORKSPACE.forEach((ws: any) => {

@@ -43,4 +43,20 @@ router.delete('/:workspace_id' , async (req, res) => {
     }
 });
 
+router.put('/:workspace_id', async (req, res) => {
+    const workspace_id = req.params.workspace_id;
+    const { title } = req.body;
+    console.log(req.body)
+    console.log("Title:", title);
+    console.log("Workspace ID:", workspace_id);
+    const workspace = new Workspace();
+    try {
+        const result = await workspace.updateWorkspace(workspace_id, title);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error updating workspace:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

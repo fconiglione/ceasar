@@ -33,9 +33,9 @@ export class WorkspaceService {
     );
   }
 
-  updateWorkspace(workspace: any) {
-    const workspaceId = workspace.id;
-    return this.http.put(`${this.appServerUrl}/workspaces/${workspaceId}`, workspace);
+  updateWorkspace(workspaceId : any, title: any) {
+    console.log(workspaceId, title);
+    return this.http.put(`${this.appServerUrl}/workspaces/${workspaceId}`, {title});
   }
 
   deleteWorkspace(workspaceId: string) {
