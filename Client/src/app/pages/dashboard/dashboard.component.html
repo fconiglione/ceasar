@@ -88,18 +88,7 @@
       <div class="dashboard-masthead-container-row">
         <div class="dashboard-masthead-container-column workspace-grid">
           <div class="workspace-template workspace-container">
-            <a href="#">
-              <div>
-                <img [src]="BlankWorkspace" alt="A blank workspace template">
-              </div>
-              <div>
-                <h2>Blank</h2>
-                <p>Start from scratch </p>
-              </div>
-            </a>
-          </div>
-          <div class="workspace-template workspace-container">
-            <a href="#">
+            <a href="javascript:void(0)" (click)="openCreateWorkspace()">
               <div>
                 <img [src]="BlankWorkspace" alt="A blank workspace template">
               </div>
@@ -110,7 +99,7 @@
             </a>
           </div>
           <div class="workspace-template workspace-container">
-            <a href="#">
+            <a href="javascript:void(0)" (click)="openCreateWorkspace()">
               <div>
                 <img [src]="BlankWorkspace" alt="A blank workspace template">
               </div>
@@ -121,7 +110,18 @@
             </a>
           </div>
           <div class="workspace-template workspace-container">
-            <a href="#">
+            <a href="javascript:void(0)" (click)="openCreateWorkspace()">
+              <div>
+                <img [src]="BlankWorkspace" alt="A blank workspace template">
+              </div>
+              <div>
+                <h2>Blank</h2>
+                <p>Start from scratch with an empty workspace</p>
+              </div>
+            </a>
+          </div>
+          <div class="workspace-template workspace-container">
+            <a href="javascript:void(0)" (click)="openCreateWorkspace()">
               <div>
                 <img [src]="BlankWorkspace" alt="A blank workspace template">
               </div>
@@ -154,7 +154,7 @@
         </div>
       </div>
       <div class="dashboard-shelf-container-row">
-        <div class="dashboard-shelf-container-column workspace-grid" *ngIf="WORKSPACE">
+        <div class="dashboard-shelf-container-column workspace-grid" *ngIf="WORKSPACE && WORKSPACE.length > 0">
           <div class="workspace-active workspace-container" *ngFor="let workspace of WORKSPACE">
             <a href="#">
               <div>
@@ -195,9 +195,14 @@
             </div>
           </div>
         </div>
-        <div *ngIf="!WORKSPACE">
-          <p>No workspaces available</p>
-        </div>
+      </div>
+      <div class="no-workspaces" *ngIf="!(WORKSPACE && WORKSPACE.length > 0) && !loading">
+        <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
+        <p class="uh-oh">Uh oh! We couldn't find any active workspaces.</p>
+        <p>Start a new workspace by clicking <span (click)="openCreateWorkspace()">here</span>, or by clicking the plus button at the bottom of your screen.</p>
+      </div>
+      <div *ngIf="loading">
+        <p>Loading...</p>
       </div>
     </div>
   </section>

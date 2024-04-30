@@ -31,26 +31,29 @@
 #create-workspace-btn {
   position: fixed;
   bottom: 0;
-  left: 0;
-  margin-bottom: 2%;
-  margin-left: 2%;
+  margin-bottom: 20px;
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%);
   background-color: #ffffff;
   border: none;
   border-radius: 100%;
-  padding: 20px;
+  padding: 5px;
+  font-size: 10px;
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   display: flex;
   z-index: 999;
+  transition: padding 0.2s ease-in-out, font-size 0.2s ease-in-out;
 }
 #create-workspace-btn:hover {
   background-color: #f4f4f4;
+  padding: 20px;
+  font-size: 20px;
 }
 #create-workspace-btn fa-icon {
   padding: 2px;
   margin: 0;
   color: #000000;
-  font-size: 20px;
   width: 20px;
   height: 20px;
   display: flex;
@@ -503,5 +506,31 @@
   border-radius: 50px;
   font-size: 1em;
   padding: 8px 20px;
+  font-weight: 600;
+}
+
+/* No workspaces (.no-workspaces) */
+
+.no-workspaces {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.no-workspaces span {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #2962ff;
+}
+.no-workspaces span:hover {
+  text-decoration: none;
+}
+.no-workspaces img {
+  height: 70px;
+}
+.no-workspaces .uh-oh {
   font-weight: 600;
 }

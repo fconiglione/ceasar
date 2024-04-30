@@ -54,6 +54,8 @@ export class DashboardComponent {
   faUpRightFromSquare = faUpRightFromSquare;
   faPen = faPen;
   tokenVerified: boolean = false;
+  loading: boolean = true;
+  ShapesBanner = "assets/images/shapes-banner.svg";
 
   constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService) {}
 
@@ -90,9 +92,21 @@ export class DashboardComponent {
     workspace.showSubSetting = !workspace.showSubSetting;
   }
 
+  onReset() {
+    this.title = '';
+    this.description = '';
+    this.has_leads = false;
+    this.has_accounts = false;
+    this.has_opportunities = false;
+    this.has_contacts = false;
+    this.has_files = false;
+    this.has_reports = false;
+  }
+
   getWorkspaces(): void {
     this.workspaceService.getWorkspaces().subscribe(response => {
       this.WORKSPACE = response;
+      this.loading = false;
     });
   }
 
@@ -111,6 +125,7 @@ export class DashboardComponent {
     this.workspaceService.addWorkspace(newWorkspace).subscribe(response => {
       this.getWorkspaces();
       this.closeCreateWorkspace();
+      this.onReset();
     });
   }
 
