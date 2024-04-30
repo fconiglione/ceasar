@@ -31,4 +31,16 @@ router.post('/create', async (req, res) => {
     }
 });
 
+router.delete('/:workspace_id' , async (req, res) => {
+    const workspace_id = req.params.workspace_id;
+    const workspace = new Workspace();
+    try {
+        const result = await workspace.deleteWorkspace(workspace_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error deleting workspace:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

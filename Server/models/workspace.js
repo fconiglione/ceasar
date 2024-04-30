@@ -38,7 +38,17 @@ class Workspace {
             throw error;
         }
     }
-    
+
+    async deleteWorkspace (workspace_id) {
+        const query = `DELETE FROM ceasar.workspaces WHERE workspace_id = $1`;
+        const values = [workspace_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = Workspace;

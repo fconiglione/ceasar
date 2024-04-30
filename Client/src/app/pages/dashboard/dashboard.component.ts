@@ -97,6 +97,14 @@ export class DashboardComponent {
     });
   }
 
+  deleteWorkspace(workspace: any): void {
+    if (confirm('Are you sure you want to delete this workspace?')) {
+      this.workspaceService.deleteWorkspace(workspace.workspace_id).subscribe(response => {
+        this.getWorkspaces();
+      });
+    }
+  }
+
   ngOnInit() {
     this.getWorkspaces();
   }
