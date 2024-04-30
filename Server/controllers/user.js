@@ -6,27 +6,16 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 router.post('/token-details', async (req, res) => {
-    if (process.env.NODE_ENV !== 'production') {
-        const token_id = process.env.ADMIN_JWT_TOKEN_ID;
-        const user = new User();
+    const { token_id } = req.body;
+    // Development Only:
+    // const token_id = process.env.ADMIN_JWT_TOKEN_ID;
+    const user = new User();
     try {
         const result = await user.getUserByJWTTokenId(token_id);
         res.status(200).send({ user_id: result[0].user_id });
     } catch (error) {
         console.error("Error getting user information:", error);
         res.status(500).send(error);
-    }
-    }
-    else {
-        const { token_id } = req.body;
-        const user = new User();
-    try {
-        const result = await user.getUserByJWTTokenId(token_id);
-        res.status(200).send({ user_id: result[0].user_id });
-    } catch (error) {
-        console.error("Error getting user information:", error);
-        res.status(500).send(error);
-    }
     }
 });
 
