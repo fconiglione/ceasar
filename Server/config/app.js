@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 dotenv.config();
 
 app.use(cors({
-    origin: ['http://localhost:4200', 'http://localhost:4201', 'http://localhost:3000', 'https://www.frim.io', 'https://www.api.frim.io', 'https://www.cloud.frim.io', 'https://www.ceasar.frim.io'],
+    origin: ['http://localhost:4200', 'http://localhost:4201', 'http://localhost:3000', 'http://localhost:3001', 'https://www.frim.io', 'https://www.api.frim.io', 'https://www.cloud.frim.io', 'https://www.ceasar.frim.io', 'https://www.api.ceasar.frim.io'],
     credentials: true
 }))
 
