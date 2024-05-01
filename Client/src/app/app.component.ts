@@ -5,7 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './services/auth/auth.service';
 import { NgIf } from '@angular/common';
-
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -29,10 +29,12 @@ export class AppComponent {
       },
       (error) => {
         console.error(error);
-        // Modified for development purposes
-        this.tokenVerified = true;
-        // this.tokenVerified = false;
-        // window.location.href = 'https://www.cloud.frim.io/login';
+        if (environment.production === false) {
+          this.tokenVerified = true;
+        } else {
+          this.tokenVerified = false;
+          window.location.href = 'https://www.cloud.frim.io/login';
+        }
       }
     );
   }
