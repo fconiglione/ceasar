@@ -20,10 +20,10 @@
               <button type="submit" id="searchButton" (click)="search($event)">
                 <fa-icon [icon]="faSearch"></fa-icon>
               </button>
-              <input type="text" name="q" placeholder="Search for any workspace..." id="searchInput">
+              <input type="text" name="q" placeholder="Search for any workspace..." id="searchInput" (input)="onInputChange()">
             </div>
             <div>
-              <button type="button" id="clearButton" (click)="clearSearchInput()">
+              <button type="button" id="clearButton" (click)="clearSearchInput()" [hidden]="!searchInputValue">
                 <fa-icon [icon]="faTimes"></fa-icon>
               </button>
             </div>

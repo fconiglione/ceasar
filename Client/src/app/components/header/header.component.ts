@@ -53,6 +53,7 @@ export class HeaderComponent {
   protected readonly faBell = faBell;
   protected readonly faUser = faUser;
   currentYear = new Date().getFullYear();
+  searchInputValue: string = '';
 
   clearSearchInput() {
     const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
@@ -61,14 +62,14 @@ export class HeaderComponent {
 
   search(event: any) {
     event.preventDefault();
-    const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
-    const searchValue = searchInput.value.trim();
+    let searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
+    let searchValue = searchInput.value.trim();
     if (searchValue) {
       // Send the api request to search
-      this.searchService.search(searchValue).subscribe((response: any) => {
+      this.searchService.search(searchValue).subscribe(response => {
         console.log(response);
+        window.location.href = `/search?q=${searchValue}`;
       });
-      window.location.href = `/search?q=${searchValue}`;
     } else if (searchValue.length === 0) {
       console.error('Search input is empty');
       window.location.href = '/';
@@ -76,5 +77,10 @@ export class HeaderComponent {
       console.error('Search input is invalid');
       window.location.href = `/search?q=${searchValue}`;
     }
+  }
+
+  onInputChange() {
+    const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
+    this.searchInputValue = searchInput.value.trim();
   }
 }

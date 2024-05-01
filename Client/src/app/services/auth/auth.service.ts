@@ -15,15 +15,27 @@ export class AuthService {
   constructor( private http: HttpClient, private cookieService: CookieService ) { }
 
   verifyJWTToken() {
-    const token_id = this.cookieService.get('token_id');
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(`${this.cloudServerUrl}/users/verify-session`, { token_id }, {headers, withCredentials: true});
+    if (environment.production === false) {
+      const token_id = environment.adminTokenId;
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+      return this.http.post(`${this.cloudServerUrl}/users/verify-session`, { token_id }, {headers, withCredentials: true});
+    } else {
+      const token_id = this.cookieService.get('token_id');
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+      return this.http.post(`${this.cloudServerUrl}/users/verify-session`, { token_id }, {headers, withCredentials: true});
+    }
   }
 
   getUserDetails() {
-    const token_id = this.cookieService.get('token_id');
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.http.post(`${this.appServerUrl}/users/token-details`, { token_id }, {headers, withCredentials: true});
+    if (environment.production === false) {
+      const token_id = environment.adminTokenId;
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+      return this.http.post(`${this.appServerUrl}/users/token-details`, { token_id }, {headers, withCredentials: true});
+    } else {
+      const token_id = this.cookieService.get('token_id');
+      const headers = new HttpHeaders().set('Content-Type', 'application/json');
+      return this.http.post(`${this.appServerUrl}/users/token-details`, { token_id }, {headers, withCredentials: true});
+    }
   }
 
 }

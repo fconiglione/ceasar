@@ -13,12 +13,12 @@ export class SearchService {
 
   constructor( private http: HttpClient, private authService : AuthService ) { }
 
-  search(searchTerm: string) {
+  search(searchTerm: any) {
     return this.authService.getUserDetails().pipe(
       switchMap((userDetails: any) => {
         const user_id = userDetails.user_id;
-        return this.http.post(`${this.appServerUrl}/search`, { user_id, searchTerm });
+        return this.http.post(`${this.appServerUrl}/search`, { searchTerm, user_id });
       })
     );
-  }
+  }  
 }

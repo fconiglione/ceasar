@@ -5,6 +5,7 @@ const Search = require('../models/search');
 router.post('/', async (req, res) => {
     const { searchTerm, user_id } = req.body;
     const search = new Search();
+    console.log(req.body);
     try {
         const result = await search.getWorkspacesBySearchTerm(searchTerm, user_id);
         console.log("Got workspace information:", result);
