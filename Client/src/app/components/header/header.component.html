@@ -17,13 +17,13 @@
         <form action="/search" method="get" id="searchForm">
           <div class="search-controls">
             <div class="header-search-inner">
-              <button type="submit" id="searchButton">
+              <button type="submit" id="searchButton" (click)="search($event)">
                 <fa-icon [icon]="faSearch"></fa-icon>
               </button>
-              <input type="text" name="q" placeholder="Search for anything..." id="searchInput">
+              <input type="text" name="q" placeholder="Search for any workspace..." id="searchInput">
             </div>
             <div>
-              <button type="button" id="clearButton">
+              <button type="button" id="clearButton" (click)="clearSearchInput()">
                 <fa-icon [icon]="faTimes"></fa-icon>
               </button>
             </div>

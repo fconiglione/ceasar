@@ -19,6 +19,8 @@ const userController = require('../controllers/user');
 app.use('/v1/api/users', userController);
 const workspaceController = require('../controllers/workspace');
 app.use('/v1/api/workspaces', workspaceController);
+const searchController = require('../controllers/search');
+app.use('/v1/api/search', searchController);
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

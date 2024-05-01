@@ -111,6 +111,9 @@ header {
     display: none;
   }
 }
+#clearButton, #searchButton {
+  cursor: pointer;
+}
 
 /* App Launcher */
 
