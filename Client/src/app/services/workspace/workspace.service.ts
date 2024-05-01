@@ -19,7 +19,7 @@ export class WorkspaceService {
     return this.authService.getUserDetails().pipe(
       switchMap((userDetails: any) => {
         const user_id = userDetails.user_id;
-        return this.http.post(`${this.appServerUrl}/workspaces/index`, { user_id });
+        return this.http.post(`${this.appServerUrl}/workspaces/`, { user_id });
       })
     );
   }  

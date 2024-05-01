@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Workspace = require('../models/workspace');
 
-router.post('/index', async (req, res) => {
+router.post('/', async (req, res) => {
     const { user_id } = req.body;
     const workspace = new Workspace();
     try {
