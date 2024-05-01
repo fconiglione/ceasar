@@ -19,7 +19,6 @@ router.post('/token-details', async (req, res) => {
     }
     else {
         const { token_id } = req.body;
-        console.log("Token ID:", token_id);
         const user = new User();
     try {
         const result = await user.getUserByJWTTokenId(token_id);

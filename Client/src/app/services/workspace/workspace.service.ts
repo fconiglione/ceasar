@@ -34,12 +34,21 @@ export class WorkspaceService {
   }
 
   updateWorkspace(workspaceId : any, title: any) {
-    console.log(workspaceId, title);
-    return this.http.put(`${this.appServerUrl}/workspaces/${workspaceId}`, {title});
+    return this.authService.getUserDetails().pipe(
+      switchMap((userDetails: any) => {
+        const user_id = userDetails.user_id;
+        return this.http.put(`${this.appServerUrl}/workspaces/${workspaceId}`, {title, user_id});
+      })
+    );
   }
 
-  deleteWorkspace(workspaceId: string) {
-    return this.http.delete(`${this.appServerUrl}/workspaces/${workspaceId}`);
-  }
+  deleteWorkspace(workspaceId: any) {
+    return this.authService.getUserDetails().pipe(
+      switchMap((userDetails: any) => {
+        const user_id = userDetails.user_id;
+        return this.http.delete(`${this.appServerUrl}/workspaces/${workspaceId}`, { body: { user_id } });
+      })
+    );
+  }  
 
 }

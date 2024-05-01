@@ -17,7 +17,6 @@ class User {
         const values = [token_id];
         try {
             const { rows } = await this.pool.query(query, values);
-            console.log(rows);
             return rows;
         } catch (error) {
             throw error;

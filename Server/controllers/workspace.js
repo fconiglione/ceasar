@@ -19,7 +19,6 @@ router.post('/create', async (req, res) => {
     if (!user_id) {
         return res.status(401).send("No token id available.");
     }
-    console.log("User:", user_id);
     const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts } = req.body.workspace;
     const workspace = new Workspace();
     try {
@@ -34,8 +33,9 @@ router.post('/create', async (req, res) => {
 router.delete('/:workspace_id' , async (req, res) => {
     const workspace_id = req.params.workspace_id;
     const workspace = new Workspace();
+    const user_id = req.body.user_id;
     try {
-        const result = await workspace.deleteWorkspace(workspace_id);
+        const result = await workspace.deleteWorkspace(workspace_id, user_id);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error deleting workspace:", error);
@@ -45,13 +45,10 @@ router.delete('/:workspace_id' , async (req, res) => {
 
 router.put('/:workspace_id', async (req, res) => {
     const workspace_id = req.params.workspace_id;
-    const { title } = req.body;
-    console.log(req.body)
-    console.log("Title:", title);
-    console.log("Workspace ID:", workspace_id);
+    const { title, user_id } = req.body;
     const workspace = new Workspace();
     try {
-        const result = await workspace.updateWorkspace(workspace_id, title);
+        const result = await workspace.updateWorkspace(workspace_id, title, user_id);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error updating workspace:", error);

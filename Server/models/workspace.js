@@ -18,7 +18,6 @@ class Workspace {
         const values = [user_id];
         try {
             const { rows } = await this.pool.query(query, values);
-            console.log(rows);
             return rows;
         } catch (error) {
             console.log(error);
@@ -39,9 +38,9 @@ class Workspace {
         }
     }
 
-    async deleteWorkspace (workspace_id) {
-        const query = `DELETE FROM ceasar.workspaces WHERE workspace_id = $1`; // Later add user_id to the query for security
-        const values = [workspace_id];
+    async deleteWorkspace (workspace_id, user_id) {
+        const query = `DELETE FROM ceasar.workspaces WHERE workspace_id = $1 AND user_id = $2`;
+        const values = [workspace_id, user_id];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;
@@ -50,9 +49,9 @@ class Workspace {
         }
     }
 
-    async updateWorkspace (workspace_id, title) {
-        const query = `UPDATE ceasar.workspaces SET title = $2 WHERE workspace_id = $1`; // Later add user_id to the query for security
-        const values = [workspace_id, title];
+    async updateWorkspace (workspace_id, title, user_id) {
+        const query = `UPDATE ceasar.workspaces SET title = $2 WHERE workspace_id = $1 AND user_id = $3`;
+        const values = [workspace_id, title, user_id];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;

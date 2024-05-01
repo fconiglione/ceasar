@@ -313,6 +313,7 @@
   border: none;
   border-radius: 10px;
   font-size: 1em;
+  font-family: "Inter", sans-serif;
 }
 .create-workspace-form form textarea {
   height: 50px;
