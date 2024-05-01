@@ -23,7 +23,8 @@ router.post('/token-details', async (req, res) => {
         const user = new User();
     try {
         const result = await user.getUserByJWTTokenId(token_id);
-        // Error is occuring here
+        console.log("Result:", result);
+        console.log("User ID:", result[0].user_id);
         res.status(200).send({ user_id: result[0].user_id });
     } catch (error) {
         console.error("Error getting user information:", error);
