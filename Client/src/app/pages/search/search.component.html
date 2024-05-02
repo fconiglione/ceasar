@@ -93,7 +93,7 @@
           <div class="search-shelf-container-row">
             <div class="search-shelf-container-column workspace-grid">
               <div class="workspace-active workspace-container" *ngFor="let workspace of WORKSPACE">
-                <a href="#">
+                <a [href]="'/ws/?workspace_id=' + workspace.workspace_id">
                   <div>
                     <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
                   </div>
@@ -124,7 +124,7 @@
                       <fa-icon [icon]="faTrash"></fa-icon>
                       <span>Delete</span>
                     </a>
-                    <a href="#">
+                    <a [href]="'/ws/?workspace_id=' + workspace.workspace_id" target="_blank">
                       <fa-icon [icon]="faUpRightFromSquare"></fa-icon>
                       <span>Open in new tab</span>
                     </a>

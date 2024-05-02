@@ -115,7 +115,7 @@ header {
   }
 }
 @media screen and (min-width: 750px) {
-  .header-icon-bar div:first-child {
+  .header-icon-bar div:nth-child(2) {
     display: none;
   }
 }
