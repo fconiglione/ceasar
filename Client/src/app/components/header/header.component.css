@@ -104,6 +104,14 @@ header {
 @media screen and (max-width: 750px) {
   .header-search-bar {
     display: none;
+    width: 100%;
+  }
+  .header-column:nth-child(2) {
+    height: 50px;
+    width: 100%;
+  }
+  .header-column:nth-child(2) input, .header-column:nth-child(2) form {
+    width: 100%;
   }
 }
 @media screen and (min-width: 750px) {

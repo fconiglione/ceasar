@@ -78,6 +78,16 @@ export class HeaderComponent {
       window.location.href = `/search?q=${searchValue}`;
     }
   }
+  launchMobileSearch() {
+    const nonMobileColumns = this.elementRef.nativeElement.querySelectorAll('.non-mobile-column');
+    nonMobileColumns.forEach((element: HTMLElement) => {
+      element.style.display = 'none';
+    });
+    document.body.style.overflow = 'hidden';
+
+    const headerSearchBar = this.elementRef.nativeElement.querySelector('.header-search-bar');
+    headerSearchBar.style.display = 'flex';
+  }  
 
   onInputChange() {
     const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
