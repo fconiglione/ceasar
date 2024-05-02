@@ -31,29 +31,34 @@
         </form>
       </div>
     </div>
-    <div class="header-column header-icon-bar non-mobile-column">
+    <div class="header-column header-icon-bar">
       <div>
+        <button class="close-mobile-search" (click)="closeMobileSearch()">
+          <fa-icon [icon]="faChevronRight"></fa-icon>
+        </button>
+      </div>
+      <div class="non-mobile-column">
         <button class="header-nav-icon-btn" (click)="launchMobileSearch()">
           <fa-icon [icon]="faSearch"></fa-icon>
         </button>
       </div>
-      <div class="header-item">
+      <div class="header-item non-mobile-column">
         <a class="header-nav-icon" href="/help-center">
           <fa-icon [icon]="faQuestion"></fa-icon>
         </a>
       </div>
-      <div>
+      <div class="non-mobile-column">
         <a class="header-nav-icon" href="/settings">
           <fa-icon [icon]="faGear"></fa-icon>
         </a>
       </div>
-      <div>
+      <div class="non-mobile-column">
         <button class="header-nav-icon-btn">
           <fa-icon [icon]="faBell"></fa-icon>
         </button>
       </div>
-      <hr>
-      <div>
+      <hr class="non-mobile-column">
+      <div class="non-mobile-column">
         <button class="header-nav-icon-btn">
           <fa-icon [icon]="faUser"></fa-icon>
         </button>

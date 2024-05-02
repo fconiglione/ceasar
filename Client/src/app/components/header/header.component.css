@@ -122,6 +122,17 @@ header {
 #clearButton, #searchButton {
   cursor: pointer;
 }
+.close-mobile-search {
+  display: none;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  font-size: 18px;
+  width: 100%;
+  padding-left: 10px;
+  cursor: pointer;
+}
 
 /* App Launcher */
 

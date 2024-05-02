@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
-import {faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
+import {faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight} from '@fortawesome/free-solid-svg-icons';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import { CookieService } from 'ngx-cookie-service';
 import { SearchService } from '../../services/search/search.service';
@@ -47,6 +47,7 @@ export class HeaderComponent {
   faSearch = faSearch;
   faArrowRight = faArrowRight;
   faRightFromBracket = faRightFromBracket;
+  faChevronRight = faChevronRight;
   protected readonly faTimes = faTimes;
   protected readonly faQuestion = faQuestion;
   protected readonly faGear = faGear;
@@ -65,11 +66,7 @@ export class HeaderComponent {
     let searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
     let searchValue = searchInput.value.trim();
     if (searchValue) {
-      // Send the api request to search
-      // this.searchService.search(searchValue).subscribe(response => {
-        // console.log(response);
         window.location.href = `/search?q=${searchValue}`;
-      // });
     } else if (searchValue.length === 0) {
       console.error('Search input is empty');
       window.location.href = '/';
@@ -87,7 +84,21 @@ export class HeaderComponent {
 
     const headerSearchBar = this.elementRef.nativeElement.querySelector('.header-search-bar');
     headerSearchBar.style.display = 'flex';
-  }  
+    const closeMobileMenuBtn = this.elementRef.nativeElement.querySelector('.close-mobile-search');
+    closeMobileMenuBtn.style.display = 'flex';
+  }
+  closeMobileSearch() {
+    const nonMobileColumns = this.elementRef.nativeElement.querySelectorAll('.non-mobile-column');
+    nonMobileColumns.forEach((element: HTMLElement) => {
+      element.style.display = 'flex';
+    });
+    document.body.style.overflow = 'auto';
+
+    const headerSearchBar = this.elementRef.nativeElement.querySelector('.header-search-bar');
+    headerSearchBar.style.display = 'none';
+    const closeMobileMenuBtn = this.elementRef.nativeElement.querySelector('.close-mobile-search');
+    closeMobileMenuBtn.style.display = 'none';
+  }
 
   onInputChange() {
     const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
