@@ -1,1 +1,146 @@
-<p>search works!</p>
+<main>
+    <button id="create-workspace-btn" (click)="openCreateWorkspace()">
+        <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
+      <div class="create-workspace-pop-up" id="create-workspace-pop-up">
+        <div class="create-workspace-pop-up-container">
+          <div class="create-workspace-form">
+            <div class="create-workspace-pop-up-row">
+              <h1>Create a new workspace</h1>
+            </div>
+            <div class="create-workspace-pop-up-row">
+              <form>
+                <input type="text" id="workspaceName" name="workspaceName" required placeholder="Enter workspace name" maxlength="50" [(ngModel)]="title">
+                <textarea name="text" id="workspaceDescription" name="workspaceDescription" placeholder="Enter workspace description (optional)" maxlength="255" [(ngModel)]="description"></textarea>
+                <div>
+                  <div class="create-workspace-subtitle">
+                    <h2>Select all that apply</h2>
+                    <fa-icon title="You can always add or remove features later on, once your workspace is created." [icon]="faCircleInfo"></fa-icon>
+                  </div>
+                  <fieldset>
+                    <div>
+                      <input type="checkbox" id="feature1" name="feature1" value="leads" [(ngModel)]="has_leads">
+                      <label for="feature1">Leads</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="feature2" name="feature2" value="accounts" [(ngModel)]="has_accounts">
+                      <label for="feature2">Accounts</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="feature3" name="feature3" value="opportunities" [(ngModel)]="has_opportunities">
+                      <label for="feature3">Opportunities</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="feature4" name="feature4" value="contacts" [(ngModel)]="has_contacts">
+                      <label for="feature4">Contacts</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="feature5" name="feature5" value="files" [(ngModel)]="has_files">
+                      <label for="feature5">Files</label>
+                    </div>
+                    <div>
+                      <input type="checkbox" id="feature6" name="feature6" value="reports" [(ngModel)]="has_reports">
+                      <label for="feature6">Reports</label>
+                    </div>
+                  </fieldset>
+                </div>
+                <div class="create-workspace-pop-up-nav">
+                  <button type="button" id="cancelWorkspaceBtn" (click)="closeCreateWorkspace()">Cancel</button>
+                  <button type="submit" id="createWorkspaceBtn" (click)="createWorkspace()">Create</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="edit-workspace-pop-up" id="edit-workspace-pop-up">
+        <div class="edit-workspace-pop-up-container">
+          <div class="edit-workspace-form">
+            <div class="edit-workspace-pop-up-row">
+              <h1>Rename your workspace</h1>
+            </div>
+            <div class="create-workspace-pop-up-row">
+              <form>
+                <input type="text" id="workspaceName" name="workspaceName" required placeholder="Enter workspace name" maxlength="50" [(ngModel)]="title">
+                <input type="hidden" id="workspaceId" name="workspaceId" [(ngModel)]="workspace_id">
+                <div class="create-workspace-pop-up-nav">
+                  <button type="button" id="cancelWorkspaceBtn" (click)="closeEditWorkspace()">Cancel</button>
+                  <button type="submit" id="saveWorkspaceBtn" (click)="saveWorkspace(workspace_id, title)">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    <section class="search-shelf">
+        <div class="search-shelf-container">
+          <div class="search-shelf-container-row">
+            <div class="search-shelf-container-column">
+              <h1>Showing results for <span class="search-term">"{{searchTerm}}"</span></h1>
+            </div>
+            <div class="search-shelf-container-column">
+              <fieldset>
+                <label for="sortBySelector">Sort by:</label>
+                <select name="sortBySelector" id="sortBySelector">
+                  <option value="opened">Last opened</option>
+                  <option value="modified">Last modified</option>
+                  <option value="created">Creation date</option>
+                  <option value="name">Name</option>
+                </select>
+              </fieldset>
+            </div>
+          </div>
+          <div class="search-shelf-container-row">
+            <div class="search-shelf-container-column workspace-grid">
+              <div class="workspace-active workspace-container" *ngFor="let workspace of WORKSPACE">
+                <a href="#">
+                  <div>
+                    <img class="workspace-preview" [src]="BlankWorkspace" alt="A preview of your active workspace">
+                  </div>
+                  <div class="workspace-active-details">
+                    <div>
+                      <h2>{{ workspace?.title || 'Untitled workspace' }}</h2>
+                    </div>
+                    <div class="workspace-active-sub">
+                      <div>
+                        <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
+                        <p>Opened Mar 13, 2024</p>
+                      </div>
+                      <div class="workspace-sub-setting" (click)="openWorkspaceSubSetting(workspace)">
+                        <a href="javascript:void(0)">
+                          <fa-icon [icon]="faEllipsisVertical"></fa-icon>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+                <div class="workspace-sub-setting-popup" *ngIf="workspace.showSubSetting">
+                  <div>
+                    <a href="javascript:void(0)" (click)="openEditWorkspace(workspace)">
+                      <fa-icon [icon]="faPen"></fa-icon>
+                      <span>Rename</span>
+                    </a>
+                    <a href="javascript:void(0)" (click)="deleteWorkspace(workspace)">
+                      <fa-icon [icon]="faTrash"></fa-icon>
+                      <span>Delete</span>
+                    </a>
+                    <a href="#">
+                      <fa-icon [icon]="faUpRightFromSquare"></fa-icon>
+                      <span>Open in new tab</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="no-workspaces" *ngIf="!(WORKSPACE && WORKSPACE.length > 0) && !loading">
+            <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
+            <p class="uh-oh">Uh oh! We couldn't find any active workspaces.</p>
+            <p>Start a new workspace by clicking <span (click)="openCreateWorkspace()">here</span>, or by clicking the plus button at the bottom of your screen.</p>
+          </div>
+          <div *ngIf="loading">
+            <p>Loading...</p>
+          </div>
+        </div>
+      </section>
+</main>

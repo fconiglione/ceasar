@@ -66,10 +66,10 @@ export class HeaderComponent {
     let searchValue = searchInput.value.trim();
     if (searchValue) {
       // Send the api request to search
-      this.searchService.search(searchValue).subscribe(response => {
-        console.log(response);
+      // this.searchService.search(searchValue).subscribe(response => {
+        // console.log(response);
         window.location.href = `/search?q=${searchValue}`;
-      });
+      // });
     } else if (searchValue.length === 0) {
       console.error('Search input is empty');
       window.location.href = '/';

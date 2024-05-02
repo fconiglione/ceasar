@@ -1,0 +1,449 @@
+/* Global Workspace */
+
+.workspace-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    justify-content: space-between;
+    width: 100%;
+  }
+  @media screen and (max-width: 1200px) {
+    .workspace-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .workspace-template:last-child {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 980px) {
+    .workspace-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .workspace-template:nth-child(3) {
+      display: none;
+    }
+  }
+  @media screen and (max-width: 615px) {
+    .workspace-grid {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+  #create-workspace-btn {
+    position: fixed;
+    bottom: 0;
+    margin-bottom: 20px;
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%);
+    background-color: #ffffff;
+    border: none;
+    border-radius: 100%;
+    padding: 5px;
+    font-size: 10px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    display: flex;
+    z-index: 999;
+    transition: padding 0.2s ease-in-out, font-size 0.2s ease-in-out;
+  }
+  #create-workspace-btn:hover {
+    background-color: #f4f4f4;
+    padding: 20px;
+    font-size: 20px;
+  }
+  #create-workspace-btn fa-icon {
+    padding: 2px;
+    margin: 0;
+    color: #000000;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+/* Search shelf */
+
+.search-shelf h1, .search-shelf select, .search-shelf label {
+    font-size: 1.2em;
+  }
+  .search-term {
+    font-weight: 500;
+  }
+  @media screen and (max-width: 525px) {
+    .search-shelf h1, .search-shelf select, .search-shelf label{
+      font-size: 1em;
+    }
+  }
+  @media screen and (max-width: 425px) {
+    .search-shelf h1, .search-shelf select, .search-shelf label {
+      font-size: 0.8em;
+    }
+  }
+  @media screen and (max-width: 365px) {
+    .search-shelf h1, .search-shelf select, .search-shelf label {
+      font-size: 0.6em;
+    }
+  }
+  .search-shelf-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+  .search-shelf-container-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .search-shelf fieldset {
+    border: none;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+  .search-shelf label {
+    font-weight: 600;
+  }
+  .search-shelf select {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+  }
+  .workspace-active {
+    background-color: #ffffff;
+    border-radius: 15px;
+    border: 1px solid #c7c7c7;
+    transition: transform 0.3s ease-in-out;
+  }
+  .workspace-active a {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+    color: #000000;
+    text-decoration: none;
+  }
+  .workspace-active-details {
+    padding: 15px 25px;
+  }
+  .workspace-active h2 {
+    font-size: 1.2em;
+    margin: 0;
+  }
+  .workspace-active p {
+    font-size: 0.9em;
+  }
+  .workspace-preview {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    object-position: top left;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom: 1px solid #eeeeee;
+  }
+  .workspace-logo {
+    width: 20px;
+    height: auto;
+  }
+  .workspace-active-sub {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .workspace-active-sub div {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    align-items: center;
+  }
+  .workspace-sub-setting fa-icon {
+    padding: 2px;
+    border-radius: 100%;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    transition: 0.1s background-color ease-in-out;
+  }
+  .workspace-sub-setting fa-icon:hover {
+    background-color: #eeeeee;
+  }
+  .search-shelf .workspace-container:hover {
+    border: 1px solid #878787;
+  }
+
+  /* Create workspace pop-up (.create-workspace-pop-up) */
+
+.create-workspace-pop-up {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  .create-workspace-pop-up-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+  @media screen and (max-width: 600px) {
+    .create-workspace-pop-up-container {
+      margin-left: 5%; /* To counteract positioning */
+      width: 90%;
+    }
+  }
+  .create-workspace-form {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    width: 500px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+  .create-workspace-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  
+  }
+  .create-workspace-form form input, .create-workspace-form form textarea {
+    padding: 10px;
+    background-color: #eeeeee;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+    font-family: "Inter", sans-serif;
+  }
+  .create-workspace-form form textarea {
+    height: 50px;
+    resize: none;
+  }
+  .create-workspace-form form input:focus, .create-workspace-form form textarea:focus{
+    outline: none;
+  }
+  .create-workspace-form h1 {
+    font-size: 1.2em;
+  }
+  .create-workspace-subtitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+  .create-workspace-subtitle h2 {
+    font-size: 0.9em;
+  }
+  .create-workspace-subtitle fa-icon {
+    font-size: 0.7em;
+  }
+  .create-workspace-pop-up-row form fieldset {
+    border: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+  }
+  .create-workspace-pop-up-row form fieldset div {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.9em;
+  }
+  .create-workspace-pop-up-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+  }
+  #cancelWorkspaceBtn {
+    background-color: #CB3D3D;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    padding: 8px 15px;
+    font-weight: 600;
+  }
+  #createWorkspaceBtn, #cancelWorkspaceBtn {
+    cursor: pointer;
+    width: 100px;
+  }
+  #createWorkspaceBtn {
+    background-color: #6BCB3D;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    padding: 8px 20px;
+    font-weight: 600;
+  }
+  
+  /* Workspace sub setting popup (.workspace-sub-setting-popup) */
+  
+  .workspace-sub-setting-popup {
+    width: 200px;
+    background-color: #ffffff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    margin-left: 8%;
+    margin-top: -15px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+  }
+  .workspace-sub-setting-popup div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .workspace-sub-setting-popup div a {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    text-decoration: none;
+    text-align: left;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    padding: 8px 0;
+  }
+  .workspace-sub-setting-popup div a:hover {
+    background-color: #eeeeee;
+  }
+  .workspace-sub-setting-popup div a fa-icon {
+    padding-left: 12px;
+  }
+  
+  /* Edit workspace pop-up (.edit-workspace-pop-up) */
+  
+  .edit-workspace-pop-up {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  .edit-workspace-pop-up-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+  }
+  @media screen and (max-width: 600px) {
+    .edit-workspace-pop-up-container {
+      margin-left: 5%; /* To counteract positioning */
+      width: 90%;
+    }
+  }
+  .edit-workspace-form {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    width: 500px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+  .edit-workspace-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  
+  }
+  .edit-workspace-form form input {
+    padding: 10px;
+    background-color: #eeeeee;
+    border: none;
+    border-radius: 10px;
+    font-size: 1em;
+  }
+  .edit-workspace-form form textarea {
+    height: 50px;
+    resize: none;
+  }
+  .edit-workspace-form form input:focus {
+    outline: none;
+  }
+  .edit-workspace-form h1 {
+    font-size: 1.2em;
+  }
+  .edit-workspace-pop-up-row form fieldset div {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    font-size: 0.9em;
+  }
+  .edit-workspace-pop-up-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 10px;
+    align-items: center;
+  }
+  #saveWorkspaceBtn, #cancelWorkspaceBtn {
+    cursor: pointer;
+    width: 100px;
+  }
+  #saveWorkspaceBtn {
+    background-color: #6BCB3D;
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1em;
+    padding: 8px 20px;
+    font-weight: 600;
+  }
+  
+  /* No workspaces (.no-workspaces) */
+  
+  .no-workspaces {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  .no-workspaces span {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #2962ff;
+  }
+  .no-workspaces span:hover {
+    text-decoration: none;
+  }
+  .no-workspaces img {
+    height: 70px;
+  }
+  .no-workspaces .uh-oh {
+    font-weight: 600;
+  }

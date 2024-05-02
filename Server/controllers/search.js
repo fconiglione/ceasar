@@ -5,10 +5,9 @@ const Search = require('../models/search');
 router.post('/', async (req, res) => {
     const { searchTerm, user_id } = req.body;
     const search = new Search();
-    console.log(req.body);
     try {
         const result = await search.getWorkspacesBySearchTerm(searchTerm, user_id);
-        console.log("Got workspace information:", result);
+        console.log("Result:", result);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error getting workspace information:", error);
