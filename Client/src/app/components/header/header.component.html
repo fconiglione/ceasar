@@ -37,7 +37,7 @@
           <fa-icon [icon]="faChevronRight"></fa-icon>
         </button>
       </div>
-      <div class="non-mobile-column">
+      <div class="non-mobile-column search-icon">
         <button class="header-nav-icon-btn" (click)="launchMobileSearch()">
           <fa-icon [icon]="faSearch"></fa-icon>
         </button>
@@ -59,10 +59,22 @@
       </div>
       <hr class="non-mobile-column">
       <div class="non-mobile-column" *ngIf="isWorkspacePath()">
-        <select [ngStyle]="{ 'background': 'url(\'./assets/images/chevron-down-solid.svg\') no-repeat right #eeeeee', 'background-size': '15px' }" name="workspace" id="workspace" class="workspace-selector" [(ngModel)]="selectedWorkspace">
-          <option [ngValue]="currentWorkspaceId" disabled>{{ selectedWorkspace }}</option>
-          <option *ngFor="let workspace of WORKSPACE" [ngValue]="workspace.title">{{ workspace?.title || 'Untitled workspace' }}</option>
-        </select>         
+        <div class="workspace-selector" (click)="openWorkspaceDropdown()">
+          <p>{{ selectedWorkspace }}</p>
+          <fa-icon [icon]="faChevronDown"></fa-icon>
+        </div>
+        <div class="mobile-home-btn">
+          <a href="/">
+            <fa-icon [icon]="faHome"></fa-icon>
+          </a>
+        </div>
+        <div class="workspace-selector-dropdown">
+          <ul>
+            <li class="workspace-option" *ngFor="let workspace of WORKSPACE" (click)="redirectToSelectedWorkspace(workspace?.workspace_id)" (click)="closeWorkspaceDropdown()">
+              <span>{{ workspace?.title || 'Untitled workspace' }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
       <div class="non-mobile-column">
         <button class="header-nav-icon-btn">

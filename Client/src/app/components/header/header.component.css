@@ -101,7 +101,7 @@ header {
   border-left: 1px solid #000000;
   height: 20px;
 }
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 800px) {
   .header-search-bar {
     display: none;
     width: 100%;
@@ -114,8 +114,8 @@ header {
     width: 100%;
   }
 }
-@media screen and (min-width: 750px) {
-  .header-icon-bar div:nth-child(2) {
+@media screen and (min-width: 800px) {
+  .search-icon {
     display: none;
   }
 }
@@ -331,28 +331,72 @@ header {
 /* Custom select (.workspace-selector) */
 
 .workspace-selector {
-  appearance: none;
   background-color: #eeeeee;
-  border: none;
   padding: 5px 10px;
   margin: 0;
   width: 200px;
-  font-family: inherit;
-  font-size: inherit;
-  cursor: inherit;
-  line-height: inherit;
   cursor: pointer;
+  min-height: 20px;
+  border-radius: 6px;
 }
-.workspace-selector &::-ms-expand {
-  display: none;
-  outline: none;
-}
-.workspace-selector:focus {
-  outline: none;
-}
-.workspace-selector .select {
-  display: grid;
-  grid-template-areas: "select";
+.workspace-selector {
+  display: flex;
   align-items: center;
-  position: relative;
+  justify-content: space-between;
+  gap: 10px;
+}
+.workspace-selector p {
+  margin: 0;
+  padding: 0;
+  color: #777777;
+}
+.workspace-selector-dropdown {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  z-index: 100;
+  border: 1px solid #eeeeee;
+  width: 220px;
+  border-radius: 6px;
+  margin-top: 2px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+.workspace-selector-dropdown ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  width: 100%;
+}
+.workspace-selector-dropdown ul li {
+  width: 100%;
+}
+.workspace-selector fa-icon {
+  margin-bottom: -1px;
+}
+.workspace-option {
+  border-bottom: #eeeeee;
+  cursor: pointer;
+  padding: 10px 0;
+  transition: background-color 0.3s ease-in-out;
+  width: 100%;
+}
+.workspace-option:hover {
+  background-color: #eeeeee;
+}
+.mobile-home-btn fa-icon {
+  color: #000000;
+}
+.workspace-option span { margin: 0 10px; }
+@media screen and (max-width: 580px) {
+  .workspace-selector, .workspace-selector-dropdown {
+    display: none;
+  }
+  .mobile-home-btn {
+    display: flex;
+  }
+}
+@media screen and (min-width: 580px) {
+  .mobile-home-btn {
+    display: none;
+  }
 }

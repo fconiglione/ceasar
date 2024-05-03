@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { NgOptimizedImage, NgIf, NgFor, NgStyle } from "@angular/common";
-import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -73,6 +73,8 @@ export class HeaderComponent {
   faArrowRight = faArrowRight;
   faRightFromBracket = faRightFromBracket;
   faChevronRight = faChevronRight;
+  faChevronDown = faChevronDown;
+  faHome = faHome;
   protected readonly faTimes = faTimes;
   protected readonly faQuestion = faQuestion;
   protected readonly faGear = faGear;
@@ -82,6 +84,7 @@ export class HeaderComponent {
   searchInputValue: string = '';
   currentWorkspaceId: string = '';
   selectedWorkspace: string = '';
+  workspaceDropdown: boolean = false;
 
   clearSearchInput() {
     const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
@@ -144,7 +147,25 @@ export class HeaderComponent {
   getWorkspaceTitleById(workspaceId: string): string {
     const workspace = this.WORKSPACE.find((ws: any) => ws.workspace_id === workspaceId);
     return workspace ? workspace.title || 'Untitled workspace' : 'Untitled workspace';
-  }  
+  } 
+  
+  redirectToSelectedWorkspace(workspaceId: string) {
+    this.router.navigate(['/ws'], { queryParams: { workspace_id: workspaceId } });
+  }
+
+  openWorkspaceDropdown() {
+    this.workspaceDropdown = !this.workspaceDropdown;
+    const workspaceDropdown = this.elementRef.nativeElement.querySelector('.workspace-selector-dropdown');
+    if (this.workspaceDropdown) {
+        workspaceDropdown.style.display = 'flex';
+    } else {
+        workspaceDropdown.style.display = 'none';
+    }
+  }
+  closeWorkspaceDropdown() {
+    const workspaceDropdown = this.elementRef.nativeElement.querySelector('.workspace-selector-dropdown');
+    workspaceDropdown.style.display = 'none';
+  } 
   
   ngOnInit() {
     if (this.isWorkspacePath()) {
