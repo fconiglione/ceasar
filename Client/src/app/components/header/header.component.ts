@@ -1,23 +1,48 @@
 import { Component, ElementRef } from '@angular/core';
-import {NgOptimizedImage} from "@angular/common";
-import {faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight} from '@fortawesome/free-solid-svg-icons';
-import {FaIconComponent} from "@fortawesome/angular-fontawesome";
+import { NgOptimizedImage, NgIf, NgFor, NgStyle } from "@angular/common";
+import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { CookieService } from 'ngx-cookie-service';
-import { SearchService } from '../../services/search/search.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { WorkspaceService } from '../../services/workspace/workspace.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
   standalone: true,
   imports: [
     NgOptimizedImage,
-    FaIconComponent
+    FaIconComponent,
+    NgIf,
+    NgFor,
+    FormsModule,
+    NgStyle
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
+
 export class HeaderComponent {
-  constructor(private elementRef: ElementRef, private cookieService : CookieService, private searchService : SearchService ) {}
+  WORKSPACE: any;
+  workspace_id: string | undefined;
+  title: string | undefined;
+  description: string | undefined;
+  has_leads: boolean | undefined;
+  has_accounts: boolean | undefined;
+  has_opportunities: boolean | undefined;
+  has_contacts: boolean | undefined;
+  has_files: boolean | undefined;
+  has_reports: boolean | undefined;
+
+  constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute ) {}
   isActive: boolean = false;
+
+  getWorkspaces(): void {
+    this.workspaceService.getWorkspaces().subscribe(response => {
+      this.WORKSPACE = response;
+    });
+  }
+
   openAppLauncher() {
     this.isActive = true;
 
@@ -55,6 +80,8 @@ export class HeaderComponent {
   protected readonly faUser = faUser;
   currentYear = new Date().getFullYear();
   searchInputValue: string = '';
+  currentWorkspaceId: string = '';
+  selectedWorkspace: string = '';
 
   clearSearchInput() {
     const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
@@ -99,9 +126,35 @@ export class HeaderComponent {
     const closeMobileMenuBtn = this.elementRef.nativeElement.querySelector('.close-mobile-search');
     closeMobileMenuBtn.style.display = 'none';
   }
+  isWorkspacePath(): boolean {
+    return this.router.url.startsWith('/ws');
+  }
 
   onInputChange() {
     const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
     this.searchInputValue = searchInput.value.trim();
+  }
+
+  setDefaultWorkspace() {
+      this.workspaceService.getWorkspaceByWorkspaceId(this.currentWorkspaceId).subscribe(response => {
+        this.selectedWorkspace = response || 'Untitled workspace';
+      });
+  }   
+
+  getWorkspaceTitleById(workspaceId: string): string {
+    const workspace = this.WORKSPACE.find((ws: any) => ws.workspace_id === workspaceId);
+    return workspace ? workspace.title || 'Untitled workspace' : 'Untitled workspace';
+  }  
+  
+  ngOnInit() {
+    if (this.isWorkspacePath()) {
+      this.route.queryParams.subscribe(params => {
+        this.currentWorkspaceId = params['workspace_id'] || '';
+        this.setDefaultWorkspace();
+        this.getWorkspaces();
+      });
+    } else {
+      this.getWorkspaces();
+    }
   }
 }

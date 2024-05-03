@@ -22,6 +22,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
+
 export class SearchComponent {
   WORKSPACE: any;
   workspace_id: string | undefined;

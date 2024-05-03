@@ -59,6 +59,17 @@ class Workspace {
             throw error;
         }
     }
+
+    async getWorkspacesByWorkspaceId (workspace_id, user_id) {
+        const query = `SELECT title FROM ceasar.workspaces WHERE workspace_id = $1 AND user_id = $2`;
+        const values = [workspace_id, user_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = Workspace;

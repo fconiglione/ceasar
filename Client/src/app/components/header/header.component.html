@@ -58,6 +58,12 @@
         </button>
       </div>
       <hr class="non-mobile-column">
+      <div class="non-mobile-column" *ngIf="isWorkspacePath()">
+        <select [ngStyle]="{ 'background': 'url(\'./assets/images/chevron-down-solid.svg\') no-repeat right #eeeeee', 'background-size': '15px' }" name="workspace" id="workspace" class="workspace-selector" [(ngModel)]="selectedWorkspace">
+          <option [ngValue]="currentWorkspaceId" disabled>{{ selectedWorkspace }}</option>
+          <option *ngFor="let workspace of WORKSPACE" [ngValue]="workspace.title">{{ workspace?.title || 'Untitled workspace' }}</option>
+        </select>         
+      </div>
       <div class="non-mobile-column">
         <button class="header-nav-icon-btn">
           <fa-icon [icon]="faUser"></fa-icon>

@@ -327,3 +327,32 @@ header {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
+
+/* Custom select (.workspace-selector) */
+
+.workspace-selector {
+  appearance: none;
+  background-color: #eeeeee;
+  border: none;
+  padding: 5px 10px;
+  margin: 0;
+  width: 200px;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: inherit;
+  line-height: inherit;
+  cursor: pointer;
+}
+.workspace-selector &::-ms-expand {
+  display: none;
+  outline: none;
+}
+.workspace-selector:focus {
+  outline: none;
+}
+.workspace-selector .select {
+  display: grid;
+  grid-template-areas: "select";
+  align-items: center;
+  position: relative;
+}

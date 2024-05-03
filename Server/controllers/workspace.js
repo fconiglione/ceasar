@@ -55,5 +55,18 @@ router.put('/:workspace_id', async (req, res) => {
         res.status(500).send(error);
     }
 });
+router.post('/id/:workspace_id', async (req, res) => {
+    const workspace_id = req.params.workspace_id;
+    const user_id = req.body.user_id;
+    const workspace = new Workspace();
+    try {
+        const result = await workspace.getWorkspacesByWorkspaceId(workspace_id, user_id);
+        console.log(result[0].title);
+        res.status(200).send(result[0].title);
+    } catch (error) {
+        console.error("Error getting workspace information:", error);
+        res.status(500).send(error);
+    }
+});
 
 module.exports = router;

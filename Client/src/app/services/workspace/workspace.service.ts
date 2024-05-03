@@ -51,4 +51,13 @@ export class WorkspaceService {
     );
   }  
 
+  getWorkspaceByWorkspaceId(workspaceId: any) {
+    return this.authService.getUserDetails().pipe(
+      switchMap((userDetails: any) => {
+        const user_id = userDetails.user_id;
+        return this.http.post(`${this.appServerUrl}/workspaces/id/${workspaceId}`, { user_id }, { responseType: 'text' }); // added response type to prevent JSON formatting
+      })
+    );
+  }
+
 }
