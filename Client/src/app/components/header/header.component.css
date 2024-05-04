@@ -338,6 +338,10 @@ header {
   cursor: pointer;
   min-height: 20px;
   border-radius: 6px;
+  border: 1px solid #eeeeee;
+}
+.workspace-selector:hover {
+  border: 1px solid #878787;
 }
 .workspace-selector {
   display: flex;
