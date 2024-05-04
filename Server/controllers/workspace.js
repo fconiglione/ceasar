@@ -19,10 +19,10 @@ router.post('/create', async (req, res) => {
     if (!user_id) {
         return res.status(401).send("No token id available.");
     }
-    const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts } = req.body.workspace;
+    const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date } = req.body.workspace;
     const workspace = new Workspace();
     try {
-        const result = await workspace.createWorkspace(user_id, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts);
+        const result = await workspace.createWorkspace(user_id, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error creating workspace:", error);

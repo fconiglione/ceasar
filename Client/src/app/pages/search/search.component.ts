@@ -34,6 +34,7 @@ export class SearchComponent {
   has_contacts: boolean | undefined;
   has_files: boolean | undefined;
   has_reports: boolean | undefined;
+  creation_date: string | undefined;
 
   faArrowRightLong = faArrowRightLong;
   BlankWorkspace = "assets/images/blank-workspace-img.png";
@@ -121,7 +122,8 @@ export class SearchComponent {
       has_opportunities: this.has_opportunities,
       has_contacts: this.has_contacts,
       has_files: this.has_files,
-      has_reports: this.has_reports
+      has_reports: this.has_reports,
+      creation_date: new Date().toISOString().split('T')[0]
     };
 
     this.workspaceService.addWorkspace(newWorkspace).subscribe(response => {

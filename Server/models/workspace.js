@@ -25,11 +25,11 @@ class Workspace {
         }
     }
 
-    async createWorkspace (user_id, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts) {
+    async createWorkspace (user_id, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date) {
         
-        const query = `INSERT INTO ceasar.workspaces (user_id, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
-        const values = [user_id, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts];
+        const query = `INSERT INTO ceasar.workspaces (user_id, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+        const values = [user_id, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;
