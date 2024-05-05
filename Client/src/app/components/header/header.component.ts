@@ -27,12 +27,22 @@ export class HeaderComponent {
   workspace_id: string | undefined;
   title: string | undefined;
   description: string | undefined;
+  // Features present
   has_leads: boolean | undefined;
   has_accounts: boolean | undefined;
   has_opportunities: boolean | undefined;
   has_contacts: boolean | undefined;
   has_files: boolean | undefined;
   has_reports: boolean | undefined;
+
+  // Features active
+  home: boolean = false;
+  leads: boolean = false;
+  accounts: boolean = false;
+  opportunities: boolean = false;
+  contacts: boolean = false;
+  files: boolean = false;
+  reports: boolean = false;
 
   constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute ) {}
   isActive: boolean = false;
@@ -166,16 +176,84 @@ export class HeaderComponent {
     const workspaceDropdown = this.elementRef.nativeElement.querySelector('.workspace-selector-dropdown');
     workspaceDropdown.style.display = 'none';
   } 
+
+  featureIsActive(feature: string) {
+    const features = ['home', 'leads', 'accounts', 'opportunities', 'contacts', 'files', 'reports'];
+    features.forEach(f => {
+      const element = this.elementRef.nativeElement.querySelector(`.${f}-feature`);
+      if (element) {
+        element.classList.remove('active');
+      }
+    });
+  
+    const element = this.elementRef.nativeElement.querySelector(`.${feature}-feature`);
+    if (element) {
+      element.classList.add('active');
+    }
+  
+    switch (feature) {
+      case 'home':
+        this.home = true;
+        break;
+      case 'leads':
+        this.leads = true;
+        break;
+      case 'accounts':
+        this.accounts = true;
+        break;
+      case 'opportunities':
+        this.opportunities = true;
+        break;
+      case 'contacts':
+        this.contacts = true;
+        break;
+      case 'files':
+        this.files = true;
+        break;
+      case 'reports':
+        this.reports = true;
+        break;
+      default:
+        this.home = true;
+        break;
+    }
+  }  
+
+  resetFeatures() {
+    this.home = false;
+    this.leads = false;
+    this.accounts = false;
+    this.opportunities = false;
+    this.contacts = false;
+    this.files = false;
+    this.reports = false;
+  }
+
+  getWorkspaceFeatures(workspaceId: string) {
+    this.workspaceService.getWorkspaceFeatures(workspaceId).subscribe((response: any) => {
+      this.has_leads = response.has_leads;
+      this.has_accounts = response.has_accounts;
+      this.has_opportunities = response.has_opportunities;
+      this.has_contacts = response.has_contacts;
+      this.has_files = response.has_files;
+      this.has_reports = response.has_reports;
+    });
+  }
   
   ngOnInit() {
     if (this.isWorkspacePath()) {
       this.route.queryParams.subscribe(params => {
         this.currentWorkspaceId = params['workspace_id'] || '';
+        this.getWorkspaceFeatures(this.currentWorkspaceId);
         this.setDefaultWorkspace();
         this.getWorkspaces();
       });
     } else {
       this.getWorkspaces();
     }
+  }
+
+  ngAfterViewInit() {
+    this.featureIsActive('home'); // Adding default active feature to home
   }
 }

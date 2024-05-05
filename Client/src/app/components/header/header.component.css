@@ -422,6 +422,9 @@ header {
   cursor: pointer;
   transition: background-color 0.1s ease-in-out;
 }
+.workspace-feature.active {
+  background-color: #eeeeee;
+}
 .workspace-feature:hover {
   background-color: #eeeeee;
 }

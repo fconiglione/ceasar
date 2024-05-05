@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Workspace = require('../models/workspace');
+const { user } = require('pg/lib/defaults');
 
 router.post('/', async (req, res) => {
     const { user_id } = req.body;
@@ -78,6 +79,27 @@ router.put('/last-opened/:workspace_id', async (req, res) => {
         res.status(200).send(result);
     } catch (error) {
         console.error("Error updating last opened workspace:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.post('/features/:workspace_id', async (req, res) => {
+    const workspace_id = req.params.workspace_id;
+    const user_id = req.body.user_id;
+    const workspace = new Workspace();
+    try {
+        const result = await workspace.getWorkspaceFeatures(workspace_id, user_id);
+        const response = {
+            has_leads: result.has_leads,
+            has_accounts: result.has_accounts,
+            has_opportunities: result.has_opportunities,
+            has_contacts: result.has_contacts,
+            has_files: result.has_files,
+            has_reports: result.has_reports
+        };
+        res.status(200).json(response);
+    } catch (error) {
+        console.error("Error getting workspace features:", error);
         res.status(500).send(error);
     }
 });

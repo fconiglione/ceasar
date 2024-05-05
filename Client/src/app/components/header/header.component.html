@@ -85,11 +85,26 @@
   </div>
   <div class="workspace-nav-header" *ngIf="isWorkspacePath()">
     <div class="workspace-nav-header-container">
-      <div class="workspace-feature">
+      <div class="workspace-feature home-feature" (click)="featureIsActive('home')">
         Home
       </div>
-      <div class="workspace-feature">
-        Home
+      <div class="workspace-feature leads-feature" *ngIf="this.has_leads" (click)="featureIsActive('leads')">
+        Leads
+      </div>
+      <div class="workspace-feature accounts-feature" *ngIf="this.has_accounts" (click)="featureIsActive('accounts')">
+        Accounts
+      </div>
+      <div class="workspace-feature opportunities-feature" *ngIf="this.has_opportunities" (click)="featureIsActive('opportunities')">
+        Opportunities
+      </div>  
+      <div class="workspace-feature contacts-feature" *ngIf="this.has_contacts" (click)="featureIsActive('contacts')">
+        Contacts
+      </div>
+      <div class="workspace-feature reports-feature" *ngIf="this.has_reports" (click)="featureIsActive('reports')">
+        Reports
+      </div>  
+      <div class="workspace-feature files-feature" *ngIf="this.has_files" (click)="featureIsActive('files')">
+        Files
       </div>
     </div>
   </div>

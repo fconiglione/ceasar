@@ -24,6 +24,9 @@ export class WorkspaceComponent {
   last_opened_date: string | undefined;
   currentWorkspaceId: string | undefined;
 
+  // Features
+  home: boolean = false;
+
   constructor( private workspaceService : WorkspaceService, private route: ActivatedRoute, private router: Router ) {}
 
   updateLastOpenedDate() {
@@ -40,6 +43,7 @@ export class WorkspaceComponent {
   ngOnInit(): void {
     if (this.isWorkspacePath()) {
       this.route.queryParams.subscribe(params => {
+        this.home = true;
         this.currentWorkspaceId = params['workspace_id'] || '';
         this.updateLastOpenedDate();
       });

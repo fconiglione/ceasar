@@ -81,6 +81,26 @@ class Workspace {
             throw error;
         }
     }
+
+    async getWorkspaceFeatures(workspace_id, user_id) {
+        const query = `SELECT 
+                            CASE WHEN has_leads IS TRUE THEN TRUE ELSE FALSE END AS has_leads,
+                            CASE WHEN has_accounts IS TRUE THEN TRUE ELSE FALSE END AS has_accounts,
+                            CASE WHEN has_opportunities IS TRUE THEN TRUE ELSE FALSE END AS has_opportunities,
+                            CASE WHEN has_reports IS TRUE THEN TRUE ELSE FALSE END AS has_reports,
+                            CASE WHEN has_files IS TRUE THEN TRUE ELSE FALSE END AS has_files,
+                            CASE WHEN has_contacts IS TRUE THEN TRUE ELSE FALSE END AS has_contacts
+                        FROM ceasar.workspaces 
+                        WHERE workspace_id = $1 AND user_id = $2`;
+        const values = [workspace_id, user_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows[0];
+        } catch (error) {
+            throw error;
+        }
+    }
+    
 }
 
 module.exports = Workspace;
