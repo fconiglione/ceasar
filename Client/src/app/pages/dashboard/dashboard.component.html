@@ -142,15 +142,31 @@
           <h1>Recent workspaces</h1>
         </div>
         <div class="dashboard-shelf-container-column">
-          <fieldset>
+          <div class="workspace-sort">
+            <div class="workspace-filter" (click)="openWorkspaceSortFilterSelector()">
+              <p>{{activeFilter}}</p>
+              <fa-icon [icon]="faChevronDown"></fa-icon>
+            </div>
+          </div>
+          <div class="workspace-filter-selector">
+            <div class="workspace-filter-item" (click)="sortWorkspaces('last_opened_date')" (click)="closeWorkspaceSortFilterSelector()">
+              <p>Last opened</p>
+            </div>
+            <div class="workspace-filter-item" (click)="sortWorkspaces('creation_date')" (click)="closeWorkspaceSortFilterSelector()">
+              <p>Creation date</p>
+            </div>
+            <div class="workspace-filter-item" (click)="sortWorkspaces('title')" (click)="closeWorkspaceSortFilterSelector()">
+              <p>Name</p>
+            </div>
+          </div>
+          <!-- <fieldset>
             <label for="sortBySelector">Sort by:</label>
             <select name="sortBySelector" id="sortBySelector">
               <option value="opened">Last opened</option>
-              <!-- <option value="modified">Last modified</option> -->
               <option value="created">Creation date</option>
               <option value="name">Name</option>
             </select>
-          </fieldset>
+          </fieldset> -->
         </div>
       </div>
       <div class="dashboard-shelf-container-row">

@@ -1,7 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faEllipsisVertical, faCircleInfo, faArrowRightLong, faTrash,
-  faUpRightFromSquare, faPen
+  faUpRightFromSquare, faPen, faChevronDown
  } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { WorkspaceService } from '../../services/workspace/workspace.service';
@@ -18,6 +18,8 @@ export class workspace {
   has_contacts: boolean | undefined;
   has_files: boolean | undefined;
   has_reports: boolean | undefined;
+  creation_date: string | undefined;
+  last_opened_date: string | undefined;
 }
 
 @Component({
@@ -56,9 +58,11 @@ export class DashboardComponent {
   faTrash = faTrash;
   faUpRightFromSquare = faUpRightFromSquare;
   faPen = faPen;
+  faChevronDown = faChevronDown;
   tokenVerified: boolean = false;
   loading: boolean = true;
   ShapesBanner = "assets/images/shapes-banner.svg";
+  activeFilter: string = '';
 
   constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService) {}
 
@@ -109,8 +113,49 @@ export class DashboardComponent {
   getWorkspaces(): void {
     this.workspaceService.getWorkspaces().subscribe(response => {
       this.WORKSPACE = response;
+      this.sortWorkspaces('last_opened_date');
       this.loading = false;
     });
+  }
+
+  openWorkspaceSortFilterSelector() {
+    const workspaceSortFilterSelector = this.elementRef.nativeElement.querySelector('.workspace-filter-selector');
+    workspaceSortFilterSelector.style.display = 'flex';
+  }
+
+  closeWorkspaceSortFilterSelector() {
+    const workspaceSortFilterSelector = this.elementRef.nativeElement.querySelector('.workspace-filter-selector');
+    workspaceSortFilterSelector.style.display = 'none';
+  }
+
+  sortWorkspaces(sortFactor: any): void {
+    if (sortFactor === 'last_opened_date') {
+      this.activeFilter = 'Last Opened';
+      this.WORKSPACE.sort((a: workspace, b: workspace) => {
+        const dateA = new Date(a.last_opened_date || '1970-01-01');
+        const dateB = new Date(b.last_opened_date || '1970-01-01');
+        
+        return dateB.getTime() - dateA.getTime();
+      });
+    }
+    if (sortFactor === 'creation_date') {
+      this.activeFilter = 'Creation Date';
+      this.WORKSPACE.sort((a: workspace, b: workspace) => {
+        const dateA = new Date(a.creation_date || '1970-01-01');
+        const dateB = new Date(b.creation_date || '1970-01-01');
+        
+        return dateB.getTime() - dateA.getTime();
+      });
+    }
+    if (sortFactor === 'title') {
+      this.activeFilter = 'Name';
+      this.WORKSPACE.sort((a: workspace, b: workspace) => {
+        const titleA = a.title || '';
+        const titleB = b.title || '';
+        
+        return titleA.localeCompare(titleB);
+      });
+    }
   }
 
   createWorkspace(): void {
