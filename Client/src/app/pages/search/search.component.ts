@@ -5,7 +5,7 @@ import {faEllipsisVertical, faCircleInfo, faArrowRightLong, faTrash,
  } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { WorkspaceService } from '../../services/workspace/workspace.service';
-import { NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../services/search/search.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +17,8 @@ import { ActivatedRoute } from '@angular/router';
     FaIconComponent,
     NgFor,
     NgIf,
-    FormsModule
+    FormsModule,
+    DatePipe
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
@@ -35,6 +36,7 @@ export class SearchComponent {
   has_files: boolean | undefined;
   has_reports: boolean | undefined;
   creation_date: string | undefined;
+  last_opened_date: string | undefined;
 
   faArrowRightLong = faArrowRightLong;
   BlankWorkspace = "assets/images/blank-workspace-img.png";

@@ -45,6 +45,7 @@ export class DashboardComponent {
   has_files: boolean | undefined;
   has_reports: boolean | undefined;
   creation_date: string | undefined;
+  last_opened_date: string | undefined;
 
   faArrowRightLong = faArrowRightLong;
   BlankWorkspace = "assets/images/blank-workspace-img.png";

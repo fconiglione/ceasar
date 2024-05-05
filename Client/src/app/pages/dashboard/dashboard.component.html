@@ -167,7 +167,8 @@
                 <div class="workspace-active-sub">
                   <div>
                     <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
-                    <p>Created on {{workspace.creation_date | date: 'longDate' }}</p>
+                    <p *ngIf="workspace.last_opened_date">Last opened {{workspace.last_opened_date | date: 'longDate' }}</p>
+                    <p *ngIf="!workspace.last_opened_date">Created on {{workspace.creation_date | date: 'longDate' }}</p>
                   </div>
                   <div class="workspace-sub-setting" (click)="openWorkspaceSubSetting(workspace)">
                     <a href="javascript:void(0)">

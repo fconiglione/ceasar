@@ -68,4 +68,18 @@ router.post('/id/:workspace_id', async (req, res) => {
     }
 });
 
+router.put('/last-opened/:workspace_id', async (req, res) => {
+    const workspace_id = req.params.workspace_id;
+    const user_id = req.body.user_id;
+    const last_opened_date = req.body.last_opened_date;
+    const workspace = new Workspace();
+    try {
+        const result = await workspace.updateLastOpenedDate(workspace_id, user_id, last_opened_date);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error updating last opened workspace:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

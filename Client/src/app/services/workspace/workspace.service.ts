@@ -60,4 +60,13 @@ export class WorkspaceService {
     );
   }
 
+  updateLastOpenedDate(workspaceId: any, last_opened_date: any) {
+    return this.authService.getUserDetails().pipe(
+      switchMap((userDetails: any) => {
+        const user_id = userDetails.user_id;
+        return this.http.put(`${this.appServerUrl}/workspaces/last-opened/${workspaceId}`, { last_opened_date, user_id });
+      })
+    );
+  }
+
 }

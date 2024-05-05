@@ -70,6 +70,17 @@ class Workspace {
             throw error;
         }
     }
+
+    async updateLastOpenedDate (workspace_id, user_id, last_opened_date) {
+        const query = `UPDATE ceasar.workspaces SET last_opened_date = $3 WHERE workspace_id = $1 AND user_id = $2`;
+        const values = [workspace_id, user_id, last_opened_date];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = Workspace;
