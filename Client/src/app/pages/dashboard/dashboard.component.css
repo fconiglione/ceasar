@@ -544,16 +544,18 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
+  width: 200px;
 }
 .workspace-filter {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 10px;
   cursor: pointer;
   border-radius: 6px;
   padding: 2px 10px;
+  width: 135px;
 }
 .workspace-filter p {
   margin: 0;
@@ -566,11 +568,12 @@
   flex-direction: column;
   background-color: #ffffff;
   position: absolute;
+  margin-left: 22px;
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
   z-index: 5;
-  width: 135px;
   border-radius: 6px;
   margin-top: 2px;
+  width: 155px;
 }
 .workspace-filter-item {
   display: flex;

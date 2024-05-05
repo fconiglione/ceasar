@@ -404,3 +404,24 @@ header {
     display: none;
   }
 }
+
+/* Workspace feature header */
+
+.workspace-nav-header-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.workspace-feature {
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  margin-bottom: -2px; /* To rid of bottom padding of header */
+  padding: 6px 40px 5px 40px;
+  font-size: 0.9em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.1s ease-in-out;
+}
+.workspace-feature:hover {
+  background-color: #eeeeee;
+}

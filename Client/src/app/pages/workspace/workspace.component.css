@@ -1,0 +1,6 @@
+/* Global */
+
+.workspace-content-area {
+    background-color: #eeeeee;
+    min-height: calc(100vh - 80px);
+}

@@ -83,6 +83,16 @@
       </div>
     </div>
   </div>
+  <div class="workspace-nav-header" *ngIf="isWorkspacePath()">
+    <div class="workspace-nav-header-container">
+      <div class="workspace-feature">
+        Home
+      </div>
+      <div class="workspace-feature">
+        Home
+      </div>
+    </div>
+  </div>
   <div class="app-launcher inactive" id="app-launcher" (click)="closeAppLauncher()" [class.active]="isActive">
     <div class="app-launcher-container">
       <div class="app-launcher-top">

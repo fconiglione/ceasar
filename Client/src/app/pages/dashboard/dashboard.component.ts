@@ -63,6 +63,7 @@ export class DashboardComponent {
   loading: boolean = true;
   ShapesBanner = "assets/images/shapes-banner.svg";
   activeFilter: string = '';
+  workspaceSortFilterSelector: boolean = false;
 
   constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService) {}
 
@@ -119,8 +120,14 @@ export class DashboardComponent {
   }
 
   openWorkspaceSortFilterSelector() {
-    const workspaceSortFilterSelector = this.elementRef.nativeElement.querySelector('.workspace-filter-selector');
-    workspaceSortFilterSelector.style.display = 'flex';
+    this.workspaceSortFilterSelector = !this.workspaceSortFilterSelector;
+    if (this.workspaceSortFilterSelector) {
+      const workspaceSortFilterSelector = this.elementRef.nativeElement.querySelector('.workspace-filter-selector');
+      workspaceSortFilterSelector.style.display = 'flex';
+    }
+    else {
+      this.closeWorkspaceSortFilterSelector();
+    }
   }
 
   closeWorkspaceSortFilterSelector() {
