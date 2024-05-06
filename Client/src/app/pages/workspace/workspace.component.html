@@ -1,7 +1,23 @@
 <main class="workspace-content-area">
-    <section>
-        <div *ngIf="this.featureService.leads">
-            you've got leads
-        </div>
+    <section class="home" *ngIf="this.featureService.home">
+        Home works!
+    </section>
+    <section class="leads" *ngIf="this.featureService.leads">
+        Leads works!
+    </section>
+    <section class="contacts" *ngIf="this.featureService.contacts">
+        Contacts works!
+    </section>
+    <section class="accounts" *ngIf="this.featureService.accounts">
+        Accounts works!
+    </section>
+    <section class="opportunities" *ngIf="this.featureService.opportunities">
+        Opportunities works!
+    </section>
+    <section class="reports" *ngIf="this.featureService.reports">
+        Reports works!
+    </section>
+    <section class="dashboards" *ngIf="this.featureService.files">
+        Files works!
     </section>
 </main>

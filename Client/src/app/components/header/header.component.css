@@ -413,6 +413,7 @@ header {
   align-items: center;
   overflow-x: auto;
   position: relative;
+  padding-top: 10px; /* To add spacing between regular header and sub header */
 }
 .workspace-feature {
   border-top-right-radius: 6px;
