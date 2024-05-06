@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { NgOptimizedImage, NgIf, NgFor, NgStyle } from "@angular/common";
-import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -86,6 +86,7 @@ export class HeaderComponent {
   faChevronRight = faChevronRight;
   faChevronDown = faChevronDown;
   faHome = faHome;
+  faPlus = faPlus;
   protected readonly faTimes = faTimes;
   protected readonly faQuestion = faQuestion;
   protected readonly faGear = faGear;
@@ -177,6 +178,8 @@ export class HeaderComponent {
     const workspaceDropdown = this.elementRef.nativeElement.querySelector('.workspace-selector-dropdown');
     workspaceDropdown.style.display = 'none';
   } 
+
+  
 
   // featureIsActive(feature: string) {
   //   const features = ['home', 'leads', 'accounts', 'opportunities', 'contacts', 'files', 'reports'];

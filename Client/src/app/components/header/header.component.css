@@ -338,10 +338,10 @@ header {
   cursor: pointer;
   min-height: 20px;
   border-radius: 6px;
-  border: 1px solid #eeeeee;
+  transition: background-color 0.1s ease-in-out;
 }
 .workspace-selector:hover {
-  border: 1px solid #878787;
+  background-color: #dddddd;
 }
 .workspace-selector {
   display: flex;
@@ -428,4 +428,25 @@ header {
 }
 .workspace-feature:hover {
   background-color: #eeeeee;
+}
+.add-workspace-feature {
+  /* padding: 0 20px; */
+  width: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.add-workspace-feature-btn {
+  background-color: #eeeeee;
+  border: none;
+  border-radius: 5px;
+  padding: 3px 6px;
+  cursor: pointer;
+  color: #777777;
+  font-weight: 700;
+  transition: background-color 0.1s ease-in-out;
+  font-size: 12px;
+}
+.add-workspace-feature-btn:hover {
+  background-color: #dddddd;
 }
