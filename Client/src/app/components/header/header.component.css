@@ -411,11 +411,12 @@ header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  overflow-x: auto;
 }
 .workspace-feature {
   border-top-right-radius: 6px;
   border-top-left-radius: 6px;
-  margin-bottom: -2px; /* To rid of bottom padding of header */
+  /* margin-top: -2px; To rid of bottom padding of header */
   padding: 6px 40px 5px 40px;
   font-size: 0.9em;
   font-weight: 500;
@@ -446,7 +447,40 @@ header {
   font-weight: 700;
   transition: background-color 0.1s ease-in-out;
   font-size: 12px;
+  margin: 0 20px;
 }
 .add-workspace-feature-btn:hover {
   background-color: #dddddd;
+}
+
+/* Add workspace feature form */
+
+.add-worspace-feature-dropdown {
+  /* display: none; */
+  position: absolute;
+  background-color: #ffffff;
+  z-index: 100;
+  border: 1px solid #ffffff;
+  width: auto;
+  border-radius: 6px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 6px;
+  right: 0;
+}
+.add-worspace-feature-dropdown form fieldset {
+  border: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 15px;
+  font-weight: 500;
+}
+.add-worspace-feature-dropdown form fieldset div {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+  align-items: center;
 }

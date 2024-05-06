@@ -78,4 +78,13 @@ export class WorkspaceService {
     );
   }
 
+  updateWorkspaceFeatures(workspaceId: any, has_leads: any, has_accounts: any, has_opportunities: any, has_contacts: any, has_files: any, has_reports: any) {
+    return this.authService.getUserDetails().pipe(
+      switchMap((userDetails: any) => {
+        const user_id = userDetails.user_id;
+        return this.http.put(`${this.appServerUrl}/workspaces/features/${workspaceId}`, { user_id, has_leads, has_accounts, has_opportunities, has_contacts, has_files, has_reports });
+      })
+    );
+  }  
+
 }

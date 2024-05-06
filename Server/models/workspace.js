@@ -100,6 +100,22 @@ class Workspace {
             throw error;
         }
     }
+
+    async updateWorkspaceFeatures(workspace_id, user_id, has_leads, has_accounts, has_opportunities, has_contacts, has_files, has_reports) {
+        const query = `
+            UPDATE ceasar.workspaces 
+            SET has_leads = $3, has_accounts = $4, has_opportunities = $5, has_reports = $6, has_files = $7, has_contacts = $8
+            WHERE workspace_id = $1 AND user_id = $2
+            RETURNING has_leads, has_accounts, has_opportunities, has_contacts, has_files, has_reports`;
+        const values = [workspace_id, user_id, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows[0];
+        } catch (error) {
+            throw error;
+        }
+    }
+    
     
 }
 

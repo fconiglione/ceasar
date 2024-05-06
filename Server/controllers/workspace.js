@@ -104,4 +104,33 @@ router.post('/features/:workspace_id', async (req, res) => {
     }
 });
 
+router.put('/features/:workspace_id', async (req, res) => {
+    const workspace_id = req.params.workspace_id;
+    const user_id = req.body.user_id;
+    const has_leads = req.body.has_leads;
+    const has_accounts = req.body.has_accounts;
+    const has_opportunities = req.body.has_opportunities;
+    const has_contacts = req.body.has_contacts;
+    const has_files = req.body.has_files;
+    const has_reports = req.body.has_reports;
+    console.log("has_leads: ", has_leads, "has_accounts: ", has_accounts, "has_opportunities: ", has_opportunities, "has_contacts: ", has_contacts, "has_files: ", has_files, "has_reports: ", has_reports)
+    const workspace = new Workspace();
+    try {
+        const result = await workspace.updateWorkspaceFeatures(workspace_id, user_id, has_leads, has_accounts, has_opportunities, has_contacts, has_files, has_reports);
+        const response = {
+            has_leads: result.has_leads,
+            has_accounts: result.has_accounts,
+            has_opportunities: result.has_opportunities,
+            has_contacts: result.has_contacts,
+            has_files: result.has_files,
+            has_reports: result.has_reports
+        };
+        console.log(response);
+        res.status(200).json(response);
+    } catch (error) {
+        console.error("Error updating workspace features:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

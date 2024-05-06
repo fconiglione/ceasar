@@ -109,6 +109,36 @@
       <div class="add-workspace-feature">
         <button class="add-workspace-feature-btn">
           <fa-icon [icon]="faPlus"></fa-icon>
+          <div class="add-worspace-feature-dropdown">
+            <form class="add-workspace-feature-form">
+              <fieldset>
+                <div>
+                  <input type="checkbox" id="feature1" name="feature1" value="leads" [(ngModel)]="has_leads" (change)="updateWorkspaceFeatures()">
+                  <label for="feature1">Leads</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="feature2" name="feature2" value="accounts" [(ngModel)]="has_accounts" (change)="updateWorkspaceFeatures()">
+                  <label for="feature2">Accounts</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="feature3" name="feature3" value="opportunities" [(ngModel)]="has_opportunities" (change)="updateWorkspaceFeatures()">
+                  <label for="feature3">Opportunities</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="feature4" name="feature4" value="contacts" [(ngModel)]="has_contacts" (change)="updateWorkspaceFeatures()">
+                  <label for="feature4">Contacts</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="feature5" name="feature5" value="files" [(ngModel)]="has_files" (change)="updateWorkspaceFeatures()">
+                  <label for="feature5">Files</label>
+                </div>
+                <div>
+                  <input type="checkbox" id="feature6" name="feature6" value="reports" [(ngModel)]="has_reports" (change)="updateWorkspaceFeatures()">
+                  <label for="feature6">Reports</label>
+                </div>
+              </fieldset>
+            </form>
+          </div>
         </button>
       </div>
     </div>

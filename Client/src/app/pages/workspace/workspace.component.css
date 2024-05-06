@@ -3,4 +3,5 @@
 .workspace-content-area {
     background-color: #eeeeee;
     min-height: calc(100vh - 80px);
+    margin-top: -3px; /* To rid of bottom padding of header */
 }

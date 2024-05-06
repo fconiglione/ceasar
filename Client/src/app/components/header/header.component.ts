@@ -179,50 +179,6 @@ export class HeaderComponent {
     workspaceDropdown.style.display = 'none';
   } 
 
-  
-
-  // featureIsActive(feature: string) {
-  //   const features = ['home', 'leads', 'accounts', 'opportunities', 'contacts', 'files', 'reports'];
-  //   features.forEach(f => {
-  //     const element = this.elementRef.nativeElement.querySelector(`.${f}-feature`);
-  //     if (element) {
-  //       element.classList.remove('active');
-  //     }
-  //   });
-  
-  //   const element = this.elementRef.nativeElement.querySelector(`.${feature}-feature`);
-  //   if (element) {
-  //     element.classList.add('active');
-  //   }
-  
-  //   switch (feature) {
-  //     case 'home':
-  //       this.featureService.home = true;
-  //       break;
-  //     case 'leads':
-  //       this.featureService.leads = true;
-  //       break;
-  //     case 'accounts':
-  //       this.featureService.accounts = true;
-  //       break;
-  //     case 'opportunities':
-  //       this.featureService.opportunities = true;
-  //       break;
-  //     case 'contacts':
-  //       this.featureService.contacts = true;
-  //       break;
-  //     case 'files':
-  //       this.featureService.files = true;
-  //       break;
-  //     case 'reports':
-  //       this.featureService.reports = true;
-  //       break;
-  //     default:
-  //       this.featureService.home = true;
-  //       break;
-  //   }
-  // }  
-
   getWorkspaceFeatures(workspaceId: string) {
     this.workspaceService.getWorkspaceFeatures(workspaceId).subscribe((response: any) => {
       this.has_leads = response.has_leads;
@@ -233,6 +189,16 @@ export class HeaderComponent {
       this.has_reports = response.has_reports;
     });
   }
+
+  updateWorkspaceFeatures() {
+    this.workspaceService.updateWorkspaceFeatures(this.currentWorkspaceId, this.has_leads, this.has_accounts, this.has_opportunities, this.has_contacts, this.has_files, this.has_reports)
+      .subscribe(response => {
+        console.log(response);
+      }, error => {
+        console.error(error);
+      });
+  }
+  
   
   ngOnInit() {
     if (this.isWorkspacePath()) {
