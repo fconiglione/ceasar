@@ -424,6 +424,7 @@ header {
 }
 .workspace-feature.active {
   background-color: #eeeeee;
+  color: #777777;
 }
 .workspace-feature:hover {
   background-color: #eeeeee;

@@ -85,25 +85,25 @@
   </div>
   <div class="workspace-nav-header" *ngIf="isWorkspacePath()">
     <div class="workspace-nav-header-container">
-      <div class="workspace-feature home-feature" (click)="featureIsActive('home')">
+      <div class="workspace-feature home-feature" (click)="this.featureService.setActiveFeature('home')" [class.active]="featureService.home">
         Home
       </div>
-      <div class="workspace-feature leads-feature" *ngIf="this.has_leads" (click)="featureIsActive('leads')">
+      <div class="workspace-feature leads-feature" *ngIf="this.has_leads" (click)="this.featureService.setActiveFeature('leads')" [class.active]="featureService.leads">
         Leads
       </div>
-      <div class="workspace-feature accounts-feature" *ngIf="this.has_accounts" (click)="featureIsActive('accounts')">
+      <div class="workspace-feature accounts-feature" *ngIf="this.has_accounts" (click)="this.featureService.setActiveFeature('accounts')" [class.active]="featureService.accounts">
         Accounts
       </div>
-      <div class="workspace-feature opportunities-feature" *ngIf="this.has_opportunities" (click)="featureIsActive('opportunities')">
+      <div class="workspace-feature opportunities-feature" *ngIf="this.has_opportunities" (click)="this.featureService.setActiveFeature('opportunities')" [class.active]="featureService.opportunities">
         Opportunities
       </div>  
-      <div class="workspace-feature contacts-feature" *ngIf="this.has_contacts" (click)="featureIsActive('contacts')">
+      <div class="workspace-feature contacts-feature" *ngIf="this.has_contacts" (click)="this.featureService.setActiveFeature('contacts')" [class.active]="featureService.contacts">
         Contacts
       </div>
-      <div class="workspace-feature reports-feature" *ngIf="this.has_reports" (click)="featureIsActive('reports')">
+      <div class="workspace-feature reports-feature" *ngIf="this.has_reports" (click)="this.featureService.setActiveFeature('reports')" [class.active]="featureService.reports">
         Reports
       </div>  
-      <div class="workspace-feature files-feature" *ngIf="this.has_files" (click)="featureIsActive('files')">
+      <div class="workspace-feature files-feature" *ngIf="this.has_files" (click)="this.featureService.setActiveFeature('files')" [class.active]="featureService.files">
         Files
       </div>
     </div>

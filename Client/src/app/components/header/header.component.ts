@@ -6,6 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { WorkspaceService } from '../../services/workspace/workspace.service';
 import { FormsModule } from '@angular/forms';
+import { FeatureService } from '../../services/feature/feature.service';
 
 @Component({
   selector: 'app-header',
@@ -44,7 +45,7 @@ export class HeaderComponent {
   files: boolean = false;
   reports: boolean = false;
 
-  constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute ) {}
+  constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute, public featureService: FeatureService ) {}
   isActive: boolean = false;
 
   getWorkspaces(): void {
@@ -177,57 +178,47 @@ export class HeaderComponent {
     workspaceDropdown.style.display = 'none';
   } 
 
-  featureIsActive(feature: string) {
-    const features = ['home', 'leads', 'accounts', 'opportunities', 'contacts', 'files', 'reports'];
-    features.forEach(f => {
-      const element = this.elementRef.nativeElement.querySelector(`.${f}-feature`);
-      if (element) {
-        element.classList.remove('active');
-      }
-    });
+  // featureIsActive(feature: string) {
+  //   const features = ['home', 'leads', 'accounts', 'opportunities', 'contacts', 'files', 'reports'];
+  //   features.forEach(f => {
+  //     const element = this.elementRef.nativeElement.querySelector(`.${f}-feature`);
+  //     if (element) {
+  //       element.classList.remove('active');
+  //     }
+  //   });
   
-    const element = this.elementRef.nativeElement.querySelector(`.${feature}-feature`);
-    if (element) {
-      element.classList.add('active');
-    }
+  //   const element = this.elementRef.nativeElement.querySelector(`.${feature}-feature`);
+  //   if (element) {
+  //     element.classList.add('active');
+  //   }
   
-    switch (feature) {
-      case 'home':
-        this.home = true;
-        break;
-      case 'leads':
-        this.leads = true;
-        break;
-      case 'accounts':
-        this.accounts = true;
-        break;
-      case 'opportunities':
-        this.opportunities = true;
-        break;
-      case 'contacts':
-        this.contacts = true;
-        break;
-      case 'files':
-        this.files = true;
-        break;
-      case 'reports':
-        this.reports = true;
-        break;
-      default:
-        this.home = true;
-        break;
-    }
-  }  
-
-  resetFeatures() {
-    this.home = false;
-    this.leads = false;
-    this.accounts = false;
-    this.opportunities = false;
-    this.contacts = false;
-    this.files = false;
-    this.reports = false;
-  }
+  //   switch (feature) {
+  //     case 'home':
+  //       this.featureService.home = true;
+  //       break;
+  //     case 'leads':
+  //       this.featureService.leads = true;
+  //       break;
+  //     case 'accounts':
+  //       this.featureService.accounts = true;
+  //       break;
+  //     case 'opportunities':
+  //       this.featureService.opportunities = true;
+  //       break;
+  //     case 'contacts':
+  //       this.featureService.contacts = true;
+  //       break;
+  //     case 'files':
+  //       this.featureService.files = true;
+  //       break;
+  //     case 'reports':
+  //       this.featureService.reports = true;
+  //       break;
+  //     default:
+  //       this.featureService.home = true;
+  //       break;
+  //   }
+  // }  
 
   getWorkspaceFeatures(workspaceId: string) {
     this.workspaceService.getWorkspaceFeatures(workspaceId).subscribe((response: any) => {
@@ -247,6 +238,7 @@ export class HeaderComponent {
         this.getWorkspaceFeatures(this.currentWorkspaceId);
         this.setDefaultWorkspace();
         this.getWorkspaces();
+        this.featureService.setActiveFeature('home');
       });
     } else {
       this.getWorkspaces();
@@ -254,6 +246,6 @@ export class HeaderComponent {
   }
 
   ngAfterViewInit() {
-    this.featureIsActive('home'); // Adding default active feature to home
+    this.featureService.setActiveFeature('home'); // Adding default active feature to home
   }
 }

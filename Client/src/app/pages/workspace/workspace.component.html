@@ -1,5 +1,7 @@
 <main class="workspace-content-area">
     <section>
-        Welcome to your workspace!
+        <div *ngIf="this.featureService.leads">
+            you've got leads
+        </div>
     </section>
 </main>
