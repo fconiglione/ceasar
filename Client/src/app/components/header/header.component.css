@@ -412,6 +412,7 @@ header {
   justify-content: flex-start;
   align-items: center;
   overflow-x: auto;
+  position: relative;
 }
 .workspace-feature {
   border-top-right-radius: 6px;
@@ -432,6 +433,7 @@ header {
 }
 .add-workspace-feature {
   /* padding: 0 20px; */
+  position: relative;
   width: 75px;
   display: flex;
   justify-content: center;
@@ -456,7 +458,7 @@ header {
 /* Add workspace feature form */
 
 .add-worspace-feature-dropdown {
-  /* display: none; */
+  display: none;
   position: absolute;
   background-color: #ffffff;
   z-index: 100;
@@ -468,19 +470,36 @@ header {
   margin-right: 2%;
   margin-top: 6px;
   right: 0;
+  padding: 10px 5px;
 }
 .add-worspace-feature-dropdown form fieldset {
   border: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: center;
+  flex-direction: row;
   gap: 15px;
   font-weight: 500;
+}
+.add-worspace-feature-dropdown form fieldset:first-child {
+  padding: 8px 0 8px 0;
 }
 .add-worspace-feature-dropdown form fieldset div {
   display: flex;
   flex-direction: row;
   gap: 5px;
   align-items: center;
+  font-size: 0.9em;
+  color: #777777;
+}
+.add-worspace-feature-dropdown h1 {
+  font-size: 0.9em;
+  margin-left: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 0;
+}
+.add-worspace-feature-dropdown form fieldset fa-icon {
+  font-size: 0.7em;
 }

@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { NgOptimizedImage, NgIf, NgFor, NgStyle } from "@angular/common";
-import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome, faPlus, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -87,6 +87,7 @@ export class HeaderComponent {
   faChevronDown = faChevronDown;
   faHome = faHome;
   faPlus = faPlus;
+  faCircleInfo = faCircleInfo;
   protected readonly faTimes = faTimes;
   protected readonly faQuestion = faQuestion;
   protected readonly faGear = faGear;
@@ -97,6 +98,7 @@ export class HeaderComponent {
   currentWorkspaceId: string = '';
   selectedWorkspace: string = '';
   workspaceDropdown: boolean = false;
+  workspaceFeaturesDropdown: boolean = false;
 
   clearSearchInput() {
     const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
@@ -198,7 +200,19 @@ export class HeaderComponent {
         console.error(error);
       });
   }
-  
+
+  triggerWorkspaceFeaturesDropdown() {
+    if (!this.workspaceFeaturesDropdown) {
+      const workspaceFeaturesDropdown = this.elementRef.nativeElement.querySelector('.add-worspace-feature-dropdown');
+      workspaceFeaturesDropdown.style.display = 'flex';
+      this.workspaceFeaturesDropdown = true;
+    }
+    else {
+      const workspaceFeaturesDropdown = this.elementRef.nativeElement.querySelector('.add-worspace-feature-dropdown');
+      workspaceFeaturesDropdown.style.display = 'none';
+      this.workspaceFeaturesDropdown = false;
+    }
+  }
   
   ngOnInit() {
     if (this.isWorkspacePath()) {
