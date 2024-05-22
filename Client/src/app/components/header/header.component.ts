@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { NgOptimizedImage, NgIf, NgFor, NgStyle } from "@angular/common";
-import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome, faPlus, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome, faPlus, faCircleInfo, faSliders } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -88,6 +88,7 @@ export class HeaderComponent {
   faHome = faHome;
   faPlus = faPlus;
   faCircleInfo = faCircleInfo;
+  faSliders = faSliders;
   protected readonly faTimes = faTimes;
   protected readonly faQuestion = faQuestion;
   protected readonly faGear = faGear;
