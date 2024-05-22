@@ -26,7 +26,7 @@ export class AuthService {
       this.cookieService.set('token', token);
       this.cookieService.set('user_id', user_id);
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
-      return this.http.post(`${this.cloudServerUrl}/users/verify-session`, {headers, withCredentials: true});
+      return this.http.post(`${this.cloudServerUrl}/users/verify-session`, { token, user_id }, {headers, withCredentials: true});
     }
   }
 
@@ -42,7 +42,7 @@ export class AuthService {
       this.cookieService.set('token', token);
       this.cookieService.set('user_id', user_id);
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
-      return this.http.post(`${this.appServerUrl}/users/token-details`, {headers, withCredentials: true});
+      return this.http.post(`${this.appServerUrl}/users/token-details`, {token, user_id}, {headers, withCredentials: true});
     }
   }
 
