@@ -6,7 +6,8 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 router.post('/token-details', async (req, res) => {
-    const user_id = req.cookies.user_id
+    const user_id = req.cookies.user_id;
+    console.log("Cookies: ", req.cookies);
     try {
         res.status(200).send({ user_id: user_id });
     } catch (error) {
