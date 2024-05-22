@@ -1,0 +1,35 @@
+.leads-container {
+    padding: 0 1%;
+}
+.leads-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.leads-header .leads-item:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.create-btn {
+    cursor: pointer;
+    border: none;
+    color: #ffffff;
+    background-color: #6BCB3D;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 1em;
+}
+.export-btn {
+    cursor: pointer;
+    border: none;
+    color: #ffffff;
+    background-color: #878787;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 1em;
+}
+.leads-header h1 {
+    font-size: 1.4em;
+}
