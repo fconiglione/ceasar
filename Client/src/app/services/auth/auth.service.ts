@@ -20,7 +20,11 @@ export class AuthService {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
       return this.http.post(`${this.cloudServerUrl}/users/admin-verify-session`, { token_id }, {headers, withCredentials: true});
     } else {
-      // const token_id = this.cookieService.get('token_id');
+      // Setting the headers
+      const token = this.cookieService.get('token');
+      const user_id = this.cookieService.get('user_id');
+      this.cookieService.set('token', token);
+      this.cookieService.set('user_id', user_id);
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
       return this.http.post(`${this.cloudServerUrl}/users/verify-session`, {headers, withCredentials: true});
     }
@@ -32,7 +36,11 @@ export class AuthService {
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
       return this.http.post(`${this.appServerUrl}/users/admin-token-details`, { token_id }, {headers, withCredentials: true});
     } else {
-      // const token_id = this.cookieService.get('token_id');
+      // Setting the headers
+      const token = this.cookieService.get('token');
+      const user_id = this.cookieService.get('user_id');
+      this.cookieService.set('token', token);
+      this.cookieService.set('user_id', user_id);
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
       return this.http.post(`${this.appServerUrl}/users/token-details`, {headers, withCredentials: true});
     }
