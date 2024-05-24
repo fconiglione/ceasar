@@ -137,7 +137,7 @@ export class DashboardComponent {
 
   sortWorkspaces(sortFactor: any): void {
     if (sortFactor === 'last_opened_date') {
-      this.activeFilter = 'Last Opened';
+      this.activeFilter = 'Last opened';
       this.WORKSPACE.sort((a: workspace, b: workspace) => {
         const dateA = new Date(a.last_opened_date || '1970-01-01');
         const dateB = new Date(b.last_opened_date || '1970-01-01');
@@ -146,7 +146,7 @@ export class DashboardComponent {
       });
     }
     if (sortFactor === 'creation_date') {
-      this.activeFilter = 'Creation Date';
+      this.activeFilter = 'Creation date';
       this.WORKSPACE.sort((a: workspace, b: workspace) => {
         const dateA = new Date(a.creation_date || '1970-01-01');
         const dateB = new Date(b.creation_date || '1970-01-01');

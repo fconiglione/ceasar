@@ -5,7 +5,79 @@
         </div>
         <div class="leads-item">
             <button class="create-btn">New Lead</button>
-            <button class="export-btn">Export</button>
+            <button class="export-btn">
+                <fa-icon [icon]="faDownload"></fa-icon>
+                <span>Export</span>
+            </button>
         </div>
+    </div>
+    <div class="leads-body">
+        <div class="leads-body-row">
+            <div class="leads-body-item">
+                <div class="leads-filter">
+                    <span>All status</span>
+                    <fa-icon [icon]="faChevronDown"></fa-icon>
+                </div>
+                <div class="leads-filter">
+                    <span>All sources</span>
+                    <fa-icon [icon]="faChevronDown"></fa-icon>
+                </div>
+            </div>
+            <div class="leads-body-item">
+                <div class="leads-search">
+                    <fa-icon [icon]="faSearch"></fa-icon>
+                    <input type="text" placeholder="Search for any lead...">
+                </div>
+            </div>  
+        </div>
+        <div class="leads-body-row">
+            <div class="leads-stats">
+                <div class="leads-stats-item">
+                    <div>
+                        <div class="status-dot green"></div>
+                        <div>
+                            <span>New</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>5 leads</p>
+                    </div>
+                </div>
+                <div class="leads-stats-item">
+                    <div>
+                        <div class="status-dot orange"></div>
+                        <div>
+                            <span>Contacted</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>3 leads</p>
+                    </div>
+                </div>
+                <div class="leads-stats-item">
+                    <div>
+                        <div class="status-dot blue"></div>
+                        <div>
+                            <span>In-progress</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>10 leads</p>
+                    </div>
+                </div>
+                <div class="leads-stats-item">
+                    <div>
+                        <div class="status-dot red"></div>
+                        <div>
+                            <span>Closed</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>2 leads</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="leads-body-row"></div>
     </div>
 </div>
