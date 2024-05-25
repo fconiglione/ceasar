@@ -48,7 +48,7 @@
 .leads-body {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 25px;
 }
 .leads-body-row:first-child {
     display: flex;
@@ -124,6 +124,7 @@
     background-color: #ffffff;
     padding: 15px 20px;
     border-radius: 10px;
+    cursor: pointer;
 }
 .leads-stats {
     display: grid;
@@ -144,4 +145,54 @@
     align-items: center;
     flex-direction: row;
     gap: 10px;
+}
+
+/* Leads Cards */
+
+.leads {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, minmax(300px, 1fr));
+}
+.lead-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+}
+.lead-card-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.lead-card-container hr {
+    margin: 20px 0;
+    border: 1px solid #eeeeee;
+}
+.lead-card-container .lead-pfp {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+.lead-card-container-item:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+}
+.lead-card-container-item h3, .lead-card-container-item p {
+    margin: 0;
+    padding: 0;
+}
+.lead-card-container-column {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+.status {
+    margin: 0;
+    padding: 5px 10px;
+    background-color: #eeeeee;
+    font-weight: 500;
+    border-radius: 8px;
+    color: #878787;
 }
