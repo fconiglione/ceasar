@@ -7,7 +7,6 @@ router.post('/leads', async (req, res) => {
     const leads = new Leads();
     try {
         const result = await leads.getLeadsByWorkspaceId(workspace_id);
-        console.log("Leads result: ", result);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error getting leads information:", error);

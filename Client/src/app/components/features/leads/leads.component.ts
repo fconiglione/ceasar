@@ -32,6 +32,11 @@ export class LeadsComponent {
   loading: boolean = true;
   currentWorkspaceId: string | undefined;
 
+  newLeadsCount: number = 0;
+  contactedLeadsCount: number = 0;
+  inProcessLeadsCount: number = 0;
+  closedLeadsCount: number = 0;
+
   ShapesBanner = "assets/images/shapes-banner.svg";
   faChevronDown = faChevronDown;
   faSearch = faSearch;
@@ -47,9 +52,17 @@ export class LeadsComponent {
     // Get leads from the API
     this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
       this.LEAD = response;
-      // this.sortWorkspaces('last_opened_date');
+      this.countLeads();
       this.loading = false;
     });
+  }
+
+  countLeads(): void {
+    // Count the number of leads in each status
+    this.newLeadsCount = this.LEAD.filter((lead: any) => lead.status_id === 1).length;
+    this.contactedLeadsCount = this.LEAD.filter((lead: any) => lead.status_id === 2).length;
+    this.inProcessLeadsCount = this.LEAD.filter((lead: any) => lead.status_id === 3).length;
+    this.closedLeadsCount = this.LEAD.filter((lead: any) => lead.status_id === 4).length;
   }
 
   getStatus(statusId: string): string {
