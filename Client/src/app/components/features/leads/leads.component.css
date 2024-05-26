@@ -238,12 +238,24 @@
 .status {
     margin: 0;
     padding: 5px 10px;
-    /* background-color: #eeeeee; */
+    background-color: #eeeeee;
     font-weight: 500;
     border-radius: 8px;
-    /* color: #878787; */
+    color: #878787;
+}
+.status.new {
+    background-color: #f0faec;
+    color: #6BCB3D;
+}
+.status.contacted {
+    background-color: #fff9e6;
+    color: #FFC107;
 }
 .status.in-process {
     background-color: #e6f2ff;
     color: #007BFF;
+}
+.status.closed {
+    background-color: #fcebec;
+    color: #DC3545;
 }

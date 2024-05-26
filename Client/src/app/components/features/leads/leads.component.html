@@ -80,7 +80,7 @@
         </div>
         <div class="leads-body-row"> <!-- Lead cards -->
             <div class="leads">
-                <div class="lead-card">
+                <div class="lead-card" *ngFor="let lead of LEAD">
                     <div class="lead-card-container">
                         <div class="lead-card-container-item">
                             <div class="lead-card-container-column">
@@ -88,8 +88,8 @@
                                     <img [src]="DefaultPFP" alt="Default profile picture image" class="lead-pfp">
                                 </div>
                                 <div>
-                                    <h3>John Doe</h3>
-                                    <p>Example Company</p>
+                                    <h3>{{ lead.first_name }} {{ lead.last_name }}</h3>
+                                    <p>{{ lead.company }}</p>
                                 </div>
                             </div> 
                             <div class="lead-card-container-column">
@@ -100,14 +100,14 @@
                         <div class="lead-card-container-item">
                             <div class="lead-card-container-row">
                                 <fa-icon [icon]="faPhone"></fa-icon>
-                                <span>123-456-7890</span>
+                                <span>{{ lead.phone_number }}</span>
                             </div>
                             <div class="lead-card-container-row">
                                 <fa-icon [icon]="faEnvelope"></fa-icon>
-                                <span>johndoe&#64;example.com</span>
+                                <span>{{ lead.email }}</span>
                             </div>
                             <div class="lead-card-container-row">
-                                <span class="status in-process">In-Process</span>
+                                <span [ngClass]="getStatusClasses(lead.status_id.toString())">{{ getStatus(lead.status_id.toString()) }}</span>
                             </div>
                         </div>
                     </div>
