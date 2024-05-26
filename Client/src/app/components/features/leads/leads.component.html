@@ -11,7 +11,7 @@
             </button>
         </div>
     </div>
-    <div class="leads-body">
+    <div class="leads-body" *ngIf="LEAD && LEAD.length > 0">
         <div class="leads-body-row">
             <div class="leads-body-item">
                 <div class="leads-filter">
@@ -114,5 +114,13 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="no-leads" *ngIf="LEAD && LEAD.length === 0 && !loading">
+        <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
+        <p class="uh-oh">Uh oh! We couldn't find any existing leads.</p>
+        <p>Start a new lead by clicking <span>here</span>, or by clicking the 'New Lead' button at the top of your screen.</p>
+    </div>
+    <div class="loading" *ngIf="loading">
+        <p>Loading...</p>
     </div>
 </div>

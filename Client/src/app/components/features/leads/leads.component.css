@@ -259,3 +259,29 @@
     background-color: #fcebec;
     color: #DC3545;
 }
+
+/* No leads */
+
+.no-leads {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    margin-top: 50px;
+  }
+  .no-leads span {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #2962ff;
+  }
+  .no-leads span:hover {
+    text-decoration: none;
+  }
+  .no-leads img {
+    height: 70px;
+  }
+  .no-leads .uh-oh {
+    font-weight: 600;
+  }

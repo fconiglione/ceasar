@@ -32,6 +32,7 @@ export class LeadsComponent {
   loading: boolean = true;
   currentWorkspaceId: string | undefined;
 
+  ShapesBanner = "assets/images/shapes-banner.svg";
   faChevronDown = faChevronDown;
   faSearch = faSearch;
   faDownload = faDownload;
