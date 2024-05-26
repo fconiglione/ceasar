@@ -129,7 +129,17 @@
 .leads-stats {
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(4, minmax(300px, 1fr));
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+}
+@media screen and (max-width: 1250px) {
+    .leads-stats {
+        grid-template-columns: repeat(2, minmax(250px, 1fr));
+    }
+}
+@media screen and (max-width: 630px) {
+    .leads-stats {
+        grid-template-columns: repeat(1, minmax(250px, 1fr));
+    }
 }
 .leads-stats-item p {
     margin: 0;
@@ -152,7 +162,22 @@
 .leads {
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(4, minmax(300px, 1fr));
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+}
+@media screen and (max-width: 1250px) {
+    .leads {
+        grid-template-columns: repeat(3, minmax(250px, 1fr));
+    }
+}
+@media screen and (max-width: 960px) {
+    .leads {
+        grid-template-columns: repeat(2, minmax(250px, 1fr));
+    }
+}
+@media screen and (max-width: 630px) {
+    .leads {
+        grid-template-columns: repeat(1, minmax(250px, 1fr));
+    }
 }
 .lead-card {
     background-color: #ffffff;
