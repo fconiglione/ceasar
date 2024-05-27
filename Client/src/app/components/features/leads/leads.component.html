@@ -137,7 +137,7 @@
                             </div>
                             <div class="lead-card-container-row">
                                 <fa-icon [icon]="faEnvelope"></fa-icon>
-                                <span>{{ lead.email }}</span>
+                                <span>{{ lead.email.toLowerCase() }}</span>
                             </div>
                             <div class="lead-card-container-row">
                                 <span [ngClass]="getStatusClasses(lead.status_id.toString())">{{ getStatus(lead.status_id.toString()) }}</span>
