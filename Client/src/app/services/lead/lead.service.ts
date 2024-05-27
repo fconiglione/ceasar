@@ -13,5 +13,9 @@ export class LeadService {
     return this.http.post(`${this.appServerUrl}/features/leads`, {workspaceId});
   }
 
+  createLead(lead: any) {
+    return this.http.post(`${this.appServerUrl}/features/leads/create`, {lead});
+  }
+
   constructor(private http: HttpClient) { }
 }

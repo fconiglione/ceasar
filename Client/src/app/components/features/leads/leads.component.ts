@@ -5,6 +5,7 @@ import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { LeadService } from '../../../services/lead/lead.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-leads',
@@ -14,7 +15,8 @@ import { CommonModule } from '@angular/common';
     NgFor,
     NgIf,
     DatePipe,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   templateUrl: './leads.component.html',
   styleUrl: './leads.component.css'
@@ -29,8 +31,11 @@ export class LeadsComponent {
   email: string | undefined;
   status: string | undefined;
   status_id: string | undefined;
+  description: string | undefined;
   loading: boolean = true;
   currentWorkspaceId: string | undefined;
+
+  full_name: string | undefined;
 
   newLeadsCount: number = 0;
   contactedLeadsCount: number = 0;
@@ -106,6 +111,35 @@ export class LeadsComponent {
     // Close the new lead popup
     const newLeadPopup = this.elementRef.nativeElement.querySelector('.create-lead-pop-up');
     newLeadPopup.style.display = 'none';
+    this.onReset();
+  }
+
+  createLead(): void {
+    let newLead = {
+      full_name: this.full_name,
+      company: this.company,
+      phone_number: this.phone_number,
+      email: this.email,
+      status_id: this.status_id,
+      description: this.description,
+      workspace_id: this.currentWorkspaceId
+    };
+
+    this.leadService.createLead(newLead).subscribe(response => {
+      console.log(response);
+      this.getLeads();
+      this.closeNewLeadPopup();
+    });
+  }
+  
+  onReset(): void {
+    // Reset the new lead form
+    this.full_name = '';
+    this.company = '';
+    this.phone_number = '';
+    this.email = '';
+    this.status_id = undefined;
+    this.description = '';
   }
 
   isWorkspacePath(): boolean {

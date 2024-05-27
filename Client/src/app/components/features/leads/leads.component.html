@@ -6,25 +6,25 @@
         </div>
         <div class="create-lead-pop-up-row">
           <form>
-            <input type="text" id="leadName" name="leadName" required placeholder="Enter full name" maxlength="50">
+            <input type="text" id="leadName" name="leadName" required placeholder="Enter full name" maxlength="50" [(ngModel)]="full_name" required>
             <div>
-                <input type="text" id="leadCompany" name="leadCompany" required placeholder="Enter company name" maxlength="50">
-                <input type="text" id="leadPhoneNumber" name="leadPhoneNumber" required placeholder="Enter phone number" maxlength="50">
+                <input type="text" id="leadCompany" name="leadCompany" required placeholder="Enter company name" maxlength="50" [(ngModel)]="company" required>
+                <input type="tel" id="leadPhoneNumber" name="leadPhoneNumber" required placeholder="Enter phone number" pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
             </div>
             <div>
-                <select>
-                    <option value="0">Select status</option>
+                <select [(ngModel)]="status_id" name="status" required>
+                    <option [ngValue]="undefined" selected disabled>Select status</option>
                     <option value="1">New</option>
                     <option value="2">Contacted</option>
                     <option value="3">In-Process</option>
                     <option value="4">Closed</option>
                 </select>
-                <input type="text" id="leadEmail" name="leadEmail" required placeholder="Enter email" maxlength="50">
+                <input type="text" id="leadEmail" name="leadEmail" required placeholder="Enter email" maxlength="50" [(ngModel)]="email" required>
             </div>
-            <textarea name="text" id="leadDescription" name="leadDescription" placeholder="Enter description (optional)" maxlength="255"></textarea>
+            <textarea name="text" id="leadDescription" name="leadDescription" placeholder="Enter description (optional)" maxlength="255" [(ngModel)]="description"></textarea>
             <div class="create-lead-pop-up-nav">
               <button type="button" id="cancelleadBtn" (click)="closeNewLeadPopup()">Cancel</button>
-              <button type="submit" id="createleadBtn">Add</button>
+              <button type="submit" id="createleadBtn" (click)="createLead()">Add</button>
             </div>
           </form>
         </div>

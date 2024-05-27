@@ -23,6 +23,18 @@ class Leads {
             throw error;
         }
     }
+
+    async createLead (workspace_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description) {
+        const query = `INSERT INTO ceasar.leads (workspace_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
+        const values = [workspace_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 
