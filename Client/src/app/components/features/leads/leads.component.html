@@ -1,10 +1,43 @@
+<div class="create-lead-pop-up" id="create-lead-pop-up">
+    <div class="create-lead-pop-up-container">
+      <div class="create-lead-form">
+        <div class="create-lead-pop-up-row">
+          <h1>Add a new lead</h1>
+        </div>
+        <div class="create-lead-pop-up-row">
+          <form>
+            <input type="text" id="leadName" name="leadName" required placeholder="Enter full name" maxlength="50">
+            <div>
+                <input type="text" id="leadCompany" name="leadCompany" required placeholder="Enter company name" maxlength="50">
+                <input type="text" id="leadPhoneNumber" name="leadPhoneNumber" required placeholder="Enter phone number" maxlength="50">
+            </div>
+            <div>
+                <select>
+                    <option value="0">Select status</option>
+                    <option value="1">New</option>
+                    <option value="2">Contacted</option>
+                    <option value="3">In-Process</option>
+                    <option value="4">Closed</option>
+                </select>
+                <input type="text" id="leadEmail" name="leadEmail" required placeholder="Enter email" maxlength="50">
+            </div>
+            <textarea name="text" id="leadDescription" name="leadDescription" placeholder="Enter description (optional)" maxlength="255"></textarea>
+            <div class="create-lead-pop-up-nav">
+              <button type="button" id="cancelleadBtn" (click)="closeNewLeadPopup()">Cancel</button>
+              <button type="submit" id="createleadBtn">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 <div class="leads-container">
     <div class="leads-header">
         <div class="leads-item">
             <h1>Leads</h1>
         </div>
         <div class="leads-item">
-            <button class="create-btn">New Lead</button>
+            <button class="create-btn" (click)="openNewLeadPopup()">New Lead</button>
             <button class="export-btn">
                 <fa-icon [icon]="faDownload"></fa-icon>
                 <span>Export</span>

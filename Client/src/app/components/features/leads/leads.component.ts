@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { LeadService } from '../../../services/lead/lead.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -44,9 +44,10 @@ export class LeadsComponent {
   faPhone = faPhone;
   faEnvelope = faEnvelope;
   faEllipsisV = faEllipsisV;
+  faCircleInfo = faCircleInfo;
   DefaultPFP = "assets/images/default-pfp.svg";  ;
 
-  constructor( private leadService: LeadService, private route: ActivatedRoute, private router: Router ) { }
+  constructor( private leadService: LeadService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef ) { }
 
   getLeads(): void {
     // Get leads from the API
@@ -93,6 +94,18 @@ export class LeadsComponent {
       default:
         return { 'status': true, 'unassigned': true };
     }
+  }
+
+  openNewLeadPopup(): void {
+    // Open the new lead popup
+    const newLeadPopup = this.elementRef.nativeElement.querySelector('.create-lead-pop-up');
+    newLeadPopup.style.display = 'block';
+  }
+
+  closeNewLeadPopup(): void {
+    // Close the new lead popup
+    const newLeadPopup = this.elementRef.nativeElement.querySelector('.create-lead-pop-up');
+    newLeadPopup.style.display = 'none';
   }
 
   isWorkspacePath(): boolean {
