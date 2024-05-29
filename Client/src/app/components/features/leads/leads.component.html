@@ -59,7 +59,7 @@
             <div class="leads-body-item">
                 <div class="leads-search">
                     <fa-icon [icon]="faSearch"></fa-icon>
-                    <input type="text" placeholder="Search for any lead...">
+                    <input type="text" placeholder="Search for any lead..." id="leadSearchInput" [(ngModel)]="leadSearchInputValue" (input)="onInputChange($event)">
                 </div>
             </div>  
         </div>

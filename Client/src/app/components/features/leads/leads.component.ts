@@ -37,6 +37,8 @@ export class LeadsComponent {
 
   full_name: string | undefined;
 
+  leadSearchInputValue: string = '';
+
   newLeadsCount: number = 0;
   contactedLeadsCount: number = 0;
   inProcessLeadsCount: number = 0;
@@ -131,6 +133,31 @@ export class LeadsComponent {
       this.closeNewLeadPopup();
     });
   }
+
+  onInputChange(event: any) {
+    const searchInputValue = event.target.value.trim();
+    this.leadSearchInputValue = searchInputValue;
+  
+    if (this.leadSearchInputValue === '') {
+      this.getLeads();
+    } else {
+      this.LEAD = this.LEAD.filter((lead: any) => {
+        const firstName = lead.first_name?.toLowerCase() ?? '';
+        const lastName = lead.last_name?.toLowerCase() ?? '';
+        const company = lead.company?.toLowerCase() ?? '';
+        const phoneNumber = lead.phone_number?.toLowerCase() ?? '';
+        const email = lead.email?.toLowerCase() ?? '';
+        const status = this.getStatus(lead.status_id).toLowerCase();
+  
+        return firstName.includes(this.leadSearchInputValue.toLowerCase()) ||
+          lastName.includes(this.leadSearchInputValue.toLowerCase()) ||
+          company.includes(this.leadSearchInputValue.toLowerCase()) ||
+          phoneNumber.includes(this.leadSearchInputValue.toLowerCase()) ||
+          email.includes(this.leadSearchInputValue.toLowerCase()) ||
+          status.includes(this.leadSearchInputValue.toLowerCase());
+      });
+    }
+  }  
   
   onReset(): void {
     // Reset the new lead form
