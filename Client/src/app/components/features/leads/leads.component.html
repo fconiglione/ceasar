@@ -38,7 +38,7 @@
         </div>
         <div class="leads-item">
             <button class="create-btn" (click)="openNewLeadPopup()">New Lead</button>
-            <button class="export-btn">
+            <button class="export-btn" (click)="downloadCSV()">
                 <fa-icon [icon]="faDownload"></fa-icon>
                 <span>Export</span>
             </button>

@@ -199,6 +199,32 @@ export class LeadsComponent {
       });
     }
   }  
+
+  // CSV Exporting
+
+  generateCSV(): string {
+    let csv = 'Last Name,First Name,Company,Phone Number,Email,Status\n';
+
+    this.LEAD.forEach((lead: any) => {
+      const row = `${lead.last_name || ''},${lead.first_name || ''},${lead.company || ''},${lead.phone_number || ''},${lead.email || ''},${this.getStatus(lead.status_id.toString())}\n`;
+      csv += row;
+    });
+
+    return csv;
+  }
+
+  downloadCSV(): void {
+    const csvData = this.generateCSV();
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'leads.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
   
   onReset(): void {
     // Reset the new lead form
