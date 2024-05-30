@@ -121,7 +121,7 @@
             <div class="leads">
                 <div class="lead-card" *ngFor="let lead of LEAD">
                     <div class="lead-card-container">
-                        <div class="lead-card-container-item">
+                        <div class="lead-card-container-item lead-card-header">
                             <div class="lead-card-container-column">
                                 <div>
                                     <img [src]="DefaultPFP" alt="Default profile picture image" class="lead-pfp">
@@ -131,8 +131,24 @@
                                     <p>{{ lead.company }}</p>
                                 </div>
                             </div> 
-                            <div class="lead-card-container-column">
-                                <fa-icon [icon]="faEllipsisV"></fa-icon>
+                            <div class="lead-card-container-column lead-card-editor-area">
+                                <fa-icon class="lead-card-sub-editor" [icon]="faEllipsisV" (click)="toggleLeadCardDropdown()"></fa-icon>
+                                <div class="lead-card-dropdown">
+                                    <ul>
+                                        <li>
+                                            <fa-icon [icon]="faEye"></fa-icon>
+                                            <span>View</span>
+                                        </li>
+                                        <li>
+                                            <fa-icon [icon]="faEdit"></fa-icon>
+                                            <span>Edit</span>
+                                        </li>  
+                                        <li (click)="deleteLead(lead)">
+                                            <fa-icon [icon]="faTrash"></fa-icon>
+                                            <span>Delete</span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <hr />

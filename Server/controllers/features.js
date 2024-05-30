@@ -29,4 +29,16 @@ router.post('/leads/create', async (req, res) => {
     }
 });
 
+router.delete('/leads/:lead_id', async (req, res) => {
+    const lead_id = req.params.lead_id;
+    const leads = new Leads();
+    try {
+        const result = await leads.deleteLead(lead_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error deleting lead:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

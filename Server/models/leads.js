@@ -35,6 +35,17 @@ class Leads {
             throw error;
         }
     }
+
+    async deleteLead (lead_id) {
+        const query = `DELETE FROM ceasar.leads WHERE lead_id = $1`;
+        const values = [lead_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { LeadService } from '../../../services/lead/lead.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 export class LeadsComponent {
   // Lead card variables
   LEAD: any;
+  lead_id: string | undefined;
   first_name: string | undefined;
   last_name: string | undefined;
   company: string | undefined;
@@ -54,6 +55,9 @@ export class LeadsComponent {
   faEllipsisV = faEllipsisV;
   faCircleInfo = faCircleInfo;
   DefaultPFP = "assets/images/default-pfp.svg";  ;
+  faEye = faEye;
+  faEdit = faEdit;
+  faTrash = faTrash;
 
   constructor( private leadService: LeadService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef ) { }
 
@@ -182,6 +186,7 @@ export class LeadsComponent {
     if (this.leadSearchInputValue === '') {
       this.getLeads();
     } else {
+      this.countLeads();
       this.LEAD = this.LEAD.filter((lead: any) => {
         const firstName = lead.first_name?.toLowerCase() ?? '';
         const lastName = lead.last_name?.toLowerCase() ?? '';
@@ -225,7 +230,22 @@ export class LeadsComponent {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   }
-  
+
+  leadCardDropdownActive = false;
+  toggleLeadCardDropdown(): void {
+    const leadCardDropdown = this.elementRef.nativeElement.querySelector('.lead-card-dropdown');
+    this.leadCardDropdownActive = !this.leadCardDropdownActive;
+    leadCardDropdown.style.display = this.leadCardDropdownActive ? 'flex' : 'none';
+  }
+
+  deleteLead(lead: any): void {
+    if (confirm('Are you sure you want to delete this lead?')) {
+      this.leadService.deleteLead(lead.lead_id).subscribe(response => {
+        this.getLeads();
+      });
+    }
+  }
+
   onReset(): void {
     // Reset the new lead form
     this.full_name = '';

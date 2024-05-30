@@ -184,6 +184,7 @@
 .lead-card {
     background-color: #ffffff;
     border-radius: 10px;
+    cursor: pointer;
 }
 .lead-card-container {
     padding: 20px;
@@ -201,13 +202,13 @@
     border-radius: 50%;
     object-fit: cover;
 }
-.lead-card-container-item:first-child {
+.lead-card-header{
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     flex-direction: row;
 }
-.lead-card-container-item:first-child div:nth-child(2) {
+.lead-card-header .lead-card-editor-area {
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -589,3 +590,49 @@
   .filter-dropdown span:hover {
     background-color: #eeeeee;
   }
+
+  /* Lead card dropdown */
+
+  .lead-card-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    z-index: 1;
+    border: 1px solid #ffffff;
+    width: 144px;
+    border-radius: 6px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+    margin-top: 35px;
+    margin-right: 8%;
+  }
+  .lead-card-dropdown ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    width: 100%;
+    color: #000000;
+  }
+  .lead-card-dropdown ul li {
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    padding: 10px;
+    gap: 10px;
+    display: flex;  
+    justify-content: flex-start;
+    align-items: center;
+  }
+.lead-card-dropdown ul li:hover {
+    background-color: #eeeeee;
+}
+.lead-card-sub-editor {
+    padding: 2px;
+    border-radius: 100%;
+    text-align: center;
+    width: 25px;
+    height: 25px;
+    transition: 0.2s background-color ease-in-out;
+    margin-top: -1px !important;
+}
+.lead-card-sub-editor:hover {
+  background-color: #eeeeee;
+}

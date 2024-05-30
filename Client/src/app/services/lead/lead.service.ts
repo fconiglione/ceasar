@@ -17,5 +17,9 @@ export class LeadService {
     return this.http.post(`${this.appServerUrl}/features/leads/create`, {lead});
   }
 
+  deleteLead(leadId: any) {
+    return this.http.delete(`${this.appServerUrl}/features/leads/${leadId}`);
+  }
+
   constructor(private http: HttpClient) { }
 }
