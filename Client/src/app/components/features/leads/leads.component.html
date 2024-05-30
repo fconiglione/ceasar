@@ -44,7 +44,7 @@
             </button>
         </div>
     </div>
-    <div class="leads-body" *ngIf="LEAD && LEAD.length > 0">
+    <div class="leads-body">
         <div class="leads-body-row">
             <div class="leads-body-item">
                 <div class="leads-filter">
@@ -65,7 +65,7 @@
         </div>
         <div class="leads-body-row"> <!-- Status cards -->
             <div class="leads-stats">
-                <div class="leads-stats-item">
+                <div class="leads-stats-item" (click)="filterStatus(1)">
                     <div>
                         <div class="status-dot green"></div>
                         <div>
@@ -76,7 +76,7 @@
                         <p>{{ this.newLeadsCount }} leads</p>
                     </div>
                 </div>
-                <div class="leads-stats-item">
+                <div class="leads-stats-item" (click)="filterStatus(2)">
                     <div>
                         <div class="status-dot orange"></div>
                         <div>
@@ -87,7 +87,7 @@
                         <p>{{ this.contactedLeadsCount }} leads</p>
                     </div>
                 </div>
-                <div class="leads-stats-item">
+                <div class="leads-stats-item" (click)="filterStatus(3)">
                     <div>
                         <div class="status-dot blue"></div>
                         <div>
@@ -98,7 +98,7 @@
                         <p>{{ this.inProcessLeadsCount }} leads</p>
                     </div>
                 </div>
-                <div class="leads-stats-item">
+                <div class="leads-stats-item" (click)="filterStatus(4)">
                     <div>
                         <div class="status-dot red"></div>
                         <div>
@@ -111,7 +111,7 @@
                 </div>
             </div>
         </div>
-        <div class="leads-body-row"> <!-- Lead cards -->
+        <div class="leads-body-row" *ngIf="LEAD && LEAD.length > 0"> <!-- Lead cards -->
             <div class="leads">
                 <div class="lead-card" *ngFor="let lead of LEAD">
                     <div class="lead-card-container">

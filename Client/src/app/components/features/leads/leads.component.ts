@@ -134,6 +134,25 @@ export class LeadsComponent {
     });
   }
 
+previousStatus: number = 0;
+filterStatus(statusId: number): void {
+    if (statusId === this.previousStatus) {
+        this.getLeads();
+        this.previousStatus = 0;
+    } else {
+        if (statusId === 0) {
+            this.getLeads();
+        } else {
+            this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
+                this.LEAD = response;
+                this.countLeads();
+                this.LEAD = this.LEAD.filter((lead: any) => lead.status_id === statusId);
+                this.previousStatus = statusId;
+            });
+        }
+    }
+}
+
   onInputChange(event: any) {
     const searchInputValue = event.target.value.trim();
     this.leadSearchInputValue = searchInputValue;
