@@ -38,6 +38,7 @@ export class LeadsComponent {
   full_name: string | undefined;
 
   leadSearchInputValue: string = '';
+  activeStatusFilter: string = 'All status';
 
   newLeadsCount: number = 0;
   contactedLeadsCount: number = 0;
@@ -133,25 +134,46 @@ export class LeadsComponent {
       this.closeNewLeadPopup();
     });
   }
+  statusFilterDropdownActive: boolean = false;
 
-previousStatus: number = 0;
-filterStatus(statusId: number): void {
-    if (statusId === this.previousStatus) {
-        this.getLeads();
-        this.previousStatus = 0;
-    } else {
-        if (statusId === 0) {
-            this.getLeads();
-        } else {
-            this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
-                this.LEAD = response;
-                this.countLeads();
-                this.LEAD = this.LEAD.filter((lead: any) => lead.status_id === statusId);
-                this.previousStatus = statusId;
-            });
-        }
+  openFilterStatusDropdown(): void {
+    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
+    if (statusFilterDropdown) {
+      this.statusFilterDropdownActive = !this.statusFilterDropdownActive;
+      statusFilterDropdown.style.display = this.statusFilterDropdownActive ? 'flex' : 'none';
     }
-}
+  }
+  
+  closeFilterStatusDropdown(): void {
+    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
+    if (statusFilterDropdown) {
+      statusFilterDropdown.style.display = 'none';
+      this.statusFilterDropdownActive = false;
+    }
+  }  
+  
+  previousStatus: number = 0;
+  filterStatus(statusId: number): void {
+    this.closeFilterStatusDropdown();
+      if (statusId === this.previousStatus) {
+          this.getLeads();
+          this.activeStatusFilter = 'All status';
+          this.previousStatus = 0;
+      } else {
+          if (statusId === 0) {
+            this.activeStatusFilter = 'All status';
+            this.getLeads();
+          } else {
+              this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
+                  this.LEAD = response;
+                  this.countLeads();
+                  this.LEAD = this.LEAD.filter((lead: any) => lead.status_id === statusId);
+                  this.previousStatus = statusId;
+                  this.activeStatusFilter = this.getStatus(statusId.toString());
+              });
+          }
+      }
+  }
 
   onInputChange(event: any) {
     const searchInputValue = event.target.value.trim();

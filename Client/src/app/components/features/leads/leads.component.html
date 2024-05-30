@@ -47,11 +47,17 @@
     <div class="leads-body">
         <div class="leads-body-row">
             <div class="leads-body-item">
-                <div class="leads-filter">
-                    <span>All status</span>
+                <div class="leads-filter" (click)="openFilterStatusDropdown()">
+                    <span>{{ activeStatusFilter }}</span>
                     <fa-icon [icon]="faChevronDown"></fa-icon>
                 </div>
-                <div class="leads-filter">
+                <div class="filter-dropdown">
+                    <span (click)="filterStatus(1)">New</span>
+                    <span (click)="filterStatus(2)">Contacted</span>
+                    <span (click)="filterStatus(3)">In-Process</span>
+                    <span (click)="filterStatus(4)">Closed</span>
+                </div>
+                <div class="leads-filter" style="display: none;"> <!-- Source filtering disabled for now, waiting for future release -->
                     <span>All sources</span>
                     <fa-icon [icon]="faChevronDown"></fa-icon>
                 </div>

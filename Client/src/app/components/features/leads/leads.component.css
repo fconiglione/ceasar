@@ -64,7 +64,9 @@
 .leads-filter {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     gap: 8px;
+    width: 120px;
     cursor: pointer;
     transition: background-color 0.3s;
     border: 1px solid #878787;
@@ -564,3 +566,26 @@
     font-weight: 600;
   }
   
+  /* Filter dropdown */
+
+  .filter-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    z-index: 1;
+    border: 1px solid #ffffff;
+    width: 144px;
+    border-radius: 6px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+    margin-top: 36px;
+    flex-direction: column;
+  }
+  .filter-dropdown span {
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    padding: 10px;
+  }
+
+  .filter-dropdown span:hover {
+    background-color: #eeeeee;
+  }
