@@ -65,7 +65,7 @@
             <div class="leads-body-item">
                 <div class="leads-search">
                     <fa-icon [icon]="faSearch"></fa-icon>
-                    <input type="text" placeholder="Search for any lead..." id="leadSearchInput" [(ngModel)]="leadSearchInputValue" (input)="onInputChange($event)">
+                    <input type="text" placeholder="Search..." id="leadSearchInput" [(ngModel)]="leadSearchInputValue" (input)="onInputChange($event)">
                 </div>
             </div>  
         </div>
@@ -155,7 +155,7 @@
                         <div class="lead-card-container-item">
                             <div class="lead-card-container-row">
                                 <fa-icon [icon]="faPhone"></fa-icon>
-                                <span>{{ lead.phone_number }}</span>
+                                <span>{{ lead.phone_number || "Unknown" }}</span>
                             </div>
                             <div class="lead-card-container-row">
                                 <fa-icon [icon]="faEnvelope"></fa-icon>
