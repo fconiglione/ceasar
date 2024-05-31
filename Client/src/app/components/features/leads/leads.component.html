@@ -132,8 +132,8 @@
                                 </div>
                             </div> 
                             <div class="lead-card-container-column lead-card-editor-area">
-                                <fa-icon class="lead-card-sub-editor" [icon]="faEllipsisV" (click)="toggleLeadCardDropdown()"></fa-icon>
-                                <div class="lead-card-dropdown">
+                                <fa-icon class="lead-card-sub-editor" [icon]="faEllipsisV" (click)="toggleLeadCardDropdown(lead)"></fa-icon>
+                                <div class="lead-card-dropdown" *ngIf="lead.showSubSetting">
                                     <ul>
                                         <li>
                                             <fa-icon [icon]="faEye"></fa-icon>

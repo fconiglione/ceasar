@@ -231,11 +231,13 @@ export class LeadsComponent {
     window.URL.revokeObjectURL(url);
   }
 
-  leadCardDropdownActive = false;
-  toggleLeadCardDropdown(): void {
-    const leadCardDropdown = this.elementRef.nativeElement.querySelector('.lead-card-dropdown');
-    this.leadCardDropdownActive = !this.leadCardDropdownActive;
-    leadCardDropdown.style.display = this.leadCardDropdownActive ? 'flex' : 'none';
+  toggleLeadCardDropdown(lead: any): void {
+    this.LEAD.forEach((l: any) => {
+      if (l !== lead) {
+        l.showSubSetting = false;
+      }
+    });
+    lead.showSubSetting = !lead.showSubSetting;
   }
 
   deleteLead(lead: any): void {
