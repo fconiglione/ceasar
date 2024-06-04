@@ -46,6 +46,17 @@ class Leads {
             throw error;
         }
     }
+
+    async updateLead (lead_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description) {
+        const query = `UPDATE ceasar.leads SET photo_url = $2, first_name = $3, last_name = $4, phone_number = $5, email = $6, company = $7, status_id = $8, description = $9 WHERE lead_id = $1`;
+        const values = [lead_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

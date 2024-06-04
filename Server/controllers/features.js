@@ -41,4 +41,19 @@ router.delete('/leads/:lead_id', async (req, res) => {
     }
 });
 
+router.put('/leads/update', async (req, res) => {
+    const { lead_id, photo_url, full_name, phone_number, email, company, status_id, description } = req.body.lead;
+    const nameParts = full_name.trim().split(' ');
+    const first_name = nameParts[0];
+    const last_name = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+    const leads = new Leads();
+    try {
+        const result = await leads.updateLead(lead_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error updating lead:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

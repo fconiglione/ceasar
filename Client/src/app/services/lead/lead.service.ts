@@ -21,5 +21,9 @@ export class LeadService {
     return this.http.delete(`${this.appServerUrl}/features/leads/${leadId}`);
   }
 
+  updateLead(lead: any) {
+    return this.http.put(`${this.appServerUrl}/features/leads/update`, {lead});
+  }
+
   constructor(private http: HttpClient) { }
 }

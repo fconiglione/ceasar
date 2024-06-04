@@ -54,7 +54,7 @@ export class LeadsComponent {
   faEnvelope = faEnvelope;
   faEllipsisV = faEllipsisV;
   faCircleInfo = faCircleInfo;
-  DefaultPFP = "assets/images/default-pfp.svg";  ;
+  DefaultPFP = "assets/images/default-pfp.svg";
   faEye = faEye;
   faEdit = faEdit;
   faTrash = faTrash;
@@ -252,6 +252,17 @@ export class LeadsComponent {
   closeLeadDetailsPopUp(): void {
     const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
     leadDetailsPopUp.style.display = 'none';
+
+    this.lead_id = undefined;
+    this.first_name = undefined;
+    this.last_name = undefined;
+    this.company = undefined;
+    this.phone_number = undefined;
+    this.email = undefined;
+    this.status = undefined;
+    this.status_id = undefined;
+    this.description = undefined;
+    this.full_name = undefined;
   }
 
   openLeadDetailsPopUp(lead: any): void {
@@ -268,6 +279,30 @@ export class LeadsComponent {
 
     const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
     leadDetailsPopUp.style.display = 'block';
+  }
+
+  updateLead(): void {
+    let updatedLead = {
+      lead_id: this.lead_id,
+      full_name: this.full_name,
+      company: this.company,
+      phone_number: this.phone_number,
+      email: this.email,
+      status_id: this.status_id,
+      description: this.description
+    };
+
+    this.leadService.updateLead(updatedLead).subscribe(response => {
+      console.log(response);
+      this.getLeads();
+      this.closeLeadDetailsPopUp();
+    });
+  }
+
+  leadsEditMode: boolean = false;
+
+  toggleLeadsEditMode(): void {
+    this.leadsEditMode = !this.leadsEditMode;
   }
 
   onReset(): void {

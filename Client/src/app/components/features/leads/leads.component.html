@@ -6,7 +6,7 @@
                     <fa-icon class="return-to-leads-btn" [icon]="faArrowLeft" (click)="closeLeadDetailsPopUp()"></fa-icon>
                     <h1>Lead details</h1>
                 </div>
-                <div class="edit-lead-pop-up-btn">
+                <div class="edit-lead-pop-up-btn" (click)="toggleLeadsEditMode()">
                     <fa-icon [icon]="faEdit"></fa-icon>
                     <span>Edit lead</span>
                 </div>
@@ -16,11 +16,11 @@
                 <div>
                     <img [src]="DefaultPFP" alt="Default profile picture image">
                     <div class="lead-details-content">
-                        <input type="text" id="leadName" name="leadName" required  maxlength="50" [(ngModel)]="full_name" disabled required>
-                        <input disabled type="text" id="leadCompany" name="leadCompany" required  maxlength="50" [(ngModel)]="company" required>
-                        <input disabled type="tel" id="leadPhoneNumber" name="leadPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
-                        <input disabled type="text" id="leadEmail" name="leadEmail" required maxlength="50" [(ngModel)]="email" required>
-                        <select [(ngModel)]="status_id" name="status" disabled required>
+                        <input type="text" id="leadName" name="leadName" required  maxlength="50" [(ngModel)]="full_name" [disabled]="!leadsEditMode" required>
+                        <input [disabled]="!leadsEditMode" type="text" id="leadCompany" name="leadCompany" required  maxlength="50" [(ngModel)]="company" required>
+                        <input [disabled]="!leadsEditMode" type="tel" id="leadPhoneNumber" name="leadPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
+                        <input [disabled]="!leadsEditMode" type="text" id="leadEmail" name="leadEmail" required maxlength="50" [(ngModel)]="email" required>
+                        <select [(ngModel)]="status_id" name="status" [disabled]="!leadsEditMode" required>
                             <option [ngValue]="undefined" selected disabled>Select status</option>
                             <option value="1">New</option>
                             <option value="2">Contacted</option>
@@ -31,10 +31,10 @@
                 </div>
                 <hr />
                 <h2 class="lead-details-h2">Description</h2>
-                <textarea disabled name="text" id="leadDescription" name="leadDescription" maxlength="255" [(ngModel)]="description"></textarea>
-                <div class="create-lead-pop-up-nav">
-                <button type="button" id="cancelleadBtn" (click)="closeLeadDetailsPopUp()">Cancel</button>
-                <!-- <button type="submit" id="createleadBtn" (click)="createLead()">Add</button> -->
+                <textarea [disabled]="!leadsEditMode" name="text" id="leadDescription" name="leadDescription" maxlength="255" [(ngModel)]="description"></textarea>
+                <div class="details-lead-pop-up-nav">
+                <button *ngIf="leadsEditMode" type="button" id="cancelleadBtn" (click)="closeLeadDetailsPopUp()">Cancel</button>
+                <button *ngIf="leadsEditMode" type="submit" id="createleadBtn" (click)="updateLead()">Save</button>
                 </div>
             </form>
         </div>
