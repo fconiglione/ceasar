@@ -13,7 +13,7 @@ class Leads {
     }
 
     async getLeadsByWorkspaceId (workspace_id) {
-        const query = `SELECT lead_id, photo_url, first_name, last_name, phone_number, email, company, status_id FROM ceasar.leads WHERE workspace_id = $1`;
+        const query = `SELECT lead_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description FROM ceasar.leads WHERE workspace_id = $1`;
         const values = [workspace_id];
         try {
             const { rows } = await this.pool.query(query, values);

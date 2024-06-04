@@ -4,12 +4,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FeatureService } from '../../services/feature/feature.service';
 import { NgIf } from '@angular/common';
 import { LeadsComponent } from '../../components/features/leads/leads.component';
+import { ContactsComponent } from '../../components/features/contacts/contacts.component';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
   imports: [
-    NgIf, LeadsComponent
+    NgIf, LeadsComponent,
+    ContactsComponent
   ],
   templateUrl: './workspace.component.html',
   styleUrl: './workspace.component.css'

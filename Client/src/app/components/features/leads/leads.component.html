@@ -31,7 +31,7 @@
                 </div>
                 <hr />
                 <h2 class="lead-details-h2">Description</h2>
-                <textarea [disabled]="!leadsEditMode" name="text" id="leadDescription" name="leadDescription" maxlength="255" [(ngModel)]="description"></textarea>
+                <textarea [disabled]="!leadsEditMode" id="leadDescription" name="leadDescription" maxlength="255" [(ngModel)]="description"></textarea>
                 <div class="details-lead-pop-up-nav">
                 <button *ngIf="leadsEditMode" type="button" id="cancelleadBtn" (click)="closeLeadDetailsPopUp()">Cancel</button>
                 <button *ngIf="leadsEditMode" type="submit" id="createleadBtn" (click)="updateLead()">Save</button>

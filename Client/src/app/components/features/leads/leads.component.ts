@@ -263,6 +263,8 @@ export class LeadsComponent {
     this.status_id = undefined;
     this.description = undefined;
     this.full_name = undefined;
+
+    this.leadsEditMode = false;
   }
 
   openLeadDetailsPopUp(lead: any): void {
@@ -312,7 +314,7 @@ export class LeadsComponent {
     this.phone_number = '';
     this.email = '';
     this.status_id = undefined;
-    this.description = '';
+    this.description = undefined;
   }
 
   isWorkspacePath(): boolean {
