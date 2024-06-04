@@ -39,10 +39,10 @@ export class AuthService {
       // Setting the headers
       const token = this.cookieService.get('token');
       const user_id = this.cookieService.get('user_id');
-      this.cookieService.set('token', token);
-      this.cookieService.set('user_id', user_id);
+      // this.cookieService.set('token', token);
+      // this.cookieService.set('user_id', user_id);
       const headers = new HttpHeaders().set('Content-Type', 'application/json');
-      return this.http.post(`${this.appServerUrl}/users/token-details`, {headers, withCredentials: true});
+      return this.http.post(`${this.appServerUrl}/users/token-details`, { token, user_id }, {headers, withCredentials: true});
     }
   }
 
