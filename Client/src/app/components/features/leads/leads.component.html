@@ -162,14 +162,14 @@
         </div>
         <div class="leads-body-row" *ngIf="LEAD && LEAD.length > 0"> <!-- Lead cards -->
             <div class="leads">
-                <div class="lead-card" *ngFor="let lead of LEAD" (click)="openLeadDetailsPopUp(lead)">
+                <div class="lead-card" *ngFor="let lead of LEAD">
                     <div class="lead-card-container">
                         <div class="lead-card-container-item lead-card-header">
                             <div class="lead-card-container-column">
-                                <div>
+                                <div (click)="openLeadDetailsPopUp(lead)">
                                     <img [src]="DefaultPFP" alt="Default profile picture image" class="lead-pfp">
                                 </div>
-                                <div>
+                                <div (click)="openLeadDetailsPopUp(lead)">
                                     <h3>{{ lead.first_name }} {{ lead.last_name }}</h3>
                                     <p>{{ lead.company }}</p>
                                 </div>
@@ -182,7 +182,7 @@
                                             <fa-icon [icon]="faEye"></fa-icon>
                                             <span>View</span>
                                         </li>
-                                        <li>
+                                        <li (click)="openLeadDetailsPopUp(lead)" (click)="toggleLeadsEditMode()">
                                             <fa-icon [icon]="faEdit"></fa-icon>
                                             <span>Edit</span>
                                         </li>  

@@ -184,7 +184,6 @@
 .lead-card {
     background-color: #ffffff;
     border-radius: 10px;
-    cursor: pointer;
 }
 .lead-card-container {
     padding: 20px;
@@ -212,7 +211,7 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-
+    cursor: pointer;
 }
 .lead-card-container-item:last-child {
     display: flex;
