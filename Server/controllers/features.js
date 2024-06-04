@@ -73,4 +73,46 @@ router.post('/contacts', async (req, res) => {
     }
 });
 
+router.post('/contacts/create', async (req, res) => {
+    const { workspace_id, photo_url, full_name, phone_number, email, company, description } = req.body.contact;
+    const nameParts = full_name.trim().split(' ');
+    const first_name = nameParts[0];
+    const last_name = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+    const contacts = new Contacts();
+    try {
+        const result = await contacts.createContact(workspace_id, photo_url, first_name, last_name, phone_number, email, company, description);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error creating contact:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.put('/contacts/update', async (req, res) => {
+    const { contact_id, photo_url, full_name, phone_number, email, company, description } = req.body.contact;
+    const nameParts = full_name.trim().split(' ');
+    const first_name = nameParts[0];
+    const last_name = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+    const contacts = new Contacts();
+    try {
+        const result = await contacts.updateContact(contact_id, photo_url, first_name, last_name, phone_number, email, company, description);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error updating contact:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.delete('/contacts/:contact_id', async (req, res) => {
+    const contact_id = req.params.contact_id;
+    const contacts = new Contacts();
+    try {
+        const result = await contacts.deleteContact(contact_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error deleting contact:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

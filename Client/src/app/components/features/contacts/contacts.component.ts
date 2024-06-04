@@ -29,13 +29,13 @@ export class ContactsComponent {
   phone_number: string | undefined;
   email: string | undefined;
   description: string | undefined;
+  creation_date: string | undefined;
   loading: boolean = true;
   currentWorkspaceId: string | undefined;
 
   full_name: string | undefined;
 
   contactSearchInputValue: string = '';
-  activeFilter: string = 'Name';
 
   ShapesBanner = "assets/images/shapes-banner.svg";
   faChevronDown = faChevronDown;
@@ -57,9 +57,20 @@ export class ContactsComponent {
     // Get contacts from the API
     this.contactService.getContacts(this.currentWorkspaceId).subscribe(response => {
       this.CONTACT = response;
+      this.applyFilter();
       this.loading = false;
     });
   }
+
+  applyFilter(): void {
+    if (this.activeFilter === 'Name') {
+        this.CONTACT.sort((a: any, b: any) => a.first_name.localeCompare(b.first_name));
+    } else if (this.activeFilter === 'Company') {
+        this.CONTACT.sort((a: any, b: any) => a.company.localeCompare(b.company));
+    } else if (this.activeFilter === 'Creation Date') {
+        this.CONTACT.sort((a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime());
+    }
+}
 
   openNewContactPopup(): void {
     // Open the new contact popup
@@ -75,7 +86,7 @@ export class ContactsComponent {
   }
 
   createContact(): void {
-    let newcontact = {
+    let newContact = {
       full_name: this.full_name,
       company: this.company,
       phone_number: this.phone_number,
@@ -84,11 +95,11 @@ export class ContactsComponent {
       workspace_id: this.currentWorkspaceId
     };
 
-    // this.contactService.createcontact(newcontact).subscribe(response => {
-    //   console.log(response);
-    //   this.getcontacts();
-    //   this.closeNewcontactPopup();
-    // });
+    this.contactService.createContact(newContact).subscribe(response => {
+      console.log(response);
+      this.getContacts();
+      this.closeNewContactPopup();
+    });
   }
   statusFilterDropdownActive: boolean = false;
 
@@ -107,28 +118,23 @@ export class ContactsComponent {
       this.statusFilterDropdownActive = false;
     }
   }  
-  
-  previousStatus: number = 0;
-  filterStatus(statusId: number): void {
+
+  previousFilter: string = 'Name';
+  activeFilter: string = 'Name';
+
+filterStatus(activeFilter: string): void {
     this.closeFilterStatusDropdown();
-      if (statusId === this.previousStatus) {
-          this.getContacts();
-          this.activeFilter = 'All status';
-          this.previousStatus = 0;
-      } else {
-          if (statusId === 0) {
-            this.activeFilter = 'All status';
-            this.getContacts();
-          } else {
-              this.contactService.getContacts(this.currentWorkspaceId).subscribe(response => {
-                  this.CONTACT = response;
-                  this.CONTACT = this.CONTACT.filter((contact: any) => contact.status_id === statusId);
-                  this.previousStatus = statusId;
-                  this.activeFilter = 'PLACEHOLDER';
-              });
-          }
-      }
-  }
+    if (activeFilter === this.previousFilter) {
+        this.activeFilter = 'Name';
+        this.previousFilter = 'Name';
+    } else {
+        this.activeFilter = activeFilter;
+        this.previousFilter = activeFilter;
+    }
+    this.getContacts();
+}
+
+
 
   onInputChange(event: any) {
     const searchInputValue = event.target.value.trim();
@@ -159,7 +165,7 @@ export class ContactsComponent {
     let csv = 'Last Name,First Name,Company,Phone Number,Email\n';
 
     this.CONTACT.forEach((contact: any) => {
-      const row = `${contact.last_name || ''},${contact.first_name || ''},${contact.company || ''},${contact.phone_number || ''},${contact.email || ''}\n`;
+      const row = `${contact.last_name || ''},${contact.first_name || ''},${contact.company || ''},${contact.phone_number || ''},${contact.email || ''}, ${contact.creation_date}\n`;
       csv += row;
     });
 
@@ -190,9 +196,9 @@ export class ContactsComponent {
 
   deleteContact(contact: any): void {
     if (confirm('Are you sure you want to delete this contact?')) {
-      // this.contactService.deleteContact(contact.contact_id).subscribe(response => {
-      //   this.getContacts();
-      // });
+      this.contactService.deleteContact(contact.contact_id).subscribe(response => {
+        this.getContacts();
+      });
     }
   }
 
@@ -236,11 +242,11 @@ export class ContactsComponent {
       description: this.description
     };
 
-    // this.contactService.updateContact(updatedContact).subscribe(response => {
-    //   console.log(response);
-    //   this.getContacts();
-    //   this.closecontactDetailsPopUp();
-    // });
+    this.contactService.updateContact(updatedContact).subscribe(response => {
+      console.log(response);
+      this.getContacts();
+      this.closeContactDetailsPopUp();
+    });
   }
 
   contactsEditMode: boolean = false;

@@ -14,4 +14,16 @@ export class ContactService {
   getContacts(workspaceId: any) {
     return this.httpClient.post(`${this.appServerUrl}/features/contacts`, {workspaceId});
   }
+
+  createContact(contact: any) {
+    return this.httpClient.post(`${this.appServerUrl}/features/contacts/create`, {contact});
+  }
+
+  deleteContact(contactId: any) {
+    return this.httpClient.delete(`${this.appServerUrl}/features/contacts/${contactId}`);
+  }
+
+  updateContact(contact: any) {
+    return this.httpClient.put(`${this.appServerUrl}/features/contacts/update`, {contact});
+  }
 }

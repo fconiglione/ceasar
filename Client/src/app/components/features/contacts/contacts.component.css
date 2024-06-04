@@ -66,7 +66,7 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 8px;
-    width: 120px;
+    width: 140px;
     cursor: pointer;
     transition: background-color 0.3s;
     border: 1px solid #878787;
@@ -573,7 +573,7 @@
     background-color: #ffffff;
     z-index: 1;
     border: 1px solid #ffffff;
-    width: 144px;
+    width: 164px;
     border-radius: 6px;
     box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
     margin-top: 36px;
@@ -837,4 +837,10 @@
 }
 .contact-details-h2 {
   font-size: 1em;
+}
+.contact-creation-date {
+    background-color: #e6f2ff;
+    color: #007BFF;
+    padding: 5px 10px;
+    border-radius: 8px;
 }

@@ -47,9 +47,7 @@
                 <input type="text" id="contactCompany" name="contactCompany" required placeholder="Enter company name" maxlength="50" [(ngModel)]="company" required>
                 <input type="tel" id="contactPhoneNumber" name="contactPhoneNumber" required placeholder="Enter phone number" pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
             </div>
-            <div>
-                <input type="text" id="contactEmail" name="contactEmail" required placeholder="Enter email" maxlength="50" [(ngModel)]="email" required>
-            </div>
+            <input type="text" id="contactEmail" name="contactEmail" required placeholder="Enter email" maxlength="50" [(ngModel)]="email" required>
             <textarea name="text" id="contactDescription" name="contactDescription" placeholder="Enter description (optional)" maxlength="255" [(ngModel)]="description"></textarea>
             <div class="create-contact-pop-up-nav">
               <button type="button" id="cancelcontactBtn" (click)="closeNewContactPopup()">Cancel</button>
@@ -81,9 +79,9 @@
                     <fa-icon [icon]="faChevronDown"></fa-icon>
                 </div>
                 <div class="filter-dropdown">
-                    <span>Name</span>
-                    <span>Company</span>
-                    <span>Creation Date</span>
+                    <span (click)="filterStatus('Name')">Name</span>
+                    <span (click)="filterStatus('Company')">Company</span>
+                    <span (click)="filterStatus('Creation Date')">Creation Date</span>
                 </div>
             </div>
             <div class="contacts-body-item">
@@ -136,6 +134,9 @@
                             <div class="contact-card-container-row">
                                 <fa-icon [icon]="faEnvelope"></fa-icon>
                                 <span>{{ contact.email.toLowerCase() }}</span>
+                            </div>
+                            <div class="contact-card-container-row">
+                                <span class="contact-creation-date">Created {{ contact.creation_date | date: 'longDate' }}</span>
                             </div>
                         </div>
                     </div>
