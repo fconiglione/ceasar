@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-    const user_id = req.cookies.user_id;
+    const user_id = req.body.user_id;
     if (!user_id) {
         return res.status(401).send("No token id available.");
     }
