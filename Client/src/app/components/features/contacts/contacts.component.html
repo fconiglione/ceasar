@@ -1,10 +1,10 @@
-<!-- <div class="contact-details-pop-up" id="contact-details-pop-up">
+<div class="contact-details-pop-up" id="contact-details-pop-up">
     <div class="details-contact-pop-up-container">
         <div class="details-contact-form">
             <div class="details-contact-pop-up-row contact-details-nav">
                 <div>
                     <fa-icon class="return-to-contacts-btn" [icon]="faArrowLeft" (click)="closeContactDetailsPopUp()"></fa-icon>
-                    <h1>contact details</h1>
+                    <h1>Contact details</h1>
                 </div>
                 <div class="edit-contact-pop-up-btn" (click)="toggleContactsEditMode()">
                     <fa-icon [icon]="faEdit"></fa-icon>
@@ -63,13 +63,13 @@
 <div class="contacts-container">
     <div class="contacts-header">
         <div class="contacts-item">
-            <h1>contacts</h1>
+            <h1>Contacts</h1>
         </div>
         <div class="contacts-item">
             <button class="create-btn" (click)="openNewContactPopup()">New Contact</button>
             <button class="export-btn" (click)="downloadCSV()">
                 <fa-icon [icon]="faDownload"></fa-icon>
-                <span>Export</span>
+                <span>Export as CSV</span>
             </button>
         </div>
     </div>
@@ -93,9 +93,9 @@
                 </div>
             </div>  
         </div>
-        <div class="contacts-body-row" *ngIf="contact && contact.length > 0">
+        <div class="contacts-body-row" *ngIf="CONTACT && CONTACT.length > 0">
             <div class="contacts">
-                <div class="contact-card" *ngFor="let contact of contact">
+                <div class="contact-card" *ngFor="let contact of CONTACT">
                     <div class="contact-card-container">
                         <div class="contact-card-container-item contact-card-header">
                             <div class="contact-card-container-column">
@@ -143,7 +143,7 @@
             </div>
         </div>
     </div>
-    <div class="no-contacts" *ngIf="contact && contact.length === 0 && !loading">
+    <div class="no-contacts" *ngIf="CONTACT && CONTACT.length === 0 && !loading">
         <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
         <p class="uh-oh">Uh oh! We couldn't find any existing contacts.</p>
         <p>Start a new contact by clicking <span (click)="openNewContactPopup()">here</span>, or by clicking the 'New contact' button at the top of your screen.</p>
@@ -151,4 +151,4 @@
     <div class="loading" *ngIf="loading">
         <p>Loading...</p>
     </div>
-</div> -->
+</div>

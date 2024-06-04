@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Leads = require('../models/leads');
+const Contacts = require('../models/contacts');
+
+// Leads
 
 router.post('/leads', async (req, res) => {
     const workspace_id = req.body.workspaceId;
@@ -52,6 +55,20 @@ router.put('/leads/update', async (req, res) => {
         res.status(200).send(result);
     } catch (error) {
         console.error("Error updating lead:", error);
+        res.status(500).send(error);
+    }
+});
+
+// Contacts
+
+router.post('/contacts', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const contacts = new Contacts();
+    try {
+        const result = await contacts.getContactsByWorkspaceId(workspace_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error getting contacts information:", error);
         res.status(500).send(error);
     }
 });
