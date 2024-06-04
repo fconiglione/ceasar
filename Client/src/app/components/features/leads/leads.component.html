@@ -1,3 +1,46 @@
+<div class="lead-details-pop-up" id="lead-details-pop-up">
+    <div class="details-lead-pop-up-container">
+        <div class="details-lead-form">
+            <div class="details-lead-pop-up-row lead-details-nav">
+                <div>
+                    <fa-icon class="return-to-leads-btn" [icon]="faArrowLeft" (click)="closeLeadDetailsPopUp()"></fa-icon>
+                    <h1>Lead details</h1>
+                </div>
+                <div class="edit-lead-pop-up-btn">
+                    <fa-icon [icon]="faEdit"></fa-icon>
+                    <span>Edit lead</span>
+                </div>
+            </div>
+            <div class="details-lead-pop-up-row">
+            <form>
+                <div>
+                    <img [src]="DefaultPFP" alt="Default profile picture image">
+                    <div class="lead-details-content">
+                        <input type="text" id="leadName" name="leadName" required  maxlength="50" [(ngModel)]="full_name" disabled required>
+                        <input disabled type="text" id="leadCompany" name="leadCompany" required  maxlength="50" [(ngModel)]="company" required>
+                        <input disabled type="tel" id="leadPhoneNumber" name="leadPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
+                        <input disabled type="text" id="leadEmail" name="leadEmail" required maxlength="50" [(ngModel)]="email" required>
+                        <select [(ngModel)]="status_id" name="status" disabled required>
+                            <option [ngValue]="undefined" selected disabled>Select status</option>
+                            <option value="1">New</option>
+                            <option value="2">Contacted</option>
+                            <option value="3">In-Process</option>
+                            <option value="4">Closed</option>
+                        </select>
+                    </div>
+                </div>
+                <hr />
+                <h2 class="lead-details-h2">Description</h2>
+                <textarea disabled name="text" id="leadDescription" name="leadDescription" maxlength="255" [(ngModel)]="description"></textarea>
+                <div class="create-lead-pop-up-nav">
+                <button type="button" id="cancelleadBtn" (click)="closeLeadDetailsPopUp()">Cancel</button>
+                <!-- <button type="submit" id="createleadBtn" (click)="createLead()">Add</button> -->
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 <div class="create-lead-pop-up" id="create-lead-pop-up">
     <div class="create-lead-pop-up-container">
       <div class="create-lead-form">
@@ -119,7 +162,7 @@
         </div>
         <div class="leads-body-row" *ngIf="LEAD && LEAD.length > 0"> <!-- Lead cards -->
             <div class="leads">
-                <div class="lead-card" *ngFor="let lead of LEAD">
+                <div class="lead-card" *ngFor="let lead of LEAD" (click)="openLeadDetailsPopUp(lead)">
                     <div class="lead-card-container">
                         <div class="lead-card-container-item lead-card-header">
                             <div class="lead-card-container-column">
@@ -135,7 +178,7 @@
                                 <fa-icon class="lead-card-sub-editor" [icon]="faEllipsisV" (click)="toggleLeadCardDropdown(lead)"></fa-icon>
                                 <div class="lead-card-dropdown" *ngIf="lead.showSubSetting">
                                     <ul>
-                                        <li>
+                                        <li (click)="openLeadDetailsPopUp(lead)">
                                             <fa-icon [icon]="faEye"></fa-icon>
                                             <span>View</span>
                                         </li>

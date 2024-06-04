@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { LeadService } from '../../../services/lead/lead.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -58,6 +58,7 @@ export class LeadsComponent {
   faEye = faEye;
   faEdit = faEdit;
   faTrash = faTrash;
+  faArrowLeft = faArrowLeft;
 
   constructor( private leadService: LeadService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef ) { }
 
@@ -246,6 +247,27 @@ export class LeadsComponent {
         this.getLeads();
       });
     }
+  }
+
+  closeLeadDetailsPopUp(): void {
+    const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
+    leadDetailsPopUp.style.display = 'none';
+  }
+
+  openLeadDetailsPopUp(lead: any): void {
+    this.lead_id = lead.lead_id;
+    this.first_name = lead.first_name;
+    this.last_name = lead.last_name;
+    this.full_name = `${lead.first_name} ${lead.last_name}`;
+    this.company = lead.company;
+    this.phone_number = lead.phone_number;
+    this.email = lead.email;
+    this.status = this.getStatus(lead.status_id);
+    this.status_id = lead.status_id;
+    this.description = lead.description;
+
+    const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
+    leadDetailsPopUp.style.display = 'block';
   }
 
   onReset(): void {
