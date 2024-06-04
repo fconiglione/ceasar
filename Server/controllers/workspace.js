@@ -17,8 +17,9 @@ router.post('/', async (req, res) => {
 
 router.post('/create', async (req, res) => {
     const user_id = req.body.user_id;
+    console.log("Body", req.body);
     if (!user_id) {
-        return res.status(401).send("No token id available.");
+        return res.status(401).send("No user id available.");
     }
     const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date } = req.body.workspace;
     const workspace = new Workspace();
