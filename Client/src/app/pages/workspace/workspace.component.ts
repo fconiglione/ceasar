@@ -5,13 +5,14 @@ import { FeatureService } from '../../services/feature/feature.service';
 import { NgIf } from '@angular/common';
 import { LeadsComponent } from '../../components/features/leads/leads.component';
 import { ContactsComponent } from '../../components/features/contacts/contacts.component';
+import { AccountsComponent } from '../../components/features/accounts/accounts.component';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
   imports: [
     NgIf, LeadsComponent,
-    ContactsComponent
+    ContactsComponent, AccountsComponent
   ],
   templateUrl: './workspace.component.html',
   styleUrl: './workspace.component.css'
