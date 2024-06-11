@@ -139,22 +139,28 @@ export class AccountsComponent {
     }
   }  
 
-  previousFilter: string = 'Name';
-  activeFilter: string = 'Name';
-
-filterStatus(activeFilter: string): void {
+  activeTypeFilter: string = 'All types';
+  previousType: number = 0;
+  filterStatus(typeId: number): void {
     this.closeFilterStatusDropdown();
-    if (activeFilter === this.previousFilter) {
-        this.activeFilter = 'Name';
-        this.previousFilter = 'Name';
-    } else {
-        this.activeFilter = activeFilter;
-        this.previousFilter = activeFilter;
-    }
-    this.getAccounts();
-}
-
-
+      if (typeId === this.previousType) {
+          this.getAccounts();
+          this.activeTypeFilter = 'All types';
+          this.previousType = 0;
+      } else {
+          if (typeId === 0) {
+            this.activeTypeFilter = 'All status';
+            this.getAccounts();
+          } else {
+              this.accountService.getAccounts(this.currentWorkspaceId).subscribe(response => {
+                  this.ACCOUNT = response;
+                  this.ACCOUNT = this.ACCOUNT.filter((account: any) => account.type_id === typeId);
+                  this.previousType = typeId;
+                  this.activeTypeFilter = this.getType(typeId.toString());
+              });
+          }
+      }
+  }
 
   onInputChange(event: any) {
     const searchInputValue = event.target.value.trim();

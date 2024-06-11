@@ -89,12 +89,12 @@
         <div class="accounts-body-row">
             <div class="accounts-body-item">
                 <div class="accounts-filter" (click)="openFilterStatusDropdown()">
-                    <span>{{ activeFilter }}</span>
+                    <span>{{ activeTypeFilter }}</span>
                     <fa-icon [icon]="faChevronDown"></fa-icon>
                 </div>
                 <div class="filter-dropdown">
-                    <span (click)="filterStatus('Name')">Name</span>
-                    <span (click)="filterStatus('Creation Date')">Creation Date</span>
+                    <span (click)="filterStatus(1)">Customer</span>
+                    <span (click)="filterStatus(2)">Prospect</span>
                 </div>
             </div>
             <div class="accounts-body-item">
