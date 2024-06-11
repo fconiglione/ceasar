@@ -92,13 +92,13 @@ export class AccountsComponent {
 }
 
   openNewAccountPopup(): void {
-    // Open the new account popup
+    // Open the new account popup screen
     const newaccountPopup = this.elementRef.nativeElement.querySelector('.create-account-pop-up');
     newaccountPopup.style.display = 'block';
   }
 
   closeNewAccountPopup(): void {
-    // Close the new account popup
+    // Close the new account popup screen
     const newaccountPopup = this.elementRef.nativeElement.querySelector('.create-account-pop-up');
     newaccountPopup.style.display = 'none';
     this.onReset();
