@@ -123,7 +123,6 @@ router.post('/accounts', async (req, res) => {
     const accounts = new Accounts();
     try {
         const result = await accounts.getAccountsByWorkspaceId(workspace_id);
-        console.log("Accounts result:", result);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error getting accounts information:", error);

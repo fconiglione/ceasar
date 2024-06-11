@@ -6,13 +6,15 @@ import { NgIf } from '@angular/common';
 import { LeadsComponent } from '../../components/features/leads/leads.component';
 import { ContactsComponent } from '../../components/features/contacts/contacts.component';
 import { AccountsComponent } from '../../components/features/accounts/accounts.component';
+import { OpportunitiesComponent } from '../../components/features/opportunities/opportunities.component';
 
 @Component({
   selector: 'app-workspace',
   standalone: true,
   imports: [
     NgIf, LeadsComponent,
-    ContactsComponent, AccountsComponent
+    ContactsComponent, AccountsComponent,
+    OpportunitiesComponent
   ],
   templateUrl: './workspace.component.html',
   styleUrl: './workspace.component.css'
