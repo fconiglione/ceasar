@@ -46,6 +46,17 @@ class Accounts {
             throw error;
         }
     }
+
+    async updateAccount (account_id, account_name, phone_number, email, source, description, type_id) {
+        const query = `UPDATE ceasar.accounts SET account_name = $2, phone_number = $3, email = $4, source = $5, description = $6, type_id = $7 WHERE account_id = $1`;
+        const values = [account_id, account_name, phone_number, email, source, description, type_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

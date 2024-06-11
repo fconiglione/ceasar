@@ -164,15 +164,13 @@ filterStatus(activeFilter: string): void {
       this.getAccounts();
     } else {
       this.ACCOUNT = this.ACCOUNT.filter((account: any) => {
-        const firstName = account.first_name?.toLowerCase() ?? '';
-        const lastName = account.last_name?.toLowerCase() ?? '';
-        const company = account.company?.toLowerCase() ?? '';
+        const accountName = account.account_name?.toLowerCase() ?? '';
         const phoneNumber = account.phone_number?.toLowerCase() ?? '';
         const email = account.email?.toLowerCase() ?? '';
+        const type = this.getType(account.type_id).toLowerCase();
   
-        return firstName.includes(this.accountSearchInputValue.toLowerCase()) ||
-          lastName.includes(this.accountSearchInputValue.toLowerCase()) ||
-          company.includes(this.accountSearchInputValue.toLowerCase()) ||
+        return accountName.includes(this.accountSearchInputValue.toLowerCase()) ||
+          type.includes(this.accountSearchInputValue.toLowerCase()) ||
           phoneNumber.includes(this.accountSearchInputValue.toLowerCase()) ||
           email.includes(this.accountSearchInputValue.toLowerCase());
         });
@@ -182,10 +180,10 @@ filterStatus(activeFilter: string): void {
   // CSV Exporting
 
   generateCSV(): string {
-    let csv = 'Last Name,First Name,Company,Phone Number,Email\n';
+    let csv = 'Account Name,Type,Phone Number,Email,Source\n';
 
     this.ACCOUNT.forEach((account: any) => {
-      const row = `${account.account_name || ''},${account.type || ''},${account.phone_number || ''},${account.email || ''}, ${account.creation_date}\n`;
+      const row = `${account.account_name || ''},${this.getType(account.type_id.toString())},${account.phone_number || ''},${account.email || ''}, ${account.source || 'N/A'}\n`;
       csv += row;
     });
 
@@ -232,6 +230,9 @@ filterStatus(activeFilter: string): void {
     this.email = undefined;
     this.description = undefined;
     this.account_name = undefined;
+    this.source = undefined;
+    this.type = undefined;
+    this.type_id = undefined;
 
     this.accountsEditMode = false;
   }
@@ -242,6 +243,9 @@ filterStatus(activeFilter: string): void {
     this.phone_number = account.phone_number;
     this.email = account.email;
     this.description = account.description;
+    this.source = account.source;
+    this.type = this.getType(account.type_id);
+    this.type_id = account.type_id;
 
     const accountDetailsPopUp = this.elementRef.nativeElement.querySelector('.account-details-pop-up');
     accountDetailsPopUp.style.display = 'block';
@@ -253,7 +257,9 @@ filterStatus(activeFilter: string): void {
       account_name: this.account_name,
       phone_number: this.phone_number,
       email: this.email,
-      description: this.description
+      description: this.description,
+      source: this.source,
+      type_id: this.type_id
     };
 
     this.accountService.updateAccount(updatedAccount).subscribe(response => {

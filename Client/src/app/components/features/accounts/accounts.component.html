@@ -15,10 +15,18 @@
             <form>
                 <div>
                     <img [src]="DefaultPFP" alt="Default profile picture image">
-                    <div class="account-details-content">
+                    <div class="account-details-pre-content">
                         <input type="text" id="accountName" name="accountName" required  maxlength="50" [(ngModel)]="account_name" [disabled]="!accountsEditMode" required>
-                        <input [disabled]="!accountsEditMode" type="tel" id="accountPhoneNumber" name="accountPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
-                        <input [disabled]="!accountsEditMode" type="text" id="accountEmail" name="accountEmail" required maxlength="50" [(ngModel)]="email" required>
+                        <div class="account-details-content">
+                            <input [disabled]="!accountsEditMode" type="tel" id="accountPhoneNumber" name="accountPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
+                            <input [disabled]="!accountsEditMode" type="text" id="accountEmail" name="accountEmail" required maxlength="50" [(ngModel)]="email" required>
+                            <select [(ngModel)]="type_id" name="status" [disabled]="!accountsEditMode" required>
+                                <option [ngValue]="undefined" selected disabled>Select type</option>
+                                <option value="1">Customer</option>
+                                <option value="2">Prospect</option>
+                            </select>
+                            <input [disabled]="!accountsEditMode" type="text" id="accountSource" name="accountSource" required maxlength="50" [(ngModel)]="source">
+                        </div>
                     </div>
                 </div>
                 <hr />

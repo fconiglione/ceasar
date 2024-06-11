@@ -143,6 +143,18 @@ router.post('/accounts/create', async (req, res) => {
     }
 });
 
+router.put('/accounts/update', async (req, res) => {
+    const { account_id, account_name, phone_number, email, source, description, type_id } = req.body.account;
+    const accounts = new Accounts();
+    try {
+        const result = await accounts.updateAccount(account_id, account_name, phone_number, email, source, description, type_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error updating account:", error);
+        res.status(500).send(error);
+    }
+});
+
 router.delete('/accounts/:account_id', async (req, res) => {
     const account_id = req.params.account_id;
     const accounts = new Accounts();

@@ -852,3 +852,9 @@
     background-color: #fcebec;
     color: #DC3545;
 }
+.account-details-pre-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
