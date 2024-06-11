@@ -838,9 +838,17 @@
 .account-details-h2 {
   font-size: 1em;
 }
-.account-creation-date {
+.type {
     background-color: #e6f2ff;
     color: #007BFF;
     padding: 5px 10px;
     border-radius: 8px;
+}
+.type.customer {
+    background-color: #fff9e6;
+    color: #FFC107;
+}
+.type.prospect {
+    background-color: #fcebec;
+    color: #DC3545;
 }

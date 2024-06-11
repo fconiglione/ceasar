@@ -17,7 +17,6 @@
                     <img [src]="DefaultPFP" alt="Default profile picture image">
                     <div class="account-details-content">
                         <input type="text" id="accountName" name="accountName" required  maxlength="50" [(ngModel)]="account_name" [disabled]="!accountsEditMode" required>
-                        <input [disabled]="!accountsEditMode" type="text" id="accountCompany" name="accountCompany" required  maxlength="50" [(ngModel)]="company" required>
                         <input [disabled]="!accountsEditMode" type="tel" id="accountPhoneNumber" name="accountPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
                         <input [disabled]="!accountsEditMode" type="text" id="accountEmail" name="accountEmail" required maxlength="50" [(ngModel)]="email" required>
                     </div>
@@ -48,8 +47,8 @@
                 <input type="text" id="accountEmail" name="accountEmail" required placeholder="Enter email" maxlength="50" [(ngModel)]="email" required>
             </div>
             <div>
-                <select name="status" required>
-                    <option [ngValue]="undefined" selected disabled>Select status</option>
+                <select [(ngModel)]="type_id" name="status" required>
+                    <option [ngValue]="undefined" selected disabled>Select type</option>
                     <option value="1">Customer</option>
                     <option value="2">Prospect</option>
                 </select>
@@ -107,8 +106,7 @@
                                     <img [src]="DefaultPFP" alt="Default profile picture image" class="account-pfp">
                                 </div>
                                 <div (click)="openAccountDetailsPopUp(account)">
-                                    <h3>{{ account.first_name }} {{ account.last_name }}</h3>
-                                    <p>{{ account.company }}</p>
+                                    <h3>{{ account.account_name }}</h3>
                                 </div>
                             </div> 
                             <div class="account-card-container-column account-card-editor-area">
@@ -142,7 +140,7 @@
                                 <span>{{ account.email.toLowerCase() }}</span>
                             </div>
                             <div class="account-card-container-row">
-                                <span class="account-creation-date">Created {{ account.creation_date | date: 'longDate' }}</span>
+                                <span [ngClass]="getTypeClasses(account.type_id.toString())">{{ getType(account.type_id.toString()) }}</span>
                             </div>
                         </div>
                     </div>
@@ -153,7 +151,7 @@
     <div class="no-accounts" *ngIf="ACCOUNT && ACCOUNT.length === 0 && !loading">
         <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
         <p class="uh-oh">Uh oh! We couldn't find any existing accounts.</p>
-        <p>Start a new account by clicking <span (click)="openNewAccountPopup()">here</span>, or by clicking the 'New account' button at the top of your screen.</p>
+        <p>Start a new account by clicking <span (click)="openNewAccountPopup()">here</span>, or by clicking the 'New Account' button at the top of your screen.</p>
     </div>
     <div class="loading" *ngIf="loading">
         <p>Loading...</p>

@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Leads = require('../models/leads');
 const Contacts = require('../models/contacts');
+const Accounts = require('../models/accounts');
 
 // Leads
 
@@ -111,6 +112,45 @@ router.delete('/contacts/:contact_id', async (req, res) => {
         res.status(200).send(result);
     } catch (error) {
         console.error("Error deleting contact:", error);
+        res.status(500).send(error);
+    }
+});
+
+// Accounts
+
+router.post('/accounts', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const accounts = new Accounts();
+    try {
+        const result = await accounts.getAccountsByWorkspaceId(workspace_id);
+        console.log("Accounts result:", result);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error getting accounts information:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.post('/accounts/create', async (req, res) => {
+    const { workspace_id, account_name, phone_number, email, source, description, type_id } = req.body.account;
+    const accounts = new Accounts();
+    try {
+        const result = await accounts.createAccount(workspace_id, account_name, phone_number, email, source, description, type_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error creating account:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.delete('/accounts/:account_id', async (req, res) => {
+    const account_id = req.params.account_id;
+    const accounts = new Accounts();
+    try {
+        const result = await accounts.deleteAccount(account_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error deleting account:", error);
         res.status(500).send(error);
     }
 });

@@ -23,9 +23,7 @@ export class AccountsComponent {
   // Accounts card
   ACCOUNT: any;
   account_id: string | undefined;
-  first_name: string | undefined;
-  last_name: string | undefined;
-  company: string | undefined;
+  account_name: string | undefined;
   phone_number: string | undefined;
   email: string | undefined;
   source: string | undefined;
@@ -33,8 +31,8 @@ export class AccountsComponent {
   creation_date: string | undefined;
   loading: boolean = true;
   currentWorkspaceId: string | undefined;
-
-  account_name: string | undefined;
+  type: string | undefined;
+  type_id: string | undefined;
 
   accountSearchInputValue: string = '';
 
@@ -63,12 +61,34 @@ export class AccountsComponent {
     });
   }
 
-  applyFilter(): void {
-    if (this.activeFilter === 'Name') {
-        this.ACCOUNT.sort((a: any, b: any) => a.first_name.localeCompare(b.first_name));
-    } else if (this.activeFilter === 'Creation Date') {
-        this.ACCOUNT.sort((a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime());
+  getType(typeId: string): string {
+    switch (typeId) {
+      case '1':
+        return 'Customer';
+      case '2':
+        return 'Prospect';
+      default:
+        return 'Unassigned';
     }
+  }
+
+  getTypeClasses(typeId: string): any {
+    switch (typeId) {
+      case '1':
+        return { 'type': true, 'customer': true };
+      case '2':
+        return { 'type': true, 'prospect': true };
+      default:
+        return { 'type': true, 'unassigned': true };
+    }
+  }
+
+  applyFilter(): void {
+    // if (this.activeFilter === 'Name') {
+    //     this.ACCOUNT.sort((a: any, b: any) => a.first_name.localeCompare(b.first_name));
+    // } else if (this.activeFilter === 'Creation Date') {
+    //     this.ACCOUNT.sort((a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime());
+    // }
 }
 
   openNewAccountPopup(): void {
@@ -87,11 +107,12 @@ export class AccountsComponent {
   createAccount(): void {
     let newAccount = {
       account_name: this.account_name,
-      company: this.company,
       phone_number: this.phone_number,
       email: this.email,
       description: this.description,
-      workspace_id: this.currentWorkspaceId
+      workspace_id: this.currentWorkspaceId,
+      type_id: this.type_id,
+      source: this.source
     };
 
     this.accountService.createAccount(newAccount).subscribe(response => {
@@ -164,7 +185,7 @@ filterStatus(activeFilter: string): void {
     let csv = 'Last Name,First Name,Company,Phone Number,Email\n';
 
     this.ACCOUNT.forEach((account: any) => {
-      const row = `${account.last_name || ''},${account.first_name || ''},${account.company || ''},${account.phone_number || ''},${account.email || ''}, ${account.creation_date}\n`;
+      const row = `${account.account_name || ''},${account.type || ''},${account.phone_number || ''},${account.email || ''}, ${account.creation_date}\n`;
       csv += row;
     });
 
@@ -206,9 +227,7 @@ filterStatus(activeFilter: string): void {
     accountDetailsPopUp.style.display = 'none';
 
     this.account_id = undefined;
-    this.first_name = undefined;
-    this.last_name = undefined;
-    this.company = undefined;
+    this.account_name = undefined;
     this.phone_number = undefined;
     this.email = undefined;
     this.description = undefined;
@@ -219,10 +238,7 @@ filterStatus(activeFilter: string): void {
 
   openAccountDetailsPopUp(account: any): void {
     this.account_id = account.account_id;
-    this.first_name = account.first_name;
-    this.last_name = account.last_name;
-    this.account_name = `${account.first_name} ${account.last_name}`;
-    this.company = account.company;
+    this.account_name = account.account_name;
     this.phone_number = account.phone_number;
     this.email = account.email;
     this.description = account.description;
@@ -235,7 +251,6 @@ filterStatus(activeFilter: string): void {
     let updatedAccount = {
       account_id: this.account_id,
       account_name: this.account_name,
-      company: this.company,
       phone_number: this.phone_number,
       email: this.email,
       description: this.description
@@ -257,9 +272,10 @@ filterStatus(activeFilter: string): void {
   onReset(): void {
     // Reset the new account form
     this.account_name = '';
-    this.company = '';
+    this.source = '';
     this.phone_number = '';
     this.email = '';
+    this.type_id = undefined;
     this.description = undefined;
   }
 
