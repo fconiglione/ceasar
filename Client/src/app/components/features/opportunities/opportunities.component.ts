@@ -248,10 +248,10 @@ export class OpportunitiesComponent {
   // CSV Exporting
 
   generateCSV(): string {
-    let csv = 'Last Name,First Name,Company,Phone Number,Email,Status\n';
+    let csv = 'Title,Value,Account Name,Status,Assigned To,Description \n';
 
     this.OPPORTUNITY.forEach((opportunity: any) => {
-      const row = `${opportunity.last_name || ''},${opportunity.first_name || ''},${opportunity.company || ''},${opportunity.phone_number || ''},${opportunity.email || ''},${this.getStatus(opportunity.status_id.toString())}\n`;
+      const row = `${opportunity.title || ''},${opportunity.value || ''},${this.getAccountNameByAccountId(opportunity.account_id) || ''},${this.getStatus(opportunity.opportunity_status_id.toString())},${opportunity.user_name || ''},${opportunity.description || ''}\n`;
       csv += row;
     });
 
