@@ -46,6 +46,17 @@ class Opportunities {
             throw error;
         }
     }
+
+    async updateOpportunity (opportunity_id, title, value, account_id, description, opportunity_status_id) {
+        const query = `UPDATE ceasar.opportunities SET title = $2, value = $3, account_id = $4, description = $5, opportunity_status_id = $6 WHERE opportunity_id = $1`;
+        const values = [opportunity_id, title, value, account_id, description, opportunity_status_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

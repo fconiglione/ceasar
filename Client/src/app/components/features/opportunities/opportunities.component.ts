@@ -32,6 +32,7 @@ export class OpportunitiesComponent {
   description: string | undefined;
   creation_date: string | undefined;
   opportunity_status_id: string | undefined;
+  opportunity_status: string | undefined;
 
   // Accounts
   ACCOUNT: any;
@@ -299,6 +300,14 @@ export class OpportunitiesComponent {
   openOpportunityDetailsPopUp(opportunity: any): void {
     this.opportunity_id = opportunity.opportunity_id;
     this.description = opportunity.description;
+    this.title = opportunity.title;
+    this.value = opportunity.value;
+    this.user_name = opportunity.user_name;
+    this.user_id = opportunity.user_id;
+    this.account_name = opportunity.account_name;
+    this.account_id = opportunity.account_id;
+    this.opportunity_status_id = opportunity.opportunity_status_id;
+    this.opportunity_status = this.getStatus(opportunity.opportunity_status_id.toString());
 
     const opportunityDetailsPopUp = this.elementRef.nativeElement.querySelector('.opportunity-details-pop-up');
     opportunityDetailsPopUp.style.display = 'block';
@@ -307,7 +316,12 @@ export class OpportunitiesComponent {
   updateOpportunity(): void {
     let updatedOpportunity = {
       opportunity_id: this.opportunity_id,
-      description: this.description
+      description: this.description,
+      title: this.title,
+      value: this.value,
+      user_id: this.user_id,
+      account_id: this.account_id,
+      opportunity_status_id: this.opportunity_status_id
     };
 
     this.opportunityService.updateOpportunity(updatedOpportunity).subscribe(response => {
