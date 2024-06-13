@@ -1,1 +1,223 @@
-<p>opportunities works!</p>
+<!-- <div class="opportunity-details-pop-up" id="opportunity-details-pop-up">
+    <div class="details-opportunity-pop-up-container">
+        <div class="details-opportunity-form">
+            <div class="details-opportunity-pop-up-row opportunity-details-nav">
+                <div>
+                    <fa-icon class="return-to-opportunities-btn" [icon]="faArrowLeft" (click)="closeOpportunityDetailsPopUp()"></fa-icon>
+                    <h1>Opportunity details</h1>
+                </div>
+                <div class="edit-opportunity-pop-up-btn" (click)="toggleOpportunitiesEditMode()">
+                    <fa-icon [icon]="faEdit"></fa-icon>
+                    <span>Edit opportunity</span>
+                </div>
+            </div>
+            <div class="details-opportunity-pop-up-row">
+            <form>
+                <div>
+                    <img [src]="DefaultPFP" alt="Default profile picture image">
+                    <div class="opportunity-details-content">
+                        <input type="text" id="opportunityName" name="opportunityName" required  maxlength="50" [(ngModel)]="full_name" [disabled]="!opportunitiesEditMode" required>
+                        <input [disabled]="!opportunitiesEditMode" type="text" id="opportunityCompany" name="opportunityCompany" required  maxlength="50" [(ngModel)]="company" required>
+                        <input [disabled]="!opportunitiesEditMode" type="tel" id="opportunityPhoneNumber" name="opportunityPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
+                        <input [disabled]="!opportunitiesEditMode" type="text" id="opportunityEmail" name="opportunityEmail" required maxlength="50" [(ngModel)]="email" required>
+                        <select [(ngModel)]="status_id" name="status" [disabled]="!opportunitiesEditMode" required>
+                            <option [ngValue]="undefined" selected disabled>Select status</option>
+                            <option value="1">New</option>
+                            <option value="2">Contacted</option>
+                            <option value="3">In-Process</option>
+                            <option value="4">Closed</option>
+                        </select>
+                    </div>
+                </div>
+                <hr />
+                <h2 class="opportunity-details-h2">Description</h2>
+                <textarea [disabled]="!opportunitiesEditMode" id="opportunityDescription" name="opportunityDescription" maxlength="255" [(ngModel)]="description"></textarea>
+                <div class="details-opportunity-pop-up-nav">
+                <button *ngIf="opportunitiesEditMode" type="button" id="cancelopportunityBtn" (click)="closeOpportunityDetailsPopUp()">Cancel</button>
+                <button *ngIf="opportunitiesEditMode" type="submit" id="createopportunityBtn" (click)="updateOpportunity()">Save</button>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+</div> -->
+<div class="create-opportunity-pop-up" id="create-opportunity-pop-up">
+    <div class="create-opportunity-pop-up-container">
+      <div class="create-opportunity-form">
+        <div class="create-opportunity-pop-up-row">
+          <h1>Add a new opportunity</h1>
+        </div>
+        <div class="create-opportunity-pop-up-row">
+          <form>
+            <input type="text" id="opportunityTitle" name="opportunityTitle" required placeholder="Enter opportunity title" maxlength="50" [(ngModel)]="title" required>
+            <div class="account-select-div">
+                <select name="account" required>
+                    <option [ngValue]="undefined" selected disabled>Select account</option>
+                    <option *ngFor="let account of ACCOUNT">{{account.account_name}}</option>
+                </select>
+            </div>
+            <div>
+                <input type="number" id="opportunityValue" name="opportunityValue" required placeholder="Enter opportunity value" min="1" max="999999999" [(ngModel)]="value" required>
+                <select name="assignee" required>
+                    <option [ngValue]="undefined" selected disabled>Select assignee (optional)</option>
+                    <option *ngFor="let user of USER">{{user.user_name}}</option>
+                </select>
+            </div>
+            <textarea name="text" id="opportunityDescription" name="opportunityDescription" placeholder="Enter description (optional)" maxlength="255" [(ngModel)]="description"></textarea>
+            <div class="create-opportunity-pop-up-nav">
+              <button type="button" id="cancelopportunityBtn" (click)="closeNewOpportunityPopup()">Cancel</button>
+              <button type="submit" id="createopportunityBtn" (click)="createOpportunity()">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="opportunities-container">
+    <div class="opportunities-header">
+        <div class="opportunities-item">
+            <h1>Opportunities</h1>
+        </div>
+        <div class="opportunities-item">
+            <button class="create-btn" (click)="openNewOpportunityPopup()">New Opportunity</button>
+            <button class="export-btn" (click)="downloadCSV()">
+                <fa-icon [icon]="faDownload"></fa-icon>
+                <span>Export as CSV</span>
+            </button>
+        </div>
+    </div>
+    <div class="opportunities-body">
+        <div class="opportunities-body-row">
+            <div class="opportunities-body-item">
+                <div class="opportunities-filter" (click)="openFilterStatusDropdown()">
+                    <span>{{ activeStatusFilter }}</span>
+                    <fa-icon [icon]="faChevronDown"></fa-icon>
+                </div>
+                <div class="filter-dropdown">
+                    <span (click)="filterStatus(1)">New</span>
+                    <span (click)="filterStatus(2)">Qualification</span>
+                    <span (click)="filterStatus(3)">Negotation</span>
+                    <span (click)="filterStatus(4)">Closed</span>
+                </div>
+                <div class="opportunities-filter" style="display: none;"> <!-- Source filtering disabled for now, waiting for future release -->
+                    <span>All sources</span>
+                    <fa-icon [icon]="faChevronDown"></fa-icon>
+                </div>
+            </div>
+            <div class="opportunities-body-item">
+                <div class="opportunities-search">
+                    <fa-icon [icon]="faSearch"></fa-icon>
+                    <input type="text" placeholder="Search..." id="opportunitySearchInput" [(ngModel)]="opportunitySearchInputValue" (input)="onInputChange($event)">
+                </div>
+            </div>  
+        </div>
+        <div class="opportunities-body-row"> <!-- Status cards -->
+            <div class="opportunities-stats">
+                <div class="opportunities-stats-item" (click)="filterStatus(1)">
+                    <div>
+                        <div class="status-dot green"></div>
+                        <div>
+                            <span>New</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>{{ this.newOpportunityCount }} opportunities</p>
+                    </div>
+                </div>
+                <div class="opportunities-stats-item" (click)="filterStatus(2)">
+                    <div>
+                        <div class="status-dot orange"></div>
+                        <div>
+                            <span>Qualification</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>{{ this.qualificationOpportunityCount }} opportunities</p>
+                    </div>
+                </div>
+                <div class="opportunities-stats-item" (click)="filterStatus(3)">
+                    <div>
+                        <div class="status-dot blue"></div>
+                        <div>
+                            <span>Negotiation</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>{{ this.negotiationOpportunityCount }} opportunities</p>
+                    </div>
+                </div>
+                <div class="opportunities-stats-item" (click)="filterStatus(4)">
+                    <div>
+                        <div class="status-dot red"></div>
+                        <div>
+                            <span>Closed</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>{{ this.closedOpportunityCount }} opportunities</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="opportunities-body-row" *ngIf="OPPORTUNITY && OPPORTUNITY.length > 0"> <!-- Opportunity cards -->
+            <div class="opportunities">
+                <div class="opportunity-card" *ngFor="let opportunity of OPPORTUNITY">
+                    <div class="opportunity-card-container">
+                        <div class="opportunity-card-container-item opportunity-card-header">
+                            <div class="opportunity-card-container-column">
+                                <div (click)="openOpportunityDetailsPopUp(opportunity)">
+                                    <img [src]="DefaultPFP" alt="Default profile picture image" class="opportunity-pfp">
+                                </div>
+                                <div (click)="openOpportunityDetailsPopUp(opportunity)">
+                                    <h3>{{ opportunity.first_name }} {{ opportunity.last_name }}</h3>
+                                    <p>{{ opportunity.company }}</p>
+                                </div>
+                            </div> 
+                            <div class="opportunity-card-container-column opportunity-card-editor-area">
+                                <fa-icon class="opportunity-card-sub-editor" [icon]="faEllipsisV" (click)="toggleOpportunityCardDropdown(opportunity)"></fa-icon>
+                                <div class="opportunity-card-dropdown" *ngIf="opportunity.showSubSetting">
+                                    <ul>
+                                        <li (click)="openOpportunityDetailsPopUp(opportunity)">
+                                            <fa-icon [icon]="faEye"></fa-icon>
+                                            <span>View</span>
+                                        </li>
+                                        <li (click)="openOpportunityDetailsPopUp(opportunity)" (click)="toggleOpportunitiesEditMode()">
+                                            <fa-icon [icon]="faEdit"></fa-icon>
+                                            <span>Edit</span>
+                                        </li>  
+                                        <li (click)="deleteOpportunity(opportunity)">
+                                            <fa-icon [icon]="faTrash"></fa-icon>
+                                            <span>Delete</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="opportunity-card-container-item">
+                            <div class="opportunity-card-container-row">
+                                <fa-icon [icon]="faPhone"></fa-icon>
+                                <span>{{ opportunity.phone_number || "Unknown" }}</span>
+                            </div>
+                            <div class="opportunity-card-container-row">
+                                <fa-icon [icon]="faEnvelope"></fa-icon>
+                                <span>{{ opportunity.email.toLowerCase() }}</span>
+                            </div>
+                            <div class="opportunity-card-container-row">
+                                <span [ngClass]="getStatusClasses(opportunity.status_id.toString())">{{ getStatus(opportunity.status_id.toString()) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="no-opportunities" *ngIf="OPPORTUNITY && OPPORTUNITY.length === 0 && !loading">
+        <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
+        <p class="uh-oh">Uh oh! We couldn't find any existing opportunities.</p>
+        <p>Start a new opportunity by clicking <span (click)="openNewOpportunityPopup()">here</span>, or by clicking the 'New Opportunity' button at the top of your screen.</p>
+    </div>
+    <div class="loading" *ngIf="loading">
+        <p>Loading...</p>
+    </div>
+</div>

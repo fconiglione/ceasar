@@ -56,7 +56,6 @@ export class AccountsComponent {
     // Get accounts from the API
     this.accountService.getAccounts(this.currentWorkspaceId).subscribe(response => {
       this.ACCOUNT = response;
-      this.applyFilter();
       this.loading = false;
     });
   }
@@ -82,14 +81,6 @@ export class AccountsComponent {
         return { 'type': true, 'unassigned': true };
     }
   }
-
-  applyFilter(): void {
-    // if (this.activeFilter === 'Name') {
-    //     this.ACCOUNT.sort((a: any, b: any) => a.first_name.localeCompare(b.first_name));
-    // } else if (this.activeFilter === 'Creation Date') {
-    //     this.ACCOUNT.sort((a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime());
-    // }
-}
 
   openNewAccountPopup(): void {
     // Open the new account popup screen
