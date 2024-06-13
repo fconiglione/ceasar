@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faUser, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSackDollar } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { OpportunityService } from '../../../services/opportunity/opportunity.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -30,14 +30,19 @@ export class OpportunitiesComponent {
   value: string | undefined;
   title: string | undefined;
   description: string | undefined;
+  creation_date: string | undefined;
+  opportunity_status_id: string | undefined;
 
   // Accounts
   ACCOUNT: any;
   account_name: string | undefined;
+  account_id: string | undefined;
+  accountNamesMap: { [key: string]: string } = {};
 
   // Users
   USER: any[] = [];
   user_name: string | undefined;
+  user_id: string | undefined;
 
   loading: boolean = true;
   currentWorkspaceId: string | undefined;
@@ -54,7 +59,7 @@ export class OpportunitiesComponent {
   faChevronDown = faChevronDown;
   faSearch = faSearch;
   faDownload = faDownload;
-  faPhone = faPhone;
+  faUser = faUser;
   faEnvelope = faEnvelope;
   faEllipsisV = faEllipsisV;
   faCircleInfo = faCircleInfo;
@@ -63,6 +68,7 @@ export class OpportunitiesComponent {
   faEdit = faEdit;
   faTrash = faTrash;
   faArrowLeft = faArrowLeft;
+  faSackDollar = faSackDollar;
 
   constructor( private accountService: AccountService, private opportunityService: OpportunityService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef ) { }
 
@@ -79,13 +85,23 @@ export class OpportunitiesComponent {
     // Get accounts from the API
     this.accountService.getAccounts(this.currentWorkspaceId).subscribe(response => {
       this.ACCOUNT = response;
+      this.accountNamesMap = {};
+
+      this.ACCOUNT.forEach((account: any) => {
+        this.accountNamesMap[account.account_id] = account.account_name;
+      });
     });
+  }
+
+  getAccountNameByAccountId(accountId: string): string {
+    return this.accountNamesMap[accountId] || 'Unassigned';
   }
 
   getUsers(): void {
     this.USER = [
     {
-      user_name: 'John Doe' // Placeholder
+      user_name: 'John Doe', // Placeholder
+      user_id: '1' // Placeholder
     }
   ];
   }
@@ -147,8 +163,13 @@ export class OpportunitiesComponent {
 
   createOpportunity(): void {
     let newOpportunity = {
+      title: this.title,
+      value: this.value,
+      user_id: this.user_id,
+      account_id: this.account_id,
       description: this.description,
-      workspace_id: this.currentWorkspaceId
+      workspace_id: this.currentWorkspaceId,
+      opportunity_status_id: this.opportunity_status_id,
     };
 
     this.opportunityService.createOpportunity(newOpportunity).subscribe(response => {
@@ -322,6 +343,7 @@ export class OpportunitiesComponent {
       this.route.queryParams.subscribe(params => {
         this.currentWorkspaceId = params['workspace_id'] || '';
         this.getOpportunity();
+        this.getAccounts();
       });
     } else {
       console.log('Not a workspace path');

@@ -51,16 +51,23 @@
           <form>
             <input type="text" id="opportunityTitle" name="opportunityTitle" required placeholder="Enter opportunity title" maxlength="50" [(ngModel)]="title" required>
             <div class="account-select-div">
-                <select name="account" required>
+                <select [(ngModel)]="account_id" name="account" required>
                     <option [ngValue]="undefined" selected disabled>Select account</option>
-                    <option *ngFor="let account of ACCOUNT">{{account.account_name}}</option>
+                    <option *ngFor="let account of ACCOUNT" [ngValue]="account.account_id"> {{account.account_name}}</option>
+                </select>
+                <select [ngModel]="user_id" name="assignee" required>
+                    <option [ngValue]="undefined" selected disabled>Select assignee (optional)</option>
+                    <option *ngFor="let user of USER" [ngValue]="user.user_id">{{user.user_name}}</option>
                 </select>
             </div>
             <div>
                 <input type="number" id="opportunityValue" name="opportunityValue" required placeholder="Enter opportunity value" min="1" max="999999999" [(ngModel)]="value" required>
-                <select name="assignee" required>
-                    <option [ngValue]="undefined" selected disabled>Select assignee (optional)</option>
-                    <option *ngFor="let user of USER">{{user.user_name}}</option>
+                <select [(ngModel)]="opportunity_status_id" name="status" required>
+                    <option [ngValue]="undefined" selected disabled>Select status</option>
+                    <option value="1">New</option>
+                    <option value="2">Qualification</option>
+                    <option value="3">Negotiation</option>
+                    <option value="4">Closed</option>
                 </select>
             </div>
             <textarea name="text" id="opportunityDescription" name="opportunityDescription" placeholder="Enter description (optional)" maxlength="255" [(ngModel)]="description"></textarea>
@@ -166,11 +173,8 @@
                         <div class="opportunity-card-container-item opportunity-card-header">
                             <div class="opportunity-card-container-column">
                                 <div (click)="openOpportunityDetailsPopUp(opportunity)">
-                                    <img [src]="DefaultPFP" alt="Default profile picture image" class="opportunity-pfp">
-                                </div>
-                                <div (click)="openOpportunityDetailsPopUp(opportunity)">
-                                    <h3>{{ opportunity.first_name }} {{ opportunity.last_name }}</h3>
-                                    <p>{{ opportunity.company }}</p>
+                                    <h3>{{ opportunity.title }}</h3>
+                                    <p>{{ getAccountNameByAccountId(opportunity.account_id).toString() }}</p>
                                 </div>
                             </div> 
                             <div class="opportunity-card-container-column opportunity-card-editor-area">
@@ -196,15 +200,16 @@
                         <hr />
                         <div class="opportunity-card-container-item">
                             <div class="opportunity-card-container-row">
-                                <fa-icon [icon]="faPhone"></fa-icon>
-                                <span>{{ opportunity.phone_number || "Unknown" }}</span>
+                                <fa-icon [icon]="faSackDollar"></fa-icon>
+                                <span>{{ opportunity.value | currency }}</span>
                             </div>
                             <div class="opportunity-card-container-row">
-                                <fa-icon [icon]="faEnvelope"></fa-icon>
-                                <span>{{ opportunity.email.toLowerCase() }}</span>
+                                <fa-icon [icon]="faUser"></fa-icon>
+                                <span *ngIf="opportunity.user_name">Assigned to {{ opportunity.user_name }}</span>
+                                <span *ngIf="!opportunity.user_name">Unassigned</span>
                             </div>
                             <div class="opportunity-card-container-row">
-                                <span [ngClass]="getStatusClasses(opportunity.status_id.toString())">{{ getStatus(opportunity.status_id.toString()) }}</span>
+                                <span [ngClass]="getStatusClasses(opportunity.opportunity_status_id.toString())">{{ getStatus(opportunity.opportunity_status_id.toString()) }}</span>
                             </div>
                         </div>
                     </div>

@@ -181,4 +181,16 @@ router.post('/opportunities', async (req, res) => {
     }
 });
 
+router.post('/opportunities/create', async (req, res) => {
+    const { workspace_id, user_id, title, value, account_id, description, status_id } = req.body.opportunity;
+    const opportunities = new Opportunities();
+    try {
+        const result = await opportunities.createOpportunity(workspace_id, user_id, title, value, account_id, description, status_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error creating opportunity:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;
