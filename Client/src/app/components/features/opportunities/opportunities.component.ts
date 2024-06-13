@@ -211,7 +211,7 @@ export class OpportunitiesComponent {
               this.opportunityService.getOpportunities(this.currentWorkspaceId).subscribe(response => {
                   this.OPPORTUNITY = response;
                   this.countOpportunity();
-                  this.OPPORTUNITY = this.OPPORTUNITY.filter((opportunity: any) => opportunity.status_id === statusId);
+                  this.OPPORTUNITY = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === statusId);
                   this.previousStatus = statusId;
                   this.activeStatusFilter = this.getStatus(statusId.toString());
               });
