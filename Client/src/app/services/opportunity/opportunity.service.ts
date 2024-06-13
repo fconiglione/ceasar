@@ -17,8 +17,8 @@ export class OpportunityService {
     return this.http.post(`${this.appServerUrl}/features/opportunities/create`, {opportunity});
   }
 
-  deleteOpportunity(opportunityId: any) {
-    return this.http.delete(`${this.appServerUrl}/features/opportunities/${opportunityId}`);
+  deleteOpportunity(opportunity_id: any) {
+    return this.http.delete(`${this.appServerUrl}/features/opportunities/${opportunity_id}`);
   }
 
   updateOpportunity(opportunity: any) {

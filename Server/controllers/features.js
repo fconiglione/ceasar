@@ -193,4 +193,16 @@ router.post('/opportunities/create', async (req, res) => {
     }
 });
 
+router.delete('/opportunities/:opportunity_id', async (req, res) => {
+    const opportunity_id = req.params.opportunity_id;
+    const opportunities = new Opportunities();
+    try {
+        const result = await opportunities.deleteOpportunity(opportunity_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error deleting opportunity:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;
