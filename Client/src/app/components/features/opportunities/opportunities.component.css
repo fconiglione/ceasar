@@ -682,6 +682,7 @@
   border-radius: 10px;
   font-size: 1em;
   font-family: "Inter", sans-serif;
+  width: -webkit-fill-available;
 }
 .details-opportunity-form form textarea {
   height: 50px;
@@ -719,12 +720,27 @@
   display: flex;
   flex-direction: row;
   /* justify-content: space-between; */
-  gap: 30px;
+  gap: 20px;
   align-items: center;
   font-size: 1em;
 }
 @media screen and (max-width: 896px) {
-  .details-opportunity-pop-up-row form div:not(:last-child) {
+  /* .details-opportunity-pop-up-row form div:not(:last-child) {
+    flex-direction: column;
+  } */
+  .details-opportunity-pop-up-row form div input, .details-opportunity-pop-up-row form select {
+    width: -webkit-fill-available;
+  }
+  .details-opportunity-pop-up-row form select {
+      height: 50px;
+      flex-basis: auto !important;
+  }
+  .details-opportunity-pop-up-row form div input {
+    flex-basis: auto !important;
+  }
+}
+@media screen and (max-width: 500px) {
+  .details-opportunity-pop-up-row form div {
     flex-direction: column;
   }
   .details-opportunity-pop-up-row form div input, .details-opportunity-pop-up-row form select {
@@ -733,6 +749,9 @@
   .details-opportunity-pop-up-row form select {
       height: 50px;
       flex-basis: auto !important;
+  }
+  .details-opportunity-pop-up-row form div:first-child {
+    gap: 10px;
   }
 }
 @media screen and (max-width: 600px) {
@@ -743,9 +762,9 @@
 .details-opportunity-pop-up-row form div:last-child {
   justify-content: flex-end;
 }
-/* .details-opportunity-pop-up-row form div input {
+.details-opportunity-pop-up-row form div input {
   flex-basis: 50%;
-} */
+}
 .details-opportunity-pop-up-row form select {
   font-size: 0.9em;
   background-color: #eeeeee;
@@ -838,7 +857,19 @@
 .opportunity-details-h2 {
   font-size: 1em;
 }
-.account-select-div select {
+.opportunity-create-select-div select {
     /* Override existing */
     flex-basis: 100% !important; 
+}
+.opportunity-select-div {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    width: 100%;
+}
+.details-opportunity-top-form {
+    display: flex;
+    flex-direction: column !important;
+    gap: 10px;
 }

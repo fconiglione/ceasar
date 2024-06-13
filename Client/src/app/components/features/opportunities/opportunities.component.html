@@ -1,46 +1,52 @@
-<!-- <div class="opportunity-details-pop-up" id="opportunity-details-pop-up">
+<div class="opportunity-details-pop-up" id="opportunity-details-pop-up">
     <div class="details-opportunity-pop-up-container">
-        <div class="details-opportunity-form">
-            <div class="details-opportunity-pop-up-row opportunity-details-nav">
-                <div>
-                    <fa-icon class="return-to-opportunities-btn" [icon]="faArrowLeft" (click)="closeOpportunityDetailsPopUp()"></fa-icon>
-                    <h1>Opportunity details</h1>
-                </div>
-                <div class="edit-opportunity-pop-up-btn" (click)="toggleOpportunitiesEditMode()">
-                    <fa-icon [icon]="faEdit"></fa-icon>
-                    <span>Edit opportunity</span>
-                </div>
+      <div class="details-opportunity-form">
+        <div class="details-opportunity-pop-up-row opportunity-details-nav">
+          <div>
+            <fa-icon class="return-to-opportunities-btn" [icon]="faArrowLeft" (click)="closeOpportunityDetailsPopUp()"></fa-icon>
+            <h1>Opportunity details</h1>
+          </div>
+          <div class="edit-opportunity-pop-up-btn" (click)="toggleOpportunitiesEditMode()">
+            <fa-icon [icon]="faEdit"></fa-icon>
+            <span>Edit opportunity</span>
+          </div>
+        </div>
+        <div class="details-opportunity-pop-up-row">
+          <form>
+            <div class="details-opportunity-top-form">
+            <input type="text" id="opportunityTitle" name="opportunityTitle" required placeholder="Enter opportunity title" maxlength="50" [(ngModel)]="title" [disabled]="!opportunitiesEditMode">
+            <div class="opportunity-select-div">
+              <select [(ngModel)]="account_id" name="account" [disabled]="!opportunitiesEditMode" required>
+                <option [ngValue]="undefined" selected disabled>Select account</option>
+                <option *ngFor="let account of ACCOUNT" [ngValue]="account.account_id"> {{account.account_name}}</option>
+              </select>
+              <select [(ngModel)]="user_id" name="assignee" [disabled]="!opportunitiesEditMode">
+                <option [ngValue]="undefined" selected disabled>Select assignee (optional)</option>
+                <option *ngFor="let user of USER" [ngValue]="user.user_id">{{user.user_name}}</option>
+              </select>
             </div>
-            <div class="details-opportunity-pop-up-row">
-            <form>
-                <div>
-                    <img [src]="DefaultPFP" alt="Default profile picture image">
-                    <div class="opportunity-details-content">
-                        <input type="text" id="opportunityName" name="opportunityName" required  maxlength="50" [(ngModel)]="full_name" [disabled]="!opportunitiesEditMode" required>
-                        <input [disabled]="!opportunitiesEditMode" type="text" id="opportunityCompany" name="opportunityCompany" required  maxlength="50" [(ngModel)]="company" required>
-                        <input [disabled]="!opportunitiesEditMode" type="tel" id="opportunityPhoneNumber" name="opportunityPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
-                        <input [disabled]="!opportunitiesEditMode" type="text" id="opportunityEmail" name="opportunityEmail" required maxlength="50" [(ngModel)]="email" required>
-                        <select [(ngModel)]="status_id" name="status" [disabled]="!opportunitiesEditMode" required>
-                            <option [ngValue]="undefined" selected disabled>Select status</option>
-                            <option value="1">New</option>
-                            <option value="2">Contacted</option>
-                            <option value="3">In-Process</option>
-                            <option value="4">Closed</option>
-                        </select>
-                    </div>
-                </div>
-                <hr />
-                <h2 class="opportunity-details-h2">Description</h2>
-                <textarea [disabled]="!opportunitiesEditMode" id="opportunityDescription" name="opportunityDescription" maxlength="255" [(ngModel)]="description"></textarea>
-                <div class="details-opportunity-pop-up-nav">
-                <button *ngIf="opportunitiesEditMode" type="button" id="cancelopportunityBtn" (click)="closeOpportunityDetailsPopUp()">Cancel</button>
-                <button *ngIf="opportunitiesEditMode" type="submit" id="createopportunityBtn" (click)="updateOpportunity()">Save</button>
-                </div>
-            </form>
+            <div class="opportunity-select-div">
+              <input type="number" id="opportunityValue" name="opportunityValue" required placeholder="Enter opportunity value" min="1" max="999999999" [(ngModel)]="value" [disabled]="!opportunitiesEditMode">
+              <select [(ngModel)]="opportunity_status_id" name="status" [disabled]="!opportunitiesEditMode" required>
+                <option [ngValue]="undefined" selected disabled>Select status</option>
+                <option value="1">New</option>
+                <option value="2">Qualification</option>
+                <option value="3">Negotiation</option>
+                <option value="4">Closed</option>
+              </select>
+            </div>
         </div>
+            <h2 class="opportunity-details-h2">Description</h2>
+            <textarea [disabled]="!opportunitiesEditMode" id="opportunityDescription" name="opportunityDescription" maxlength="255" [(ngModel)]="description"></textarea>
+            <div class="details-opportunity-pop-up-nav">
+              <button *ngIf="opportunitiesEditMode" type="button" id="cancelopportunityBtn" (click)="closeOpportunityDetailsPopUp()">Cancel</button>
+              <button *ngIf="opportunitiesEditMode" type="submit" id="createopportunityBtn" (click)="updateOpportunity()">Save</button>
+            </div>
+          </form>
         </div>
+      </div>
     </div>
-</div> -->
+  </div>
 <div class="create-opportunity-pop-up" id="create-opportunity-pop-up">
     <div class="create-opportunity-pop-up-container">
       <div class="create-opportunity-form">
@@ -50,7 +56,7 @@
         <div class="create-opportunity-pop-up-row">
           <form>
             <input type="text" id="opportunityTitle" name="opportunityTitle" required placeholder="Enter opportunity title" maxlength="50" [(ngModel)]="title" required>
-            <div class="account-select-div">
+            <div class="opportunity-create-select-div">
                 <select [(ngModel)]="account_id" name="account" required>
                     <option [ngValue]="undefined" selected disabled>Select account</option>
                     <option *ngFor="let account of ACCOUNT" [ngValue]="account.account_id"> {{account.account_name}}</option>
