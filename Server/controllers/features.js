@@ -3,6 +3,7 @@ const router = express.Router();
 const Leads = require('../models/leads');
 const Contacts = require('../models/contacts');
 const Accounts = require('../models/accounts');
+const Opportunities = require('../models/opportunities');
 
 // Leads
 
@@ -162,6 +163,20 @@ router.delete('/accounts/:account_id', async (req, res) => {
         res.status(200).send(result);
     } catch (error) {
         console.error("Error deleting account:", error);
+        res.status(500).send(error);
+    }
+});
+
+// Opportunities
+
+router.post('/opportunities', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const opportunities = new Opportunities();
+    try {
+        const result = await opportunities.getOpportunitiesByWorkspaceId(workspace_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error getting opportunities information:", error);
         res.status(500).send(error);
     }
 });
