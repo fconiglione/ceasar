@@ -7,6 +7,7 @@ import { LeadsComponent } from '../../components/features/leads/leads.component'
 import { ContactsComponent } from '../../components/features/contacts/contacts.component';
 import { AccountsComponent } from '../../components/features/accounts/accounts.component';
 import { OpportunitiesComponent } from '../../components/features/opportunities/opportunities.component';
+import { FilesComponent } from '../../components/features/files/files.component';
 
 @Component({
   selector: 'app-workspace',
@@ -14,7 +15,7 @@ import { OpportunitiesComponent } from '../../components/features/opportunities/
   imports: [
     NgIf, LeadsComponent,
     ContactsComponent, AccountsComponent,
-    OpportunitiesComponent
+    OpportunitiesComponent, FilesComponent
   ],
   templateUrl: './workspace.component.html',
   styleUrl: './workspace.component.css'
