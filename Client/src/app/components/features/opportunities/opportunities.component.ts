@@ -108,10 +108,10 @@ export class OpportunitiesComponent {
 
   countOpportunity(): void {
     // Count the number of opportunity in each status
-    this.newOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.status_id === 1).length;
-    this.qualificationOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.status_id === 2).length;
-    this.negotiationOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.status_id === 3).length;
-    this.closedOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.status_id === 4).length;
+    this.newOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === 1).length;
+    this.qualificationOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === 2).length;
+    this.negotiationOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === 3).length;
+    this.closedOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === 4).length;
   }
 
   getStatus(statusId: string): string {
@@ -169,7 +169,7 @@ export class OpportunitiesComponent {
       account_id: this.account_id,
       description: this.description,
       workspace_id: this.currentWorkspaceId,
-      opportunity_status_id: this.opportunity_status_id,
+      opportunity_status_id: this.opportunity_status_id
     };
 
     this.opportunityService.createOpportunity(newOpportunity).subscribe(response => {
