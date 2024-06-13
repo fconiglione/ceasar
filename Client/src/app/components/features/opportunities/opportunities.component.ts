@@ -228,18 +228,16 @@ export class OpportunitiesComponent {
     } else {
       this.countOpportunity();
       this.OPPORTUNITY = this.OPPORTUNITY.filter((opportunity: any) => {
-        const firstName = opportunity.first_name?.toLowerCase() ?? '';
-        const lastName = opportunity.last_name?.toLowerCase() ?? '';
-        const company = opportunity.company?.toLowerCase() ?? '';
-        const phoneNumber = opportunity.phone_number?.toLowerCase() ?? '';
-        const email = opportunity.email?.toLowerCase() ?? '';
-        const status = this.getStatus(opportunity.status_id).toLowerCase();
+        const title = opportunity.title?.toLowerCase() ?? '';
+        const accountName = opportunity.account_name?.toLowerCase() ?? '';
+        const user_name = opportunity.user_name?.toLowerCase() ?? '';
+        const value = opportunity.value?.toString() ?? '';
+        const status = this.getStatus(opportunity.opportunity_status_id).toLowerCase();
   
-        return firstName.includes(this.opportunitySearchInputValue.toLowerCase()) ||
-          lastName.includes(this.opportunitySearchInputValue.toLowerCase()) ||
-          company.includes(this.opportunitySearchInputValue.toLowerCase()) ||
-          phoneNumber.includes(this.opportunitySearchInputValue.toLowerCase()) ||
-          email.includes(this.opportunitySearchInputValue.toLowerCase()) ||
+        return title.includes(this.opportunitySearchInputValue.toLowerCase()) ||
+          accountName.includes(this.opportunitySearchInputValue.toLowerCase()) ||
+          user_name.includes(this.opportunitySearchInputValue.toLowerCase()) ||
+          value.includes(this.opportunitySearchInputValue.toLowerCase()) ||
           status.includes(this.opportunitySearchInputValue.toLowerCase());
       });
     }
