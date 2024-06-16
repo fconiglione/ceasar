@@ -121,9 +121,7 @@ onInputChange(event: any) {
 downloadUrl: string = '';
 
 downloadFile(file: any) {
-  const filename = file.file_name;
-  const encodedFilename = encodeURIComponent(filename);
-  this.downloadUrl = `${file.file_url}?filename=${encodedFilename}`;
+  this.downloadUrl = `${file.file_url}`;
   window.open(this.downloadUrl, '_blank');
 }
 
