@@ -103,18 +103,16 @@ onInputChange(event: any) {
     this.getFiles();
   } else {
     this.FILE = this.FILE.filter((file: any) => {
-      const firstName = file.first_name?.toLowerCase() ?? '';
-      const lastName = file.last_name?.toLowerCase() ?? '';
-      const company = file.company?.toLowerCase() ?? '';
-      const phoneNumber = file.phone_number?.toLowerCase() ?? '';
-      const email = file.email?.toLowerCase() ?? '';
+      const name = file.name?.toLowerCase() ?? '';
+      const type = file.type?.toLowerCase() ?? '';
+      const size = file.size?.toLowerCase() ?? '';
+      const resourceType = file.resource_type?.toLowerCase() ?? '';
 
-      return firstName.includes(this.fileSearchInputValue.toLowerCase()) ||
-        lastName.includes(this.fileSearchInputValue.toLowerCase()) ||
-        company.includes(this.fileSearchInputValue.toLowerCase()) ||
-        phoneNumber.includes(this.fileSearchInputValue.toLowerCase()) ||
-        email.includes(this.fileSearchInputValue.toLowerCase());
-      });
+      return name.includes(this.fileSearchInputValue.toLowerCase()) ||
+        type.includes(this.fileSearchInputValue.toLowerCase()) ||
+        size.includes(this.fileSearchInputValue.toLowerCase()) ||
+        resourceType.includes(this.fileSearchInputValue.toLowerCase());
+            });
   }
 }  
 
@@ -124,10 +122,6 @@ downloadFile(file: any) {
   this.downloadUrl = `${file.file_url}`;
   window.open(this.downloadUrl, '_blank');
 }
-
-// onReset(): void {
-//   // Reset the new contact form
-// }
 
 deleteFile(publicId: any, resourceType: any) {
   if (confirm('Are you sure you want to delete this file?')) {
