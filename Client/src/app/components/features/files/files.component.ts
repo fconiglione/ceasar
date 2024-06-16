@@ -129,10 +129,10 @@ downloadFile(file: any) {
 //   // Reset the new contact form
 // }
 
-deleteFile(publicId: any) {
+deleteFile(publicId: any, resourceType: any) {
   if (confirm('Are you sure you want to delete this file?')) {
     // Delete the file
-    this.filesService.deleteFile(publicId).subscribe(response => {
+    this.filesService.deleteFile(publicId, resourceType).subscribe(response => {
       console.log(response);
       this.getFiles();
     });

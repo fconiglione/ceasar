@@ -242,7 +242,7 @@ router.post('/files/upload', upload.single('file'), (req, res) => {
       { resource_type: 'auto' },
       (error, result) => {
         if (result) {
-            files.uploadFileToDatabase(workspaceId, req.file.originalname, result.secure_url, user_id, req.file.size, req.file.mimetype, result.public_id);
+            files.uploadFileToDatabase(workspaceId, req.file.originalname, result.secure_url, user_id, req.file.size, req.file.mimetype, result.public_id, result.resource_type);
             res.status(200).send(result);
         } else {
           res.status(500).send(error);
@@ -254,9 +254,11 @@ router.post('/files/upload', upload.single('file'), (req, res) => {
 
 router.delete('/files/:public_id', async (req, res) => {
     const public_id = req.params.public_id;
+    const resource_type = req.query.resourceType;
+    console.log("public_id", public_id, "resource_type", resource_type);
     const files = new Files();
     try {
-        const cloudinaryResult = await cloudinary.uploader.destroy(public_id);
+        const cloudinaryResult = await cloudinary.uploader.destroy([public_id], {type: 'upload', resource_type: resource_type});
         const dbResult = await files.deleteFile(public_id);
         res.status(200).json({ message: 'File deleted successfully', cloudinaryResult, dbResult });
     } catch (error) {
