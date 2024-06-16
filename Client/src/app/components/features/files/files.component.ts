@@ -39,7 +39,7 @@ export class FilesComponent {
     // Get files from the API
     this.filesService.getFiles(this.currentWorkspaceId).subscribe(response => {
       this.FILE = response;
-      // this.applyFilter();
+      this.applyFilter();
       this.loading = false;
     });
   }
@@ -68,14 +68,14 @@ export class FilesComponent {
     }
   }
 
-  previousFilter: string = 'All Files';
-  activeFilter: string = 'All Files';
+  previousFilter: string = 'Name';
+  activeFilter: string = 'Name';
 
   filterFiles(activeFilter: string): void {
     this.closeFilterFilesDropdown();
     if (activeFilter === this.previousFilter) {
-        this.activeFilter = 'All Files';
-        this.previousFilter = 'All Files';
+        this.activeFilter = 'Name';
+        this.previousFilter = 'Name';
     } else {
         this.activeFilter = activeFilter;
         this.previousFilter = activeFilter;
@@ -84,13 +84,15 @@ export class FilesComponent {
 }
 
 applyFilter(): void {
-  if (this.activeFilter === 'All Files') {
-      this.FILE.sort((a: any, b: any) => a.first_name.localeCompare(b.first_name));
-  } else if (this.activeFilter === 'Company') {
-      this.FILE.sort((a: any, b: any) => a.company.localeCompare(b.company));
+  if (this.activeFilter === 'Name') {
+      this.FILE.sort((a: any, b: any) => a.name.localeCompare(b.name));
+  } else if (this.activeFilter === 'Type') {
+      this.FILE.sort((a: any, b: any) => a.type.localeCompare(b.type));
+  } else if (this.activeFilter === 'Size') {
+    this.FILE.sort((a: any, b: any) => a.size.localeCompare(b.size));
   } else if (this.activeFilter === 'Creation Date') {
-      this.FILE.sort((a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime());
-  }
+    this.FILE.sort((a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime());
+}
 }
 
 fileSearchInputValue: string = '';
