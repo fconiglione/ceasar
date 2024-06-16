@@ -255,7 +255,6 @@ router.post('/files/upload', upload.single('file'), (req, res) => {
 router.delete('/files/:public_id', async (req, res) => {
     const public_id = req.params.public_id;
     const resource_type = req.query.resourceType;
-    console.log("public_id", public_id, "resource_type", resource_type);
     const files = new Files();
     try {
         const cloudinaryResult = await cloudinary.uploader.destroy([public_id], {type: 'upload', resource_type: resource_type});
