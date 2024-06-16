@@ -1,1 +1,76 @@
-<p>files works!</p>
+<div class="files-container">
+    <div class="files-header">
+        <div class="files-item">
+            <h1>Files</h1>
+        </div>
+        <div class="files-item">
+            <button class="import-btn" (click)="fileInput.click()">
+                <fa-icon [icon]="faUpload"></fa-icon>
+                <span>Import File(s)</span>
+            </button>
+            <input type="file" #fileInput style="display: none;" (change)="importFile($event)">
+        </div>
+    </div>
+    <div class="files-body">
+        <div class="files-body-row">
+            <div class="files-body-item">
+                <div class="files-filter" (click)="openFilterFilesDropdown()">
+                    <span>{{ activeFilter }}</span>
+                    <fa-icon [icon]="faChevronDown"></fa-icon>
+                </div>
+                <div class="filter-dropdown">
+                    <span (click)="filterFiles('All Files')">All Files</span>
+                    <span (click)="filterFiles('Documents')">Documents</span>
+                    <span (click)="filterFiles('Images')">Images</span>
+                    <span (click)="filterFiles('Videos')">Videos</span>
+                    <span (click)="filterFiles('Archived')">Archived (zip)</span>
+                </div>
+            </div>
+            <div class="files-body-item">
+                <div class="files-search">
+                    <fa-icon [icon]="faSearch"></fa-icon>
+                    <input type="text" placeholder="Search..." id="filesearchInput" [(ngModel)]="fileSearchInputValue" (input)="onInputChange($event)">
+                </div>
+            </div>  
+        </div>
+        <div class="files-body-row" *ngIf="FILE && FILE.length > 0">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Size</th>
+                            <th>Date Added</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let file of FILE">
+                            <td>
+                                <fa-icon [icon]="faSquare"></fa-icon>
+                            </td>
+                            <td>{{ file.file_name }}</td>
+                            <td>{{ file.file_type }}</td>
+                            <td>{{ file.file_size }}</td>
+                            <td>{{ file.creation_date }}</td>
+                            <td>
+                                <fa-icon [icon]="faDownload"></fa-icon>
+                                <fa-icon [icon]="faTrash"></fa-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>  
+    <div class="no-files" *ngIf="FILE && FILE.length === 0 && !loading">
+        <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
+        <p class="uh-oh">Uh oh! We couldn't find any existing files.</p>
+        <p>Upload a new file by clicking <span (click)="fileInput.click()">here</span>, or by clicking the 'Import File(s)' button at the top of your screen.</p>
+    </div>
+    <div class="loading" *ngIf="loading">
+        <p>Loading...</p>
+    </div>
+</div>

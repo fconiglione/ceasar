@@ -1,0 +1,203 @@
+.files-container {
+    padding: 0 1%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+/* files header */
+
+.files-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.files-header .files-item:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+.import-btn {
+    cursor: pointer;
+    border: none;
+    color: #ffffff;
+    background-color: #878787;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.files-header h1 {
+    font-size: 1.4em;
+}
+
+/* files body */
+
+.files-body {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+.files-body-row:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+}
+.files-body-row:first-child .files-body-item:first-child {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.files-filter {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    width: 140px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: 1px solid #878787;
+    padding: 6px 12px;
+    border-radius: 5px;
+    color: #878787;
+    font-weight: 400;
+    font-size: 1em;
+}
+.files-filter:hover {
+    background-color: #dddddd;
+}
+.files-search {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid #878787;
+    border-radius: 5px;
+    padding: 6px 12px;
+}
+.files-search fa-icon {
+    color: #878787;
+}
+.files-search input {
+  background-color: transparent;
+  border: none;
+  width: 20vw;
+  font-size: 1em;
+}
+.files-search input:focus {
+  outline: none;
+}
+.status-dot {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.status-dot.green {
+    background-color: #6BCB3D;
+}
+.status-dot.orange {
+    background-color: #FFC107;
+}
+.status-dot.blue {
+    background-color: #007BFF;
+}
+.status-dot.red {
+    background-color: #DC3545;
+}
+.files-stats-item {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    background-color: #ffffff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.files-stats {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4, minmax(250px, 1fr));
+}
+@media screen and (max-width: 1250px) {
+    .files-stats {
+        grid-template-columns: repeat(2, minmax(250px, 1fr));
+    }
+}
+@media screen and (max-width: 630px) {
+    .files-stats {
+        grid-template-columns: repeat(1, minmax(250px, 1fr));
+    }
+}
+.files-stats-item p {
+    margin: 0;
+    padding: 5px 10px;
+    background-color: #eeeeee;
+    font-weight: 500;
+    border-radius: 8px;
+    color: #878787;
+}
+.files-stats-item div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+}
+
+ /* Filter dropdown */
+
+ .filter-dropdown {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    z-index: 1;
+    border: 1px solid #ffffff;
+    width: 164px;
+    border-radius: 6px;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+    margin-top: 36px;
+    flex-direction: column;
+  }
+  .filter-dropdown span {
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    padding: 10px;
+  }
+
+  .filter-dropdown span:hover {
+    background-color: #eeeeee;
+  }
+
+  /* No files */
+
+  /* No files */
+
+.no-files {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    margin-top: 50px;
+  }
+  .no-files span {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #2962ff;
+  }
+  .no-files span:hover {
+    text-decoration: none;
+  }
+  .no-files img {
+    height: 70px;
+  }
+  .no-files .uh-oh {
+    font-weight: 600;
+  }

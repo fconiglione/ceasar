@@ -4,6 +4,9 @@ const Leads = require('../models/leads');
 const Contacts = require('../models/contacts');
 const Accounts = require('../models/accounts');
 const Opportunities = require('../models/opportunities');
+const Files = require('../models/files');
+const cloudinary = require('../config/cloudinary');
+const upload = require('../config/upload');
 
 // Leads
 
@@ -216,5 +219,37 @@ router.put('/opportunities/update', async (req, res) => {
         res.status(500).send(error);
     }
 });
+
+// Files
+
+router.post('/files', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const files = new Files();
+    try {
+        const result = await files.getFilesByWorkspaceId(workspace_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error getting files information:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.post('/files/upload', upload.single('file'), (req, res) => {
+    const { workspaceId } = req.body;
+    const user_id = null; // temporary null user_id
+    const files = new Files();
+    const stream = cloudinary.uploader.upload_stream(
+      { resource_type: 'auto' },
+      (error, result) => {
+        if (result) {
+            files.uploadFileToDatabase(workspaceId, req.file.originalname, result.secure_url, user_id, req.file.size, req.file.mimetype);
+            res.status(200).send(result);
+        } else {
+          res.status(500).send(error);
+        }
+      }
+    );
+    stream.end(req.file.buffer);
+  });
 
 module.exports = router;
