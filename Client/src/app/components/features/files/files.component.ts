@@ -95,6 +95,20 @@ applyFilter(): void {
 }
 }
 
+convertFileSize(size: any) {
+  if (size < 1024) {
+    return size + ' Bytes';
+  } else if (size >= 1024 && size < 1048576) {
+    return (size / 1024).toFixed(2) + ' KB';
+  } else if (size >= 1048576 && size < 1073741824) {
+    return (size / 1048576).toFixed(2) + ' MB';
+  } else if (size >= 1073741824) {
+    return (size / 1073741824).toFixed(2) + ' GB';
+  } else {
+    return 0 + ' Bytes';
+  }
+}
+
 fileSearchInputValue: string = '';
 
 onInputChange(event: any) {
