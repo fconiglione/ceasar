@@ -87,7 +87,7 @@ applyFilter(): void {
   if (this.activeFilter === 'Name') {
       this.FILE.sort((a: any, b: any) => a.name.localeCompare(b.name));
   } else if (this.activeFilter === 'Type') {
-      this.FILE.sort((a: any, b: any) => a.type.localeCompare(b.type));
+      this.FILE.sort((a: any, b: any) => a.resource_type.localeCompare(b.resource_type));
   } else if (this.activeFilter === 'Size') {
     this.FILE.sort((a: any, b: any) => a.size.localeCompare(b.size));
   } else if (this.activeFilter === 'Creation Date') {
