@@ -63,7 +63,7 @@
                             <td>
                                 <div>
                                     <fa-icon [icon]="faDownload" (click)="downloadFile(file)"></fa-icon>
-                                    <fa-icon [icon]="faTrash"></fa-icon>
+                                    <fa-icon [icon]="faTrash" (click)="deleteFile(file.public_id)"></fa-icon>
                                 </div>
                             </td>
                         </tr>

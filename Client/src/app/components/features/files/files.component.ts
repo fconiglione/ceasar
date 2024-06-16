@@ -129,6 +129,16 @@ downloadFile(file: any) {
 //   // Reset the new contact form
 // }
 
+deleteFile(publicId: any) {
+  if (confirm('Are you sure you want to delete this file?')) {
+    // Delete the file
+    this.filesService.deleteFile(publicId).subscribe(response => {
+      console.log(response);
+      this.getFiles();
+    });
+  }
+}
+
 isWorkspacePath(): boolean {
   return this.router.url.startsWith('/ws');
 }
@@ -151,6 +161,7 @@ importFile(event: any) {
     console.log(response);
     this.getFiles();
   });
+  this.getFiles();
 }
 
 }

@@ -252,4 +252,17 @@ router.post('/files/upload', upload.single('file'), (req, res) => {
     stream.end(req.file.buffer);
   });
 
+router.delete('/files/:public_id', async (req, res) => {
+    const public_id = req.params.public_id;
+    const files = new Files();
+    try {
+        const cloudinaryResult = await cloudinary.uploader.destroy(public_id);
+        const dbResult = await files.deleteFile(public_id);
+        res.status(200).json({ message: 'File deleted successfully', cloudinaryResult, dbResult });
+    } catch (error) {
+        console.error("Error deleting file:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

@@ -36,6 +36,17 @@ class Files {
             throw error;
         }
     }
+
+    async deleteFile (public_id) {
+        const query = `DELETE FROM ceasar.files WHERE public_id = $1`;
+        const values = [public_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 
