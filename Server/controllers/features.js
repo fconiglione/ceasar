@@ -242,22 +242,7 @@ router.post('/files/upload', upload.single('file'), (req, res) => {
       { resource_type: 'auto' },
       (error, result) => {
         if (result) {
-            let fileType;
-            switch (result.format) {
-                case 'jpg':
-                case 'jpeg':
-                case 'png':
-                case 'pdf':
-                  resourceType = 'image';
-                  break;
-                case 'csv':
-                  resourceType = 'raw';
-                  break;
-                default:
-                  resourceType = 'auto';
-                  break;
-              }
-            files.uploadFileToDatabase(workspaceId, req.file.originalname, result.secure_url, user_id, req.file.size, req.file.mimetype, fileType);
+            files.uploadFileToDatabase(workspaceId, req.file.originalname, result.secure_url, user_id, req.file.size, req.file.mimetype, result.public_id);
             res.status(200).send(result);
         } else {
           res.status(500).send(error);

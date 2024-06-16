@@ -22,7 +22,7 @@ export class FilesService {
     return this.http.post(`${this.appServerUrl}/features/files/upload`, formData);
   }
 
-  deleteFile(fileId: any) {
-    return this.http.delete(`${this.appServerUrl}/features/files/${fileId}`);
+  deleteFile(public_id: any) {
+    return this.http.delete(`${this.appServerUrl}/features/files/${public_id}`);
   }
 }
