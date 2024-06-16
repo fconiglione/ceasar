@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { faUpload, faSearch, faChevronDown, faSquare, faDownload, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faUpload, faSearch, faChevronDown, faEye, faDownload, faTrash, faFile } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilesService } from '../../../services/files/files.service';
@@ -24,9 +24,10 @@ export class FilesComponent {
   faUpload = faUpload;
   faSearch = faSearch;
   faChevronDown = faChevronDown;
-  faSquare = faSquare;
   faDownload = faDownload;
   faTrash = faTrash;
+  faFile = faFile;
+  faEye = faEye;
 
   ShapesBanner = "assets/images/shapes-banner.svg";
   loading: boolean = true;
@@ -38,7 +39,7 @@ export class FilesComponent {
     // Get files from the API
     this.filesService.getFiles(this.currentWorkspaceId).subscribe(response => {
       this.FILE = response;
-      this.applyFilter();
+      // this.applyFilter();
       this.loading = false;
     });
   }
@@ -117,9 +118,18 @@ onInputChange(event: any) {
   }
 }  
 
-onReset(): void {
-  // Reset the new contact form
+downloadUrl: string = '';
+
+downloadFile(file: any) {
+  const filename = file.file_name;
+  const encodedFilename = encodeURIComponent(filename);
+  this.downloadUrl = `${file.file_url}?filename=${encodedFilename}`;
+  window.open(this.downloadUrl, '_blank');
 }
+
+// onReset(): void {
+//   // Reset the new contact form
+// }
 
 isWorkspacePath(): boolean {
   return this.router.url.startsWith('/ws');

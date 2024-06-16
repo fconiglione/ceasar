@@ -176,8 +176,6 @@
 
   /* No files */
 
-  /* No files */
-
 .no-files {
     display: flex;
     flex-direction: column;
@@ -201,3 +199,44 @@
   .no-files .uh-oh {
     font-weight: 600;
   }
+
+  /* Files Table */
+
+  .table-container {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  .table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+.table-container table thead tr th {
+    font-weight: 300;
+    padding: 10px 5px;
+}
+.table-container table thead {
+    border-bottom: 1px solid #eeeeee;
+}
+.table-container table tbody tr td {
+    padding: 10px 5px;
+    border-bottom: 1px solid #eeeeee;
+}
+.table-container table tbody tr {
+    transition: background-color 0.3s;
+}
+.table-container table tbody tr:last-child td {
+    border-bottom: none;
+}
+.table-container table tbody tr:hover {
+    background-color: #eeeeee;
+}
+.table-container table tbody tr td div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.table-container fa-icon {
+    cursor: pointer;
+}

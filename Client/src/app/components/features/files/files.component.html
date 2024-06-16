@@ -38,26 +38,33 @@
                 <table>
                     <thead>
                         <tr>
-                            <th></th>
+                            <!-- <th></th> -->
                             <th>Name</th>
                             <th>Type</th>
                             <th>Size</th>
                             <th>Date Added</th>
-                            <th></th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let file of FILE">
+                            <!-- <td>
+                                <input type="checkbox" id="file-{{ file.file_id }}" name="{{file.file_id}}">
+                            </td> -->
                             <td>
-                                <fa-icon [icon]="faSquare"></fa-icon>
+                                <div>
+                                    <fa-icon [icon]="faFile"></fa-icon>
+                                    <span>{{ file.name }}</span>
+                                </div>
                             </td>
-                            <td>{{ file.file_name }}</td>
-                            <td>{{ file.file_type }}</td>
-                            <td>{{ file.file_size }}</td>
-                            <td>{{ file.creation_date }}</td>
+                            <td>{{ file.type }}</td>
+                            <td>{{ file.size }}</td>
+                            <td>{{ file.creation_date | date: 'longDate' }}</td>
                             <td>
-                                <fa-icon [icon]="faDownload"></fa-icon>
-                                <fa-icon [icon]="faTrash"></fa-icon>
+                                <div>
+                                    <fa-icon [icon]="faDownload" (click)="downloadFile(file)"></fa-icon>
+                                    <fa-icon [icon]="faTrash"></fa-icon>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
