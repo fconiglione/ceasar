@@ -206,7 +206,12 @@
     background-color: #ffffff;
     border-radius: 10px;
     padding: 15px;
+    overflow-x: auto;
   }
+.table-container table td,
+.table-container table th {
+  white-space: nowrap;
+}
   .table-container table {
     width: 100%;
     border-collapse: collapse;
