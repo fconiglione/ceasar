@@ -1,5 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { faUpload, faSearch, faChevronDown, faEye, faDownload, faTrash, faFile } from '@fortawesome/free-solid-svg-icons';
+import { faUpload, faSearch, faChevronDown, faEye, faDownload, faTrash, faFile, faImage, faVideo } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { Router, ActivatedRoute } from '@angular/router';
 import { FilesService } from '../../../services/files/files.service';
@@ -28,6 +28,8 @@ export class FilesComponent {
   faTrash = faTrash;
   faFile = faFile;
   faEye = faEye;
+  faImage = faImage;
+  faVideo = faVideo;
 
   ShapesBanner = "assets/images/shapes-banner.svg";
   loading: boolean = true;

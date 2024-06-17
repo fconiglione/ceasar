@@ -52,7 +52,10 @@
                             </td> -->
                             <td>
                                 <div>
-                                    <fa-icon [icon]="faFile"></fa-icon>
+                                    <fa-icon *ngIf="file.resource_type == 'raw'" [icon]="faFile"></fa-icon>
+                                    <fa-icon *ngIf="file.resource_type == 'image'" [icon]="faImage"></fa-icon>
+                                    <fa-icon *ngIf="file.resource_type == 'video'" [icon]="faVideo"></fa-icon>
+                                    <fa-icon *ngIf="file.resource_type != 'raw' && file.resource_type != 'image' && file.resource_type != 'video'" [icon]="faFile"></fa-icon> <!-- Default file icon -->
                                     <span>{{ file.name }}</span>
                                 </div>
                             </td>
