@@ -51,7 +51,7 @@
                                 <input type="checkbox" id="file-{{ file.file_id }}" name="{{file.file_id}}">
                             </td> -->
                             <td>
-                                <div>
+                                <div (click)="downloadFile(file)">
                                     <fa-icon *ngIf="file.resource_type == 'raw'" [icon]="faFile"></fa-icon>
                                     <fa-icon *ngIf="file.resource_type == 'image'" [icon]="faImage"></fa-icon>
                                     <fa-icon *ngIf="file.resource_type == 'video'" [icon]="faVideo"></fa-icon>
