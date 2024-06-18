@@ -9,4 +9,6 @@ import { Component } from '@angular/core';
 })
 export class ReportsComponent {
 
+  CeasarColouredLogo1 = "assets/images/ceasar-coloured-logo-1.svg";
+
 }

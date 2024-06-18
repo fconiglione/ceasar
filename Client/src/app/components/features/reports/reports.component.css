@@ -1,0 +1,49 @@
+/* Coming soon */
+
+.coming-soon {
+    margin-top: 160px;
+}
+.coming-soon-container {
+    padding: 0 1%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.coming-soon-container img {
+    width: 200px;
+    filter: grayscale(100%);
+    margin: -20px 0;
+}
+.coming-soon-container h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+}
+.coming-soon-container p {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #000000;
+    margin: 0;
+}
+.coming-soon-container button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #000000;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    width: 200px;
+}
+.coming-soon-container a {
+    color: #000000;
+    transition: color 0.3s;
+}
+.coming-soon-container a:hover {
+    color: #222222;
+}
