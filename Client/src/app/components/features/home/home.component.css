@@ -135,6 +135,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    height: 400px;
 }
 .home-estimated-value img {
     height: 350px;
@@ -169,4 +170,35 @@
         height: 200px;
         margin-bottom: -50px;
     }
+}
+
+/* Alerts */
+
+.home-alerts-content {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    height: 400px;
+    margin-top: 20px;
+}
+.no-home-alerts {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: -webkit-fill-available;
+}
+.no-home-alerts div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.4em;
+}
+.no-home-alerts div p {
+    margin: 0;
+}
+.no-home-alerts h1 {
+    margin: 0;
 }
