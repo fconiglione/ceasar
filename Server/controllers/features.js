@@ -266,4 +266,54 @@ router.delete('/files/:public_id', async (req, res) => {
     }
 });
 
+// Home
+
+router.post('/home/leads', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const leads = new Leads();
+    try {
+        const result = await leads.getActiveLeadsCount(workspace_id);
+        res.status(200).send(result[0].count);
+    } catch (error) {
+        console.error("Error getting leads information:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.post('/home/contacts', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const contacts = new Contacts();
+    try {
+        const result = await contacts.getContactsCount(workspace_id);
+        res.status(200).send(result[0].count);
+    } catch (error) {
+        console.error("Error getting contacts information:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.post('/home/accounts', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const accounts = new Accounts();
+    try {
+        const result = await accounts.getAccountsCount(workspace_id);
+        res.status(200).send(result[0].count);
+    } catch (error) {
+        console.error("Error getting accounts information:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.post('/home/opportunities', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const opportunities = new Opportunities();
+    try {
+        const result = await opportunities.getActiveOpportunitiesCount(workspace_id);
+        res.status(200).send(result[0].count);
+    } catch (error) {
+        console.error("Error getting opportunities information:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

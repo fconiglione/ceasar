@@ -57,6 +57,17 @@ class Accounts {
             throw error;
         }
     }
+
+    async getAccountsCount (workspace_id) {
+        const query = `SELECT COUNT(account_id) FROM ceasar.accounts WHERE workspace_id = $1`;
+        const values = [workspace_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

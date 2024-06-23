@@ -8,7 +8,7 @@
                 <div class="home-stats-card lead-stats">
                     <div class="home-stats-card-content">
                         <div class="home-stats-content-item">
-                            <h1>100</h1>
+                            <h1>{{leadsCount || 0}}</h1>
                             <p>Active Leads</p>
                         </div>
                         <div class="home-stats-content-item">
@@ -23,7 +23,7 @@
                 <div class="home-stats-card account-stats">
                     <div class="home-stats-card-content">
                         <div class="home-stats-content-item">
-                            <h1>100</h1>
+                            <h1>{{accountsCount || 0}}</h1>
                             <p>Open Accounts</p>
                         </div>
                         <div class="home-stats-content-item">
@@ -38,7 +38,7 @@
                 <div class="home-stats-card opportunity-stats">
                     <div class="home-stats-card-content">
                         <div class="home-stats-content-item">
-                            <h1>100</h1>
+                            <h1>{{opportunitiesCount || 0}}</h1>
                             <p>Active Opportunities</p>
                         </div>
                         <div class="home-stats-content-item">
@@ -53,7 +53,7 @@
                 <div class="home-stats-card contact-stats">
                     <div class="home-stats-card-content">
                         <div class="home-stats-content-item">
-                            <h1>100</h1>
+                            <h1>{{contactsCount || 0}}</h1>
                             <p>Contacts</p>
                         </div>
                         <div class="home-stats-content-item">

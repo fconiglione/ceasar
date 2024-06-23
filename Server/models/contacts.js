@@ -57,6 +57,17 @@ class Contacts {
             throw error;
         }
     }
+
+    async getContactsCount (workspace_id) {
+        const query = `SELECT COUNT(contact_id) FROM ceasar.contacts WHERE workspace_id = $1`;
+        const values = [workspace_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

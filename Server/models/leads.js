@@ -57,6 +57,17 @@ class Leads {
             throw error;
         }
     }
+
+    async getActiveLeadsCount (workspace_id) {
+        const query = `SELECT COUNT(lead_id) FROM ceasar.leads WHERE workspace_id = $1 AND (status_id = 1 OR status_id = 2 OR status_id = 3)`;
+        const values = [workspace_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 
