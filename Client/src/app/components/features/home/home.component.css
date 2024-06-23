@@ -4,6 +4,11 @@
     flex-direction: column;
     gap: 20px;
 }
+.home-body {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
 /* Home header */
 
 .home-header {
