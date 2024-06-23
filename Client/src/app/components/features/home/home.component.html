@@ -5,7 +5,7 @@
     <div class="home-body">
         <div class="home-body-row">
             <div class="home-nav">
-                <div class="home-stats-card lead-stats">
+                <div class="home-stats-card lead-stats" (click)="switchView('leads')">
                     <div class="home-stats-card-content">
                         <div class="home-stats-content-item">
                             <h1>{{leadsCount || 0}}</h1>
@@ -20,7 +20,7 @@
                         <fa-icon [icon]="faCircleRight"></fa-icon>
                     </div>
                 </div>
-                <div class="home-stats-card account-stats">
+                <div class="home-stats-card account-stats" (click)="switchView('accounts')">
                     <div class="home-stats-card-content">
                         <div class="home-stats-content-item">
                             <h1>{{accountsCount || 0}}</h1>
@@ -35,7 +35,7 @@
                         <fa-icon [icon]="faCircleRight"></fa-icon>
                     </div>
                 </div>
-                <div class="home-stats-card opportunity-stats">
+                <div class="home-stats-card opportunity-stats" (click)="switchView('opportunities')">
                     <div class="home-stats-card-content">
                         <div class="home-stats-content-item">
                             <h1>{{opportunitiesCount || 0}}</h1>
@@ -50,7 +50,7 @@
                         <fa-icon [icon]="faCircleRight"></fa-icon>
                     </div>
                 </div>
-                <div class="home-stats-card contact-stats">
+                <div class="home-stats-card contact-stats" (click)="switchView('contacts')">
                     <div class="home-stats-card-content">
                         <div class="home-stats-content-item">
                             <h1>{{contactsCount || 0}}</h1>

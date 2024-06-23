@@ -3,6 +3,7 @@ import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faCircleRight, faUsers, faBuilding, faHandshake, faAddressBook } from "@fortawesome/free-solid-svg-icons";
 import { HomeService } from '../../../services/home/home.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { FeatureService } from '../../../services/feature/feature.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent {
 
-  constructor( private homeService : HomeService, private route: ActivatedRoute, private router: Router ) {}
+  constructor( private homeService : HomeService, private route: ActivatedRoute, private router: Router, private featureService: FeatureService ) {}
 
   faCircleRight = faCircleRight;
   faUsers = faUsers;
@@ -28,6 +29,14 @@ export class HomeComponent {
   accountsCount: number | undefined;
   opportunitiesCount: number | undefined;
   contactsCount: number | undefined;
+
+  home: boolean = true;
+  leads: boolean = false;
+  accounts: boolean = false;
+  opportunities: boolean = false;
+  contacts: boolean = false;
+  files: boolean = false;
+  reports: boolean = false;
 
   getLeadsCount() {
     this.homeService.getNumberOfActiveLeads(this.currentWorkspaceId).subscribe((data: any) => {
@@ -55,6 +64,38 @@ export class HomeComponent {
       this.contactsCount = data;
       return data;
     });
+  }
+
+  switchView(view: string) {
+    switch (view) {
+      case 'leads':
+        this.featureService.home = false;
+        this.featureService.leads = true;
+        break;
+      case 'accounts':
+        this.featureService.home = false;
+        this.featureService.accounts = true;
+        break;
+      case 'opportunities':
+        this.featureService.home = false;
+        this.featureService.opportunities = true;
+        break;
+      case 'contacts':
+        this.featureService.home = false;
+        this.featureService.contacts = true;
+        break;
+      case 'files':
+        this.featureService.home = false;
+        this.featureService.files = true;
+        break;
+      case 'reports':
+        this.featureService.home = false;
+        this.featureService.reports = true;
+        break;
+      default:
+        this.featureService.home = true;
+        break;
+    }
   }
 
   isWorkspacePath(): boolean {
