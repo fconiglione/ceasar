@@ -26,4 +26,8 @@ export class HomeService {
   getNumberOfContacts(workspaceId: any) {
     return this.httpClient.post(`${this.appServerUrl}/features/home/contacts`, {workspaceId});
   }
+
+  getEstimatedValue(workspaceId: any) {
+    return this.httpClient.post(`${this.appServerUrl}/features/home/estimated-value`, {workspaceId});
+  }
 }

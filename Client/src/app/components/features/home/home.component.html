@@ -68,11 +68,24 @@
             </div>
         </div>
         <div class="home-body-row">
-            <div class="home-body-row-item">
-                <h2>Recent Activity</h2>
+            <div class="home-alerts">
+                <div class="home-body-row-item">
+                    <h2>Alerts</h2>
+                </div>
+                <hr />
             </div>
-            <hr />
-            <div class="home-body-row-item"></div>
+            <div class="home-estimated-value">
+                <div class="home-body-row-item">
+                    <h2>Value Indicator</h2>
+                </div>
+                <hr />
+                <div class="home-estimated-value-content">
+                    <img [src]='valueIndicatorImg' alt="Value indicator curve diagram">
+                    <h1>${{estimatedValue || 0}}*</h1>
+                    <p>Estimated Value</p>
+                    <span>*This estimation is based on the total value of opportunities data</span>
+                </div>
+            </div>
         </div>  
     </div>
 </div>

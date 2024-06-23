@@ -316,4 +316,16 @@ router.post('/home/opportunities', async (req, res) => {
     }
 });
 
+router.post('/home/estimated-value', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const opportunities = new Opportunities();
+    try {
+        const result = await opportunities.getEstimatedValue(workspace_id);
+        res.status(200).send(result[0].sum);
+    } catch (error) {
+        console.error("Error getting estimated value information:", error);
+        res.status(500).send(error);
+    }
+});
+
 module.exports = router;

@@ -38,6 +38,8 @@ export class HomeComponent {
   files: boolean = false;
   reports: boolean = false;
 
+  valueIndicatorImg = 'assets/images/value-indicator.svg';
+
   getLeadsCount() {
     this.homeService.getNumberOfActiveLeads(this.currentWorkspaceId).subscribe((data: any) => {
       this.leadsCount = data;
@@ -62,6 +64,15 @@ export class HomeComponent {
   getContactsCount() {
     this.homeService.getNumberOfContacts(this.currentWorkspaceId).subscribe((data: any) => {
       this.contactsCount = data;
+      return data;
+    });
+  }
+
+  estimatedValue: number | undefined;
+
+  getEstimatedValue() {
+    this.homeService.getEstimatedValue(this.currentWorkspaceId).subscribe((data: any) => {
+      this.estimatedValue = data;
       return data;
     });
   }
@@ -110,6 +121,7 @@ export class HomeComponent {
         this.getAccountsCount();
         this.getOpportunitiesCount();
         this.getContactsCount();
+        this.getEstimatedValue();
       });
     } else {
       console.log('Not a workspace path');

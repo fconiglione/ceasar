@@ -69,6 +69,18 @@ class Opportunities {
             throw error;
         }
     }
+
+    async getEstimatedValue (workspace_id) {
+        const query = `SELECT SUM(value) FROM ceasar.opportunities WHERE workspace_id = $1 AND (opportunity_status_id = 1 OR opportunity_status_id = 2 OR opportunity_status_id = 3)`;
+        const values = [workspace_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
     
 }
 

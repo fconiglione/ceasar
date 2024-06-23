@@ -118,3 +118,55 @@
 .contact-stats .home-stats-card-nav {
     background-color: rgb(150, 0, 0);
 }
+
+/* Second content part */
+
+.home-body-row h2 {
+    font-size: 1.2em;
+}
+.home-body-row:nth-child(2) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    gap: 20px;
+}
+.home-estimated-value-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.home-estimated-value img {
+    height: 350px;
+    margin-bottom: -100px;
+}
+.home-estimated-value-content h1 {
+    font-size: 1.6em;
+    margin: 0;
+}
+.home-estimated-value-content p {
+    font-size: 1.2em;
+    margin: 0;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+.home-estimated-value-content span {
+    font-size: 0.8em;
+}
+@media screen and (max-width: 1140px) {
+    .home-body-row:nth-child(2) {
+        grid-template-columns: repeat(1, minmax(250px, 1fr));
+    }
+}
+@media screen and (max-width: 555px) {
+    .home-estimated-value img {
+        height: 250px;
+        margin-bottom: -50px;
+    }
+}
+@media screen and (max-width: 415px) {
+    .home-estimated-value img {
+        height: 200px;
+        margin-bottom: -50px;
+    }
+}
