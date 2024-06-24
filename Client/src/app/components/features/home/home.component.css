@@ -89,7 +89,7 @@
     color: rgba(85, 162, 49, 1);;
 }
 .lead-stats .home-stats-card-nav {
-    background-color: rgba(85, 162, 49, 1);;
+    background-color: rgba(85, 162, 49, 1);
 }
 .account-stats {
     background-color: #FFC107;
@@ -136,6 +136,11 @@
     align-items: center;
     text-align: center;
     height: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-radius: 10px;
+    margin-top: 20px;
+    padding: 20px;
 }
 .home-estimated-value img {
     height: 350px;
@@ -188,6 +193,7 @@
     align-items: center;
     flex-direction: column;
     height: -webkit-fill-available;
+    text-align: center;
 }
 .no-home-alerts div {
     display: flex;
@@ -200,5 +206,119 @@
     margin: 0;
 }
 .no-home-alerts h1 {
+    font-size: 1.2em;
     margin: 0;
+}
+
+/* Settings and help */
+
+.home-body hr {
+    width: 100%;
+    border-top: 1px solid #000000;
+    border-bottom: none;
+    border-right: none;
+    border-left: none;
+}
+.settings-help-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    gap: 20px;
+}
+@media screen and (max-width: 965px) {
+    .settings-help-nav {
+        grid-template-columns: repeat(1, minmax(250px, 1fr));
+    }
+}
+.home-settings-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    justify-content: space-between;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    color: #ffffff;
+    background-color: #888888;
+}
+.home-settings-card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+.home-settings-card-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    padding: 30px 20px;
+}
+.home-settings-card-content fa-icon {
+    font-size: 60px;
+    color: #4f4f4f;
+}
+.home-settings-card-content h1 {
+    font-size: 2.5em;
+    margin: 0;
+    color: #4f4f4f;
+}
+@media screen and (max-width: 700px) {
+    .home-settings-card-content h1, .home-help-card-content h1 {
+        font-size: 1.8em !important;
+    }
+    .home-help-card-content fa-icon, .home-settings-card-content fa-icon {
+        font-size: 45px !important;
+    }
+}
+.home-settings-card-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #eeeeee;
+    font-size: 0.9em;
+    border-radius: 0 0 10px 10px;
+    background-color: #4f4f4f;
+}
+
+.home-help-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    justify-content: space-between;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    color: #ffffff;
+    background-color: #815482;
+}
+.home-help-card:hover {
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+.home-help-card-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
+    padding: 30px 20px;
+}
+.home-help-card-content fa-icon {
+    font-size: 60px;
+    color: #523552;
+}
+.home-help-card-content h1 {
+    font-size: 2.5em;
+    margin: 0;
+    color: #523552;
+}
+.home-help-card-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: #eeeeee;
+    font-size: 0.9em;
+    border-radius: 0 0 10px 10px;
+    background-color: #523552;
 }

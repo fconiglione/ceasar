@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faCircleRight, faUsers, faBuilding, faHandshake, faAddressBook, faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
+import { faCircleRight, faUsers, faBuilding, faHandshake, faAddressBook, faExclamationTriangle, faGears, faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 import { HomeService } from '../../../services/home/home.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FeatureService } from '../../../services/feature/feature.service';
@@ -28,6 +28,8 @@ export class HomeComponent {
   faHandshake = faHandshake;
   faAddressBook = faAddressBook;
   faExclamationTriangle = faExclamationTriangle;
+  faGears = faGears;
+  faCircleInfo = faCircleInfo;
 
   currentWorkspaceId: string | undefined;
   leadsCount: number | undefined;
