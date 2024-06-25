@@ -323,3 +323,13 @@
     border-radius: 0 0 10px 10px;
     background-color: #523552;
 }
+
+/* Tasks and Sales Funnel */
+
+.home-body-row:nth-child(3) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Appointments */
