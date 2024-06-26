@@ -6,6 +6,8 @@ import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from './services/auth/auth.service';
 import { NgIf } from '@angular/common';
 import { environment } from '../environments/environment';
+import { ScreenDetectorService } from './services/screen-detector/screen-detector.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,7 @@ export class AppComponent {
   faCoffee = faCoffee;
   tokenVerified: boolean = false;
 
-  constructor( private authService: AuthService ) { }
+  constructor( private screenDetectorService: ScreenDetectorService, private router: Router, private authService: AuthService ) { }
 
   ngOnInit(): void {
     this.authService.verifyJWTToken().subscribe(
@@ -37,5 +39,13 @@ export class AppComponent {
         }
       }
     );
+
+    this.screenDetectorService.screenSizeChanges.subscribe(isSmallScreen => {
+      if (isSmallScreen) {
+        window.location.href = 'https://www.frim.io/apps/ceasar/download';
+      }
+    });
+
+    this.screenDetectorService.checkScreenSize();
   }
 }
