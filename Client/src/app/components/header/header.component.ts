@@ -176,7 +176,7 @@ export class HeaderComponent {
   refreshWorkspace() {
     this.getWorkspaceFeatures(this.currentWorkspaceId);
     this.workspace_setup = false;
-    this.toggleTitleWorkspaceEdit();
+    this.workspace_title_edit = false;
   }  
 
   toggleTitleWorkspaceEdit() {
