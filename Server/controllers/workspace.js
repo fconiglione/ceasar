@@ -17,7 +17,6 @@ router.post('/', async (req, res) => {
 
 router.post('/create', async (req, res) => {
     const user_id = req.body.user_id;
-    console.log("Body", req.body);
     if (!user_id) {
         return res.status(401).send("No user id available.");
     }
@@ -114,7 +113,6 @@ router.put('/features/:workspace_id', async (req, res) => {
     const has_contacts = req.body.has_contacts;
     const has_files = req.body.has_files;
     const has_reports = req.body.has_reports;
-    console.log("has_leads: ", has_leads, "has_accounts: ", has_accounts, "has_opportunities: ", has_opportunities, "has_contacts: ", has_contacts, "has_files: ", has_files, "has_reports: ", has_reports)
     const workspace = new Workspace();
     try {
         const result = await workspace.updateWorkspaceFeatures(workspace_id, user_id, has_leads, has_accounts, has_opportunities, has_contacts, has_files, has_reports);
@@ -126,7 +124,6 @@ router.put('/features/:workspace_id', async (req, res) => {
             has_files: result.has_files,
             has_reports: result.has_reports
         };
-        console.log(response);
         res.status(200).json(response);
     } catch (error) {
         console.error("Error updating workspace features:", error);

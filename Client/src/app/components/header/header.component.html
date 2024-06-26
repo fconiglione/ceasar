@@ -60,7 +60,7 @@
       <hr class="non-mobile-column">
       <div class="non-mobile-column" *ngIf="isWorkspacePath()">
         <div class="workspace-selector" (click)="openWorkspaceDropdown()">
-          <p>{{ selectedWorkspace }}</p>
+          <p>{{ title }}</p>
           <fa-icon [icon]="faChevronDown"></fa-icon>
         </div>
         <div class="mobile-home-btn">
@@ -107,46 +107,84 @@
         Files
       </div>
       <div class="add-workspace-feature">
-        <button class="add-workspace-feature-btn" (click)="triggerWorkspaceFeaturesDropdown()">
-          <fa-icon *ngIf="!workspaceFeaturesDropdown" [icon]="faSliders"></fa-icon>
-          <fa-icon *ngIf="workspaceFeaturesDropdown" [icon]="faTimes"></fa-icon>
+        <button class="add-workspace-feature-btn" (click)="workspace_setup = true">
+          <fa-icon [icon]="faSliders"></fa-icon>
         </button>
       </div>
     </div>
-    <div class="add-worspace-feature-dropdown">
-      <form class="add-workspace-feature-form">
-        <fieldset>
-          <h1>Feature menu</h1>
-          <fa-icon title="You can add or remove features at any time. Any data will not be lost." [icon]="faCircleInfo"></fa-icon>
-        </fieldset>
-        <fieldset>
+    <!-- Workspace setup -->
+    <div class="workspace-setup" *ngIf="workspace_setup">
+      <div class="workspace-setup-container">
+      <div class="workspace-setup-container-content">
+        <div class="workspace-setup-row workspace-setup-header">
           <div>
-            <input type="checkbox" id="feature1" name="feature1" value="leads" [(ngModel)]="has_leads" (change)="updateWorkspaceFeatures()">
-            <label for="feature1">Leads</label>
+            <h1>Workspace setup</h1>
           </div>
           <div>
-            <input type="checkbox" id="feature2" name="feature2" value="accounts" [(ngModel)]="has_accounts" (change)="updateWorkspaceFeatures()">
-            <label for="feature2">Accounts</label>
+            <button class="close-workspace-setup-btn-1" (click)="refreshWorkspace()">
+              <fa-icon [icon]="faXmark"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="workspace-setup-row">
+          <div>
+            <h2>Workspace name</h2>
+            <p>Rename your workspace.</p>
+          </div>
+          <div class="rename-workspace-section">
+            <input type="text" name="workspaceName" placeholder="Enter workspace name" [(ngModel)]="title" [disabled]="!workspace_title_edit">
+            <button class="edit-workspace-name-btn" (click)="toggleTitleWorkspaceEdit()">
+              <fa-icon [icon]="faPen"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="workspace-setup-row">
+          <div>
+            <h2>Feature selection</h2>
+            <p>You can add or remove features at any time. Any data will not be lost.</p>
+          </div>
+          <div class="workspace-setup-features">
+            <div class="workspace-setup-feature">
+              <input type="checkbox" id="feature1" name="feature1" value="leads" [(ngModel)]="has_leads">
+              <label for="feature1">Leads</label>
+            </div>
+            <div class="workspace-setup-feature">
+              <input type="checkbox" id="feature2" name="feature2" value="accounts" [(ngModel)]="has_accounts">
+              <label for="feature2">Accounts</label>
+            </div>
+            <div class="workspace-setup-feature">
+              <input type="checkbox" id="feature3" name="feature3" value="opportunities" [(ngModel)]="has_opportunities">
+              <label for="feature3">Opportunities</label>
+            </div>
+            <div class="workspace-setup-feature">
+              <input type="checkbox" id="feature4" name="feature4" value="contacts" [(ngModel)]="has_contacts">
+              <label for="feature4">Contacts</label>
+            </div>
+            <div class="workspace-setup-feature">
+              <input type="checkbox" id="feature5" name="feature5" value="files" [(ngModel)]="has_files">
+              <label for="feature5">Files</label>
+            </div>
+            <div class="workspace-setup-feature">
+              <input type="checkbox" id="feature6" name="feature6" value="reports" [(ngModel)]="has_reports">
+              <label for="feature6">Reports</label>
+            </div>
           </div>
           <div>
-            <input type="checkbox" id="feature3" name="feature3" value="opportunities" [(ngModel)]="has_opportunities" (change)="updateWorkspaceFeatures()">
-            <label for="feature3">Opportunities</label>
+            <p><i>More features coming soon...</i></p>
           </div>
-          <div>
-            <input type="checkbox" id="feature4" name="feature4" value="contacts" [(ngModel)]="has_contacts" (change)="updateWorkspaceFeatures()">
-            <label for="feature4">Contacts</label>
-          </div>
-          <div>
-            <input type="checkbox" id="feature5" name="feature5" value="files" [(ngModel)]="has_files" (change)="updateWorkspaceFeatures()">
-            <label for="feature5">Files</label>
-          </div>
-          <div>
-            <input type="checkbox" id="feature6" name="feature6" value="reports" [(ngModel)]="has_reports" (change)="updateWorkspaceFeatures()">
-            <label for="feature6">Reports</label>
-          </div>
-        </fieldset>
-      </form>
+        </div>
+        <div class="workspace-setup-row workspace-setup-nav">
+          <button class="close-workspace-setup-btn-2" (click)="refreshWorkspace()">
+            Cancel
+          </button>
+          <button class="save-workspace-setup-btn" (click)="updateWorkspace()">
+            Apply
+          </button>
+        </div>
+      </div>
+      </div>
     </div>
+    <!-- End of workspace setup -->
   </div>
   <div class="app-launcher inactive" id="app-launcher" (click)="closeAppLauncher()" [class.active]="isActive">
     <div class="app-launcher-container">

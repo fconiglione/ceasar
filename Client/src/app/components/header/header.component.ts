@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { NgOptimizedImage, NgIf, NgFor, NgStyle } from "@angular/common";
-import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome, faPlus, faCircleInfo, faSliders } from '@fortawesome/free-solid-svg-icons';
+import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome, faPlus, faCircleInfo, faSliders, faXmark, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { CookieService } from 'ngx-cookie-service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -44,6 +44,10 @@ export class HeaderComponent {
   contacts: boolean = false;
   files: boolean = false;
   reports: boolean = false;
+
+  // Boolean elements
+  workspace_setup: boolean = false;
+  workspace_title_edit: boolean = false;
 
   constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute, public featureService: FeatureService ) {}
   isActive: boolean = false;
@@ -97,9 +101,10 @@ export class HeaderComponent {
   currentYear = new Date().getFullYear();
   searchInputValue: string = '';
   currentWorkspaceId: string = '';
-  selectedWorkspace: string = '';
   workspaceDropdown: boolean = false;
   workspaceFeaturesDropdown: boolean = false;
+  faXmark = faXmark;
+  faPen = faPen;
 
   clearSearchInput() {
     const searchInput = this.elementRef.nativeElement.querySelector('#searchInput');
@@ -155,7 +160,7 @@ export class HeaderComponent {
 
   setDefaultWorkspace() {
       this.workspaceService.getWorkspaceByWorkspaceId(this.currentWorkspaceId).subscribe(response => {
-        this.selectedWorkspace = response || 'Untitled workspace';
+        this.title = response || 'Untitled workspace';
       });
   }   
 
@@ -166,6 +171,16 @@ export class HeaderComponent {
   
   redirectToSelectedWorkspace(workspaceId: string) {
     this.router.navigate(['/ws'], { queryParams: { workspace_id: workspaceId } });
+  }
+
+  refreshWorkspace() {
+    this.getWorkspaceFeatures(this.currentWorkspaceId);
+    this.workspace_setup = false;
+    this.toggleTitleWorkspaceEdit();
+  }  
+
+  toggleTitleWorkspaceEdit() {
+    this.workspace_title_edit = !this.workspace_title_edit;
   }
 
   openWorkspaceDropdown() {
@@ -193,26 +208,19 @@ export class HeaderComponent {
     });
   }
 
-  updateWorkspaceFeatures() {
+  updateWorkspace() {
+    this.workspaceService.updateWorkspace(this.currentWorkspaceId, this.title).subscribe(response => {
+    });
     this.workspaceService.updateWorkspaceFeatures(this.currentWorkspaceId, this.has_leads, this.has_accounts, this.has_opportunities, this.has_contacts, this.has_files, this.has_reports)
       .subscribe(response => {
         console.log(response);
       }, error => {
         console.error(error);
       });
-  }
 
-  triggerWorkspaceFeaturesDropdown() {
-    if (!this.workspaceFeaturesDropdown) {
-      const workspaceFeaturesDropdown = this.elementRef.nativeElement.querySelector('.add-worspace-feature-dropdown');
-      workspaceFeaturesDropdown.style.display = 'flex';
-      this.workspaceFeaturesDropdown = true;
-    }
-    else {
-      const workspaceFeaturesDropdown = this.elementRef.nativeElement.querySelector('.add-worspace-feature-dropdown');
-      workspaceFeaturesDropdown.style.display = 'none';
-      this.workspaceFeaturesDropdown = false;
-    }
+      this.refreshWorkspace(); 
+      this.setDefaultWorkspace();
+      this.getWorkspaces();    
   }
   
   ngOnInit() {
