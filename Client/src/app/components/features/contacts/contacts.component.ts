@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContactService } from '../../../services/contact/contact.service';
+import { LoadingComponent } from '../../loading/loading.component';
 
 @Component({
   selector: 'app-contacts',
@@ -14,7 +15,7 @@ import { ContactService } from '../../../services/contact/contact.service';
     FaIconComponent,
     NgFor, NgIf, DatePipe,
     CommonModule,
-    FormsModule
+    FormsModule, LoadingComponent
   ],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.css'

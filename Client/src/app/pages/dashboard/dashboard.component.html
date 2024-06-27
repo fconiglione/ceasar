@@ -210,8 +210,8 @@
         <p class="uh-oh">Uh oh! We couldn't find any active workspaces.</p>
         <p>Start a new workspace by clicking <span (click)="openCreateWorkspace()">here</span>, or by clicking the plus button at the bottom of your screen.</p>
       </div>
-      <div *ngIf="loading">
-        <p>Loading...</p>
+      <div id="loading" *ngIf="loading">
+          <app-loading></app-loading>
       </div>
     </div>
   </section>

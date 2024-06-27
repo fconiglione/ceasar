@@ -6,6 +6,7 @@ import { LeadService } from '../../../services/lead/lead.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../loading/loading.component';
 
 @Component({
   selector: 'app-leads',
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     NgIf,
     DatePipe,
     CommonModule,
-    FormsModule
+    FormsModule,
+    LoadingComponent
   ],
   templateUrl: './leads.component.html',
   styleUrl: './leads.component.css'

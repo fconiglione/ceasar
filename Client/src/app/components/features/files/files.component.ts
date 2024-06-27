@@ -5,13 +5,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FilesService } from '../../../services/files/files.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../loading/loading.component';
 
 @Component({
   selector: 'app-files',
   standalone: true,
   imports: [
     FaIconComponent,
-    CommonModule, FormsModule
+    CommonModule, FormsModule,
+    LoadingComponent
   ],
   templateUrl: './files.component.html',
   styleUrl: './files.component.css'

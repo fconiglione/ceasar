@@ -7,6 +7,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { WorkspaceService } from '../../services/workspace/workspace.service';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 export class workspace {
   workspace_id: string | undefined;
@@ -30,7 +31,7 @@ export class workspace {
     NgFor,
     NgIf,
     FormsModule,
-    DatePipe
+    DatePipe, LoadingComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

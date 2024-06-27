@@ -79,7 +79,7 @@
         <p class="uh-oh">Uh oh! We couldn't find any existing files.</p>
         <p>Upload a new file by clicking <span (click)="fileInput.click()">here</span>, or by clicking the 'Import File(s)' button at the top of your screen.</p>
     </div>
-    <div class="loading" *ngIf="loading">
-        <p>Loading...</p>
+    <div id="loading" *ngIf="loading">
+        <app-loading></app-loading>
     </div>
 </div>

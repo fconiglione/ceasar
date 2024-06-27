@@ -9,6 +9,7 @@ import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../services/search/search.service';
 import { ActivatedRoute } from '@angular/router';
+import { LoadingComponent } from '../../components/loading/loading.component';
 
 @Component({
   selector: 'app-search',
@@ -18,7 +19,7 @@ import { ActivatedRoute } from '@angular/router';
     NgFor,
     NgIf,
     FormsModule,
-    DatePipe
+    DatePipe, LoadingComponent
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'

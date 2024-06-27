@@ -149,7 +149,7 @@
         <p class="uh-oh">Uh oh! We couldn't find any existing contacts.</p>
         <p>Start a new contact by clicking <span (click)="openNewContactPopup()">here</span>, or by clicking the 'New contact' button at the top of your screen.</p>
     </div>
-    <div class="loading" *ngIf="loading">
-        <p>Loading...</p>
+    <div id="loading" *ngIf="loading">
+        <app-loading></app-loading>
     </div>
 </div>

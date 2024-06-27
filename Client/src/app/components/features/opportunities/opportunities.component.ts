@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../../services/accounts/account.service';
+import { LoadingComponent } from '../../loading/loading.component';
 
 @Component({
   selector: 'app-opportunities',
@@ -17,7 +18,8 @@ import { AccountService } from '../../../services/accounts/account.service';
     NgIf,
     DatePipe,
     CommonModule,
-    FormsModule
+    FormsModule,
+    LoadingComponent
   ],
   templateUrl: './opportunities.component.html',
   styleUrl: './opportunities.component.css'

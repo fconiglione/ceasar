@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../../services/accounts/account.service';
+import { LoadingComponent } from '../../loading/loading.component';
 
 @Component({
   selector: 'app-accounts',
@@ -14,7 +15,7 @@ import { AccountService } from '../../../services/accounts/account.service';
     FaIconComponent,
     NgFor, NgIf, DatePipe,
     CommonModule,
-    FormsModule
+    FormsModule, LoadingComponent
   ],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.css'

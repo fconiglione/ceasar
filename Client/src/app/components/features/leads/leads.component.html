@@ -218,7 +218,7 @@
         <p class="uh-oh">Uh oh! We couldn't find any existing leads.</p>
         <p>Start a new lead by clicking <span (click)="openNewLeadPopup()">here</span>, or by clicking the 'New Lead' button at the top of your screen.</p>
     </div>
-    <div class="loading" *ngIf="loading">
-        <p>Loading...</p>
+    <div id="loading" *ngIf="loading">
+        <app-loading></app-loading>
     </div>
 </div>
