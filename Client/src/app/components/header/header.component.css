@@ -569,6 +569,9 @@ header {
   color: #777777;
   margin: 10px 0;
 }
+.workspace-setup-feature input {
+  cursor: pointer;
+}
 .close-workspace-setup-btn-1 {
   background-color: transparent;
   border: none;
