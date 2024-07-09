@@ -4,7 +4,8 @@ const Workspace = require('../models/workspace');
 const { user } = require('pg/lib/defaults');
 
 router.post('/', async (req, res) => {
-    const { user_id } = req.body;
+    // const { user_id } = req.body;
+    const user_id = 11;
     const workspace = new Workspace();
     try {
         const result = await workspace.getWorkspacesByUserId(user_id);
