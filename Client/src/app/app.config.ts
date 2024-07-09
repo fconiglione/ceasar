@@ -6,5 +6,5 @@ import { provideHttpClient } from '@angular/common/http';
 import { AuthService } from './services/auth/auth.service';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideHttpClient(), AuthService]
+  providers: [provideRouter(routes), provideHttpClient()]
 };

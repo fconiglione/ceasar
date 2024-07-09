@@ -24,21 +24,21 @@ export class AppComponent {
   constructor( private screenDetectorService: ScreenDetectorService, private router: Router, private authService: AuthService ) { }
 
   ngOnInit(): void {
-    this.authService.verifyJWTToken().subscribe(
-      (response) => {
-        console.log(response);
-        this.tokenVerified = true;
-      },
-      (error) => {
-        console.error(error);
-        if (environment.production === false) {
-          this.tokenVerified = true;
-        } else {
-          this.tokenVerified = false;
-          window.location.href = 'https://www.cloud.frim.io/login';
-        }
-      }
-    );
+    // this.authService.verifyJWTToken().subscribe(
+    //   (response) => {
+    //     console.log(response);
+    //     this.tokenVerified = true;
+    //   },
+    //   (error) => {
+    //     console.error(error);
+    //     if (environment.production === false) {
+    //       this.tokenVerified = true;
+    //     } else {
+    //       this.tokenVerified = false;
+    //       window.location.href = 'https://www.cloud.frim.io/login';
+    //     }
+    //   }
+    // );
 
     this.screenDetectorService.screenSizeChanges.subscribe(isSmallScreen => {
       if (isSmallScreen) {
