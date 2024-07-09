@@ -5,13 +5,13 @@ import { environment } from '../../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class SearchService {
+export class UserService {
 
-  appServerUrl = environment.appServerUrl;
+  cloudServerUrl = environment.cloudServerUrl;
 
   constructor( private http: HttpClient ) { }
 
-  search(sub: any, searchTerm: any) {
-        return this.http.post(`${this.appServerUrl}/search`, { searchTerm, sub });
-  }  
+  registerUser(user: any) {
+    return this.http.post(`${this.cloudServerUrl}/users/auth/callback`, user);
+  }
 }

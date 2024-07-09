@@ -5,6 +5,7 @@ import {faEllipsisVertical, faCircleInfo, faArrowRightLong, faTrash,
  } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { WorkspaceService } from '../../services/workspace/workspace.service';
+import { UserService } from '../../services/user/user.service';
 import { AsyncPipe, NgFor, NgIf, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../components/loading/loading.component';
@@ -40,7 +41,12 @@ export class workspace {
 })
 export class DashboardComponent {
   // User variables
+  user: any;
   sub: string | undefined;
+  nickname: string | undefined;
+  name: string | undefined;
+  picture: string | undefined;
+  updated_at: string | undefined;
 
   WORKSPACE: any;
   workspace_id: string | undefined;
@@ -65,13 +71,12 @@ export class DashboardComponent {
   faUpRightFromSquare = faUpRightFromSquare;
   faPen = faPen;
   faChevronDown = faChevronDown;
-  tokenVerified: boolean = false;
   loading: boolean = true;
   ShapesBanner = "assets/images/shapes-banner.svg";
   activeFilter: string = '';
   workspaceSortFilterSelector: boolean = false;
 
-  constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService, public authService: AuthService ) {}
+  constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService, public authService: AuthService, private userService: UserService ) {}
 
   openCreateWorkspace() {
     const createWorkspacePopUp = this.elementRef.nativeElement.querySelector('#create-workspace-pop-up');
@@ -199,10 +204,28 @@ export class DashboardComponent {
     }
   }
 
+  registerUser() {
+    let user = {
+      sub: this.sub,
+      nickname: this.nickname,
+      name: this.name,
+      picture: this.picture,
+      updated_at: this.updated_at
+    };
+    this.userService.registerUser(user).subscribe((response: any) => {
+      console.log(response);
+    });
+  }
+
   ngOnInit() {
     this.authService.user$.subscribe(user => {
       if (user && user.sub) {
         this.sub = user.sub;
+        this.nickname = user.nickname;
+        this.name = user.name;
+        this.picture = user.picture;
+        this.updated_at = user.updated_at;
+        this.registerUser();
         this.getWorkspaces();
       }
     });
