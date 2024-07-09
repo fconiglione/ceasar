@@ -5,7 +5,6 @@ import {faEllipsisVertical, faCircleInfo, faArrowRightLong, faTrash,
  } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { WorkspaceService } from '../../services/workspace/workspace.service';
-import { UserService } from '../../services/user/user.service';
 import { AsyncPipe, NgFor, NgIf, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../components/loading/loading.component';
@@ -76,7 +75,7 @@ export class DashboardComponent {
   activeFilter: string = '';
   workspaceSortFilterSelector: boolean = false;
 
-  constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService, public authService: AuthService, private userService: UserService ) {}
+  constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService, public authService: AuthService ) {}
 
   openCreateWorkspace() {
     const createWorkspacePopUp = this.elementRef.nativeElement.querySelector('#create-workspace-pop-up');
