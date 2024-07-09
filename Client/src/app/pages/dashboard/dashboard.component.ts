@@ -5,9 +5,10 @@ import {faEllipsisVertical, faCircleInfo, faArrowRightLong, faTrash,
  } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { WorkspaceService } from '../../services/workspace/workspace.service';
-import { NgFor, NgIf, DatePipe } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { AuthService } from '@auth0/auth0-angular';
 
 export class workspace {
   workspace_id: string | undefined;
@@ -31,12 +32,16 @@ export class workspace {
     NgFor,
     NgIf,
     FormsModule,
-    DatePipe, LoadingComponent
+    DatePipe, LoadingComponent,
+    AsyncPipe
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  // User variables
+  sub: string | undefined;
+
   WORKSPACE: any;
   workspace_id: string | undefined;
   title: string | undefined;
@@ -66,7 +71,7 @@ export class DashboardComponent {
   activeFilter: string = '';
   workspaceSortFilterSelector: boolean = false;
 
-  constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService) {}
+  constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService, public authService: AuthService ) {}
 
   openCreateWorkspace() {
     const createWorkspacePopUp = this.elementRef.nativeElement.querySelector('#create-workspace-pop-up');
@@ -87,10 +92,10 @@ export class DashboardComponent {
     editWorkspacePopUp.style.display = 'none';
   }
   saveWorkspace(workspace_id : any, title: any) {
-    this.workspaceService.updateWorkspace(workspace_id, title).subscribe(response => {
-      this.getWorkspaces();
-      this.closeEditWorkspace();
-    });
+        this.workspaceService.updateWorkspace(this.sub, workspace_id, title).subscribe(response => {
+          this.getWorkspaces();
+          this.closeEditWorkspace();
+        });
   }
   openWorkspaceSubSetting(workspace : any) {
     this.WORKSPACE.forEach((ws: any) => {
@@ -113,7 +118,7 @@ export class DashboardComponent {
   }
 
   getWorkspaces(): void {
-    this.workspaceService.getWorkspaces().subscribe(response => {
+    this.workspaceService.getWorkspaces(this.sub).subscribe(response => {
       this.WORKSPACE = response;
       this.sortWorkspaces('last_opened_date');
       this.loading = false;
@@ -179,22 +184,27 @@ export class DashboardComponent {
       creation_date: new Date().toISOString().split('T')[0]
     };
 
-    this.workspaceService.addWorkspace(newWorkspace).subscribe(response => {
-      this.getWorkspaces();
-      this.closeCreateWorkspace();
-      this.onReset();
-    });
+      this.workspaceService.addWorkspace(this.sub, newWorkspace).subscribe(response => {
+        this.getWorkspaces();
+        this.closeCreateWorkspace();
+        this.onReset();
+      });
   }
 
   deleteWorkspace(workspace: any): void {
     if (confirm('Are you sure you want to delete this workspace?')) {
-      this.workspaceService.deleteWorkspace(workspace.workspace_id).subscribe(response => {
-        this.getWorkspaces();
-      });
+        this.workspaceService.deleteWorkspace(this.sub, workspace.workspace_id).subscribe(response => {
+          this.getWorkspaces();
+        });
     }
   }
 
   ngOnInit() {
-    this.getWorkspaces();
+    this.authService.user$.subscribe(user => {
+      if (user && user.sub) {
+        this.sub = user.sub;
+        this.getWorkspaces();
+      }
+    });
   }
 }

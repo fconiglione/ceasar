@@ -10,6 +10,7 @@ import { OpportunitiesComponent } from '../../components/features/opportunities/
 import { FilesComponent } from '../../components/features/files/files.component';
 import { ReportsComponent } from '../../components/features/reports/reports.component';
 import { HomeComponent } from '../../components/features/home/home.component';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-workspace',
@@ -24,6 +25,8 @@ import { HomeComponent } from '../../components/features/home/home.component';
   styleUrl: './workspace.component.css'
 })
 export class WorkspaceComponent {
+  sub: string | undefined;
+
   WORKSPACE: any;
   workspace_id: string | undefined;
   title: string | undefined;
@@ -38,7 +41,7 @@ export class WorkspaceComponent {
   last_opened_date: string | undefined;
   currentWorkspaceId: string | undefined;
 
-  constructor( private workspaceService : WorkspaceService, private route: ActivatedRoute, private router: Router, public featureService: FeatureService ) {}
+  constructor( private workspaceService : WorkspaceService, private route: ActivatedRoute, private router: Router, public featureService: FeatureService, public authService: AuthService ) {}
 
   // Declare feature variables
   home: boolean = false;
@@ -62,7 +65,7 @@ export class WorkspaceComponent {
 
   updateLastOpenedDate() {
     this.last_opened_date = new Date().toISOString();
-    this.workspaceService.updateLastOpenedDate(this.currentWorkspaceId, this.last_opened_date).subscribe(response => {
+    this.workspaceService.updateLastOpenedDate(this.sub, this.currentWorkspaceId, this.last_opened_date).subscribe(response => {
       console.log(response);
     });
   }
@@ -74,6 +77,11 @@ export class WorkspaceComponent {
   ngOnInit(): void {
     if (this.isWorkspacePath()) {
       this.route.queryParams.subscribe(params => {
+        this.authService.user$.subscribe(user => {
+          if (user && user.sub) {
+            this.sub = user.sub;
+          }
+        });
         this.currentWorkspaceId = params['workspace_id'] || '';
         this.updateLastOpenedDate();
       });

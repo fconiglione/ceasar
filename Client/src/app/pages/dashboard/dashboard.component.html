@@ -1,4 +1,4 @@
-<main>
+<main *ngIf="authService.user$ | async as user">
   <button id="create-workspace-btn" (click)="openCreateWorkspace()">
     <fa-icon [icon]="faPlus"></fa-icon>
   </button>

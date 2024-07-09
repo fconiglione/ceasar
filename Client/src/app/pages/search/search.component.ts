@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { SearchService } from '../../services/search/search.service';
 import { ActivatedRoute } from '@angular/router';
 import { LoadingComponent } from '../../components/loading/loading.component';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-search',
@@ -26,6 +27,8 @@ import { LoadingComponent } from '../../components/loading/loading.component';
 })
 
 export class SearchComponent {
+  sub: string | undefined;
+
   WORKSPACE: any;
   workspace_id: string | undefined;
   title: string | undefined;
@@ -53,7 +56,7 @@ export class SearchComponent {
   ShapesBanner = "assets/images/shapes-banner.svg";
   searchTerm = '';
 
-  constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService, private searchService: SearchService, private route: ActivatedRoute) {}
+  constructor(private elementRef: ElementRef, private workspaceService: WorkspaceService, private searchService: SearchService, private route: ActivatedRoute, public authService: AuthService) {}
 
   openCreateWorkspace() {
     const createWorkspacePopUp = this.elementRef.nativeElement.querySelector('#create-workspace-pop-up');
@@ -74,7 +77,7 @@ export class SearchComponent {
     editWorkspacePopUp.style.display = 'none';
   }
   saveWorkspace(workspace_id : any, title: any) {
-    this.workspaceService.updateWorkspace(workspace_id, title).subscribe(response => {
+    this.workspaceService.updateWorkspace(this.sub, workspace_id, title).subscribe(response => {
       this.getWorkspaces();
       this.closeEditWorkspace();
     });
@@ -103,7 +106,7 @@ export class SearchComponent {
 
     if (this.searchTerm) {
       // Send the api request to search
-      this.searchService.search(this.searchTerm).subscribe(response => {
+      this.searchService.search(this.sub, this.searchTerm).subscribe((response: any) => {
         this.WORKSPACE = response;
           this.loading = false;
       });
@@ -129,7 +132,7 @@ export class SearchComponent {
       creation_date: new Date().toISOString().split('T')[0]
     };
 
-    this.workspaceService.addWorkspace(newWorkspace).subscribe(response => {
+    this.workspaceService.addWorkspace(this.sub, newWorkspace).subscribe(response => {
       this.getWorkspaces();
       this.closeCreateWorkspace();
       this.onReset();
@@ -138,7 +141,7 @@ export class SearchComponent {
 
   deleteWorkspace(workspace: any): void {
     if (confirm('Are you sure you want to delete this workspace?')) {
-      this.workspaceService.deleteWorkspace(workspace.workspace_id).subscribe(response => {
+      this.workspaceService.deleteWorkspace(this.sub, workspace.workspace_id).subscribe(response => {
         this.getWorkspaces();
       });
     }
@@ -146,6 +149,11 @@ export class SearchComponent {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
+      this.authService.user$.subscribe(user => {
+        if (user && user.sub) {
+          this.sub = user.sub;
+        }
+      });
       this.searchTerm = params['q'] || '';
       this.getWorkspaces();
     });

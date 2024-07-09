@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { WorkspaceService } from '../../services/workspace/workspace.service';
 import { FormsModule } from '@angular/forms';
 import { FeatureService } from '../../services/feature/feature.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,8 @@ import { FeatureService } from '../../services/feature/feature.service';
 })
 
 export class HeaderComponent {
+  sub: string | undefined;
+
   WORKSPACE: any;
   workspace_id: string | undefined;
   title: string | undefined;
@@ -49,11 +52,11 @@ export class HeaderComponent {
   workspace_setup: boolean = false;
   workspace_title_edit: boolean = false;
 
-  constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute, public featureService: FeatureService ) {}
+  constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute, public featureService: FeatureService, public authService: AuthService ) {}
   isActive: boolean = false;
 
   getWorkspaces(): void {
-    this.workspaceService.getWorkspaces().subscribe(response => {
+    this.workspaceService.getWorkspaces(this.sub).subscribe(response => {
       this.WORKSPACE = response;
     });
   }
@@ -159,7 +162,7 @@ export class HeaderComponent {
   }
 
   setDefaultWorkspace() {
-      this.workspaceService.getWorkspaceByWorkspaceId(this.currentWorkspaceId).subscribe(response => {
+      this.workspaceService.getWorkspaceByWorkspaceId(this.sub, this.currentWorkspaceId).subscribe(response => {
         this.title = response || 'Untitled workspace';
       });
   }   
@@ -198,7 +201,7 @@ export class HeaderComponent {
   } 
 
   getWorkspaceFeatures(workspaceId: string) {
-    this.workspaceService.getWorkspaceFeatures(workspaceId).subscribe((response: any) => {
+    this.workspaceService.getWorkspaceFeatures(this.sub, workspaceId).subscribe((response: any) => {
       this.has_leads = response.has_leads;
       this.has_accounts = response.has_accounts;
       this.has_opportunities = response.has_opportunities;
@@ -209,9 +212,9 @@ export class HeaderComponent {
   }
 
   updateWorkspace() {
-    this.workspaceService.updateWorkspace(this.currentWorkspaceId, this.title).subscribe(response => {
+    this.workspaceService.updateWorkspace(this.sub, this.currentWorkspaceId, this.title).subscribe(response => {
     });
-    this.workspaceService.updateWorkspaceFeatures(this.currentWorkspaceId, this.has_leads, this.has_accounts, this.has_opportunities, this.has_contacts, this.has_files, this.has_reports)
+    this.workspaceService.updateWorkspaceFeatures(this.sub, this.currentWorkspaceId, this.has_leads, this.has_accounts, this.has_opportunities, this.has_contacts, this.has_files, this.has_reports)
       .subscribe(response => {
         console.log(response);
       }, error => {
@@ -226,6 +229,11 @@ export class HeaderComponent {
   ngOnInit() {
     if (this.isWorkspacePath()) {
       this.route.queryParams.subscribe(params => {
+        this.authService.user$.subscribe(user => {
+          if (user && user.sub) {
+            this.sub = user.sub;
+          }
+        });
         this.currentWorkspaceId = params['workspace_id'] || '';
         this.getWorkspaceFeatures(this.currentWorkspaceId);
         this.setDefaultWorkspace();

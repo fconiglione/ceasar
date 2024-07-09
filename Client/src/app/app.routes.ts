@@ -7,5 +7,6 @@ import { AuthGuard } from '@auth0/auth0-angular';
 export const routes: Routes = [
   { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuard] },
-  { path: 'ws', component: WorkspaceComponent, canActivate: [AuthGuard]}
+  { path: 'ws', component: WorkspaceComponent, canActivate: [AuthGuard]},
+  { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
