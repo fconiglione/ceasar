@@ -13,7 +13,7 @@ class User {
     }
 
     async getUserByJWTTokenId (token_id) {
-        const query = `SELECT user_id FROM cloud.jwt_cloud_tokens WHERE token_id = $1`;
+        const query = `SELECT sub FROM cloud.jwt_cloud_tokens WHERE token_id = $1`;
         const values = [token_id];
         try {
             const { rows } = await this.pool.query(query, values);

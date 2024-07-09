@@ -6,9 +6,9 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 router.post('/token-details', async (req, res) => {
-    const user_id = req.cookies.user_id;
+    const sub = req.cookies.sub;
     try {
-        res.status(200).send({ user_id: user_id });
+        res.status(200).send({ sub: sub });
     } catch (error) {
         console.error("Error getting user information:", error);
         res.status(500).send(error);
@@ -22,7 +22,7 @@ router.post('/admin-token-details', async (req, res) => {
         const user = new User();
     try {
         const result = await user.getUserByJWTTokenId(token_id);
-        res.status(200).send({ user_id: result[0].user_id });
+        res.status(200).send({ sub: result[0].sub });
     } catch (error) {
         console.error("Error getting user information:", error);
         res.status(500).send(error);
@@ -33,7 +33,7 @@ router.post('/admin-token-details', async (req, res) => {
         const user = new User();
     try {
         const result = await user.getUserByJWTTokenId(token_id);
-        res.status(200).send({ user_id: result[0].user_id });
+        res.status(200).send({ sub: result[0].sub });
     } catch (error) {
         console.error("Error getting user information:", error);
         res.status(500).send(error);

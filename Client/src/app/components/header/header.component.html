@@ -1,4 +1,4 @@
-<header>
+<header *ngIf="authService.user$ | async as user">
   <div class="header-container">
     <div class="header-column non-mobile-column">
       <div class="header-item">
@@ -60,7 +60,7 @@
       <hr class="non-mobile-column">
       <div class="non-mobile-column" *ngIf="isWorkspacePath()">
         <div class="workspace-selector" (click)="openWorkspaceDropdown()">
-          <p>{{ title }}</p>
+          <p>{{ title?.toString() }}</p>
           <fa-icon [icon]="faChevronDown"></fa-icon>
         </div>
         <div class="mobile-home-btn">

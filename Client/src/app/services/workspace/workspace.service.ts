@@ -28,8 +28,8 @@ export class WorkspaceService {
   }
 
   getWorkspaceByWorkspaceId(sub: any, workspaceId: string) {
-    return this.http.post(`${this.appServerUrl}/workspaces/id/${workspaceId}`, { sub }, { responseType: 'text' }); // added response type to prevent JSON formatting
-  }
+    return this.http.post(`${this.appServerUrl}/workspaces/id/${workspaceId}`, { sub }, { responseType: 'text' });
+  }  
 
   updateLastOpenedDate(sub: any, workspaceId: any, last_opened_date: string) {
     return this.http.put(`${this.appServerUrl}/workspaces/last-opened/${workspaceId}`, { last_opened_date, sub });
@@ -42,12 +42,12 @@ export class WorkspaceService {
   updateWorkspaceFeatures(
     sub: any,
     workspaceId: any,
-    has_leads: any,
-    has_accounts: any,
-    has_opportunities: any,
-    has_contacts: any,
-    has_files: any,
-    has_reports: any
+    has_leads: boolean,
+    has_accounts: boolean,
+    has_opportunities: boolean,
+    has_contacts: boolean,
+    has_files: boolean,
+    has_reports: boolean
   ) {
     return this.http.put(`${this.appServerUrl}/workspaces/features/${workspaceId}`, {
       sub, has_leads, has_accounts, has_opportunities, has_contacts, has_files, has_reports

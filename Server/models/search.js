@@ -12,9 +12,9 @@ class Search {
       });
     }
 
-    async getWorkspacesBySearchTerm (searchTerm, user_id) {
-        const query = `SELECT workspace_id, title, creation_date, last_opened_date FROM ceasar.workspaces WHERE title ILIKE '%' || $1 || '%'  AND user_id = $2`;
-        const values = [searchTerm, user_id];
+    async getWorkspacesBySearchTerm (searchTerm, sub) {
+        const query = `SELECT workspace_id, title, creation_date, last_opened_date FROM ceasar.workspaces WHERE title ILIKE '%' || $1 || '%'  AND sub = $2`;
+        const values = [searchTerm, sub];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;

@@ -5,12 +5,9 @@ const { user } = require('pg/lib/defaults');
 
 router.post('/', async (req, res) => {
     const { sub } = req.body;
-    console.log("sub", sub);
-    // const { user_id } = req.body;
-    const user_id = 11;
     const workspace = new Workspace();
     try {
-        const result = await workspace.getWorkspacesByUserId(user_id);
+        const result = await workspace.getWorkspacesBySub(sub);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error getting workspace information:", error);
@@ -19,14 +16,15 @@ router.post('/', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-    const user_id = req.body.user_id;
-    if (!user_id) {
-        return res.status(401).send("No user id available.");
+    const sub = req.body.sub;
+
+    if (!sub) {
+        return res.status(401).send("No sub available.");
     }
-    const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date } = req.body.workspace;
+    const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date } = req.body;
     const workspace = new Workspace();
     try {
-        const result = await workspace.createWorkspace(user_id, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date);
+        const result = await workspace.createWorkspace(sub, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error creating workspace:", error);
@@ -37,9 +35,9 @@ router.post('/create', async (req, res) => {
 router.delete('/:workspace_id' , async (req, res) => {
     const workspace_id = req.params.workspace_id;
     const workspace = new Workspace();
-    const user_id = req.body.user_id;
+    const sub = req.body.sub;
     try {
-        const result = await workspace.deleteWorkspace(workspace_id, user_id);
+        const result = await workspace.deleteWorkspace(workspace_id, sub);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error deleting workspace:", error);
@@ -49,10 +47,10 @@ router.delete('/:workspace_id' , async (req, res) => {
 
 router.put('/:workspace_id', async (req, res) => {
     const workspace_id = req.params.workspace_id;
-    const { title, user_id } = req.body;
+    const { title, sub } = req.body;
     const workspace = new Workspace();
     try {
-        const result = await workspace.updateWorkspace(workspace_id, title, user_id);
+        const result = await workspace.updateWorkspace(workspace_id, title, sub);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error updating workspace:", error);
@@ -61,11 +59,12 @@ router.put('/:workspace_id', async (req, res) => {
 });
 router.post('/id/:workspace_id', async (req, res) => {
     const workspace_id = req.params.workspace_id;
-    const user_id = req.body.user_id;
+    const sub = req.body.sub;
     const workspace = new Workspace();
     try {
-        const result = await workspace.getWorkspacesByWorkspaceId(workspace_id, user_id);
-        res.status(200).send(result[0].title);
+        const result = await workspace.getWorkspacesByWorkspaceId(workspace_id, sub);
+        console.log(result);
+        res.status(200).send(result);
     } catch (error) {
         console.error("Error getting workspace information:", error);
         res.status(500).send(error);
@@ -74,11 +73,11 @@ router.post('/id/:workspace_id', async (req, res) => {
 
 router.put('/last-opened/:workspace_id', async (req, res) => {
     const workspace_id = req.params.workspace_id;
-    const user_id = req.body.user_id;
+    const sub = req.body.sub;
     const last_opened_date = req.body.last_opened_date;
     const workspace = new Workspace();
     try {
-        const result = await workspace.updateLastOpenedDate(workspace_id, user_id, last_opened_date);
+        const result = await workspace.updateLastOpenedDate(workspace_id, sub, last_opened_date);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error updating last opened workspace:", error);
@@ -88,10 +87,10 @@ router.put('/last-opened/:workspace_id', async (req, res) => {
 
 router.post('/features/:workspace_id', async (req, res) => {
     const workspace_id = req.params.workspace_id;
-    const user_id = req.body.user_id;
+    const sub = req.body.sub;
     const workspace = new Workspace();
     try {
-        const result = await workspace.getWorkspaceFeatures(workspace_id, user_id);
+        const result = await workspace.getWorkspaceFeatures(workspace_id, sub);
         const response = {
             has_leads: result.has_leads,
             has_accounts: result.has_accounts,
@@ -109,7 +108,7 @@ router.post('/features/:workspace_id', async (req, res) => {
 
 router.put('/features/:workspace_id', async (req, res) => {
     const workspace_id = req.params.workspace_id;
-    const user_id = req.body.user_id;
+    const sub = req.body.sub;
     const has_leads = req.body.has_leads;
     const has_accounts = req.body.has_accounts;
     const has_opportunities = req.body.has_opportunities;
@@ -118,7 +117,7 @@ router.put('/features/:workspace_id', async (req, res) => {
     const has_reports = req.body.has_reports;
     const workspace = new Workspace();
     try {
-        const result = await workspace.updateWorkspaceFeatures(workspace_id, user_id, has_leads, has_accounts, has_opportunities, has_contacts, has_files, has_reports);
+        const result = await workspace.updateWorkspaceFeatures(workspace_id, sub, has_leads, has_accounts, has_opportunities, has_contacts, has_files, has_reports);
         const response = {
             has_leads: result.has_leads,
             has_accounts: result.has_accounts,

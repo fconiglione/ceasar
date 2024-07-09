@@ -185,10 +185,10 @@ router.post('/opportunities', async (req, res) => {
 });
 
 router.post('/opportunities/create', async (req, res) => {
-    const { workspace_id, user_id, title, value, account_id, description, opportunity_status_id } = req.body.opportunity;
+    const { workspace_id, sub, title, value, account_id, description, opportunity_status_id } = req.body.opportunity;
     const opportunities = new Opportunities();
     try {
-        const result = await opportunities.createOpportunity(workspace_id, user_id, title, value, account_id, description, opportunity_status_id);
+        const result = await opportunities.createOpportunity(workspace_id, sub, title, value, account_id, description, opportunity_status_id);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error creating opportunity:", error);
@@ -236,13 +236,13 @@ router.post('/files', async (req, res) => {
 
 router.post('/files/upload', upload.single('file'), (req, res) => {
     const { workspaceId } = req.body;
-    const user_id = null; // temporary null user_id
+    const sub = null; // temporary null sub
     const files = new Files();
     const stream = cloudinary.uploader.upload_stream(
       { resource_type: 'auto' },
       (error, result) => {
         if (result) {
-            files.uploadFileToDatabase(workspaceId, req.file.originalname, result.secure_url, user_id, req.file.size, req.file.mimetype, result.public_id, result.resource_type);
+            files.uploadFileToDatabase(workspaceId, req.file.originalname, result.secure_url, sub, req.file.size, req.file.mimetype, result.public_id, result.resource_type);
             res.status(200).send(result);
         } else {
           res.status(500).send(error);

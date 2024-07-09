@@ -1,5 +1,5 @@
 import { Component, ElementRef } from '@angular/core';
-import { NgOptimizedImage, NgIf, NgFor, NgStyle } from "@angular/common";
+import { AsyncPipe, NgOptimizedImage, NgIf, NgFor, NgStyle } from "@angular/common";
 import { faBell, faGear, faQuestion, faSearch, faTimes, faUser, faArrowRight, faRightFromBracket, faChevronRight, faChevronDown, faHome, faPlus, faCircleInfo, faSliders, faXmark, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { CookieService } from 'ngx-cookie-service';
@@ -18,7 +18,7 @@ import { AuthService } from '@auth0/auth0-angular';
     NgIf,
     NgFor,
     FormsModule,
-    NgStyle
+    NgStyle, AsyncPipe
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
@@ -32,12 +32,12 @@ export class HeaderComponent {
   title: string | undefined;
   description: string | undefined;
   // Features present
-  has_leads: boolean | undefined;
-  has_accounts: boolean | undefined;
-  has_opportunities: boolean | undefined;
-  has_contacts: boolean | undefined;
-  has_files: boolean | undefined;
-  has_reports: boolean | undefined;
+  has_leads!: boolean | false;
+  has_accounts!: boolean | false;
+  has_opportunities!: boolean | false;
+  has_contacts!: boolean | false;
+  has_files!: boolean | false;
+  has_reports!: boolean | false;
 
   // Features active
   home: boolean = false;
@@ -162,10 +162,10 @@ export class HeaderComponent {
   }
 
   setDefaultWorkspace() {
-      this.workspaceService.getWorkspaceByWorkspaceId(this.sub, this.currentWorkspaceId).subscribe(response => {
-        this.title = response || 'Untitled workspace';
-      });
-  }   
+    this.workspaceService.getWorkspaceByWorkspaceId(this.sub, this.currentWorkspaceId).subscribe(response => {
+      this.title = response || 'Untitled workspace';
+    });
+  }  
 
   getWorkspaceTitleById(workspaceId: string): string {
     const workspace = this.WORKSPACE.find((ws: any) => ws.workspace_id === workspaceId);
@@ -201,6 +201,7 @@ export class HeaderComponent {
   } 
 
   getWorkspaceFeatures(workspaceId: string) {
+    if (this.sub) {
     this.workspaceService.getWorkspaceFeatures(this.sub, workspaceId).subscribe((response: any) => {
       this.has_leads = response.has_leads;
       this.has_accounts = response.has_accounts;
@@ -209,6 +210,7 @@ export class HeaderComponent {
       this.has_files = response.has_files;
       this.has_reports = response.has_reports;
     });
+  }
   }
 
   updateWorkspace() {
@@ -228,22 +230,22 @@ export class HeaderComponent {
   
   ngOnInit() {
     if (this.isWorkspacePath()) {
-      this.route.queryParams.subscribe(params => {
-        this.authService.user$.subscribe(user => {
-          if (user && user.sub) {
-            this.sub = user.sub;
-          }
-        });
-        this.currentWorkspaceId = params['workspace_id'] || '';
-        this.getWorkspaceFeatures(this.currentWorkspaceId);
-        this.setDefaultWorkspace();
-        this.getWorkspaces();
-        this.featureService.setActiveFeature('home');
+      this.authService.user$.subscribe(user => {
+        if (user && user.sub) {
+          this.sub = user.sub;
+          this.route.queryParams.subscribe(params => {
+            this.currentWorkspaceId = params['workspace_id'] || '';
+            this.getWorkspaceFeatures(this.currentWorkspaceId);
+            this.setDefaultWorkspace();
+            this.getWorkspaces();
+            this.featureService.setActiveFeature('home');
+          });
+        }
       });
     } else {
       this.getWorkspaces();
     }
-  }
+  }  
 
   ngAfterViewInit() {
     this.featureService.setActiveFeature('home'); // Adding default active feature to home
