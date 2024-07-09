@@ -204,30 +204,7 @@ export class DashboardComponent {
     }
   }
 
-  registerUser() {
-    let user = {
-      sub: this.sub,
-      nickname: this.nickname,
-      name: this.name,
-      picture: this.picture,
-      updated_at: this.updated_at
-    };
-    this.userService.registerUser(user).subscribe((response: any) => {
-      console.log(response);
-    });
-  }
-
   ngOnInit() {
-    this.authService.user$.subscribe(user => {
-      if (user && user.sub) {
-        this.sub = user.sub;
-        this.nickname = user.nickname;
-        this.name = user.name;
-        this.picture = user.picture;
-        this.updated_at = user.updated_at;
-        this.registerUser();
-        this.getWorkspaces();
-      }
-    });
+    this.getWorkspaces();
   }
 }

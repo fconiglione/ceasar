@@ -8,6 +8,7 @@ import { WorkspaceService } from '../../services/workspace/workspace.service';
 import { FormsModule } from '@angular/forms';
 import { FeatureService } from '../../services/feature/feature.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,13 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 
 export class HeaderComponent {
+  // User variables
+  user: any;
   sub: string | undefined;
+  nickname: string | undefined;
+  name: string | undefined;
+  picture: string | undefined;
+  updated_at: string | undefined;
 
   WORKSPACE: any;
   workspace_id: string | undefined;
@@ -52,7 +59,7 @@ export class HeaderComponent {
   workspace_setup: boolean = false;
   workspace_title_edit: boolean = false;
 
-  constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute, public featureService: FeatureService, public authService: AuthService ) {}
+  constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute, public featureService: FeatureService, public authService: AuthService, private userService: UserService ) {}
   isActive: boolean = false;
 
   getWorkspaces(): void {
@@ -227,12 +234,29 @@ export class HeaderComponent {
       this.setDefaultWorkspace();
       this.getWorkspaces();    
   }
+
+  registerUser() {
+    let user = {
+      sub: this.sub,
+      nickname: this.nickname,
+      name: this.name,
+      picture: this.picture,
+      updated_at: this.updated_at
+    };
+    this.userService.registerUser(user).subscribe((response: any) => {
+      console.log(response);
+    });
+  }
   
   ngOnInit() {
     if (this.isWorkspacePath()) {
       this.authService.user$.subscribe(user => {
         if (user && user.sub) {
           this.sub = user.sub;
+          this.nickname = user.nickname;
+          this.name = user.name;
+          this.picture = user.picture;
+          this.updated_at = user.updated_at;
           this.route.queryParams.subscribe(params => {
             this.currentWorkspaceId = params['workspace_id'] || '';
             this.getWorkspaceFeatures(this.currentWorkspaceId);
