@@ -21,7 +21,7 @@ router.post('/create', async (req, res) => {
     if (!sub) {
         return res.status(401).send("No sub available.");
     }
-    const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date } = req.body;
+    const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date } = req.body.workspace;
     const workspace = new Workspace();
     try {
         const result = await workspace.createWorkspace(sub, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date);
