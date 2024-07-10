@@ -204,6 +204,11 @@ export class DashboardComponent {
   }
 
   ngOnInit() {
+    this.authService.user$.subscribe(user => {
+      if (user && user.sub) {
+        this.sub = user.sub;
+      }
+    });
     this.getWorkspaces();
   }
 }
