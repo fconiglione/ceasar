@@ -87,9 +87,9 @@ export class HeaderComponent {
     document.body.style.overflow = 'auto';
   }
   logoutUser() {
+    this.authService.logout();
     sessionStorage.clear();
-    this.cookieService.delete('token_id');
-    window.location.href = 'https://www.cloud.frim.io/login';
+    window.location.href = 'https://www.cloud.frim.io';
   }
   appLauncherIcon = 'assets/images/app-launcher-icon.png'
   CeasarColouredLogo1 = "assets/images/ceasar-coloured-logo-1.svg";
