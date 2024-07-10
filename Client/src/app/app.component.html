@@ -4,6 +4,7 @@
   </ng-container>
   
   <ng-container *ngIf="!isAuthenticated">
-    <app-loading></app-loading>
+    <!-- Redirect to login if not authenticated -->
+    <app-login></app-login>
   </ng-container>
   

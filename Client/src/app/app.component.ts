@@ -9,11 +9,12 @@ import { environment } from '../environments/environment';
 import { ScreenDetectorService } from './services/screen-detector/screen-detector.service';
 import { Router } from '@angular/router';
 import { LoadingComponent } from './components/loading/loading.component';
+import { LoginComponent } from './components/login/login.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, [FontAwesomeModule], NgIf, LoadingComponent],
+  imports: [RouterOutlet, HeaderComponent, [FontAwesomeModule], NgIf, LoadingComponent, LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -25,21 +26,6 @@ export class AppComponent {
   constructor( private screenDetectorService: ScreenDetectorService, private router: Router, private authService: AuthService ) { }
 
   ngOnInit(): void {
-    // this.authService.verifyJWTToken().subscribe(
-    //   (response) => {
-    //     console.log(response);
-    //     this.tokenVerified = true;
-    //   },
-    //   (error) => {
-    //     console.error(error);
-    //     if (environment.production === false) {
-    //       this.tokenVerified = true;
-    //     } else {
-    //       this.tokenVerified = false;
-    //       window.location.href = 'https://www.cloud.frim.io/login';
-    //     }
-    //   }
-    // );
 
     this.authService.isAuthenticated$.subscribe(
       (authenticated: boolean) => {
