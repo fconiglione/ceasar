@@ -27,6 +27,8 @@ export class AppComponent {
 
   ngOnInit(): void {
 
+    this.screenDetectorService.checkScreenSize();
+
     this.authService.isAuthenticated$.subscribe(
       (authenticated: boolean) => {
         this.isAuthenticated = authenticated;
@@ -38,7 +40,5 @@ export class AppComponent {
         window.location.href = 'https://www.frim.io/apps/ceasar/download';
       }
     });
-
-    this.screenDetectorService.checkScreenSize();
   }
 }
