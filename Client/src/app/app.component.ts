@@ -22,10 +22,17 @@ export class AppComponent {
   title = 'Client';
   faCoffee = faCoffee;
   isAuthenticated = false;
+  isSmallScreen = false;
 
   constructor( private screenDetectorService: ScreenDetectorService, private router: Router, private authService: AuthService ) { }
 
   ngOnInit(): void {
+    this.screenDetectorService.screenSizeChanges.subscribe(isSmallScreen => {
+      if (isSmallScreen) {
+        this.isSmallScreen = true;
+        window.location.href = 'https://www.frim.io/apps/ceasar/download';
+      }
+    });
 
     this.screenDetectorService.checkScreenSize();
 
@@ -35,10 +42,5 @@ export class AppComponent {
       }
     );
 
-    this.screenDetectorService.screenSizeChanges.subscribe(isSmallScreen => {
-      if (isSmallScreen) {
-        window.location.href = 'https://www.frim.io/apps/ceasar/download';
-      }
-    });
   }
 }

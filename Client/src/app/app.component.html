@@ -1,4 +1,4 @@
-<ng-container *ngIf="isAuthenticated">
+<ng-container *ngIf="isAuthenticated && !isSmallScreen">
     <app-header></app-header>
     <router-outlet></router-outlet>
   </ng-container>
