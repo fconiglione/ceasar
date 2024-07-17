@@ -39,8 +39,8 @@ export class SearchComponent {
   has_contacts: boolean | undefined;
   has_files: boolean | undefined;
   has_reports: boolean | undefined;
-  creation_date: string | undefined;
-  last_opened_date: string | undefined;
+  created_at: string | undefined;
+  last_opened_at: string | undefined;
 
   faArrowRightLong = faArrowRightLong;
   BlankWorkspace = "assets/images/blank-workspace-img.png";
@@ -129,7 +129,7 @@ export class SearchComponent {
       has_contacts: this.has_contacts,
       has_files: this.has_files,
       has_reports: this.has_reports,
-      creation_date: new Date().toISOString().split('T')[0]
+      created_at: new Date().toISOString().split('T')[0]
     };
 
     this.workspaceService.addWorkspace(this.sub, newWorkspace).subscribe(response => {
@@ -152,10 +152,10 @@ export class SearchComponent {
       this.authService.user$.subscribe(user => {
         if (user && user.sub) {
           this.sub = user.sub;
+          this.searchTerm = params['q'] || '';
+          this.getWorkspaces();
         }
       });
-      this.searchTerm = params['q'] || '';
-      this.getWorkspaces();
     });
   }
 }

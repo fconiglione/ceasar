@@ -20,8 +20,8 @@ export class workspace {
   has_contacts: boolean | undefined;
   has_files: boolean | undefined;
   has_reports: boolean | undefined;
-  creation_date: string | undefined;
-  last_opened_date: string | undefined;
+  created_at: string | undefined;
+  last_opened_at: string | undefined;
 }
 
 @Component({
@@ -57,8 +57,8 @@ export class DashboardComponent {
   has_contacts: boolean | undefined;
   has_files: boolean | undefined;
   has_reports: boolean | undefined;
-  creation_date: string | undefined;
-  last_opened_date: string | undefined;
+  created_at: string | undefined;
+  last_opened_at: string | undefined;
 
   faArrowRightLong = faArrowRightLong;
   BlankWorkspace = "assets/images/blank-workspace-img.png";
@@ -124,7 +124,7 @@ export class DashboardComponent {
   getWorkspaces(): void {
     this.workspaceService.getWorkspaces(this.sub).subscribe(response => {
       this.WORKSPACE = response;
-      this.sortWorkspaces('last_opened_date');
+      this.sortWorkspaces('last_opened_at');
       this.loading = false;
     });
   }
@@ -146,20 +146,20 @@ export class DashboardComponent {
   }
 
   sortWorkspaces(sortFactor: any): void {
-    if (sortFactor === 'last_opened_date') {
+    if (sortFactor === 'last_opened_at') {
       this.activeFilter = 'Last opened';
       this.WORKSPACE.sort((a: workspace, b: workspace) => {
-        const dateA = new Date(a.last_opened_date || '1970-01-01');
-        const dateB = new Date(b.last_opened_date || '1970-01-01');
+        const dateA = new Date(a.last_opened_at || '1970-01-01');
+        const dateB = new Date(b.last_opened_at || '1970-01-01');
         
         return dateB.getTime() - dateA.getTime();
       });
     }
-    if (sortFactor === 'creation_date') {
+    if (sortFactor === 'created_at') {
       this.activeFilter = 'Creation date';
       this.WORKSPACE.sort((a: workspace, b: workspace) => {
-        const dateA = new Date(a.creation_date || '1970-01-01');
-        const dateB = new Date(b.creation_date || '1970-01-01');
+        const dateA = new Date(a.created_at || '1970-01-01');
+        const dateB = new Date(b.created_at || '1970-01-01');
         
         return dateB.getTime() - dateA.getTime();
       });
@@ -185,7 +185,7 @@ export class DashboardComponent {
       has_contacts: this.has_contacts,
       has_files: this.has_files,
       has_reports: this.has_reports,
-      creation_date: new Date().toISOString().split('T')[0]
+      created_at: new Date().toISOString().split('T')[0]
     };
 
       this.workspaceService.addWorkspace(this.sub, newWorkspace).subscribe(response => {

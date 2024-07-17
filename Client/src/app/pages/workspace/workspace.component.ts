@@ -80,10 +80,10 @@ export class WorkspaceComponent {
         this.authService.user$.subscribe(user => {
           if (user && user.sub) {
             this.sub = user.sub;
+            this.currentWorkspaceId = params['workspace_id'] || '';
+            this.updateLastOpenedDate();
           }
         });
-        this.currentWorkspaceId = params['workspace_id'] || '';
-        this.updateLastOpenedDate();
       });
     } else {
       console.log('Not a workspace path');

@@ -26,7 +26,7 @@ class Workspace {
     }
 
     async createWorkspace (sub, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date) {
-        const query = `INSERT INTO ceasar.workspaces (sub, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date)
+        const query = `INSERT INTO ceasar.workspaces (sub, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, created_at)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
         const values = [sub, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date];
         try {
@@ -71,7 +71,7 @@ class Workspace {
     }
 
     async updateLastOpenedDate (workspace_id, sub, last_opened_date) {
-        const query = `UPDATE ceasar.workspaces SET last_opened_date = $3 WHERE workspace_id = $1 AND sub = $2`;
+        const query = `UPDATE ceasar.workspaces SET last_opened_at = $3 WHERE workspace_id = $1 AND sub = $2`;
         const values = [workspace_id, sub, last_opened_date];
         try {
             const { rows } = await this.pool.query(query, values);

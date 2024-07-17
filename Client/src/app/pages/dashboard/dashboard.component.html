@@ -149,10 +149,10 @@
             </div>
           </div>
           <div class="workspace-filter-selector">
-            <div class="workspace-filter-item" (click)="sortWorkspaces('last_opened_date')" (click)="closeWorkspaceSortFilterSelector()">
+            <div class="workspace-filter-item" (click)="sortWorkspaces('last_opened_at')" (click)="closeWorkspaceSortFilterSelector()">
               <p>Last opened</p>
             </div>
-            <div class="workspace-filter-item" (click)="sortWorkspaces('creation_date')" (click)="closeWorkspaceSortFilterSelector()">
+            <div class="workspace-filter-item" (click)="sortWorkspaces('created_at')" (click)="closeWorkspaceSortFilterSelector()">
               <p>Creation date</p>
             </div>
             <div class="workspace-filter-item" (click)="sortWorkspaces('title')" (click)="closeWorkspaceSortFilterSelector()">
@@ -175,8 +175,8 @@
                 <div class="workspace-active-sub">
                   <div>
                     <img class="workspace-logo" [src]="CeasarColouredLogo2" alt="A small Ceasar logo">
-                    <p *ngIf="workspace.last_opened_date">Last opened {{workspace.last_opened_date | date: 'longDate' }}</p>
-                    <p *ngIf="!workspace.last_opened_date">Created on {{workspace.creation_date | date: 'longDate' }}</p>
+                    <p *ngIf="workspace.last_opened_at">Last opened {{workspace.last_opened_at | date: 'longDate' }}</p>
+                    <p *ngIf="!workspace.last_opened_at">Created on {{workspace.created_at | date: 'longDate' }}</p>
                   </div>
                   <div class="workspace-sub-setting" (click)="openWorkspaceSubSetting(workspace)">
                     <a href="javascript:void(0)">

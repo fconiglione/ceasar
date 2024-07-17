@@ -63,7 +63,6 @@ router.post('/id/:workspace_id', async (req, res) => {
     const workspace = new Workspace();
     try {
         const result = await workspace.getWorkspacesByWorkspaceId(workspace_id, sub);
-        console.log(result);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error getting workspace information:", error);

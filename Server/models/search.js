@@ -13,7 +13,7 @@ class Search {
     }
 
     async getWorkspacesBySearchTerm (searchTerm, sub) {
-        const query = `SELECT workspace_id, title, creation_date, last_opened_date FROM ceasar.workspaces WHERE title ILIKE '%' || $1 || '%'  AND sub = $2`;
+        const query = `SELECT workspace_id, title, created_at, last_opened_at FROM ceasar.workspaces WHERE title ILIKE '%' || $1 || '%'  AND sub = $2`;
         const values = [searchTerm, sub];
         try {
             const { rows } = await this.pool.query(query, values);
