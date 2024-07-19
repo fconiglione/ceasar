@@ -79,7 +79,7 @@
 .leads-filter:hover {
     background-color: #dddddd;
 }
-.leads-search {
+/* .leads-search {
     display: flex;
     flex-direction: row;
     gap: 8px;
@@ -100,7 +100,7 @@
 }
 .leads-search input:focus {
   outline: none;
-}
+} */
 .status-dot {
     height: 15px;
     width: 15px;
@@ -837,4 +837,113 @@
 }
 .lead-details-h2 {
   font-size: 1em;
+}
+
+/* Leads v2.0 */
+
+/* Leads Main Container (.leads-main-container) */
+
+.leads-main-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 1%;
+}
+.leads-main-container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.leads-main-container-header-nav {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.create-lead-btn {
+  background-color: #FF9e67;
+  border: 1px solid #FF9e67;
+  border-radius: 3px;
+  padding: 6px 12px;
+  font-size: 1em;
+  cursor: pointer;
+  color: #ffffff;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+}
+.create-lead-btn:hover {
+  background-color: #FF8e57;
+  border-color: #FF8e57;
+}
+.more-lead-btn {
+  border: 1px solid #777777;
+  border-radius: 3px;
+  background-color: transparent;
+  width: 40px; /* To make it a square */
+  padding: 6px 12px;
+  font-size: 1em;
+  cursor: pointer;
+  color: #777777;
+  transition: border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+}
+.more-lead-btn:hover {
+  border-color: #000000;
+  color: #000000;
+}
+.leads-main-container-body-filtering-container {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+}
+.leads-filters {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.leads-search {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  width: 100%;
+}
+.leads-search input {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  font-size: 1em;
+}
+.leads-search input:focus {
+  outline: none;
+}
+.leads-filters button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  font-size: 0.9em;
+  color: #777777;
+  white-space: nowrap;
+  transition: color 0.1s ease-in-out;
+}
+.leads-filters button:hover {
+  color: #555555;
+}
+.leads-view {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.leads-owners {
+  border-right: 1px solid #777777;
+  border-left: 1px solid #777777;
+  padding: 0 15px;
+}
+.leads-sort {
+  border-right: 1px solid #777777;
+  padding-right: 15px;
 }

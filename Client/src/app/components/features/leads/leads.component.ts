@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { LeadService } from '../../../services/lead/lead.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -61,6 +61,10 @@ export class LeadsComponent {
   faEdit = faEdit;
   faTrash = faTrash;
   faArrowLeft = faArrowLeft;
+  faUserAlt = faUserAlt;
+  faSort = faSort;
+  faBars = faBars;
+  faTableCells = faTableCells;
 
   constructor( private leadService: LeadService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef ) { }
 
@@ -81,243 +85,243 @@ export class LeadsComponent {
     this.closedLeadsCount = this.LEAD.filter((lead: any) => lead.status_id === 4).length;
   }
 
-  getStatus(statusId: string): string {
-    switch (statusId) {
-      case '1':
-        return 'New';
-      case '2':
-        return 'Contacted';
-      case '3':
-        return 'In-Process';
-      case '4':
-        return 'Closed';
-      default:
-        return 'Unassigned';
-    }
-  }
+  // getStatus(statusId: string): string {
+  //   switch (statusId) {
+  //     case '1':
+  //       return 'New';
+  //     case '2':
+  //       return 'Contacted';
+  //     case '3':
+  //       return 'In-Process';
+  //     case '4':
+  //       return 'Closed';
+  //     default:
+  //       return 'Unassigned';
+  //   }
+  // }
 
-  getStatusClasses(statusId: string): any {
-    switch (statusId) {
-      case '1':
-        return { 'status': true, 'new': true };
-      case '2':
-        return { 'status': true, 'contacted': true };
-      case '3':
-        return { 'status': true, 'in-process': true };
-      case '4':
-        return { 'status': true, 'closed': true };
-      default:
-        return { 'status': true, 'unassigned': true };
-    }
-  }
+  // getStatusClasses(statusId: string): any {
+  //   switch (statusId) {
+  //     case '1':
+  //       return { 'status': true, 'new': true };
+  //     case '2':
+  //       return { 'status': true, 'contacted': true };
+  //     case '3':
+  //       return { 'status': true, 'in-process': true };
+  //     case '4':
+  //       return { 'status': true, 'closed': true };
+  //     default:
+  //       return { 'status': true, 'unassigned': true };
+  //   }
+  // }
 
-  openNewLeadPopup(): void {
-    // Open the new lead popup
-    const newLeadPopup = this.elementRef.nativeElement.querySelector('.create-lead-pop-up');
-    newLeadPopup.style.display = 'block';
-  }
+  // openNewLeadPopup(): void {
+  //   // Open the new lead popup
+  //   const newLeadPopup = this.elementRef.nativeElement.querySelector('.create-lead-pop-up');
+  //   newLeadPopup.style.display = 'block';
+  // }
 
-  closeNewLeadPopup(): void {
-    // Close the new lead popup
-    const newLeadPopup = this.elementRef.nativeElement.querySelector('.create-lead-pop-up');
-    newLeadPopup.style.display = 'none';
-    this.onReset();
-  }
+  // closeNewLeadPopup(): void {
+  //   // Close the new lead popup
+  //   const newLeadPopup = this.elementRef.nativeElement.querySelector('.create-lead-pop-up');
+  //   newLeadPopup.style.display = 'none';
+  //   this.onReset();
+  // }
 
-  createLead(): void {
-    let newLead = {
-      full_name: this.full_name,
-      company: this.company,
-      phone_number: this.phone_number,
-      email: this.email,
-      status_id: this.status_id,
-      description: this.description,
-      workspace_id: this.currentWorkspaceId
-    };
+  // createLead(): void {
+  //   let newLead = {
+  //     full_name: this.full_name,
+  //     company: this.company,
+  //     phone_number: this.phone_number,
+  //     email: this.email,
+  //     status_id: this.status_id,
+  //     description: this.description,
+  //     workspace_id: this.currentWorkspaceId
+  //   };
 
-    this.leadService.createLead(newLead).subscribe(response => {
-      console.log(response);
-      this.getLeads();
-      this.closeNewLeadPopup();
-    });
-  }
-  statusFilterDropdownActive: boolean = false;
+  //   this.leadService.createLead(newLead).subscribe(response => {
+  //     console.log(response);
+  //     this.getLeads();
+  //     this.closeNewLeadPopup();
+  //   });
+  // }
+  // statusFilterDropdownActive: boolean = false;
 
-  openFilterStatusDropdown(): void {
-    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-    if (statusFilterDropdown) {
-      this.statusFilterDropdownActive = !this.statusFilterDropdownActive;
-      statusFilterDropdown.style.display = this.statusFilterDropdownActive ? 'flex' : 'none';
-    }
-  }
+  // openFilterStatusDropdown(): void {
+  //   const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
+  //   if (statusFilterDropdown) {
+  //     this.statusFilterDropdownActive = !this.statusFilterDropdownActive;
+  //     statusFilterDropdown.style.display = this.statusFilterDropdownActive ? 'flex' : 'none';
+  //   }
+  // }
   
-  closeFilterStatusDropdown(): void {
-    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-    if (statusFilterDropdown) {
-      statusFilterDropdown.style.display = 'none';
-      this.statusFilterDropdownActive = false;
-    }
-  }  
+  // closeFilterStatusDropdown(): void {
+  //   const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
+  //   if (statusFilterDropdown) {
+  //     statusFilterDropdown.style.display = 'none';
+  //     this.statusFilterDropdownActive = false;
+  //   }
+  // }  
   
-  previousStatus: number = 0;
-  filterStatus(statusId: number): void {
-    this.closeFilterStatusDropdown();
-      if (statusId === this.previousStatus) {
-          this.getLeads();
-          this.activeStatusFilter = 'All status';
-          this.previousStatus = 0;
-      } else {
-          if (statusId === 0) {
-            this.activeStatusFilter = 'All status';
-            this.getLeads();
-          } else {
-              this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
-                  this.LEAD = response;
-                  this.countLeads();
-                  this.LEAD = this.LEAD.filter((lead: any) => lead.status_id === statusId);
-                  this.previousStatus = statusId;
-                  this.activeStatusFilter = this.getStatus(statusId.toString());
-              });
-          }
-      }
-  }
+  // previousStatus: number = 0;
+  // filterStatus(statusId: number): void {
+  //   this.closeFilterStatusDropdown();
+  //     if (statusId === this.previousStatus) {
+  //         this.getLeads();
+  //         this.activeStatusFilter = 'All status';
+  //         this.previousStatus = 0;
+  //     } else {
+  //         if (statusId === 0) {
+  //           this.activeStatusFilter = 'All status';
+  //           this.getLeads();
+  //         } else {
+  //             this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
+  //                 this.LEAD = response;
+  //                 this.countLeads();
+  //                 this.LEAD = this.LEAD.filter((lead: any) => lead.status_id === statusId);
+  //                 this.previousStatus = statusId;
+  //                 this.activeStatusFilter = this.getStatus(statusId.toString());
+  //             });
+  //         }
+  //     }
+  // }
 
-  onInputChange(event: any) {
-    const searchInputValue = event.target.value.trim();
-    this.leadSearchInputValue = searchInputValue;
+  // onInputChange(event: any) {
+  //   const searchInputValue = event.target.value.trim();
+  //   this.leadSearchInputValue = searchInputValue;
   
-    if (this.leadSearchInputValue === '') {
-      this.getLeads();
-    } else {
-      this.countLeads();
-      this.LEAD = this.LEAD.filter((lead: any) => {
-        const firstName = lead.first_name?.toLowerCase() ?? '';
-        const lastName = lead.last_name?.toLowerCase() ?? '';
-        const company = lead.company?.toLowerCase() ?? '';
-        const phoneNumber = lead.phone_number?.toLowerCase() ?? '';
-        const email = lead.email?.toLowerCase() ?? '';
-        const status = this.getStatus(lead.status_id).toLowerCase();
+  //   if (this.leadSearchInputValue === '') {
+  //     this.getLeads();
+  //   } else {
+  //     this.countLeads();
+  //     this.LEAD = this.LEAD.filter((lead: any) => {
+  //       const firstName = lead.first_name?.toLowerCase() ?? '';
+  //       const lastName = lead.last_name?.toLowerCase() ?? '';
+  //       const company = lead.company?.toLowerCase() ?? '';
+  //       const phoneNumber = lead.phone_number?.toLowerCase() ?? '';
+  //       const email = lead.email?.toLowerCase() ?? '';
+  //       const status = this.getStatus(lead.status_id).toLowerCase();
   
-        return firstName.includes(this.leadSearchInputValue.toLowerCase()) ||
-          lastName.includes(this.leadSearchInputValue.toLowerCase()) ||
-          company.includes(this.leadSearchInputValue.toLowerCase()) ||
-          phoneNumber.includes(this.leadSearchInputValue.toLowerCase()) ||
-          email.includes(this.leadSearchInputValue.toLowerCase()) ||
-          status.includes(this.leadSearchInputValue.toLowerCase());
-      });
-    }
-  }  
+  //       return firstName.includes(this.leadSearchInputValue.toLowerCase()) ||
+  //         lastName.includes(this.leadSearchInputValue.toLowerCase()) ||
+  //         company.includes(this.leadSearchInputValue.toLowerCase()) ||
+  //         phoneNumber.includes(this.leadSearchInputValue.toLowerCase()) ||
+  //         email.includes(this.leadSearchInputValue.toLowerCase()) ||
+  //         status.includes(this.leadSearchInputValue.toLowerCase());
+  //     });
+  //   }
+  // }  
 
-  // CSV Exporting
+  // // CSV Exporting
 
-  generateCSV(): string {
-    let csv = 'Last Name,First Name,Company,Phone Number,Email,Status\n';
+  // generateCSV(): string {
+  //   let csv = 'Last Name,First Name,Company,Phone Number,Email,Status\n';
 
-    this.LEAD.forEach((lead: any) => {
-      const row = `${lead.last_name || ''},${lead.first_name || ''},${lead.company || ''},${lead.phone_number || ''},${lead.email || ''},${this.getStatus(lead.status_id.toString())}\n`;
-      csv += row;
-    });
+  //   this.LEAD.forEach((lead: any) => {
+  //     const row = `${lead.last_name || ''},${lead.first_name || ''},${lead.company || ''},${lead.phone_number || ''},${lead.email || ''},${this.getStatus(lead.status_id.toString())}\n`;
+  //     csv += row;
+  //   });
 
-    return csv;
-  }
+  //   return csv;
+  // }
 
-  downloadCSV(): void {
-    const csvData = this.generateCSV();
-    const blob = new Blob([csvData], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'leads.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  }
+  // downloadCSV(): void {
+  //   const csvData = this.generateCSV();
+  //   const blob = new Blob([csvData], { type: 'text/csv' });
+  //   const url = window.URL.createObjectURL(blob);
+  //   const a = document.createElement('a');
+  //   a.href = url;
+  //   a.download = 'leads.csv';
+  //   document.body.appendChild(a);
+  //   a.click();
+  //   document.body.removeChild(a);
+  //   window.URL.revokeObjectURL(url);
+  // }
 
-  toggleLeadCardDropdown(lead: any): void {
-    this.LEAD.forEach((l: any) => {
-      if (l !== lead) {
-        l.showSubSetting = false;
-      }
-    });
-    lead.showSubSetting = !lead.showSubSetting;
-  }
+  // toggleLeadCardDropdown(lead: any): void {
+  //   this.LEAD.forEach((l: any) => {
+  //     if (l !== lead) {
+  //       l.showSubSetting = false;
+  //     }
+  //   });
+  //   lead.showSubSetting = !lead.showSubSetting;
+  // }
 
-  deleteLead(lead: any): void {
-    if (confirm('Are you sure you want to delete this lead?')) {
-      this.leadService.deleteLead(lead.lead_id).subscribe(response => {
-        this.getLeads();
-      });
-    }
-  }
+  // deleteLead(lead: any): void {
+  //   if (confirm('Are you sure you want to delete this lead?')) {
+  //     this.leadService.deleteLead(lead.lead_id).subscribe(response => {
+  //       this.getLeads();
+  //     });
+  //   }
+  // }
 
-  closeLeadDetailsPopUp(): void {
-    const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
-    leadDetailsPopUp.style.display = 'none';
+  // closeLeadDetailsPopUp(): void {
+  //   const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
+  //   leadDetailsPopUp.style.display = 'none';
 
-    this.lead_id = undefined;
-    this.first_name = undefined;
-    this.last_name = undefined;
-    this.company = undefined;
-    this.phone_number = undefined;
-    this.email = undefined;
-    this.status = undefined;
-    this.status_id = undefined;
-    this.description = undefined;
-    this.full_name = undefined;
+  //   this.lead_id = undefined;
+  //   this.first_name = undefined;
+  //   this.last_name = undefined;
+  //   this.company = undefined;
+  //   this.phone_number = undefined;
+  //   this.email = undefined;
+  //   this.status = undefined;
+  //   this.status_id = undefined;
+  //   this.description = undefined;
+  //   this.full_name = undefined;
 
-    this.leadsEditMode = false;
-  }
+  //   this.leadsEditMode = false;
+  // }
 
-  openLeadDetailsPopUp(lead: any): void {
-    this.lead_id = lead.lead_id;
-    this.first_name = lead.first_name;
-    this.last_name = lead.last_name;
-    this.full_name = `${lead.first_name} ${lead.last_name}`;
-    this.company = lead.company;
-    this.phone_number = lead.phone_number;
-    this.email = lead.email;
-    this.status = this.getStatus(lead.status_id);
-    this.status_id = lead.status_id;
-    this.description = lead.description;
+  // openLeadDetailsPopUp(lead: any): void {
+  //   this.lead_id = lead.lead_id;
+  //   this.first_name = lead.first_name;
+  //   this.last_name = lead.last_name;
+  //   this.full_name = `${lead.first_name} ${lead.last_name}`;
+  //   this.company = lead.company;
+  //   this.phone_number = lead.phone_number;
+  //   this.email = lead.email;
+  //   this.status = this.getStatus(lead.status_id);
+  //   this.status_id = lead.status_id;
+  //   this.description = lead.description;
 
-    const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
-    leadDetailsPopUp.style.display = 'block';
-  }
+  //   const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
+  //   leadDetailsPopUp.style.display = 'block';
+  // }
 
-  updateLead(): void {
-    let updatedLead = {
-      lead_id: this.lead_id,
-      full_name: this.full_name,
-      company: this.company,
-      phone_number: this.phone_number,
-      email: this.email,
-      status_id: this.status_id,
-      description: this.description
-    };
+  // updateLead(): void {
+  //   let updatedLead = {
+  //     lead_id: this.lead_id,
+  //     full_name: this.full_name,
+  //     company: this.company,
+  //     phone_number: this.phone_number,
+  //     email: this.email,
+  //     status_id: this.status_id,
+  //     description: this.description
+  //   };
 
-    this.leadService.updateLead(updatedLead).subscribe(response => {
-      console.log(response);
-      this.getLeads();
-      this.closeLeadDetailsPopUp();
-    });
-  }
+  //   this.leadService.updateLead(updatedLead).subscribe(response => {
+  //     console.log(response);
+  //     this.getLeads();
+  //     this.closeLeadDetailsPopUp();
+  //   });
+  // }
 
-  leadsEditMode: boolean = false;
+  // leadsEditMode: boolean = false;
 
-  toggleLeadsEditMode(): void {
-    this.leadsEditMode = !this.leadsEditMode;
-  }
+  // toggleLeadsEditMode(): void {
+  //   this.leadsEditMode = !this.leadsEditMode;
+  // }
 
-  onReset(): void {
-    // Reset the new lead form
-    this.full_name = '';
-    this.company = '';
-    this.phone_number = '';
-    this.email = '';
-    this.status_id = undefined;
-    this.description = undefined;
-  }
+  // onReset(): void {
+  //   // Reset the new lead form
+  //   this.full_name = '';
+  //   this.company = '';
+  //   this.phone_number = '';
+  //   this.email = '';
+  //   this.status_id = undefined;
+  //   this.description = undefined;
+  // }
 
   isWorkspacePath(): boolean {
     return this.router.url.startsWith('/ws');

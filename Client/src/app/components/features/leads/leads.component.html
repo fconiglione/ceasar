@@ -1,4 +1,4 @@
-<div class="lead-details-pop-up" id="lead-details-pop-up">
+<!-- <div class="lead-details-pop-up" id="lead-details-pop-up">
     <div class="details-lead-pop-up-container">
         <div class="details-lead-form">
             <div class="details-lead-pop-up-row lead-details-nav">
@@ -100,7 +100,7 @@
                     <span (click)="filterStatus(3)">In-Process</span>
                     <span (click)="filterStatus(4)">Closed</span>
                 </div>
-                <div class="leads-filter" style="display: none;"> <!-- Source filtering disabled for now, waiting for future release -->
+                <div class="leads-filter" style="display: none;">
                     <span>All sources</span>
                     <fa-icon [icon]="faChevronDown"></fa-icon>
                 </div>
@@ -112,7 +112,7 @@
                 </div>
             </div>  
         </div>
-        <div class="leads-body-row"> <!-- Status cards -->
+        <div class="leads-body-row">
             <div class="leads-stats">
                 <div class="leads-stats-item" (click)="filterStatus(1)">
                     <div>
@@ -160,7 +160,7 @@
                 </div>
             </div>
         </div>
-        <div class="leads-body-row" *ngIf="LEAD && LEAD.length > 0"> <!-- Lead cards -->
+        <div class="leads-body-row" *ngIf="LEAD && LEAD.length > 0">
             <div class="leads">
                 <div class="lead-card" *ngFor="let lead of LEAD">
                     <div class="lead-card-container">
@@ -217,6 +217,58 @@
         <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
         <p class="uh-oh">Uh oh! We couldn't find any existing leads.</p>
         <p>Start a new lead by clicking <span (click)="openNewLeadPopup()">here</span>, or by clicking the 'New Lead' button at the top of your screen.</p>
+    </div>
+    <div id="loading" *ngIf="loading">
+        <app-loading></app-loading>
+    </div>
+</div> -->
+<div class="leads-main-container">
+    <div class="leads-main-container-header">
+        <div class="leads-main-container-item">
+            <h1>Leads</h1>
+        </div>
+        <div class="leads-main-container-header-nav">
+            <button class="create-lead-btn">New Lead</button>
+            <button class="more-lead-btn">
+                <fa-icon [icon]="faEllipsisV"></fa-icon>
+            </button>
+        </div>
+    </div>
+    <div class="leads-main-container-body">
+        <div class="leads-main-container-body-filtering">
+            <div class="leads-main-container-body-filtering-container">
+                <div class="leads-search">
+                    <fa-icon [icon]="faSearch"></fa-icon>
+                    <input type="text" placeholder="Search for leads..." id="leadSearchInput">
+                </div>
+                <div class="leads-filters">
+                    <div class="leads-owners">
+                        <button class="leads-owner-btn">
+                            <fa-icon [icon]="faUserAlt"></fa-icon>
+                            <span>All Employees</span>
+                            <fa-icon [icon]="faChevronDown"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="leads-sort">
+                        <button class="leads-sort-btn">
+                            <fa-icon [icon]="faSort"></fa-icon>
+                            <span>By Name</span>
+                            <fa-icon [icon]="faChevronDown"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="leads-view">
+                        <button class="leads-card-view-btn">
+                            <fa-icon [icon]="faTableCells"></fa-icon>
+                        </button>
+                        <button class="leads-list-view-btn">
+                            <fa-icon [icon]="faBars"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="leads-main-container-body-categories"></div>
+        <div class="leads-main-container-body-leads"></div>
     </div>
     <div id="loading" *ngIf="loading">
         <app-loading></app-loading>
