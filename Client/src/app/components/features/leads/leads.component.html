@@ -293,7 +293,41 @@
                 <span class="category-number">10</span>
             </div>
         </div>
-        <div class="leads-main-container-body-leads"></div>
+        <div class="leads-main-container-body-leads">
+            <div class="lead-card">
+                <div class="lead-card-container">
+                    <div class="lead-card-header">
+                        <div class="lead-card-header-left">
+                            <div>
+                                <img [src]="DefaultPFP" alt="Default profile picture image">
+                            </div>
+                            <div>
+                                <h3>Mr. John Doe</h3>
+                                <p>Doe Industries Ltd.</p>
+                            </div>
+                        </div>
+                        <div class="lead-card-header-right">
+                            <span class="lead-cdate">20/07/2024</span>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="lead-card-body">
+                        <div>
+                            <fa-icon [icon]="faPhone"></fa-icon>
+                            <span>123-456-7890</span>
+                        </div>
+                        <div>
+                            <fa-icon [icon]="faEnvelope"></fa-icon>
+                            <span>johndoe&#64;example.com</span>
+                        </div>
+                    </div>
+                    <div class="lead-card-footer">
+                        <span class="lead-status">New</span>
+                        <fa-icon [icon]="faArrowRightToBracket"></fa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="loading" *ngIf="loading">
         <app-loading></app-loading>
