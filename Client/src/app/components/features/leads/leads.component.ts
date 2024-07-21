@@ -25,6 +25,9 @@ import { AuthService } from '@auth0/auth0-angular';
   styleUrl: './leads.component.css'
 })
 export class LeadsComponent {
+  // User components
+  username: string | undefined;
+
   // Lead components
   LEAD: any;
   sub: string | undefined;
@@ -48,6 +51,12 @@ export class LeadsComponent {
 
   // Other variables
   lead_status: string | undefined;
+  lead_count: number = 0;
+  lead_status_new_count: number = 0;
+  lead_status_contacted_count: number = 0;
+  lead_status_qualified_count: number = 0;
+  lead_status_closed_won_count: number = 0;
+  lead_status_closed_lost_count: number = 0;
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -73,11 +82,6 @@ export class LeadsComponent {
   leadSearchInputValue: string = '';
   activeStatusFilter: string = 'All status';
 
-  newLeadsCount: number = 0;
-  contactedLeadsCount: number = 0;
-  inProcessLeadsCount: number = 0;
-  closedLeadsCount: number = 0;
-
   ShapesBanner = "assets/images/shapes-banner.svg";
   DefaultPFP = "assets/images/default-pfp.svg";
 
@@ -87,7 +91,7 @@ export class LeadsComponent {
     // Get leads from the API
     this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
       this.LEAD = response;
-      // this.countLeads();
+      this.countLeads();
       this.loading = false;
     });
   }
@@ -134,33 +138,59 @@ export class LeadsComponent {
     }
   }
 
-  // getStatusClasses(statusId: string): any {
-  //   switch (statusId) {
-  //     case '1':
-  //       return { 'status': true, 'new': true };
-  //     case '2':
-  //       return { 'status': true, 'contacted': true };
-  //     case '3':
-  //       return { 'status': true, 'in-process': true };
-  //     case '4':
-  //       return { 'status': true, 'closed': true };
-  //     default:
-  //       return { 'status': true, 'unassigned': true };
-  //   }
-  // }
+  getLeadStatusClasses(lead_status_id: any) {
+    switch (lead_status_id) {
+      case 1:
+        return { 'lead-status': true, 'new': true };
+      case 2:
+        return { 'lead-status': true, 'contacted': true };
+      case 3:
+        return { 'lead-status': true, 'qualified': true };
+      case 4:
+        return { 'lead-status': true, 'closed-won': true };
+      case 5:
+        return { 'lead-status': true, 'closed-lost': true };
+      default:
+        return { 'lead-status': true, 'not-provided': true };
+    }
+  }
 
-  // openNewLeadPopup(): void {
-  //   // Open the new lead popup
-  //   const newLeadPopup = this.elementRef.nativeElement.querySelector('.create-lead-pop-up');
-  //   newLeadPopup.style.display = 'block';
-  // }
+  onInputChange(event: any) {
+    const searchInputValue = event.target.value.trim();
+    this.leadSearchInputValue = searchInputValue;
+  
+    if (this.leadSearchInputValue === '') {
+      this.getLeads();
+    } else {
+      this.countLeads();
+      this.LEAD = this.LEAD.filter((lead: any) => {
+        const title = lead.title?.toLowerCase() ?? '';
+        const firstName = lead.first_name?.toLowerCase() ?? '';
+        const lastName = lead.last_name?.toLowerCase() ?? '';
+        const company = lead.company?.toLowerCase() ?? '';
+        const phoneNumber = lead.phone_number?.toLowerCase() ?? '';
+        const email = lead.email?.toLowerCase() ?? '';
+        // const status = this.getStatus(lead.status_id).toLowerCase();
+  
+        return title.includes(this.leadSearchInputValue.toLowerCase()) ||
+          firstName.includes(this.leadSearchInputValue.toLowerCase()) ||
+          lastName.includes(this.leadSearchInputValue.toLowerCase()) ||
+          company.includes(this.leadSearchInputValue.toLowerCase()) ||
+          phoneNumber.includes(this.leadSearchInputValue.toLowerCase()) ||
+          email.includes(this.leadSearchInputValue.toLowerCase()) ||
+          status.includes(this.leadSearchInputValue.toLowerCase());
+      });
+    }
+  }  
 
-  // closeNewLeadPopup(): void {
-  //   // Close the new lead popup
-  //   const newLeadPopup = this.elementRef.nativeElement.querySelector('.create-lead-pop-up');
-  //   newLeadPopup.style.display = 'none';
-  //   this.onReset();
-  // }
+  countLeads(): void {
+    this.lead_count = this.LEAD.length;
+    this.lead_status_new_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 1).length;
+    this.lead_status_contacted_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 2).length;
+    this.lead_status_qualified_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 3).length;
+    this.lead_status_closed_won_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 4 || lead.lead_status_id === 5).length;
+    this.lead_status_closed_lost_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 5).length;
+  }
 
   // statusFilterDropdownActive: boolean = false;
 
@@ -202,32 +232,6 @@ export class LeadsComponent {
   //         }
   //     }
   // }
-
-  // onInputChange(event: any) {
-  //   const searchInputValue = event.target.value.trim();
-  //   this.leadSearchInputValue = searchInputValue;
-  
-  //   if (this.leadSearchInputValue === '') {
-  //     this.getLeads();
-  //   } else {
-  //     this.countLeads();
-  //     this.LEAD = this.LEAD.filter((lead: any) => {
-  //       const firstName = lead.first_name?.toLowerCase() ?? '';
-  //       const lastName = lead.last_name?.toLowerCase() ?? '';
-  //       const company = lead.company?.toLowerCase() ?? '';
-  //       const phoneNumber = lead.phone_number?.toLowerCase() ?? '';
-  //       const email = lead.email?.toLowerCase() ?? '';
-  //       const status = this.getStatus(lead.status_id).toLowerCase();
-  
-  //       return firstName.includes(this.leadSearchInputValue.toLowerCase()) ||
-  //         lastName.includes(this.leadSearchInputValue.toLowerCase()) ||
-  //         company.includes(this.leadSearchInputValue.toLowerCase()) ||
-  //         phoneNumber.includes(this.leadSearchInputValue.toLowerCase()) ||
-  //         email.includes(this.leadSearchInputValue.toLowerCase()) ||
-  //         status.includes(this.leadSearchInputValue.toLowerCase());
-  //     });
-  //   }
-  // }  
 
   // // CSV Exporting
 
@@ -354,6 +358,7 @@ export class LeadsComponent {
       this.authService.user$.subscribe(user => {
         if (user && user.sub) {
           this.sub = user.sub;
+          this.username = user.nickname;
           this.route.queryParams.subscribe(params => {
             this.currentWorkspaceId = params['workspace_id'] || '';
             this.getLeads();

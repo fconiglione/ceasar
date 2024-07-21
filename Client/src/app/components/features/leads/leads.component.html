@@ -15,7 +15,7 @@
             <div class="leads-main-container-body-filtering-container">
                 <div class="leads-search">
                     <fa-icon [icon]="faSearch"></fa-icon>
-                    <input type="text" placeholder="Search for leads..." id="leadSearchInput">
+                    <input (input)="onInputChange($event)" type="text" placeholder="Search for leads..." id="leadSearchInput">
                 </div>
                 <div class="leads-filters">
                     <div class="leads-owners">
@@ -46,27 +46,27 @@
         <div class="leads-main-container-body-categories">
             <div class="category active">
                 <span>All</span>
-                <span class="category-number">10</span>
+                <span class="category-number">{{lead_count}}</span>
             </div>
             <div class="category">
                 <span>New</span>
-                <span class="category-number">10000</span>
+                <span class="category-number">{{lead_status_new_count}}</span>
             </div>
             <div class="category">
                 <span>Contacted</span>
-                <span class="category-number">10</span>
+                <span class="category-number">{{lead_status_contacted_count}}</span>
             </div>
             <div class="category">
                 <span>Qualified</span>
-                <span class="category-number">10</span>
+                <span class="category-number">{{lead_status_qualified_count}}</span>
             </div>
             <div class="category">
                 <span>Closed-Won</span>
-                <span class="category-number">10</span>
+                <span class="category-number">{{lead_status_closed_won_count}}</span>
             </div>
             <div class="category">
                 <span>Closed-Lost</span>
-                <span class="category-number">10</span>
+                <span class="category-number">{{lead_status_closed_lost_count}}</span>
             </div>
         </div>
         <div class="leads-main-container-body-leads">
@@ -98,7 +98,7 @@
                         </div>
                     </div>
                     <div class="lead-card-footer">
-                        <span class="lead-status">{{getLeadStatus(lead.lead_status_id)}}</span>
+                        <span [ngClass]="getLeadStatusClasses(lead.lead_status_id)">{{getLeadStatus(lead.lead_status_id)}}</span>
                         <fa-icon [icon]="faArrowRightToBracket"></fa-icon>
                     </div>
                 </div>
@@ -133,8 +133,7 @@
                             <fieldset>
                                 <label for="leadOwner">Lead owner<span class="red">*</span></label>
                                 <select disabled name="leadOwner" id="leadOwner">
-                                    <option value="1">John Doe</option>
-                                    <option value="2">Jane Doe</option>
+                                    <option value="">{{username}}</option>
                                 </select>
                             </fieldset>
                             <fieldset>
@@ -148,6 +147,7 @@
                             <fieldset>
                                 <label for="leadTitle">Title</label>
                                 <select name="leadTitle" id="leadTitle" [(ngModel)]="title">
+                                    <option value="" disabled selected>--None--</option>
                                     <option value="Mr.">Mr.</option>
                                     <option value="Mrs.">Mrs.</option>
                                     <option value="Ms.">Ms.</option>
