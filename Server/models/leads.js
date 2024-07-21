@@ -13,7 +13,7 @@ class Leads {
     }
 
     async getLeadsByWorkspaceId (workspace_id) {
-        const query = `SELECT lead_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description FROM ceasar.leads WHERE workspace_id = $1`;
+        const query = `SELECT lead_id, sub, title, first_name, last_name, lead_status_id, photo_url, company, phone_number, email, source, created_at, updated_at FROM ceasar.leads WHERE workspace_id = $1`;
         const values = [workspace_id];
         try {
             const { rows } = await this.pool.query(query, values);
@@ -24,10 +24,9 @@ class Leads {
         }
     }
 
-    async createLead (workspace_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description) {
-        const query = `INSERT INTO ceasar.leads (workspace_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
-        const values = [workspace_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description];
+    async createLead (workspace_id, sub, title, first_name, last_name, lead_status_id, photo_url, company, phone_number, email, source, created_at, updated_at) {
+        const query = `INSERT INTO ceasar.leads (workspace_id, sub, title, first_name, last_name, lead_status_id, photo_url, company, phone_number, email, source, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)`;
+        const values = [workspace_id, sub, title, first_name, last_name, lead_status_id, photo_url, company, phone_number, email, source, created_at, updated_at];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;

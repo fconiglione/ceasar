@@ -1,12 +1,13 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { LeadService } from '../../../services/lead/lead.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../loading/loading.component';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-leads',
@@ -24,21 +25,50 @@ import { LoadingComponent } from '../../loading/loading.component';
   styleUrl: './leads.component.css'
 })
 export class LeadsComponent {
-  // Lead card variables
+  // Lead components
   LEAD: any;
+  sub: string | undefined;
   lead_id: string | undefined;
+  workspace_id: string | undefined;
+  title: string | undefined;
   first_name: string | undefined;
   last_name: string | undefined;
+  lead_status_id: string | undefined;
+  photo_url: string | undefined;
   company: string | undefined;
   phone_number: string | undefined;
   email: string | undefined;
-  status: string | undefined;
-  status_id: string | undefined;
-  description: string | undefined;
-  loading: boolean = true;
-  currentWorkspaceId: string | undefined;
+  source: string | undefined;
+  created_at: string | undefined;
+  updated_at: string | undefined;
 
-  full_name: string | undefined;
+  // Component actions
+  leads_action_container: boolean = false;
+  loading: boolean = true;
+
+  // Other variables
+  lead_status: string | undefined;
+
+  // Font Awesome icons
+  faChevronDown = faChevronDown;
+  faSearch = faSearch;
+  faDownload = faDownload;
+  faPhone = faPhone;
+  faEnvelope = faEnvelope;
+  faEllipsisV = faEllipsisV;
+  faCircleInfo = faCircleInfo;
+  faEye = faEye;
+  faEdit = faEdit;
+  faTrash = faTrash;
+  faArrowLeft = faArrowLeft;
+  faUserAlt = faUserAlt;
+  faSort = faSort;
+  faBars = faBars;
+  faTableCells = faTableCells;
+  faArrowRightToBracket = faArrowRightToBracket;
+  faXmark = faXmark;
+
+  currentWorkspaceId: string | undefined;
 
   leadSearchInputValue: string = '';
   activeStatusFilter: string = 'All status';
@@ -49,57 +79,60 @@ export class LeadsComponent {
   closedLeadsCount: number = 0;
 
   ShapesBanner = "assets/images/shapes-banner.svg";
-  faChevronDown = faChevronDown;
-  faSearch = faSearch;
-  faDownload = faDownload;
-  faPhone = faPhone;
-  faEnvelope = faEnvelope;
-  faEllipsisV = faEllipsisV;
-  faCircleInfo = faCircleInfo;
   DefaultPFP = "assets/images/default-pfp.svg";
-  faEye = faEye;
-  faEdit = faEdit;
-  faTrash = faTrash;
-  faArrowLeft = faArrowLeft;
-  faUserAlt = faUserAlt;
-  faSort = faSort;
-  faBars = faBars;
-  faTableCells = faTableCells;
-  faArrowRightToBracket = faArrowRightToBracket;
 
-  constructor( private leadService: LeadService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef ) { }
+  constructor( private leadService: LeadService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService ) { }
 
   getLeads(): void {
     // Get leads from the API
     this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
       this.LEAD = response;
-      this.countLeads();
+      // this.countLeads();
       this.loading = false;
     });
   }
 
-  countLeads(): void {
-    // Count the number of leads in each status
-    this.newLeadsCount = this.LEAD.filter((lead: any) => lead.status_id === 1).length;
-    this.contactedLeadsCount = this.LEAD.filter((lead: any) => lead.status_id === 2).length;
-    this.inProcessLeadsCount = this.LEAD.filter((lead: any) => lead.status_id === 3).length;
-    this.closedLeadsCount = this.LEAD.filter((lead: any) => lead.status_id === 4).length;
+  createLead(): void {
+    let newLead = {
+      sub  : this.sub,
+      workspace_id : this.currentWorkspaceId,
+      title : this.title,
+      first_name: this.first_name,
+      last_name: this.last_name,
+      company: this.company,
+      phone_number: this.phone_number,
+      email: this.email,
+      lead_status_id: this.lead_status_id,
+      photo_url: this.photo_url,
+      source: this.source,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    this.leadService.createLead(newLead).subscribe(response => {
+      console.log(response);
+      this.getLeads();
+      this.onReset();
+      this.leads_action_container = false;
+    });
   }
 
-  // getStatus(statusId: string): string {
-  //   switch (statusId) {
-  //     case '1':
-  //       return 'New';
-  //     case '2':
-  //       return 'Contacted';
-  //     case '3':
-  //       return 'In-Process';
-  //     case '4':
-  //       return 'Closed';
-  //     default:
-  //       return 'Unassigned';
-  //   }
-  // }
+  getLeadStatus(lead_status_id: any) {
+    switch (lead_status_id) {
+      case 1:
+        return 'New';
+      case 2:
+        return 'Contacted';
+      case 3:
+        return 'Qualified';
+      case 4:
+        return 'Closed-Won';
+      case 5:
+        return 'Closed-Lost';
+      default:
+        return 'Not provided';
+    }
+  }
 
   // getStatusClasses(statusId: string): any {
   //   switch (statusId) {
@@ -129,23 +162,6 @@ export class LeadsComponent {
   //   this.onReset();
   // }
 
-  // createLead(): void {
-  //   let newLead = {
-  //     full_name: this.full_name,
-  //     company: this.company,
-  //     phone_number: this.phone_number,
-  //     email: this.email,
-  //     status_id: this.status_id,
-  //     description: this.description,
-  //     workspace_id: this.currentWorkspaceId
-  //   };
-
-  //   this.leadService.createLead(newLead).subscribe(response => {
-  //     console.log(response);
-  //     this.getLeads();
-  //     this.closeNewLeadPopup();
-  //   });
-  // }
   // statusFilterDropdownActive: boolean = false;
 
   // openFilterStatusDropdown(): void {
@@ -314,15 +330,20 @@ export class LeadsComponent {
   //   this.leadsEditMode = !this.leadsEditMode;
   // }
 
-  // onReset(): void {
-  //   // Reset the new lead form
-  //   this.full_name = '';
-  //   this.company = '';
-  //   this.phone_number = '';
-  //   this.email = '';
-  //   this.status_id = undefined;
-  //   this.description = undefined;
-  // }
+  onReset(): void {
+    // Reset the new lead form
+    this.title = '';
+    this.first_name = '';
+    this.last_name = '';
+    this.company = '';
+    this.phone_number = '';
+    this.email = '';
+    this.lead_status_id = '';
+    this.photo_url = '';
+    this.source = '';
+    this.created_at = '';
+    this.updated_at = '';
+  }
 
   isWorkspacePath(): boolean {
     return this.router.url.startsWith('/ws');
@@ -330,9 +351,14 @@ export class LeadsComponent {
 
   ngOnInit() {
     if (this.isWorkspacePath()) {
-      this.route.queryParams.subscribe(params => {
-        this.currentWorkspaceId = params['workspace_id'] || '';
-        this.getLeads();
+      this.authService.user$.subscribe(user => {
+        if (user && user.sub) {
+          this.sub = user.sub;
+          this.route.queryParams.subscribe(params => {
+            this.currentWorkspaceId = params['workspace_id'] || '';
+            this.getLeads();
+          });
+        }
       });
     } else {
       console.log('Not a workspace path');

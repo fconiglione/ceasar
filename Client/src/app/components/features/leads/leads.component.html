@@ -1,234 +1,10 @@
-<!-- <div class="lead-details-pop-up" id="lead-details-pop-up">
-    <div class="details-lead-pop-up-container">
-        <div class="details-lead-form">
-            <div class="details-lead-pop-up-row lead-details-nav">
-                <div>
-                    <fa-icon class="return-to-leads-btn" [icon]="faArrowLeft" (click)="closeLeadDetailsPopUp()"></fa-icon>
-                    <h1>Lead details</h1>
-                </div>
-                <div class="edit-lead-pop-up-btn" (click)="toggleLeadsEditMode()">
-                    <fa-icon [icon]="faEdit"></fa-icon>
-                    <span>Edit lead</span>
-                </div>
-            </div>
-            <div class="details-lead-pop-up-row">
-            <form>
-                <div>
-                    <img [src]="DefaultPFP" alt="Default profile picture image">
-                    <div class="lead-details-content">
-                        <input type="text" id="leadName" name="leadName" required  maxlength="50" [(ngModel)]="full_name" [disabled]="!leadsEditMode" required>
-                        <input [disabled]="!leadsEditMode" type="text" id="leadCompany" name="leadCompany" required  maxlength="50" [(ngModel)]="company" required>
-                        <input [disabled]="!leadsEditMode" type="tel" id="leadPhoneNumber" name="leadPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
-                        <input [disabled]="!leadsEditMode" type="text" id="leadEmail" name="leadEmail" required maxlength="50" [(ngModel)]="email" required>
-                        <select [(ngModel)]="status_id" name="status" [disabled]="!leadsEditMode" required>
-                            <option [ngValue]="undefined" selected disabled>Select status</option>
-                            <option value="1">New</option>
-                            <option value="2">Contacted</option>
-                            <option value="3">In-Process</option>
-                            <option value="4">Closed</option>
-                        </select>
-                    </div>
-                </div>
-                <hr />
-                <h2 class="lead-details-h2">Description</h2>
-                <textarea [disabled]="!leadsEditMode" id="leadDescription" name="leadDescription" maxlength="255" [(ngModel)]="description"></textarea>
-                <div class="details-lead-pop-up-nav">
-                <button *ngIf="leadsEditMode" type="button" id="cancelleadBtn" (click)="closeLeadDetailsPopUp()">Cancel</button>
-                <button *ngIf="leadsEditMode" type="submit" id="createleadBtn" (click)="updateLead()">Save</button>
-                </div>
-            </form>
-        </div>
-        </div>
-    </div>
-</div>
-<div class="create-lead-pop-up" id="create-lead-pop-up">
-    <div class="create-lead-pop-up-container">
-      <div class="create-lead-form">
-        <div class="create-lead-pop-up-row">
-          <h1>Add a new lead</h1>
-        </div>
-        <div class="create-lead-pop-up-row">
-          <form>
-            <input type="text" id="leadName" name="leadName" required placeholder="Enter full name" maxlength="50" [(ngModel)]="full_name" required>
-            <div>
-                <input type="text" id="leadCompany" name="leadCompany" required placeholder="Enter company name" maxlength="50" [(ngModel)]="company" required>
-                <input type="tel" id="leadPhoneNumber" name="leadPhoneNumber" required placeholder="Enter phone number" pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
-            </div>
-            <div>
-                <select [(ngModel)]="status_id" name="status" required>
-                    <option [ngValue]="undefined" selected disabled>Select status</option>
-                    <option value="1">New</option>
-                    <option value="2">Contacted</option>
-                    <option value="3">In-Process</option>
-                    <option value="4">Closed</option>
-                </select>
-                <input type="text" id="leadEmail" name="leadEmail" required placeholder="Enter email" maxlength="50" [(ngModel)]="email" required>
-            </div>
-            <textarea name="text" id="leadDescription" name="leadDescription" placeholder="Enter description (optional)" maxlength="255" [(ngModel)]="description"></textarea>
-            <div class="create-lead-pop-up-nav">
-              <button type="button" id="cancelleadBtn" (click)="closeNewLeadPopup()">Cancel</button>
-              <button type="submit" id="createleadBtn" (click)="createLead()">Add</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-<div class="leads-container">
-    <div class="leads-header">
-        <div class="leads-item">
-            <h1>Leads</h1>
-        </div>
-        <div class="leads-item">
-            <button class="create-btn" (click)="openNewLeadPopup()">New Lead</button>
-            <button class="export-btn" (click)="downloadCSV()">
-                <fa-icon [icon]="faDownload"></fa-icon>
-                <span>Export as CSV</span>
-            </button>
-        </div>
-    </div>
-    <div class="leads-body">
-        <div class="leads-body-row">
-            <div class="leads-body-item">
-                <div class="leads-filter" (click)="openFilterStatusDropdown()">
-                    <span>{{ activeStatusFilter }}</span>
-                    <fa-icon [icon]="faChevronDown"></fa-icon>
-                </div>
-                <div class="filter-dropdown">
-                    <span (click)="filterStatus(1)">New</span>
-                    <span (click)="filterStatus(2)">Contacted</span>
-                    <span (click)="filterStatus(3)">In-Process</span>
-                    <span (click)="filterStatus(4)">Closed</span>
-                </div>
-                <div class="leads-filter" style="display: none;">
-                    <span>All sources</span>
-                    <fa-icon [icon]="faChevronDown"></fa-icon>
-                </div>
-            </div>
-            <div class="leads-body-item">
-                <div class="leads-search">
-                    <fa-icon [icon]="faSearch"></fa-icon>
-                    <input type="text" placeholder="Search..." id="leadSearchInput" [(ngModel)]="leadSearchInputValue" (input)="onInputChange($event)">
-                </div>
-            </div>  
-        </div>
-        <div class="leads-body-row">
-            <div class="leads-stats">
-                <div class="leads-stats-item" (click)="filterStatus(1)">
-                    <div>
-                        <div class="status-dot green"></div>
-                        <div>
-                            <span>New</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p>{{ this.newLeadsCount }} leads</p>
-                    </div>
-                </div>
-                <div class="leads-stats-item" (click)="filterStatus(2)">
-                    <div>
-                        <div class="status-dot orange"></div>
-                        <div>
-                            <span>Contacted</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p>{{ this.contactedLeadsCount }} leads</p>
-                    </div>
-                </div>
-                <div class="leads-stats-item" (click)="filterStatus(3)">
-                    <div>
-                        <div class="status-dot blue"></div>
-                        <div>
-                            <span>In-Process</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p>{{ this.inProcessLeadsCount }} leads</p>
-                    </div>
-                </div>
-                <div class="leads-stats-item" (click)="filterStatus(4)">
-                    <div>
-                        <div class="status-dot red"></div>
-                        <div>
-                            <span>Closed</span>
-                        </div>
-                    </div>
-                    <div>
-                        <p>{{ this.closedLeadsCount }} leads</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="leads-body-row" *ngIf="LEAD && LEAD.length > 0">
-            <div class="leads">
-                <div class="lead-card" *ngFor="let lead of LEAD">
-                    <div class="lead-card-container">
-                        <div class="lead-card-container-item lead-card-header">
-                            <div class="lead-card-container-column">
-                                <div (click)="openLeadDetailsPopUp(lead)">
-                                    <img [src]="DefaultPFP" alt="Default profile picture image" class="lead-pfp">
-                                </div>
-                                <div (click)="openLeadDetailsPopUp(lead)">
-                                    <h3>{{ lead.first_name }} {{ lead.last_name }}</h3>
-                                    <p>{{ lead.company }}</p>
-                                </div>
-                            </div> 
-                            <div class="lead-card-container-column lead-card-editor-area">
-                                <fa-icon class="lead-card-sub-editor" [icon]="faEllipsisV" (click)="toggleLeadCardDropdown(lead)"></fa-icon>
-                                <div class="lead-card-dropdown" *ngIf="lead.showSubSetting">
-                                    <ul>
-                                        <li (click)="openLeadDetailsPopUp(lead)">
-                                            <fa-icon [icon]="faEye"></fa-icon>
-                                            <span>View</span>
-                                        </li>
-                                        <li (click)="openLeadDetailsPopUp(lead)" (click)="toggleLeadsEditMode()">
-                                            <fa-icon [icon]="faEdit"></fa-icon>
-                                            <span>Edit</span>
-                                        </li>  
-                                        <li (click)="deleteLead(lead)">
-                                            <fa-icon [icon]="faTrash"></fa-icon>
-                                            <span>Delete</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <hr />
-                        <div class="lead-card-container-item">
-                            <div class="lead-card-container-row">
-                                <fa-icon [icon]="faPhone"></fa-icon>
-                                <span>{{ lead.phone_number || "Unknown" }}</span>
-                            </div>
-                            <div class="lead-card-container-row">
-                                <fa-icon [icon]="faEnvelope"></fa-icon>
-                                <span>{{ lead.email.toLowerCase() }}</span>
-                            </div>
-                            <div class="lead-card-container-row">
-                                <span [ngClass]="getStatusClasses(lead.status_id.toString())">{{ getStatus(lead.status_id.toString()) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="no-leads" *ngIf="LEAD && LEAD.length === 0 && !loading">
-        <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
-        <p class="uh-oh">Uh oh! We couldn't find any existing leads.</p>
-        <p>Start a new lead by clicking <span (click)="openNewLeadPopup()">here</span>, or by clicking the 'New Lead' button at the top of your screen.</p>
-    </div>
-    <div id="loading" *ngIf="loading">
-        <app-loading></app-loading>
-    </div>
-</div> -->
 <div class="leads-main-container">
     <div class="leads-main-container-header">
         <div class="leads-main-container-item">
             <h1>Leads</h1>
         </div>
         <div class="leads-main-container-header-nav">
-            <button class="create-lead-btn">New Lead</button>
+            <button class="create-lead-btn" (click)="leads_action_container = true">New Lead</button>
             <button class="more-lead-btn">
                 <fa-icon [icon]="faEllipsisV"></fa-icon>
             </button>
@@ -294,7 +70,7 @@
             </div>
         </div>
         <div class="leads-main-container-body-leads">
-            <div class="lead-card">
+            <div class="lead-card" *ngFor="let lead of LEAD">
                 <div class="lead-card-container">
                     <div class="lead-card-header">
                         <div class="lead-card-header-left">
@@ -302,27 +78,27 @@
                                 <img [src]="DefaultPFP" alt="Default profile picture image">
                             </div>
                             <div>
-                                <h3>Mr. John Doe</h3>
-                                <p>Doe Industries Ltd.</p>
+                                <h3>{{lead.title}} {{lead.first_name}} {{lead.last_name}}</h3>
+                                <p>{{lead.company}}</p>
                             </div>
                         </div>
                         <div class="lead-card-header-right">
-                            <span class="lead-cdate">20/07/2024</span>
+                            <span class="lead-cdate">{{lead.created_at | date: 'longDate'}}</span>
                         </div>
                     </div>
                     <hr />
                     <div class="lead-card-body">
                         <div>
                             <fa-icon [icon]="faPhone"></fa-icon>
-                            <span>123-456-7890</span>
+                            <span>{{lead.phone_number || 'Not provided'}}</span>
                         </div>
                         <div>
                             <fa-icon [icon]="faEnvelope"></fa-icon>
-                            <span>johndoe&#64;example.com</span>
+                            <span>{{lead.email || 'Not provided'}}</span>
                         </div>
                     </div>
                     <div class="lead-card-footer">
-                        <span class="lead-status">New</span>
+                        <span class="lead-status">{{getLeadStatus(lead.lead_status_id)}}</span>
                         <fa-icon [icon]="faArrowRightToBracket"></fa-icon>
                     </div>
                 </div>
@@ -331,5 +107,91 @@
     </div>
     <div id="loading" *ngIf="loading">
         <app-loading></app-loading>
+    </div>
+</div>
+<div class="leads-action" *ngIf="leads_action_container">
+    <div class="leads-action-container">
+        <div class="leads-action-content">
+            <div class="lead-action-row leads-action-header">
+                <div>
+                <h1>Create new lead</h1>
+                </div>
+                <div>
+                <button class="close-lead-action-btn-1" (click)="leads_action_container = false">
+                    <fa-icon [icon]="faXmark"></fa-icon>
+                </button>
+                </div>
+            </div>
+            <div class="lead-action-row">
+                <div>
+                    <h2>Lead information</h2>
+                    <p>Enter the information for your newly generated lead.</p>
+                </div>
+                <div class="lead-action-info">
+                    <form class="lead-action-form">
+                        <div class="lead-action-form-content">
+                            <fieldset>
+                                <label for="leadOwner">Lead owner<span class="red">*</span></label>
+                                <select disabled name="leadOwner" id="leadOwner">
+                                    <option value="1">John Doe</option>
+                                    <option value="2">Jane Doe</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="leadSource">Lead source</label>
+                                <input type="text" id="leadSource" name="leadSource" placeholder="Enter lead source" maxlength="50" [(ngModel)]="source">
+                            </fieldset>
+                            <fieldset>
+                                <label for="leadPhoto">Photo</label>
+                                <input type="file" id="leadPhoto" name="leadPhoto" [(ngModel)]="photo_url">
+                            </fieldset>
+                            <fieldset>
+                                <label for="leadTitle">Title</label>
+                                <select name="leadTitle" id="leadTitle" [(ngModel)]="title">
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Ms.">Ms.</option>
+                                    <option value="Dr.">Dr.</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="leadFirstName">First name<span class="red">*</span></label>
+                                <input type="text" id="leadFirstName" name="leadFirstName" placeholder="Enter first name" maxlength="50" [(ngModel)]="first_name" required>
+                            </fieldset>
+                            <fieldset>
+                                <label for="leadLastName">Last name<span class="red">*</span></label>
+                                <input type="text" id="leadLastName" name="leadLastName" placeholder="Enter last name" maxlength="50" [(ngModel)]="last_name" required>
+                            </fieldset>
+                            <fieldset>
+                                <label for="leadCompany">Company<span class="red">*</span></label>
+                                <input type="text" id="leadCompany" name="leadCompany" placeholder="Enter company name" maxlength="50" [(ngModel)]="company" required>
+                            </fieldset>
+                            <fieldset>
+                                <label for="leadStatus">Status<span class="red">*</span></label>
+                                <select name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id" required>
+                                    <option value="1">New</option>
+                                    <option value="2">Contacted</option>
+                                    <option value="3">Qualified</option>
+                                    <option value="4">Closed-Won</option>
+                                    <option value="5">Closed-Lost</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="leadPhone">Phone</label>
+                                <input type="tel" id="leadPhone" name="leadPhone" placeholder="Enter phone number" maxlength="50" [(ngModel)]="phone_number">
+                            </fieldset>
+                            <fieldset>
+                                <label for="leadEmail">Email</label>
+                                <input type="email" id="leadEmail" name="leadEmail" placeholder="Enter email address" maxlength="50" [(ngModel)]="email">
+                            </fieldset>  
+                        </div>
+                        <div class="lead-action-form-nav">
+                            <button class="close-lead-action-btn-2" (click)="leads_action_container = false">Cancel</button>
+                            <button class="save-lead-action-btn" (click)="createLead()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

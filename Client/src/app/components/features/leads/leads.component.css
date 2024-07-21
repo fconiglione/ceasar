@@ -246,3 +246,149 @@
 .lead-card-footer fa-icon:hover {
   color: #555555;
 }
+
+/* Leads Action Container (.leads-action-container) */
+
+.leads-action {
+  /* display: none; */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.leads-action-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.leads-action-content {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 40px 50px;
+  width: 700px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+.leads-action-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.leads-action h1 {
+  font-size: 1.5em;
+  margin: 0;
+  padding: 0;
+}
+.leads-action h2 {
+  font-size: 1.2em;
+  margin: 0;
+  padding: 0;
+}
+.leads-action p {
+  font-size: 0.9em;
+  color: #777777;
+  margin: 10px 0;
+}
+.close-lead-action-btn-1 {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+  color: #777777;
+  transition: color 0.1s ease-in-out;
+}
+.close-lead-action-btn-1:hover {
+  color: #666666;
+}
+.lead-action-form-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  gap: 15px;
+}
+.close-lead-action-btn-2 {
+  border: 1px solid #777777;
+  border-radius: 4px;
+  background-color: transparent;
+  padding: 10px 30px;
+  font-size: 1em;
+  cursor: pointer;
+  color: #777777;
+  transition: border-color 0.1s ease-in-out, color 0.1s ease-in-out;
+}
+.close-lead-action-btn-2:hover {
+  border-color: #000000;
+  color: #000000;
+}
+.save-lead-action-btn {
+  background-color: #FF9e67;
+  border: 1px solid #FF9e67;
+  border-radius: 4px;
+  padding: 10px 30px;
+  font-size: 1em;
+  cursor: pointer;
+  color: #ffffff;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+}
+.save-lead-action-btn:hover {
+  background-color: #FF8e57;
+  border-color: #FF8e57;
+}
+.lead-action-form {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.lead-action-form-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px
+}
+.lead-action-form-content fieldset {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lead-action-form-content fieldset label {
+  font-size: 0.9em;
+  color: #777777;
+  margin: 0 0 4px 0;
+}
+.lead-action-form-content fieldset input {
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 0.9em;
+}
+.lead-action-form-content fieldset input:focus {
+  outline: none;
+}
+.lead-action-form-content fieldset select {
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 0.9em;
+  height: 100%;
+  cursor: pointer;
+}
+.lead-action-form-content fieldset select:focus {
+  outline: none;
+}
+.lead-action-form-content fieldset input:focus, .lead-action-form-content fieldset select:focus {
+  border-color: #FF9e67;
+}
+.lead-action-info .red {
+  color: #ff0800;
+}

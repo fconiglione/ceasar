@@ -663,6 +663,7 @@ header {
 }
 .rename-workspace-section input:focus {
   outline: none;
+  border: 1px solid #FF9e67;
 }
 .rename-workspace-section input:disabled {
   color: #777777;
