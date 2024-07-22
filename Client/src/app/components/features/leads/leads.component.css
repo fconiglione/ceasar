@@ -410,3 +410,63 @@
 .lead-action-info .red {
   color: #ff0800;
 }
+
+/* Leads Sidebar Action Container (.leads-sidebar-action-container) */
+
+.leads-action-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.leads-action-sidebar-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  width: 100%;
+}
+.leads-action-sidebar-content {
+  background-color: #ffffff;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  padding: 40px 50px;
+  width: 700px;
+  height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+.leads-action-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.leads-action-sidebar-header div {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+}
+.close-lead-sidebar-btn {
+  color: #000000;
+}
+.close-lead-sidebar-btn:hover {
+  color: #111111;
+}
+.edit-lead-action-btn {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 1.5em;
+  color: #ff9e67;
+  transition: color 0.1s ease-in-out;
+}
+.edit-lead-action-btn:hover {
+  color: #ff8e57;
+}

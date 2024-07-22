@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { LeadService } from '../../../services/lead/lead.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -47,6 +47,7 @@ export class LeadsComponent {
 
   // Component actions
   leads_action_container: boolean = false;
+  leads_action_sidebar_container: boolean = true;
   loading: boolean = true;
 
   // Other variables
@@ -57,6 +58,8 @@ export class LeadsComponent {
   lead_status_qualified_count: number = 0;
   lead_status_closed_won_count: number = 0;
   lead_status_closed_lost_count: number = 0;
+  previous_status_filter: number = 0;
+  active_status_filter: number = 0;
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -76,6 +79,7 @@ export class LeadsComponent {
   faTableCells = faTableCells;
   faArrowRightToBracket = faArrowRightToBracket;
   faXmark = faXmark;
+  faPenToSquare = faPenToSquare;
 
   currentWorkspaceId: string | undefined;
 
@@ -190,48 +194,29 @@ export class LeadsComponent {
     this.lead_status_qualified_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 3).length;
     this.lead_status_closed_won_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 4 || lead.lead_status_id === 5).length;
     this.lead_status_closed_lost_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 5).length;
+  } 
+  
+  filterLeadStatus(lead_status_id: number): void {
+      this.active_status_filter = lead_status_id;
+      if (lead_status_id === this.previous_status_filter) {
+          this.getLeads();
+          this.previous_status_filter = 0;
+      } else {
+          if (lead_status_id === 0) {
+            this.getLeads();
+          } else {
+              this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
+                  this.LEAD = response;
+                  this.countLeads();
+                  this.LEAD = this.LEAD.filter((lead: any) => lead.lead_status_id === lead_status_id);
+                  this.previous_status_filter = lead_status_id;
+                  this.activeStatusFilter = this.getLeadStatus(lead_status_id);
+              });
+          }
+      }
   }
 
-  // statusFilterDropdownActive: boolean = false;
 
-  // openFilterStatusDropdown(): void {
-  //   const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-  //   if (statusFilterDropdown) {
-  //     this.statusFilterDropdownActive = !this.statusFilterDropdownActive;
-  //     statusFilterDropdown.style.display = this.statusFilterDropdownActive ? 'flex' : 'none';
-  //   }
-  // }
-  
-  // closeFilterStatusDropdown(): void {
-  //   const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-  //   if (statusFilterDropdown) {
-  //     statusFilterDropdown.style.display = 'none';
-  //     this.statusFilterDropdownActive = false;
-  //   }
-  // }  
-  
-  // previousStatus: number = 0;
-  // filterStatus(statusId: number): void {
-  //   this.closeFilterStatusDropdown();
-  //     if (statusId === this.previousStatus) {
-  //         this.getLeads();
-  //         this.activeStatusFilter = 'All status';
-  //         this.previousStatus = 0;
-  //     } else {
-  //         if (statusId === 0) {
-  //           this.activeStatusFilter = 'All status';
-  //           this.getLeads();
-  //         } else {
-  //             this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
-  //                 this.LEAD = response;
-  //                 this.countLeads();
-  //                 this.LEAD = this.LEAD.filter((lead: any) => lead.status_id === statusId);
-  //                 this.previousStatus = statusId;
-  //                 this.activeStatusFilter = this.getStatus(statusId.toString());
-  //             });
-  //         }
-  //     }
-  // }
 
   // // CSV Exporting
 

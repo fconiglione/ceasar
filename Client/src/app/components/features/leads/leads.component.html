@@ -44,27 +44,27 @@
             </div>
         </div>
         <div class="leads-main-container-body-categories">
-            <div class="category active">
+            <div class="category active" [class.active]="active_status_filter === 0" (click)="filterLeadStatus(0)">
                 <span>All</span>
                 <span class="category-number">{{lead_count}}</span>
             </div>
-            <div class="category">
+            <div class="category" [class.active]="active_status_filter === 1" (click)="filterLeadStatus(1)">
                 <span>New</span>
                 <span class="category-number">{{lead_status_new_count}}</span>
             </div>
-            <div class="category">
+            <div class="category" [class.active]="active_status_filter === 2" (click)="filterLeadStatus(2)">
                 <span>Contacted</span>
                 <span class="category-number">{{lead_status_contacted_count}}</span>
             </div>
-            <div class="category">
+            <div class="category" [class.active]="active_status_filter === 3" (click)="filterLeadStatus(3)">
                 <span>Qualified</span>
                 <span class="category-number">{{lead_status_qualified_count}}</span>
             </div>
-            <div class="category">
+            <div class="category" [class.active]="active_status_filter === 4" (click)="filterLeadStatus(4)">
                 <span>Closed-Won</span>
                 <span class="category-number">{{lead_status_closed_won_count}}</span>
             </div>
-            <div class="category">
+            <div class="category" [class.active]="active_status_filter === 5" (click)="filterLeadStatus(5)">
                 <span>Closed-Lost</span>
                 <span class="category-number">{{lead_status_closed_lost_count}}</span>
             </div>
@@ -191,6 +191,90 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="leads-action-sidebar" *ngIf="leads_action_sidebar_container">
+    <div class="leads-action-sidebar-container">
+        <div class="leads-action-sidebar-content">
+            <div class="lead-action-sidebar-row leads-action-sidebar-header">
+                <div>
+                    <button class="close-lead-action-btn-1 close-lead-sidebar-btn" (click)="leads_action_sidebar_container = false">
+                        <fa-icon [icon]="faArrowLeft"></fa-icon>
+                    </button>
+                    <h1>Lead information</h1>
+                </div>
+                <div>
+                    <button class="edit-lead-action-btn">
+                        <fa-icon [icon]="faPenToSquare"></fa-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="lead-action-sidebar-row">
+                <form class="lead-action-sidebar-form">
+                    <div class="lead-action-sidebar-form-content">
+                        <fieldset>
+                            <label for="leadOwner">Lead owner</label>
+                            <select disabled name="leadOwner" id="leadOwner">
+                                <option value="">Unknown</option>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <label for="leadSource">Lead source</label>
+                            <input type="text" id="leadSource" name="leadSource" placeholder="Enter lead source" maxlength="50" [(ngModel)]="source">
+                        </fieldset>
+                        <fieldset>
+                            <label for="leadPhoto">Photo</label>
+                            <input type="file" id="leadPhoto" name="leadPhoto" [(ngModel)]="photo_url">
+                        </fieldset>
+                        <fieldset>
+                            <label for="leadTitle">Title</label>
+                            <select name="leadTitle" id="leadTitle" [(ngModel)]="title">
+                                <option value="" disabled selected>--None--</option>
+                                <option value="Mr.">Mr.</option>
+                                <option value="Mrs.">Mrs.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Dr.">Dr.</option>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <label for="leadFirstName">First name</label>
+                            <input type="text" id="leadFirstName" name="leadFirstName" placeholder="Enter first name" maxlength="50" [(ngModel)]="first_name">
+                        </fieldset>
+                        <fieldset>
+                            <label for="leadLastName">Last name</label>
+                            <input type="text" id="leadLastName" name="leadLastName" placeholder="Enter last name" maxlength="50" [(ngModel)]="last_name">
+                        </fieldset>
+                        <fieldset>
+                            <label for="leadCompany">Company</label>
+                            <input type="text" id="leadCompany" name="leadCompany" placeholder="Enter company name" maxlength="50" [(ngModel)]="company">
+                        </fieldset>
+                        <fieldset>
+                            <label for="leadStatus">Status</label>
+                            <select name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id">
+                                <option value="1">New</option>
+                                <option value="2">Contacted</option>
+                                <option value="3">Qualified</option>
+                                <option value="4">Closed-Won</option>
+                                <option value="5">Closed-Lost</option>
+                            </select>
+                        </fieldset>
+                        <fieldset>
+                            <label for="leadPhone">Phone</label>
+                            <input type="tel" id="leadPhone" name="leadPhone" placeholder="Enter phone number" maxlength="50" [(ngModel)]="phone_number">
+                        </fieldset>
+                        <fieldset>
+                            <label for="leadEmail">Email</label>
+                            <input type="email" id="leadEmail" name="leadEmail" placeholder="Enter email address" maxlength="50" [(ngModel)]="email">
+                        </fieldset>
+                    </div>
+                    <div class="lead-action-form-sidebar-nav">
+                        <button class="close-lead-action-btn-2" (click)="leads_action_sidebar_container = false">Cancel</button>
+                        <button class="save-lead-action-btn">Save</button>
+                    </div>
+                </form>
+                <!-- Room for comments/notes to be added in future updates -->
             </div>
         </div>
     </div>
