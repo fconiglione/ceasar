@@ -246,7 +246,7 @@ export class LeadsComponent {
     this.lead_status_new_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 1).length;
     this.lead_status_contacted_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 2).length;
     this.lead_status_qualified_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 3).length;
-    this.lead_status_closed_won_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 4 || lead.lead_status_id === 5).length;
+    this.lead_status_closed_won_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 4).length;
     this.lead_status_closed_lost_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 5).length;
   } 
   
