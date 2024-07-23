@@ -300,7 +300,6 @@ export class LeadsComponent {
     this.email = lead.email;
     this.photo_url = lead.photo_url;
     this.source = lead.source;
-    this.onReset(); // Close any open components
     this.lead_action_status_menu = true;
   }
 
