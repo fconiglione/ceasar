@@ -61,6 +61,9 @@ export class LeadsComponent {
   lead_status_closed_lost_count: number = 0;
   previous_status_filter: number = 0;
   active_status_filter: number = 0;
+  sort_by_dropdown: boolean = false;
+  active_sort_factor: string = 'By Last Name';
+  more_info_dropdown: boolean = false;
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -97,6 +100,7 @@ export class LeadsComponent {
     this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
       this.LEAD = response;
       this.countLeads();
+      this.sortLeads('last_name'); // Sort by last name by default
       this.loading = false;
     });
   }
@@ -122,8 +126,42 @@ export class LeadsComponent {
       console.log(response);
       this.getLeads();
       this.onReset();
-      this.leads_action_container = false;
     });
+  }
+
+  updateLead(): void {
+    if (confirm('Are you sure you want to make changes to this lead? All changes are final and cannot be undone.')) {
+      let updatedLead = {
+        lead_id: this.lead_id,
+        title: this.title,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        company: this.company,
+        phone_number: this.phone_number,
+        email: this.email,
+        lead_status_id: this.lead_status_id,
+        photo_url: this.photo_url,
+        source: this.source,
+        updated_at: new Date().toISOString(),
+        workspace_id: this.currentWorkspaceId
+      };
+
+      this.leadService.updateLead(updatedLead).subscribe(response => {
+        console.log(response);
+        this.getLeads();
+        this.onReset();
+      });
+    }
+  }
+
+  deleteLead(): void {
+    if (confirm('Are you sure you want to delete this lead? This action cannot be undone.')) {
+      this.leadService.deleteLead(this.lead_id).subscribe(response => {
+        console.log(response);
+        this.getLeads();
+        this.onReset();
+      });
+    }
   }
 
   getLeadStatus(lead_status_id: any) {
@@ -235,107 +273,105 @@ export class LeadsComponent {
     this.leads_action_sidebar_container = true;
   }
 
+  sortLeads(sortFactor: any): void {
+    if (sortFactor === 'last_name') {
+      this.LEAD.sort((a: any, b: any) => {
+        const lastNameA = a.last_name?.toLowerCase() ?? '';
+        const lastNameB = b.last_name?.toLowerCase() ?? '';
+
+        this.active_sort_factor = 'By Last Name';
+
+        return lastNameA.localeCompare(lastNameB);
+      });
+    }
+
+    if (sortFactor === 'first_name') {
+      this.LEAD.sort((a: any, b: any) => {
+        const firstNameA = a.first_name?.toLowerCase() ?? '';
+        const firstNameB = b.first_name?.toLowerCase() ?? '';
+
+        this.active_sort_factor = 'By First Name';
+
+        return firstNameA.localeCompare(firstNameB);
+      });
+    }
+
+    if (sortFactor === 'company') {
+      this.LEAD.sort((a: any, b: any) => {
+        const companyA = a.company?.toLowerCase() ?? '';
+        const companyB = b.company?.toLowerCase() ?? '';
+
+        this.active_sort_factor = 'By Company';
+
+        return companyA.localeCompare(companyB);
+      });
+    }
+
+    if (sortFactor === 'status') {
+      this.LEAD.sort((a: any, b: any) => {
+        const statusA = a.lead_status_id;
+        const statusB = b.lead_status_id;
+
+        this.active_sort_factor = 'By Status';
+
+        return statusA - statusB;
+      });
+    }
+
+    if (sortFactor === 'created_at') {
+      this.LEAD.sort((a: any, b: any) => {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
+
+        this.active_sort_factor = 'By Creation Date';
+
+        return dateB.getTime() - dateA.getTime();
+      });
+    }
+
+    this.sort_by_dropdown = false;
+  }
 
   // // CSV Exporting
 
-  // generateCSV(): string {
-  //   let csv = 'Last Name,First Name,Company,Phone Number,Email,Status\n';
+  generateCSV(): string {
+    let csv = 'Last Name, First Name, Title, Company, Phone Number, Email, Status, Source, Owner\n';
 
-  //   this.LEAD.forEach((lead: any) => {
-  //     const row = `${lead.last_name || ''},${lead.first_name || ''},${lead.company || ''},${lead.phone_number || ''},${lead.email || ''},${this.getStatus(lead.status_id.toString())}\n`;
-  //     csv += row;
-  //   });
+    this.LEAD.forEach((lead: any) => {
+      csv += `${lead.last_name}, ${lead.first_name}, ${lead.title}, ${lead.company}, ${lead.phone_number}, ${lead.email}, ${this.getLeadStatus(lead.lead_status_id)}, ${lead.source}, ${lead.owner}\n`;
+    });
 
-  //   return csv;
-  // }
+    return csv;
+  }
 
-  // downloadCSV(): void {
-  //   const csvData = this.generateCSV();
-  //   const blob = new Blob([csvData], { type: 'text/csv' });
-  //   const url = window.URL.createObjectURL(blob);
-  //   const a = document.createElement('a');
-  //   a.href = url;
-  //   a.download = 'leads.csv';
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   document.body.removeChild(a);
-  //   window.URL.revokeObjectURL(url);
-  // }
+  downloadCSV(): void {
+    const csvData = this.generateCSV();
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'leads.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  }
 
-  // toggleLeadCardDropdown(lead: any): void {
-  //   this.LEAD.forEach((l: any) => {
-  //     if (l !== lead) {
-  //       l.showSubSetting = false;
-  //     }
-  //   });
-  //   lead.showSubSetting = !lead.showSubSetting;
-  // }
-
-  // deleteLead(lead: any): void {
-  //   if (confirm('Are you sure you want to delete this lead?')) {
-  //     this.leadService.deleteLead(lead.lead_id).subscribe(response => {
-  //       this.getLeads();
-  //     });
-  //   }
-  // }
-
-  // closeLeadDetailsPopUp(): void {
-  //   const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
-  //   leadDetailsPopUp.style.display = 'none';
-
-  //   this.lead_id = undefined;
-  //   this.first_name = undefined;
-  //   this.last_name = undefined;
-  //   this.company = undefined;
-  //   this.phone_number = undefined;
-  //   this.email = undefined;
-  //   this.status = undefined;
-  //   this.status_id = undefined;
-  //   this.description = undefined;
-  //   this.full_name = undefined;
-
-  //   this.leadsEditMode = false;
-  // }
-
-  // openLeadDetailsPopUp(lead: any): void {
-  //   this.lead_id = lead.lead_id;
-  //   this.first_name = lead.first_name;
-  //   this.last_name = lead.last_name;
-  //   this.full_name = `${lead.first_name} ${lead.last_name}`;
-  //   this.company = lead.company;
-  //   this.phone_number = lead.phone_number;
-  //   this.email = lead.email;
-  //   this.status = this.getStatus(lead.status_id);
-  //   this.status_id = lead.status_id;
-  //   this.description = lead.description;
-
-  //   const leadDetailsPopUp = this.elementRef.nativeElement.querySelector('.lead-details-pop-up');
-  //   leadDetailsPopUp.style.display = 'block';
-  // }
-
-  // updateLead(): void {
-  //   let updatedLead = {
-  //     lead_id: this.lead_id,
-  //     full_name: this.full_name,
-  //     company: this.company,
-  //     phone_number: this.phone_number,
-  //     email: this.email,
-  //     status_id: this.status_id,
-  //     description: this.description
-  //   };
-
-  //   this.leadService.updateLead(updatedLead).subscribe(response => {
-  //     console.log(response);
-  //     this.getLeads();
-  //     this.closeLeadDetailsPopUp();
-  //   });
-  // }
-
-  // leadsEditMode: boolean = false;
-
-  // toggleLeadsEditMode(): void {
-  //   this.leadsEditMode = !this.leadsEditMode;
-  // }
+  printData(): void {
+    // Print in csv format
+    const csvData = this.generateCSV();
+    const printWindow = window.open('', '', 'height=400,width=800');
+    if (printWindow) {
+      printWindow.document.write('<html><head><title>Leads</title>');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<pre>');
+      printWindow.document.write(csvData);
+      printWindow.document.write('</pre>');
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
+    }
+  }
 
   onReset(): void {
     // Reset the new lead form
@@ -354,6 +390,8 @@ export class LeadsComponent {
     // Close any open components
     this.leads_action_sidebar_container = false;
     this.leads_action_container = false
+    this.lead_edit_mode = false;
+    this.getLeads();
   }
 
   isWorkspacePath(): boolean {

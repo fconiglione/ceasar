@@ -27,6 +27,7 @@
   cursor: pointer;
   color: #ffffff;
   transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+  height: 100%;
 }
 .create-lead-btn:hover {
   background-color: #FF8e57;
@@ -407,7 +408,7 @@
 .lead-action-form-content fieldset input:focus, .lead-action-form-content fieldset select:focus {
   border-color: #FF9e67;
 }
-.lead-action-info .red {
+.lead-action-info .red, .lead-action-sidebar-form .red {
   color: #ff0800;
 }
 
@@ -431,8 +432,8 @@
 }
 .leads-action-sidebar-content {
   background-color: #ffffff;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  /* border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px; */
   padding: 40px 50px;
   width: 700px;
   height: -webkit-fill-available;
@@ -517,8 +518,88 @@
 }
 .lead-action-form-sidebar-nav {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   flex-direction: row;
   gap: 15px;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 30px;
+  width: 740px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+  background-color: #f5f7fa;
+}
+.lead-action-form-sidebar-nav p {
+  color: #777777;
+  font-size: 0.9em;
+  margin: 0;
+}
+.lead-action-form-sidebar-nav div {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+}
+.delete-lead-action-btn {
+  background-color: #ef233c;
+  border: 1px solid #ef233c;
+  border-radius: 4px;
+  padding: 10px 30px;
+  font-size: 1em;
+  cursor: pointer;
+  color: #ffffff;
+  transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+}
+.delete-lead-action-btn:hover {
+  background-color: #d90429;
+  border-color: #d90429;
+}
+
+/* Dropdowns */
+
+.leads-sort-dropdown {
+  display: flex;
+  position: absolute;
+  background-color: #ffffff;
+  z-index: 1;
+  border: 1px solid #ffffff;
+  width: 155px;
+  border-radius: 3px;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+  font-size: 0.9em;
+  margin-top: 10px;
+}
+.leads-sort-dropdown span {
+  color: #777777;
+  transition: color 0.1s ease-in-out;
+  cursor: pointer;
+  padding: 6px 5px;
+}
+.leads-sort-dropdown span:hover {
+  color: #555555;
+}
+.more-lead-dropdown {
+  display: flex;
+  position: fixed;
+  background-color: #ffffff;
+  z-index: 1;
+  border: 1px solid #ffffff;
+  width: 145px;
+  border-radius: 3px;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+  font-size: 0.9em;
+  margin-top: 10px;
+  right: 40px;
+}
+.more-lead-dropdown span {
+  color: #777777;
+  transition: color 0.1s ease-in-out;
+  cursor: pointer;
+  padding: 6px 5px;
+}
+.more-lead-dropdown span:hover {
+  color: #555555;
 }

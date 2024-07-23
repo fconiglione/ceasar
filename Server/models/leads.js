@@ -46,9 +46,9 @@ class Leads {
         }
     }
 
-    async updateLead (lead_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description) {
-        const query = `UPDATE ceasar.leads SET photo_url = $2, first_name = $3, last_name = $4, phone_number = $5, email = $6, company = $7, status_id = $8, description = $9 WHERE lead_id = $1`;
-        const values = [lead_id, photo_url, first_name, last_name, phone_number, email, company, status_id, description];
+    async updateLead (workspace_id, title, first_name, last_name, lead_status_id, photo_url, company, phone_number, email, source, updated_at, lead_id) {
+        const query = `UPDATE ceasar.leads SET title = $2, first_name = $3, last_name = $4, lead_status_id = $5, photo_url = $6, company = $7, phone_number = $8, email = $9, source = $10, updated_at = $11 WHERE workspace_id = $1 AND lead_id = $12`;
+        const values = [workspace_id, title, first_name, last_name, lead_status_id, photo_url, company, phone_number, email, source, updated_at, lead_id];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;

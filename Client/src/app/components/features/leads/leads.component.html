@@ -4,10 +4,19 @@
             <h1>Leads</h1>
         </div>
         <div class="leads-main-container-header-nav">
-            <button class="create-lead-btn" (click)="leads_action_container = true">New Lead</button>
-            <button class="more-lead-btn">
-                <fa-icon [icon]="faEllipsisV"></fa-icon>
-            </button>
+            <div>
+                <button class="create-lead-btn" (click)="leads_action_container = true">New Lead</button>
+            </div>
+            <div>
+                <button class="more-lead-btn" (click)="more_info_dropdown = !more_info_dropdown">
+                    <fa-icon [icon]="faEllipsisV"></fa-icon>
+                </button>
+                <div class="more-lead-dropdown" *ngIf="more_info_dropdown">
+                    <span>Import Leads</span>
+                    <span (click)="downloadCSV()">Export Leads</span>
+                    <span (click)="printData()">Print Leads</span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="leads-main-container-body">
@@ -26,11 +35,18 @@
                         </button>
                     </div>
                     <div class="leads-sort">
-                        <button class="leads-sort-btn">
+                        <button class="leads-sort-btn" (click)="sort_by_dropdown = !sort_by_dropdown">
                             <fa-icon [icon]="faSort"></fa-icon>
-                            <span>By Name</span>
+                            <span>{{active_sort_factor}}</span>
                             <fa-icon [icon]="faChevronDown"></fa-icon>
                         </button>
+                        <div class="leads-sort-dropdown" *ngIf="sort_by_dropdown">
+                            <span (click)="sortLeads('first_name')">By First Name</span>
+                            <span (click)="sortLeads('last_name')">By Last Name</span>
+                            <span (click)="sortLeads('company')">By Company</span>
+                            <span (click)="sortLeads('status')">By Status</span>
+                            <span (click)="sortLeads('created_at')">By Date Created</span>
+                        </div>
                     </div>
                     <div class="leads-view">
                         <button class="leads-card-view-btn">
@@ -216,14 +232,14 @@
                 <form class="lead-action-sidebar-form">
                     <div class="lead-action-sidebar-form-content">
                         <fieldset>
-                            <label for="leadOwner">Lead owner</label>
+                            <label for="leadOwner">Lead owner<span class="red">*</span></label>
                             <select disabled name="leadOwner" id="leadOwner">
-                                <option value="">Unknown</option>
+                                <option value="">--Coming Soon--</option>
                             </select>
                         </fieldset>
                         <fieldset>
                             <label for="leadSource">Lead source</label>
-                            <input [disabled]="!lead_edit_mode" type="text" id="leadSource" name="leadSource" placeholder="Enter lead source" maxlength="50" [(ngModel)]="source">
+                            <input [disabled]="!lead_edit_mode" type="text" id="leadSource" name="leadSource" [placeholder]="lead_edit_mode ? 'Enter lead source' : ''" maxlength="50" [(ngModel)]="source">
                         </fieldset>
                         <fieldset>
                             <label for="leadPhoto">Photo</label>
@@ -240,19 +256,19 @@
                             </select>
                         </fieldset>
                         <fieldset>
-                            <label for="leadFirstName">First name</label>
-                            <input [disabled]="!lead_edit_mode" type="text" id="leadFirstName" name="leadFirstName" placeholder="Enter first name" maxlength="50" [(ngModel)]="first_name">
+                            <label for="leadFirstName">First name<span class="red">*</span></label>
+                            <input [disabled]="!lead_edit_mode" type="text" id="leadFirstName" name="leadFirstName" [placeholder]="lead_edit_mode ? 'Enter first name' : ''" maxlength="50" [(ngModel)]="first_name">
                         </fieldset>
                         <fieldset>
-                            <label for="leadLastName">Last name</label>
-                            <input [disabled]="!lead_edit_mode" type="text" id="leadLastName" name="leadLastName" placeholder="Enter last name" maxlength="50" [(ngModel)]="last_name">
+                            <label for="leadLastName">Last name<span class="red">*</span></label>
+                            <input [disabled]="!lead_edit_mode" type="text" id="leadLastName" name="leadLastName" [placeholder]="lead_edit_mode ? 'Enter last name' : ''" maxlength="50" [(ngModel)]="last_name">
                         </fieldset>
                         <fieldset>
-                            <label for="leadCompany">Company</label>
-                            <input [disabled]="!lead_edit_mode" type="text" id="leadCompany" name="leadCompany" placeholder="Enter company name" maxlength="50" [(ngModel)]="company">
+                            <label for="leadCompany">Company<span class="red">*</span></label>
+                            <input [disabled]="!lead_edit_mode" type="text" id="leadCompany" name="leadCompany" [placeholder]="lead_edit_mode ? 'Enter company name' : ''" maxlength="50" [(ngModel)]="company">
                         </fieldset>
                         <fieldset>
-                            <label for="leadStatus">Status</label>
+                            <label for="leadStatus">Status<span class="red">*</span></label>
                             <select [disabled]="!lead_edit_mode" name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id">
                                 <option value="" disabled selected>--Select Status--</option>
                                 <option value="1">New</option>
@@ -264,16 +280,23 @@
                         </fieldset>
                         <fieldset>
                             <label for="leadPhone">Phone</label>
-                            <input [disabled]="!lead_edit_mode" type="tel" id="leadPhone" name="leadPhone" placeholder="Enter phone number" maxlength="50" [(ngModel)]="phone_number">
+                            <input [disabled]="!lead_edit_mode" type="tel" id="leadPhone" name="leadPhone" [placeholder]="lead_edit_mode ? 'Enter phone number' : ''" maxlength="50" [(ngModel)]="phone_number">
                         </fieldset>
                         <fieldset>
                             <label for="leadEmail">Email</label>
-                            <input [disabled]="!lead_edit_mode" type="email" id="leadEmail" name="leadEmail" placeholder="Enter email address" maxlength="50" [(ngModel)]="email">
+                            <input [disabled]="!lead_edit_mode" type="email" id="leadEmail" name="leadEmail" [placeholder]="lead_edit_mode ? 'Enter email address' : ''" maxlength="50" [(ngModel)]="email">
                         </fieldset>
                     </div>
                     <div class="lead-action-form-sidebar-nav" [style.display]="lead_edit_mode == false ? 'none' : 'flex'">
-                        <button class="close-lead-action-btn-2" (click)="onReset()">Cancel</button>
-                        <button class="save-lead-action-btn">Save</button>
+                        <div>
+                            <button class="delete-lead-action-btn" (click)="deleteLead()">
+                                Delete Lead
+                            </button>
+                        </div>
+                        <div>
+                            <button class="close-lead-action-btn-2" (click)="onReset()">Cancel</button>
+                            <button class="save-lead-action-btn" (click)="updateLead()">Save</button>
+                        </div>
                     </div>
                 </form>
                 <!-- Room for comments/notes to be added in future updates -->
