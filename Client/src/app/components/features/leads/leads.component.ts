@@ -213,7 +213,7 @@ export class LeadsComponent {
         const company = lead.company?.toLowerCase() ?? '';
         const phoneNumber = lead.phone_number?.toLowerCase() ?? '';
         const email = lead.email?.toLowerCase() ?? '';
-        // const status = this.getStatus(lead.status_id).toLowerCase();
+        const status = this.getLeadStatus(lead.lead_status_id).toLowerCase();
   
         return title.includes(this.leadSearchInputValue.toLowerCase()) ||
           firstName.includes(this.leadSearchInputValue.toLowerCase()) ||
