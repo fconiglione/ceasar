@@ -49,10 +49,10 @@
                         </div>
                     </div>
                     <div class="leads-view">
-                        <button class="leads-card-view-btn">
+                        <button class="leads-card-view-btn" (click)="toggleCardView()">
                             <fa-icon [icon]="faTableCells"></fa-icon>
                         </button>
-                        <button class="leads-list-view-btn">
+                        <button class="leads-list-view-btn" (click)="toggleListView()">
                             <fa-icon [icon]="faBars"></fa-icon>
                         </button>
                     </div>
@@ -85,7 +85,7 @@
                 <span class="category-number">{{lead_status_closed_lost_count}}</span>
             </div>
         </div>
-        <div class="leads-main-container-body-leads">
+        <div class="leads-main-container-body-leads-cv" *ngIf="card_view">
             <div class="lead-card" *ngFor="let lead of LEAD">
                 <div class="lead-card-container">
                     <div class="lead-card-header">
@@ -119,6 +119,44 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="leads-main-container-body-leads-lv" *ngIf="list_view">
+            <table class="leads-table">
+                <thead>
+                    <tr>
+                        <th class="select-td">
+                            <button class="lead-select-btn">
+                                <fa-icon [icon]="faSquare"></fa-icon>
+                            </button>
+                        </th>
+                        <th>Date Created</th>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th class="status-th">Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let lead of LEAD">
+                        <td class="select-td">
+                            <button class="lead-select-btn">
+                                <fa-icon [icon]="faSquare"></fa-icon>
+                            </button>
+                        </td>
+                        <td>{{lead.created_at | date: 'longDate'}}</td>
+                        <td class="name-td" (click)="openLeadsActionSidebar(lead)">{{lead.title}} {{lead.first_name}} {{lead.last_name}}</td>
+                        <td>{{lead.company}}</td>
+                        <td>{{lead.phone_number || 'Not provided'}}</td>
+                        <td>{{lead.email || 'Not provided'}}</td>
+                        <td [ngClass]="getLeadStatusClasses(lead.lead_status_id)">{{getLeadStatus(lead.lead_status_id)}}</td>
+                        <td class="more-lead-btn">
+                            <fa-icon [icon]="faArrowRightToBracket" (click)="openLeadsActionSidebar(lead)"></fa-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     <div id="loading" *ngIf="loading">

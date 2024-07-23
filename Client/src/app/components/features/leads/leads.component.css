@@ -153,7 +153,7 @@
   color: #ffffff;
   border: 1px solid #ff9e67;
 }
-.leads-main-container-body-leads {
+.leads-main-container-body-leads-cv {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 20px;
@@ -602,4 +602,93 @@
 }
 .more-lead-dropdown span:hover {
   color: #555555;
+}
+
+/* List view */
+
+.leads-table {
+  width: 100%;
+}
+.leads-main-container-body-leads-lv {
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+}
+.leads-table th, .leads-table td {
+  text-align: left;
+  padding: 10px 15px;
+}
+.leads-table .status-th {
+  text-align: center;
+}
+.leads-table .lead-status {
+  border-radius: 3px;
+  font-size: 0.9em;
+  cursor: pointer;
+  text-align: center;
+}
+.leads-table .lead-status.not-provided {
+  background-color: #f5f7fa;
+  color: #888888;
+}
+.leads-table .lead-status.new {
+  background-color: rgba(255, 158, 103, 0.1);
+  color: rgb(255,158,103);
+}
+.leads-table .lead-status.contacted {
+  background-color: rgba(249,199,79, 0.1);
+  color: rgb(249,199,79);
+}
+.leads-table .lead-status.qualified {
+  background-color: rgba(144,190,109, 0.1);
+  color: rgb(144,190,109);
+}
+.leads-table .lead-status.closed-won, .leads-table .lead-status.closed-lost {
+  background-color: rgba(249,65,68, 0.1);
+  color: rgb(249,65,68);
+}
+.leads-table .more-lead-btn {
+  border: none;
+  background-color: transparent;
+  text-align: center;
+  color: #777777;
+  cursor: pointer;
+  transition: color 0.1s ease-in-out;
+}
+.leads-table .more-lead-btn:hover {
+  color: #555555;
+}
+.leads-table th {
+  font-size: 0.9em;
+  color: #777777;
+  font-weight: 500;
+}
+.leads-table .name-td {
+  color: #2962FF;
+  cursor: pointer;
+  transition: color 0.1s ease-in-out;
+}
+.leads-table .name-td:hover {
+  color: #0a4afa;
+}
+.leads-table .select-td, .leads-table .select-th {
+  text-align: center;
+}
+.lead-select-btn {
+  border: none;
+  background-color: transparent;
+  font-size: 1.5em;
+  color: #eeeeee;
+  cursor: pointer;
+  transition: color 0.1s ease-in-out;
+}
+.lead-select-btn:hover {
+  color: #b7b7b7;
+}
+.lead-select-btn.selected {
+  color: #b7b7b7;
+}
+.leads-table td {
+  font-size: 0.9em;
+  color: #000000;
 }

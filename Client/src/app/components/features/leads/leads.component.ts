@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { LeadService } from '../../../services/lead/lead.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -64,6 +64,8 @@ export class LeadsComponent {
   sort_by_dropdown: boolean = false;
   active_sort_factor: string = 'By Last Name';
   more_info_dropdown: boolean = false;
+  card_view: boolean = true;
+  list_view: boolean = false;
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -84,6 +86,7 @@ export class LeadsComponent {
   faArrowRightToBracket = faArrowRightToBracket;
   faXmark = faXmark;
   faPenToSquare = faPenToSquare;
+  faSquare = faSquare;
 
   currentWorkspaceId: string | undefined;
 
@@ -370,6 +373,25 @@ export class LeadsComponent {
       printWindow.document.write('</body></html>');
       printWindow.document.close();
       printWindow.print();
+    }
+  }
+
+  // Card and list views
+  toggleCardView() {
+    this.card_view = !this.card_view;
+    if (this.card_view && this.list_view) {
+      this.list_view = false;
+    } else if (!this.card_view && !this.list_view) {
+      this.card_view = true;
+    }
+  }
+
+  toggleListView() {
+    this.list_view = !this.list_view;
+    if (this.list_view && this.card_view) {
+      this.card_view = false;
+    } else if (!this.list_view && !this.card_view) {
+      this.list_view = true;
     }
   }
 
