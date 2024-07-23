@@ -34,11 +34,11 @@ header {
 }
 .header-search-bar {
   padding: 5px 10px;
-  background-color: #eeeeee;
+  background-color: #f5f7fa;
   font-weight: 500;
   border: none;
   width: 30vw;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .search-controls {
   display: flex;
@@ -350,17 +350,17 @@ header {
 /* Custom select (.workspace-selector) */
 
 .workspace-selector {
-  background-color: #eeeeee;
+  background-color: #f5f7fa;
   padding: 5px 10px;
   margin: 0;
   width: 200px;
   cursor: pointer;
   min-height: 20px;
-  border-radius: 6px;
+  border-radius: 5px;
   transition: background-color 0.1s ease-in-out;
 }
 .workspace-selector:hover {
-  background-color: #dddddd;
+  background-color: #f5f7fac8;
 }
 .workspace-selector {
   display: flex;
