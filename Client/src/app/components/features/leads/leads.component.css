@@ -461,15 +461,32 @@
   color: #111111;
 }
 .edit-lead-action-btn {
-  border: none;
+  border: 1px solid #ff9e67;
   background-color: transparent;
   cursor: pointer;
-  font-size: 1.5em;
+  font-size: 1em;
   color: #ff9e67;
-  transition: color 0.1s ease-in-out;
+  transition: color 0.1s ease-in-out, border 0.1s ease-in-out;
+  padding: 6px 12px;
+  border-radius: 3px;
 }
 .edit-lead-action-btn:hover {
   color: #ff8e57;
+  border: 1px solid #ff8e57;
+}
+.lead-appt-btn {
+  border: 1px solid #007BFF;
+  background-color: #007BFF;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.1s ease-in-out, border 0.1s ease-in-out;
+  padding: 6px 12px;
+  border-radius: 3px;
+}
+.lead-appt-btn:hover {
+  background-color: #2962FF;
+  border: 1px solid #2962FF;
 }
 .lead-action-sidebar-form {
   padding: 10px 0;
