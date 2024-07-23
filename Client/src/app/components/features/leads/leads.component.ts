@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../loading/loading.component';
 import { AuthService } from '@auth0/auth0-angular';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-leads',
@@ -284,6 +285,7 @@ export class LeadsComponent {
     this.created_at = lead.created_at;
     this.updated_at = lead.updated_at
     // Opening the leads action sidebar
+    this.onReset(); // Close any open components
     this.leads_action_sidebar_container = true;
   }
 
@@ -298,6 +300,7 @@ export class LeadsComponent {
     this.email = lead.email;
     this.photo_url = lead.photo_url;
     this.source = lead.source;
+    this.onReset(); // Close any open components
     this.lead_action_status_menu = true;
   }
 
@@ -462,6 +465,8 @@ export class LeadsComponent {
     this.leads_action_container = false
     this.lead_edit_mode = false;
     this.lead_action_status_menu = false;
+    this.more_info_dropdown = false;
+    this.filterLeadStatus(0);
     this.getLeads();
   }
 
