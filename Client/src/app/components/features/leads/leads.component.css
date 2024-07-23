@@ -470,3 +470,55 @@
 .edit-lead-action-btn:hover {
   color: #ff8e57;
 }
+.lead-action-sidebar-form {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.lead-action-sidebar-form-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 10px
+}
+.lead-action-sidebar-form-content fieldset {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lead-action-sidebar-form-content fieldset label {
+  font-size: 0.9em;
+  color: #777777;
+  margin: 0 0 4px 0;
+}
+.lead-action-sidebar-form-content fieldset input {
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 0.9em;
+}
+.lead-action-sidebar-form-content fieldset input:focus {
+  outline: none;
+}
+.lead-action-sidebar-form-content fieldset select {
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 0.9em;
+  height: 100%;
+  cursor: pointer;
+}
+.lead-action-sidebar-form-content fieldset select:focus {
+  outline: none;
+}
+.lead-action-sidebar-form-content fieldset input:focus, .lead-action-sidebar-form-content fieldset select:focus {
+  border-color: #FF9e67;
+}
+.lead-action-form-sidebar-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  gap: 15px;
+}

@@ -47,7 +47,8 @@ export class LeadsComponent {
 
   // Component actions
   leads_action_container: boolean = false;
-  leads_action_sidebar_container: boolean = true;
+  leads_action_sidebar_container: boolean = false;
+  lead_edit_mode: boolean = false;
   loading: boolean = true;
 
   // Other variables
@@ -216,6 +217,23 @@ export class LeadsComponent {
       }
   }
 
+  openLeadsActionSidebar(lead: any): void {
+    // Setting the lead details
+    this.lead_id = lead.lead_id;
+    this.title = lead.title;
+    this.first_name = lead.first_name;
+    this.last_name = lead.last_name;
+    this.company = lead.company;
+    this.phone_number = lead.phone_number;
+    this.email = lead.email;
+    this.lead_status_id = lead.lead_status_id;
+    this.photo_url = lead.photo_url;
+    this.source = lead.source;
+    this.created_at = lead.created_at;
+    this.updated_at = lead.updated_at
+    // Opening the leads action sidebar
+    this.leads_action_sidebar_container = true;
+  }
 
 
   // // CSV Exporting

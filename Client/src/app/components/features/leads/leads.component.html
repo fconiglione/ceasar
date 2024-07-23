@@ -99,7 +99,7 @@
                     </div>
                     <div class="lead-card-footer">
                         <span [ngClass]="getLeadStatusClasses(lead.lead_status_id)">{{getLeadStatus(lead.lead_status_id)}}</span>
-                        <fa-icon [icon]="faArrowRightToBracket"></fa-icon>
+                        <fa-icon [icon]="faArrowRightToBracket" (click)="openLeadsActionSidebar(lead)"></fa-icon>
                     </div>
                 </div>
             </div>
@@ -207,7 +207,7 @@
                 </div>
                 <div>
                     <button class="edit-lead-action-btn">
-                        <fa-icon [icon]="faPenToSquare"></fa-icon>
+                        <fa-icon [icon]="faPenToSquare" (click)="lead_edit_mode = !lead_edit_mode"></fa-icon>
                     </button>
                 </div>
             </div>
@@ -222,15 +222,15 @@
                         </fieldset>
                         <fieldset>
                             <label for="leadSource">Lead source</label>
-                            <input type="text" id="leadSource" name="leadSource" placeholder="Enter lead source" maxlength="50" [(ngModel)]="source">
+                            <input [disabled]="!lead_edit_mode" type="text" id="leadSource" name="leadSource" placeholder="Enter lead source" maxlength="50" [(ngModel)]="source">
                         </fieldset>
                         <fieldset>
                             <label for="leadPhoto">Photo</label>
-                            <input type="file" id="leadPhoto" name="leadPhoto" [(ngModel)]="photo_url">
+                            <input [disabled]="!lead_edit_mode" type="file" id="leadPhoto" name="leadPhoto" [(ngModel)]="photo_url">
                         </fieldset>
                         <fieldset>
                             <label for="leadTitle">Title</label>
-                            <select name="leadTitle" id="leadTitle" [(ngModel)]="title">
+                            <select [disabled]="!lead_edit_mode" name="leadTitle" id="leadTitle" [(ngModel)]="title">
                                 <option value="" disabled selected>--None--</option>
                                 <option value="Mr.">Mr.</option>
                                 <option value="Mrs.">Mrs.</option>
@@ -240,19 +240,19 @@
                         </fieldset>
                         <fieldset>
                             <label for="leadFirstName">First name</label>
-                            <input type="text" id="leadFirstName" name="leadFirstName" placeholder="Enter first name" maxlength="50" [(ngModel)]="first_name">
+                            <input [disabled]="!lead_edit_mode" type="text" id="leadFirstName" name="leadFirstName" placeholder="Enter first name" maxlength="50" [(ngModel)]="first_name">
                         </fieldset>
                         <fieldset>
                             <label for="leadLastName">Last name</label>
-                            <input type="text" id="leadLastName" name="leadLastName" placeholder="Enter last name" maxlength="50" [(ngModel)]="last_name">
+                            <input [disabled]="!lead_edit_mode" type="text" id="leadLastName" name="leadLastName" placeholder="Enter last name" maxlength="50" [(ngModel)]="last_name">
                         </fieldset>
                         <fieldset>
                             <label for="leadCompany">Company</label>
-                            <input type="text" id="leadCompany" name="leadCompany" placeholder="Enter company name" maxlength="50" [(ngModel)]="company">
+                            <input [disabled]="!lead_edit_mode" type="text" id="leadCompany" name="leadCompany" placeholder="Enter company name" maxlength="50" [(ngModel)]="company">
                         </fieldset>
                         <fieldset>
                             <label for="leadStatus">Status</label>
-                            <select name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id">
+                            <select [disabled]="!lead_edit_mode" name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id">
                                 <option value="1">New</option>
                                 <option value="2">Contacted</option>
                                 <option value="3">Qualified</option>
@@ -262,14 +262,14 @@
                         </fieldset>
                         <fieldset>
                             <label for="leadPhone">Phone</label>
-                            <input type="tel" id="leadPhone" name="leadPhone" placeholder="Enter phone number" maxlength="50" [(ngModel)]="phone_number">
+                            <input [disabled]="!lead_edit_mode" type="tel" id="leadPhone" name="leadPhone" placeholder="Enter phone number" maxlength="50" [(ngModel)]="phone_number">
                         </fieldset>
                         <fieldset>
                             <label for="leadEmail">Email</label>
-                            <input type="email" id="leadEmail" name="leadEmail" placeholder="Enter email address" maxlength="50" [(ngModel)]="email">
+                            <input [disabled]="!lead_edit_mode" type="email" id="leadEmail" name="leadEmail" placeholder="Enter email address" maxlength="50" [(ngModel)]="email">
                         </fieldset>
                     </div>
-                    <div class="lead-action-form-sidebar-nav">
+                    <div class="lead-action-form-sidebar-nav" [style.display]="lead_edit_mode == false ? 'none' : 'flex'">
                         <button class="close-lead-action-btn-2" (click)="leads_action_sidebar_container = false">Cancel</button>
                         <button class="save-lead-action-btn">Save</button>
                     </div>
