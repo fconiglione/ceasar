@@ -169,6 +169,7 @@
                             <fieldset>
                                 <label for="leadStatus">Status<span class="red">*</span></label>
                                 <select name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id" required>
+                                    <option value="" disabled selected>--Select Status--</option>
                                     <option value="1">New</option>
                                     <option value="2">Contacted</option>
                                     <option value="3">Qualified</option>
@@ -200,7 +201,7 @@
         <div class="leads-action-sidebar-content">
             <div class="lead-action-sidebar-row leads-action-sidebar-header">
                 <div>
-                    <button class="close-lead-action-btn-1 close-lead-sidebar-btn" (click)="leads_action_sidebar_container = false">
+                    <button class="close-lead-action-btn-1 close-lead-sidebar-btn" (click)="onReset()">
                         <fa-icon [icon]="faArrowLeft"></fa-icon>
                     </button>
                     <h1>Lead information</h1>
@@ -253,6 +254,7 @@
                         <fieldset>
                             <label for="leadStatus">Status</label>
                             <select [disabled]="!lead_edit_mode" name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id">
+                                <option value="" disabled selected>--Select Status--</option>
                                 <option value="1">New</option>
                                 <option value="2">Contacted</option>
                                 <option value="3">Qualified</option>
@@ -270,7 +272,7 @@
                         </fieldset>
                     </div>
                     <div class="lead-action-form-sidebar-nav" [style.display]="lead_edit_mode == false ? 'none' : 'flex'">
-                        <button class="close-lead-action-btn-2" (click)="leads_action_sidebar_container = false">Cancel</button>
+                        <button class="close-lead-action-btn-2" (click)="onReset()">Cancel</button>
                         <button class="save-lead-action-btn">Save</button>
                     </div>
                 </form>

@@ -33,10 +33,10 @@ export class LeadsComponent {
   sub: string | undefined;
   lead_id: string | undefined;
   workspace_id: string | undefined;
-  title: string | undefined;
+  title: string | undefined = "";
   first_name: string | undefined;
   last_name: string | undefined;
-  lead_status_id: string | undefined;
+  lead_status_id: string | undefined = "";
   photo_url: string | undefined;
   company: string | undefined;
   phone_number: string | undefined;
@@ -350,6 +350,10 @@ export class LeadsComponent {
     this.source = '';
     this.created_at = '';
     this.updated_at = '';
+
+    // Close any open components
+    this.leads_action_sidebar_container = false;
+    this.leads_action_container = false
   }
 
   isWorkspacePath(): boolean {
