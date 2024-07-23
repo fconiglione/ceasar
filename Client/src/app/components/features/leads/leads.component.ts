@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../loading/loading.component';
 import { AuthService } from '@auth0/auth0-angular';
-import { filter } from 'rxjs';
+import { NoDataComponent } from "../../no-data/no-data.component";
 
 @Component({
   selector: 'app-leads',
@@ -20,8 +20,9 @@ import { filter } from 'rxjs';
     DatePipe,
     CommonModule,
     FormsModule,
-    LoadingComponent
-  ],
+    LoadingComponent,
+    NoDataComponent
+],
   templateUrl: './leads.component.html',
   styleUrl: './leads.component.css'
 })

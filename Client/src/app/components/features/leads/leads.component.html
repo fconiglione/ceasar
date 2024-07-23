@@ -155,6 +155,9 @@
             </table>
         </div>
     </div>
+    <div *ngIf="LEAD && LEAD.length === 0 && !loading">
+        <app-no-data></app-no-data>
+    </div>
     <div id="loading" *ngIf="loading">
         <app-loading></app-loading>
     </div>
