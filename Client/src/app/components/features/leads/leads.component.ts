@@ -50,6 +50,10 @@ export class LeadsComponent {
   leads_action_sidebar_container: boolean = false;
   lead_edit_mode: boolean = false;
   loading: boolean = true;
+  more_info_dropdown: boolean = false;
+  card_view: boolean = true;
+  list_view: boolean = false;
+  sort_by_dropdown: boolean = false;
 
   // Other variables
   lead_status: string | undefined;
@@ -61,11 +65,7 @@ export class LeadsComponent {
   lead_status_closed_lost_count: number = 0;
   previous_status_filter: number = 0;
   active_status_filter: number = 0;
-  sort_by_dropdown: boolean = false;
   active_sort_factor: string = 'By Last Name';
-  more_info_dropdown: boolean = false;
-  card_view: boolean = true;
-  list_view: boolean = false;
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -163,6 +163,16 @@ export class LeadsComponent {
         console.log(response);
         this.getLeads();
         this.onReset();
+      });
+    }
+  }
+
+  // Deletion from directly within the list
+  deleteLeadById(lead_id: string): void {
+    if (confirm('Are you sure you want to delete this lead? This action cannot be undone.')) {
+      this.leadService.deleteLead(lead_id).subscribe(response => {
+        console.log(response);
+        this.getLeads();
       });
     }
   }

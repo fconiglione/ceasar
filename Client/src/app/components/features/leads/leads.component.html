@@ -124,11 +124,7 @@
             <table class="leads-table">
                 <thead>
                     <tr>
-                        <th class="select-td">
-                            <button class="lead-select-btn">
-                                <fa-icon [icon]="faSquare"></fa-icon>
-                            </button>
-                        </th>
+                        <th></th>
                         <th>Date Created</th>
                         <th>Name</th>
                         <th>Company</th>
@@ -141,8 +137,8 @@
                 <tbody>
                     <tr *ngFor="let lead of LEAD">
                         <td class="select-td">
-                            <button class="lead-select-btn">
-                                <fa-icon [icon]="faSquare"></fa-icon>
+                            <button class="lead-select-btn" (click)="deleteLeadById(lead.lead_id)">
+                                <fa-icon [icon]="faTrash"></fa-icon>
                             </button>
                         </td>
                         <td>{{lead.created_at | date: 'longDate'}}</td>

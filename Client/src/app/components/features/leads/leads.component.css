@@ -625,6 +625,9 @@
 
 .leads-table {
   width: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+  border-collapse: collapse;
 }
 .leads-main-container-body-leads-lv {
   background-color: #ffffff;
@@ -633,13 +636,12 @@
 }
 .leads-table th, .leads-table td {
   text-align: left;
-  padding: 10px 15px;
+  padding: 12px 15px;
 }
 .leads-table .status-th {
   text-align: center;
 }
 .leads-table .lead-status {
-  border-radius: 3px;
   font-size: 0.9em;
   cursor: pointer;
   text-align: center;
@@ -694,18 +696,21 @@
 .lead-select-btn {
   border: none;
   background-color: transparent;
-  font-size: 1.5em;
-  color: #eeeeee;
+  font-size: 1em;
+  color: #ef233c;
   cursor: pointer;
   transition: color 0.1s ease-in-out;
 }
 .lead-select-btn:hover {
-  color: #b7b7b7;
-}
-.lead-select-btn.selected {
-  color: #b7b7b7;
+  color: #d90429;
 }
 .leads-table td {
   font-size: 0.9em;
   color: #000000;
+}
+.leads-table tr {
+  border: 1px solid #eeeeee;
+}
+.leads-table tr:nth-child(even) {
+  background-color: #fafafa;
 }
