@@ -221,19 +221,31 @@ export class HeaderComponent {
   }
 
   updateWorkspace() {
-    this.workspaceService.updateWorkspace(this.sub, this.currentWorkspaceId, this.title).subscribe(response => {
-    });
-    this.workspaceService.updateWorkspaceFeatures(this.sub, this.currentWorkspaceId, this.has_leads, this.has_accounts, this.has_opportunities, this.has_contacts, this.has_files, this.has_reports)
+    this.workspaceService.updateWorkspace(this.sub, this.currentWorkspaceId, this.title)
       .subscribe(response => {
-        console.log(response);
+        this.workspaceService.updateWorkspaceFeatures(
+          this.sub, 
+          this.currentWorkspaceId, 
+          this.has_leads, 
+          this.has_accounts, 
+          this.has_opportunities, 
+          this.has_contacts, 
+          this.has_files, 
+          this.has_reports
+        ).subscribe(featuresResponse => {
+          console.log('Workspace features updated successfully:', featuresResponse);
+          
+          this.refreshWorkspace();
+          this.setDefaultWorkspace();
+          this.getWorkspaces();
+        }, featuresError => {
+          console.error('Error updating workspace features:', featuresError);
+        });
       }, error => {
-        console.error(error);
+        console.error('Error updating workspace details:', error);
       });
-
-      this.refreshWorkspace(); 
-      this.setDefaultWorkspace();
-      this.getWorkspaces();    
   }
+  
 
   registerUser() {
     let user = {
