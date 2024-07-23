@@ -54,6 +54,7 @@ export class LeadsComponent {
   card_view: boolean = true;
   list_view: boolean = false;
   sort_by_dropdown: boolean = false;
+  lead_action_status_menu: boolean = false;
 
   // Other variables
   lead_status: string | undefined;
@@ -286,6 +287,43 @@ export class LeadsComponent {
     this.leads_action_sidebar_container = true;
   }
 
+  openLeadStatusMenu(lead: any): void {
+    this.lead_status_id = lead.lead_status_id;
+    this.lead_id = lead.lead_id;
+    this.first_name = lead.first_name;
+    this.last_name = lead.last_name;
+    this.title = lead.title;
+    this.company = lead.company;
+    this.phone_number = lead.phone_number;
+    this.email = lead.email;
+    this.photo_url = lead.photo_url;
+    this.source = lead.source;
+    this.lead_action_status_menu = true;
+  }
+
+  updateLeadStatus(lead_status_id: any): void {
+    let updatedLead = {
+      lead_status_id: lead_status_id, // Take from new selected status
+      lead_id: this.lead_id,
+      title: this.title,
+      first_name: this.first_name,
+      last_name: this.last_name,
+      company: this.company,
+      phone_number: this.phone_number,
+      email: this.email,
+      photo_url: this.photo_url,
+      source: this.source,
+      updated_at: new Date().toISOString(),
+      workspace_id: this.currentWorkspaceId
+      };
+
+    this.leadService.updateLead(updatedLead).subscribe(response => {
+      console.log(response);
+      this.getLeads();
+      this.onReset();
+    });
+  }
+
   sortLeads(sortFactor: any): void {
     if (sortFactor === 'last_name') {
       this.LEAD.sort((a: any, b: any) => {
@@ -423,6 +461,7 @@ export class LeadsComponent {
     this.leads_action_sidebar_container = false;
     this.leads_action_container = false
     this.lead_edit_mode = false;
+    this.lead_action_status_menu = false;
     this.getLeads();
   }
 

@@ -714,3 +714,84 @@
 .leads-table tr:nth-child(even) {
   background-color: #fafafa;
 }
+
+/* Lead action status menu (.lead-status-action-menu) */
+
+.leads-action-status-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.leads-action-status-menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+}
+.leads-action-status-menu-content {
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 40px 50px;
+  width: 400px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+.leads-action-status-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.leads-action-status-menu h1 {
+  font-size: 1.5em;
+  margin: 0;
+  padding: 0;
+}
+.lead-action-status-menu-form-nav {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  gap: 15px;
+}
+.lead-action-status-menu-form-content fieldset {
+  border: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.lead-action-status-menu-form-content fieldset select {
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 0.9em;
+  height: 45px;
+  width: 75%;
+  cursor: pointer;
+}
+.lead-action-status-menu-form-content fieldset select:focus {
+  outline: none;
+  border-color: #FF9e67;
+}
+.lead-action-status-menu-form-content fieldset label {
+  font-size: 0.9em;
+  color: #777777;
+  margin: 0 0 4px 0;
+}
+.lead-action-status-menu-form .red {
+  color: #ff0800;
+}
+.lead-action-status-menu-form {
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}

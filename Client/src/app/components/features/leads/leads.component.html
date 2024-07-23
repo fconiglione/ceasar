@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div class="lead-card-footer">
-                        <span [ngClass]="getLeadStatusClasses(lead.lead_status_id)">{{getLeadStatus(lead.lead_status_id)}}</span>
+                        <span (click)="openLeadStatusMenu(lead)" [ngClass]="getLeadStatusClasses(lead.lead_status_id)">{{getLeadStatus(lead.lead_status_id)}}</span>
                         <fa-icon [icon]="faArrowRightToBracket" (click)="openLeadsActionSidebar(lead)"></fa-icon>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
                         <td>{{lead.company}}</td>
                         <td>{{lead.phone_number || 'Not provided'}}</td>
                         <td>{{lead.email || 'Not provided'}}</td>
-                        <td [ngClass]="getLeadStatusClasses(lead.lead_status_id)">{{getLeadStatus(lead.lead_status_id)}}</td>
+                        <td (click)="openLeadStatusMenu(lead)" [ngClass]="getLeadStatusClasses(lead.lead_status_id)">{{getLeadStatus(lead.lead_status_id)}}</td>
                         <td class="more-lead-btn">
                             <fa-icon [icon]="faArrowRightToBracket" (click)="openLeadsActionSidebar(lead)"></fa-icon>
                         </td>
@@ -337,6 +337,43 @@
                     </div>
                 </form>
                 <!-- Room for comments/notes to be added in future updates -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="leads-action-status-menu" *ngIf="lead_action_status_menu">
+    <div class="leads-action-status-menu-container">
+        <div class="leads-action-status-menu-content">
+            <div class="lead-action-status-menu-row leads-action-status-menu-header">
+                <div>
+                    <h1>Change lead status</h1>
+                </div>
+                <div>
+                    <button class="close-lead-action-btn-1" (click)="lead_action_status_menu = false">
+                        <fa-icon [icon]="faXmark"></fa-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="lead-action-status-menu-row">
+                <form class="lead-action-status-menu-form">
+                    <div class="lead-action-status-menu-form-content">
+                        <fieldset>
+                            <label for="leadStatus">Status<span class="red">*</span></label>
+                            <select name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id">
+                                <option value="" disabled selected>--Select Status--</option>
+                                <option value="1">New</option>
+                                <option value="2">Contacted</option>
+                                <option value="3">Qualified</option>
+                                <option value="4">Closed-Won</option>
+                                <option value="5">Closed-Lost</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                    <div class="lead-action-status-menu-form-nav">
+                        <button class="close-lead-action-btn-2" (click)="onReset()">Cancel</button>
+                        <button class="save-lead-action-btn" (click)="updateLeadStatus(lead_status_id)">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
