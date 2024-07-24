@@ -18,7 +18,12 @@ export class LoginComponent {
   ngOnInit(): void {
     this.authService.user$.subscribe(user => {
       if (!user || !user.sub) {
-        this.authService.loginWithRedirect();
+        // this.authService.loginWithRedirect();
+        try {
+          this.authService.getAccessTokenSilently();
+        } catch {
+          this.authService.loginWithRedirect();
+        }
       }
     });
   }

@@ -69,6 +69,8 @@ export class LeadsComponent {
   previous_status_filter: number = 0;
   active_status_filter: number = 0;
   active_sort_factor: string = 'By Last Name';
+  allLeads: any[] = [];  // This should be initialized with the complete list of leads
+  filteredLeads: any[] = [];
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -103,8 +105,10 @@ export class LeadsComponent {
 
   getLeads(): void {
     // Get leads from the API
-    this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
-      this.LEAD = response;
+    this.leadService.getLeads(this.currentWorkspaceId).subscribe((leads: any) => {
+      // this.filteredLeads = response;
+      this.allLeads = leads;
+      this.filteredLeads = leads;
       this.countLeads();
       this.sortLeads('last_name'); // Sort by last name by default
       this.loading = false;
@@ -215,14 +219,12 @@ export class LeadsComponent {
   }
 
   onInputChange(event: any) {
-    const searchInputValue = event.target.value.trim();
+    const searchInputValue = event.target.value.trim().toLowerCase();
     this.leadSearchInputValue = searchInputValue;
   
-    if (this.leadSearchInputValue === '') {
-      this.getLeads();
-    } else {
+    if (this.leadSearchInputValue.length > 0) {
       this.countLeads();
-      this.LEAD = this.LEAD.filter((lead: any) => {
+      this.filteredLeads = this.allLeads.filter((lead: any) => {
         const title = lead.title?.toLowerCase() ?? '';
         const firstName = lead.first_name?.toLowerCase() ?? '';
         const lastName = lead.last_name?.toLowerCase() ?? '';
@@ -231,24 +233,27 @@ export class LeadsComponent {
         const email = lead.email?.toLowerCase() ?? '';
         const status = this.getLeadStatus(lead.lead_status_id).toLowerCase();
   
-        return title.includes(this.leadSearchInputValue.toLowerCase()) ||
-          firstName.includes(this.leadSearchInputValue.toLowerCase()) ||
-          lastName.includes(this.leadSearchInputValue.toLowerCase()) ||
-          company.includes(this.leadSearchInputValue.toLowerCase()) ||
-          phoneNumber.includes(this.leadSearchInputValue.toLowerCase()) ||
-          email.includes(this.leadSearchInputValue.toLowerCase()) ||
-          status.includes(this.leadSearchInputValue.toLowerCase());
+        return title.includes(this.leadSearchInputValue) ||
+          firstName.includes(this.leadSearchInputValue) ||
+          lastName.includes(this.leadSearchInputValue) ||
+          company.includes(this.leadSearchInputValue) ||
+          phoneNumber.includes(this.leadSearchInputValue) ||
+          email.includes(this.leadSearchInputValue) ||
+          status.includes(this.leadSearchInputValue);
       });
+    } else {
+      console.log("Empty");
+      this.filteredLeads = this.allLeads;
     }
-  }  
+  }
 
   countLeads(): void {
-    this.lead_count = this.LEAD.length;
-    this.lead_status_new_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 1).length;
-    this.lead_status_contacted_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 2).length;
-    this.lead_status_qualified_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 3).length;
-    this.lead_status_closed_won_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 4).length;
-    this.lead_status_closed_lost_count = this.LEAD.filter((lead: any) => lead.lead_status_id === 5).length;
+    this.lead_count = this.filteredLeads.length;
+    this.lead_status_new_count = this.filteredLeads.filter((lead: any) => lead.lead_status_id === 1).length;
+    this.lead_status_contacted_count = this.filteredLeads.filter((lead: any) => lead.lead_status_id === 2).length;
+    this.lead_status_qualified_count = this.filteredLeads.filter((lead: any) => lead.lead_status_id === 3).length;
+    this.lead_status_closed_won_count = this.filteredLeads.filter((lead: any) => lead.lead_status_id === 4).length;
+    this.lead_status_closed_lost_count = this.filteredLeads.filter((lead: any) => lead.lead_status_id === 5).length;
   } 
   
   filterLeadStatus(lead_status_id: number): void {
@@ -261,9 +266,9 @@ export class LeadsComponent {
             this.getLeads();
           } else {
               this.leadService.getLeads(this.currentWorkspaceId).subscribe(response => {
-                  this.LEAD = response;
+                  this.filteredLeads = response as any[];
                   this.countLeads();
-                  this.LEAD = this.LEAD.filter((lead: any) => lead.lead_status_id === lead_status_id);
+                  this.filteredLeads = this.filteredLeads.filter((lead: any) => lead.lead_status_id === lead_status_id);
                   this.previous_status_filter = lead_status_id;
                   this.activeStatusFilter = this.getLeadStatus(lead_status_id);
               });
@@ -286,7 +291,7 @@ export class LeadsComponent {
     this.created_at = lead.created_at;
     this.updated_at = lead.updated_at
     // Opening the leads action sidebar
-    this.onReset(); // Close any open components
+    // this.onReset();
     this.leads_action_sidebar_container = true;
   }
 
@@ -329,7 +334,7 @@ export class LeadsComponent {
 
   sortLeads(sortFactor: any): void {
     if (sortFactor === 'last_name') {
-      this.LEAD.sort((a: any, b: any) => {
+      this.filteredLeads.sort((a: any, b: any) => {
         const lastNameA = a.last_name?.toLowerCase() ?? '';
         const lastNameB = b.last_name?.toLowerCase() ?? '';
 
@@ -340,7 +345,7 @@ export class LeadsComponent {
     }
 
     if (sortFactor === 'first_name') {
-      this.LEAD.sort((a: any, b: any) => {
+      this.filteredLeads.sort((a: any, b: any) => {
         const firstNameA = a.first_name?.toLowerCase() ?? '';
         const firstNameB = b.first_name?.toLowerCase() ?? '';
 
@@ -351,7 +356,7 @@ export class LeadsComponent {
     }
 
     if (sortFactor === 'company') {
-      this.LEAD.sort((a: any, b: any) => {
+      this.filteredLeads.sort((a: any, b: any) => {
         const companyA = a.company?.toLowerCase() ?? '';
         const companyB = b.company?.toLowerCase() ?? '';
 
@@ -362,7 +367,7 @@ export class LeadsComponent {
     }
 
     if (sortFactor === 'status') {
-      this.LEAD.sort((a: any, b: any) => {
+      this.filteredLeads.sort((a: any, b: any) => {
         const statusA = a.lead_status_id;
         const statusB = b.lead_status_id;
 
@@ -373,7 +378,7 @@ export class LeadsComponent {
     }
 
     if (sortFactor === 'created_at') {
-      this.LEAD.sort((a: any, b: any) => {
+      this.filteredLeads.sort((a: any, b: any) => {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
 
@@ -391,7 +396,7 @@ export class LeadsComponent {
   generateCSV(): string {
     let csv = 'Last Name, First Name, Title, Company, Phone Number, Email, Status, Source, Owner\n';
 
-    this.LEAD.forEach((lead: any) => {
+    this.filteredLeads.forEach((lead: any) => {
       csv += `${lead.last_name}, ${lead.first_name}, ${lead.title}, ${lead.company}, ${lead.phone_number}, ${lead.email}, ${this.getLeadStatus(lead.lead_status_id)}, ${lead.source}, ${lead.owner}\n`;
     });
 
