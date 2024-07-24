@@ -59,7 +59,7 @@
       </div>
       <hr class="non-mobile-column">
       <div class="non-mobile-column" *ngIf="isWorkspacePath()">
-        <div class="workspace-selector" (click)="openWorkspaceDropdown()">
+        <div class="workspace-selector" (click)="workspace_dropdown = !workspace_dropdown">
           <p>{{ title?.toString() }}</p>
           <fa-icon [icon]="faChevronDown"></fa-icon>
         </div>
@@ -68,12 +68,10 @@
             <fa-icon [icon]="faHome"></fa-icon>
           </a>
         </div>
-        <div class="workspace-selector-dropdown">
-          <ul>
-            <li class="workspace-option" *ngFor="let workspace of WORKSPACE" (click)="redirectToSelectedWorkspace(workspace?.workspace_id)" (click)="closeWorkspaceDropdown()">
-              <span>{{ workspace?.title || 'Untitled workspace' }}</span>
-            </li>
-          </ul>
+        <div class="workspace-selector-dropdown" *ngIf="workspace_dropdown">
+            <span class="workspace-option" *ngFor="let workspace of WORKSPACE" (click)="redirectToSelectedWorkspace(workspace?.workspace_id)" (click)="workspace_dropdown = !workspace_dropdown">
+              {{ workspace?.title || 'Untitled workspace' }}
+            </span>
         </div>
       </div>
       <div class="non-mobile-column">

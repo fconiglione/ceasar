@@ -58,6 +58,7 @@ export class HeaderComponent {
   // Boolean elements
   workspace_setup: boolean = false;
   workspace_title_edit: boolean = false;
+  workspace_dropdown: boolean = false;
 
   constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute, public featureService: FeatureService, public authService: AuthService, private userService: UserService ) {}
   isActive: boolean = false;
@@ -192,20 +193,6 @@ export class HeaderComponent {
   toggleTitleWorkspaceEdit() {
     this.workspace_title_edit = !this.workspace_title_edit;
   }
-
-  openWorkspaceDropdown() {
-    this.workspaceDropdown = !this.workspaceDropdown;
-    const workspaceDropdown = this.elementRef.nativeElement.querySelector('.workspace-selector-dropdown');
-    if (this.workspaceDropdown) {
-        workspaceDropdown.style.display = 'flex';
-    } else {
-        workspaceDropdown.style.display = 'none';
-    }
-  }
-  closeWorkspaceDropdown() {
-    const workspaceDropdown = this.elementRef.nativeElement.querySelector('.workspace-selector-dropdown');
-    workspaceDropdown.style.display = 'none';
-  } 
 
   getWorkspaceFeatures(workspaceId: string) {
     if (this.sub) {
