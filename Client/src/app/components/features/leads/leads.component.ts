@@ -242,7 +242,7 @@ export class LeadsComponent {
           status.includes(this.leadSearchInputValue);
       });
     } else {
-      console.log("Empty");
+      this.countLeads();
       this.filteredLeads = this.allLeads;
     }
   }

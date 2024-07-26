@@ -120,7 +120,7 @@
                 </div>
             </div>
         </div>
-        <div class="leads-main-container-body-leads-lv" *ngIf="list_view">
+        <div class="leads-main-container-body-leads-lv" *ngIf="list_view && filteredLeads.length > 0">
             <table class="leads-table">
                 <thead>
                     <tr>
@@ -135,7 +135,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let lead of LEAD">
+                    <tr *ngFor="let lead of filteredLeads">
                         <td class="select-td">
                             <button class="lead-select-btn" (click)="deleteLeadById(lead.lead_id)">
                                 <fa-icon [icon]="faTrash"></fa-icon>
@@ -155,7 +155,7 @@
             </table>
         </div>
     </div>
-    <div *ngIf="LEAD && LEAD.length === 0 && !loading">
+    <div *ngIf="filteredLeads && filteredLeads.length === 0 && !loading">
         <app-no-data></app-no-data>
     </div>
     <div id="loading" *ngIf="loading">
