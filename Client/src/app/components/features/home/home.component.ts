@@ -125,10 +125,10 @@ export class HomeComponent {
       this.route.queryParams.subscribe(params => {
         this.currentWorkspaceId = params['workspace_id'] || '';
         this.getLeadsCount();
-        this.getAccountsCount();
-        this.getOpportunitiesCount();
-        this.getContactsCount();
-        this.getEstimatedValue();
+        // this.getAccountsCount();
+        // this.getOpportunitiesCount();
+        // this.getContactsCount();
+        // this.getEstimatedValue();
       });
     } else {
       console.log('Not a workspace path');
