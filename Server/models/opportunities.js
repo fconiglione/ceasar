@@ -24,10 +24,10 @@ class Opportunities {
         }
     }
 
-    async createOpportunity (workspace_id, sub, title, value, account_id, description, opportunity_status_id) {
-        const query = `INSERT INTO ceasar.opportunities (workspace_id, sub, title, value, account_id, description, opportunity_status_id)
-         VALUES ($1, $2, $3, $4, $5, $6, $7)`;
-        const values = [workspace_id, sub, title, value, account_id, description, opportunity_status_id];
+    async createOpportunity (workspace_id, sub, title, value, prediction_score, contact_id, account_id, closing_date, opportunity_status_id, created_at, updated_at) {
+        const query = `INSERT INTO ceasar.opportunities (workspace_id, sub, title, value, prediction_score, contact_id, account_id, closing_date, opportunity_status_id, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
+        const values = [workspace_id, sub, title, value, prediction_score, contact_id, account_id, closing_date, opportunity_status_id, created_at, updated_at];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;

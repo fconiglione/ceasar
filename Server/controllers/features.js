@@ -179,10 +179,10 @@ router.post('/opportunities', async (req, res) => {
 });
 
 router.post('/opportunities/create', async (req, res) => {
-    const { workspace_id, sub, title, value, account_id, description, opportunity_status_id } = req.body.opportunity;
+    const { workspace_id, sub, title, value, prediction_score, contact_id, account_id, closing_date, opportunity_status_id, created_at, updated_at } = req.body.opportunity;
     const opportunities = new Opportunities();
     try {
-        const result = await opportunities.createOpportunity(workspace_id, sub, title, value, account_id, description, opportunity_status_id);
+        const result = await opportunities.createOpportunity(workspace_id, sub, title, value, prediction_score, contact_id, account_id, closing_date, opportunity_status_id, created_at, updated_at);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error creating opportunity:", error);

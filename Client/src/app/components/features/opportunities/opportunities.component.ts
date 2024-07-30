@@ -9,6 +9,8 @@ import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../loading/loading.component';
 import { AuthService } from '@auth0/auth0-angular';
 import { NoDataComponent } from "../../no-data/no-data.component";
+import { AccountService } from '../../../services/accounts/account.service';
+import { ContactService } from '../../../services/contact/contact.service';
 
 @Component({
   selector: 'app-opportunities',
@@ -26,6 +28,7 @@ import { NoDataComponent } from "../../no-data/no-data.component";
   templateUrl: './opportunities.component.html',
   styleUrl: './opportunities.component.css'
 })
+
 export class OpportunitiesComponent {
   // User components
   username: string | undefined;
@@ -35,8 +38,8 @@ export class OpportunitiesComponent {
   sub: string | undefined;
   opportunity_id: string | undefined;
   workspace_id: string | undefined;
-  account_id: string | undefined;
-  contact_id: string | undefined;
+  account_id: string | undefined = '';
+  contact_id: string | undefined = '';
   opportunity_status_id: string | undefined = '';
   title: string | undefined;
   closing_date: string | undefined;
@@ -44,6 +47,14 @@ export class OpportunitiesComponent {
   prediction_score: string | undefined;
   created_at: string | undefined;
   updated_at: string | undefined;
+
+  // Account and Contact Declarations
+  ACCOUNT: any;
+  name: string | undefined;
+  CONTACT: any;
+  // title already declared above
+  first_name: string | undefined;
+  last_name: string | undefined;
 
   // Component actions
   opportunities_action_container: boolean = false;
@@ -100,7 +111,7 @@ export class OpportunitiesComponent {
   ShapesBanner = "assets/images/shapes-banner.svg";
   DefaultPFP = "assets/images/default-pfp.svg";
 
-  constructor( private opportunityService: OpportunityService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService ) { }
+  constructor( private opportunityService: OpportunityService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService, private accountService: AccountService, private contactService: ContactService ) { }
 
   getOpportunities(): void {
     // Get opportunities from the API
@@ -441,6 +452,20 @@ export class OpportunitiesComponent {
     }
   }
 
+  // Get accounts
+  getAccounts(): void {
+    this.accountService.getAccounts(this.currentWorkspaceId).subscribe((accounts: any) => {
+      this.ACCOUNT = accounts;
+    });
+  }
+
+  // Get contacts
+  getContacts(): void {
+    this.contactService.getContacts(this.currentWorkspaceId).subscribe((contacts: any) => {
+      this.CONTACT = contacts;
+    });
+  }
+
   onReset(): void {
     // Reset the new opportunity form
     this.title = '';
@@ -476,6 +501,8 @@ export class OpportunitiesComponent {
           this.route.queryParams.subscribe(params => {
             this.currentWorkspaceId = params['workspace_id'] || '';
             this.getOpportunities();
+            this.getAccounts();
+            this.getContacts();
           });
         }
       });

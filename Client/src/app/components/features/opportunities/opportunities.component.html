@@ -195,8 +195,9 @@
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityAccount">Account<span class="red">*</span></label>
-                                <select disabled name="opportunityAccount" id="opportunityAccount">
-                                    <option selected value="">--Coming Soon--</option>
+                                <select name="opportunityAccount" id="opportunityAccount" [(ngModel)]="account_id" required>
+                                    <option value="" disabled selected>--Select Account--</option>
+                                    <option *ngFor="let account of ACCOUNT" value="{{account.account_id}}">{{account.name}}</option>
                                 </select>
                             </fieldset>
                             <fieldset>
@@ -205,11 +206,11 @@
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityValue">Value</label>
-                                <input type="number" name="opportunityValue" id="opportunityValue" placeholder="Enter potential value" [(ngModel)]="value">
+                                <input type="number" name="opportunityValue" id="opportunityValue" placeholder="Enter potential value" [(ngModel)]="value" min="1" max="9999999999">
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityPredictionScore">Prediction Score</label>
-                                <input type="number" name="opportunityPredictionScore" id="opportunityPredictionScore" placeholder="Enter prediction score" [(ngModel)]="prediction_score">
+                                <input type="number" name="opportunityPredictionScore" id="opportunityPredictionScore" placeholder="Enter prediction score" [(ngModel)]="prediction_score" min="1" max="100">
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityStatus">Status<span class="red">*</span></label>
@@ -225,8 +226,9 @@
                             </fieldset> 
                             <fieldset>
                                 <label for="opportunityContact">Contact<span class="red">*</span></label>
-                                <select disabled name="opportunityContact" id="opportunityContact">
-                                    <option selected value="">--Coming Soon--</option>
+                                <select name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id">
+                                    <option value="" disabled selected>--Select Contact--</option>
+                                    <option *ngFor="let contact of CONTACT" value="{{contact.contact_id}}">{{contact.title}} {{contact.first_name}} {{contact.last_name}}</option>
                                 </select>
                             </fieldset>
                             <fieldset>
