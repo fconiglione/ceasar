@@ -80,8 +80,8 @@
                                 <img [src]="DefaultPFP" alt="Default profile picture image">
                             </div>
                             <div>
-                                <h3>{{account.title}} {{account.first_name}} {{account.last_name}}</h3>
-                                <p>{{account.company}}</p>
+                                <h3>{{account.name}}</h3>
+                                <!-- <p>{{account.contact}}</p> -->
                             </div>
                         </div>
                         <div class="account-card-header-right">
@@ -113,7 +113,6 @@
                         <th></th>
                         <th>Date Created</th>
                         <th>Name</th>
-                        <th>Company</th>
                         <th>Phone</th>
                         <th>Email</th>
                         <th class="type-th">Type</th>
@@ -128,8 +127,7 @@
                             </button>
                         </td>
                         <td>{{account.created_at | date: 'longDate'}}</td>
-                        <td class="name-td" (click)="openAccountsActionSidebar(account)">{{account.title}} {{account.first_name}} {{account.last_name}}</td>
-                        <td>{{account.company}}</td>
+                        <td class="name-td" (click)="openAccountsActionSidebar(account)">{{account.name}}</td>
                         <td>{{account.phone_number || 'Not provided'}}</td>
                         <td>{{account.email || 'Not provided'}}</td>
                         <td (click)="openAccountTypeMenu(account)" [ngClass]="getAccountTypeClasses(account.account_type_id)">{{getAccountType(account.account_type_id)}}</td>
@@ -259,11 +257,8 @@
                                 <label for="accountType">Type<span class="red">*</span></label>
                                 <select [disabled]="!account_edit_mode" name="accountType" id="accountType" [(ngModel)]="account_type_id">
                                     <option value="" disabled selected>--Select Type--</option>
-                                    <option value="1">New</option>
-                                    <option value="2">Contacted</option>
-                                    <option value="3">Qualified</option>
-                                    <option value="4">Closed-Won</option>
-                                    <option value="5">Closed-Lost</option>
+                                    <option value="1">Customer</option>
+                                    <option value="2">Prospect</option>
                                 </select>
                             </fieldset>
                             <fieldset>
@@ -313,11 +308,8 @@
                             <label for="accountType">Type<span class="red">*</span></label>
                             <select name="accountType" id="accountType" [(ngModel)]="account_type_id">
                                 <option value="" disabled selected>--Select Type--</option>
-                                <option value="1">New</option>
-                                <option value="2">Contacted</option>
-                                <option value="3">Qualified</option>
-                                <option value="4">Closed-Won</option>
-                                <option value="5">Closed-Lost</option>
+                                <option value="1">Customer</option>
+                                <option value="2">Prospect</option>
                             </select>
                         </fieldset>
                     </div>

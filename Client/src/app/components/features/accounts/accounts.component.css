@@ -241,21 +241,13 @@
   background-color: #f5f7fa;
   color: #888888;
 }
-.account-card-footer .account-type.new {
+.account-card-footer .account-type.customer {
   background-color: rgba(255, 158, 103, 0.1);
   color: rgb(255,158,103);
 }
-.account-card-footer .account-type.contacted {
+.account-card-footer .account-type.prospect {
   background-color: rgba(249,199,79, 0.1);
   color: rgb(249,199,79);
-}
-.account-card-footer .account-type.qualified {
-  background-color: rgba(144,190,109, 0.1);
-  color: rgb(144,190,109);
-}
-.account-card-footer .account-type.closed-won, .account-card-footer .account-type.closed-lost {
-  background-color: rgba(249,65,68, 0.1);
-  color: rgb(249,65,68);
 }
 .account-card-footer fa-icon {
   color: #777777;
@@ -653,21 +645,13 @@
   background-color: #f5f7fa;
   color: #888888;
 }
-.accounts-table .account-type.new {
+.accounts-table .account-type.customer {
   background-color: rgba(255, 158, 103, 0.1);
   color: rgb(255,158,103);
 }
-.accounts-table .account-type.contacted {
+.accounts-table .account-type.prospect {
   background-color: rgba(249,199,79, 0.1);
   color: rgb(249,199,79);
-}
-.accounts-table .account-type.qualified {
-  background-color: rgba(144,190,109, 0.1);
-  color: rgb(144,190,109);
-}
-.accounts-table .account-type.closed-won, .accounts-table .account-type.closed-lost {
-  background-color: rgba(249,65,68, 0.1);
-  color: rgb(249,65,68);
 }
 .accounts-table .more-account-btn {
   border: none;

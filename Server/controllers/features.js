@@ -129,10 +129,10 @@ router.post('/accounts', async (req, res) => {
 });
 
 router.post('/accounts/create', async (req, res) => {
-    const { workspace_id, account_name, phone_number, email, source, description, type_id } = req.body.account;
+    const { workspace_id, sub, name, phone_number, email, account_type_id, photo_url, source, created_at, updated_at } = req.body.account;
     const accounts = new Accounts();
     try {
-        const result = await accounts.createAccount(workspace_id, account_name, phone_number, email, source, description, type_id);
+        const result = await accounts.createAccount(workspace_id, sub, name, phone_number, email, account_type_id, photo_url, source, created_at, updated_at);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error creating account:", error);
@@ -141,10 +141,10 @@ router.post('/accounts/create', async (req, res) => {
 });
 
 router.put('/accounts/update', async (req, res) => {
-    const { account_id, account_name, phone_number, email, source, description, type_id } = req.body.account;
+    const { workspace_id, name, phone_number, email, account_type_id, photo_url, source, updated_at } = req.body.account;
     const accounts = new Accounts();
     try {
-        const result = await accounts.updateAccount(account_id, account_name, phone_number, email, source, description, type_id);
+        const result = await accounts.updateAccount(workspace_id, name, phone_number, email, account_type_id, photo_url, source, updated_at);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error updating account:", error);

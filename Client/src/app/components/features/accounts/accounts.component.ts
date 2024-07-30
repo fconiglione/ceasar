@@ -185,9 +185,9 @@ export class AccountsComponent {
   getAccountTypeClasses(account_type_id: any) {
     switch (account_type_id) {
       case 1:
-        return { 'account-type': true, 'prospect': true };
-      case 2:
         return { 'account-type': true, 'customer': true };
+      case 2:
+        return { 'account-type': true, 'prospect': true };
       default:
         return { 'account-type': true, 'not-provided': true };
     }
@@ -218,8 +218,8 @@ export class AccountsComponent {
 
   countAccounts(): void {
     this.account_count = this.filteredAccounts.length;
-    this.account_type_prospect_count = this.filteredAccounts.filter((account: any) => account.account_type_id === 1).length;
-    this.account_type_customer_count = this.filteredAccounts.filter((account: any) => account.account_type_id === 2).length;
+    this.account_type_customer_count = this.filteredAccounts.filter((account: any) => account.account_type_id === 1).length;
+    this.account_type_prospect_count = this.filteredAccounts.filter((account: any) => account.account_type_id === 2).length;
   } 
   
   filterAccountType(account_type_id: number): void {
