@@ -124,7 +124,7 @@ export class HomeComponent {
     if (this.isWorkspacePath()) {
       this.route.queryParams.subscribe(params => {
         this.currentWorkspaceId = params['workspace_id'] || '';
-        this.getLeadsCount();
+        // this.getLeadsCount();
         // this.getAccountsCount();
         // this.getOpportunitiesCount();
         // this.getContactsCount();

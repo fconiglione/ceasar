@@ -1,43 +1,72 @@
 import { Component, ElementRef } from '@angular/core';
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
+import { AccountService } from '../../../services/accounts/account.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AccountService } from '../../../services/accounts/account.service';
 import { LoadingComponent } from '../../loading/loading.component';
+import { AuthService } from '@auth0/auth0-angular';
+import { NoDataComponent } from "../../no-data/no-data.component";
 
 @Component({
   selector: 'app-accounts',
   standalone: true,
   imports: [
     FaIconComponent,
-    NgFor, NgIf, DatePipe,
+    NgFor,
+    NgIf,
+    DatePipe,
     CommonModule,
-    FormsModule, LoadingComponent
-  ],
+    FormsModule,
+    LoadingComponent,
+    NoDataComponent
+],
   templateUrl: './accounts.component.html',
   styleUrl: './accounts.component.css'
 })
 export class AccountsComponent {
-  // Accounts card
+  // User components
+  username: string | undefined;
+
+  // Account components
   ACCOUNT: any;
+  sub: string | undefined;
   account_id: string | undefined;
-  account_name: string | undefined;
+  workspace_id: string | undefined;
+  name: string | undefined;
+  source: string | undefined;
+  account_type_id: string | undefined = "";
+  photo_url: string | undefined;
   phone_number: string | undefined;
   email: string | undefined;
-  source: string | undefined;
-  description: string | undefined;
-  creation_date: string | undefined;
+  created_at: string | undefined;
+  updated_at: string | undefined;
+
+  // Component actions
+  accounts_action_container: boolean = false;
+  accounts_action_sidebar_container: boolean = false;
+  account_edit_mode: boolean = false;
   loading: boolean = true;
-  currentWorkspaceId: string | undefined;
-  type: string | undefined;
-  type_id: string | undefined;
+  more_info_dropdown: boolean = false;
+  card_view: boolean = true;
+  list_view: boolean = false;
+  sort_by_dropdown: boolean = false;
+  account_action_type_menu: boolean = false;
 
-  accountSearchInputValue: string = '';
+  // Other variables
+  account_type: string | undefined;
+  account_count: number = 0;
+  account_type_prospect_count: number = 0;
+  account_type_customer_count: number = 0;
+  previous_type_filter: number = 0;
+  active_type_filter: number = 0;
+  active_sort_factor: string = 'By Account Name';
+  allAccounts: any[] = [];
+  filteredAccounts: any[] = [];
 
-  ShapesBanner = "assets/images/shapes-banner.svg";
+  // Font Awesome icons
   faChevronDown = faChevronDown;
   faSearch = faSearch;
   faDownload = faDownload;
@@ -45,144 +74,265 @@ export class AccountsComponent {
   faEnvelope = faEnvelope;
   faEllipsisV = faEllipsisV;
   faCircleInfo = faCircleInfo;
-  DefaultPFP = "assets/images/default-pfp.svg";
   faEye = faEye;
   faEdit = faEdit;
   faTrash = faTrash;
   faArrowLeft = faArrowLeft;
+  faUserAlt = faUserAlt;
+  faSort = faSort;
+  faBars = faBars;
+  faTableCells = faTableCells;
+  faArrowRightToBracket = faArrowRightToBracket;
+  faXmark = faXmark;
+  faPenToSquare = faPenToSquare;
+  faSquare = faSquare;
 
-  constructor(private accountService: AccountService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef) { }
+  currentWorkspaceId: string | undefined;
+
+  accountSearchInputValue: string = '';
+  activeStatusFilter: string = 'All types';
+
+  DefaultPFP = "assets/images/default-pfp.svg";
+
+  constructor( private accountService: AccountService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService ) { }
 
   getAccounts(): void {
     // Get accounts from the API
-    this.accountService.getAccounts(this.currentWorkspaceId).subscribe(response => {
-      this.ACCOUNT = response;
+    this.accountService.getAccounts(this.currentWorkspaceId).subscribe((accounts: any) => {
+      // this.filteredAccounts = response;
+      this.allAccounts = accounts;
+      this.filteredAccounts = accounts;
+      this.countAccounts();
+      this.sortAccounts('last_name'); // Sort by last name by default
       this.loading = false;
     });
   }
 
-  getType(typeId: string): string {
-    switch (typeId) {
-      case '1':
-        return 'Customer';
-      case '2':
-        return 'Prospect';
-      default:
-        return 'Unassigned';
-    }
-  }
-
-  getTypeClasses(typeId: string): any {
-    switch (typeId) {
-      case '1':
-        return { 'type': true, 'customer': true };
-      case '2':
-        return { 'type': true, 'prospect': true };
-      default:
-        return { 'type': true, 'unassigned': true };
-    }
-  }
-
-  openNewAccountPopup(): void {
-    // Open the new account popup screen
-    const newaccountPopup = this.elementRef.nativeElement.querySelector('.create-account-pop-up');
-    newaccountPopup.style.display = 'block';
-  }
-
-  closeNewAccountPopup(): void {
-    // Close the new account popup screen
-    const newaccountPopup = this.elementRef.nativeElement.querySelector('.create-account-pop-up');
-    newaccountPopup.style.display = 'none';
-    this.onReset();
-  }
-
   createAccount(): void {
     let newAccount = {
-      account_name: this.account_name,
+      sub  : this.sub,
+      workspace_id : this.currentWorkspaceId,
+      name : this.name,
       phone_number: this.phone_number,
       email: this.email,
-      description: this.description,
-      workspace_id: this.currentWorkspaceId,
-      type_id: this.type_id,
-      source: this.source
+      account_type_id: this.account_type_id,
+      photo_url: this.photo_url,
+      source: this.source,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     this.accountService.createAccount(newAccount).subscribe(response => {
       console.log(response);
       this.getAccounts();
-      this.closeNewAccountPopup();
+      this.onReset();
     });
   }
-  statusFilterDropdownActive: boolean = false;
 
-  openFilterStatusDropdown(): void {
-    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-    if (statusFilterDropdown) {
-      this.statusFilterDropdownActive = !this.statusFilterDropdownActive;
-      statusFilterDropdown.style.display = this.statusFilterDropdownActive ? 'flex' : 'none';
+  updateAccount(): void {
+    if (confirm('Are you sure you want to make changes to this account? All changes are final and cannot be undone.')) {
+      let updatedAccount = {
+        account_id: this.account_id,
+        name: this.name,
+        phone_number: this.phone_number,
+        email: this.email,
+        account_type_id: this.account_type_id,
+        photo_url: this.photo_url,
+        source: this.source,
+        updated_at: new Date().toISOString(),
+        workspace_id: this.currentWorkspaceId
+      };
+
+      this.accountService.updateAccount(updatedAccount).subscribe(response => {
+        console.log(response);
+        this.getAccounts();
+        this.onReset();
+      });
     }
   }
-  
-  closeFilterStatusDropdown(): void {
-    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-    if (statusFilterDropdown) {
-      statusFilterDropdown.style.display = 'none';
-      this.statusFilterDropdownActive = false;
-    }
-  }  
 
-  activeTypeFilter: string = 'All types';
-  previousType: number = 0;
-  filterStatus(typeId: number): void {
-    this.closeFilterStatusDropdown();
-      if (typeId === this.previousType) {
+  deleteAccount(): void {
+    if (confirm('Are you sure you want to delete this account? This action cannot be undone.')) {
+      this.accountService.deleteAccount(this.account_id).subscribe(response => {
+        console.log(response);
+        this.getAccounts();
+        this.onReset();
+      });
+    }
+  }
+
+  // Deletion from directly within the list
+  deleteAccountById(account_id: string): void {
+    if (confirm('Are you sure you want to delete this account? This action cannot be undone.')) {
+      this.accountService.deleteAccount(account_id).subscribe(response => {
+        console.log(response);
+        this.getAccounts();
+      });
+    }
+  }
+
+  getAccountStatus(account_type_id: any) {
+    switch (account_type_id) {
+      case 1:
+        return 'Customer';
+      case 2:
+        return 'Prospect';
+      default:
+        return 'Not provided';
+    }
+  }
+
+  getAccountStatusClasses(account_type_id: any) {
+    switch (account_type_id) {
+      case 1:
+        return { 'account-type': true, 'prospect': true };
+      case 2:
+        return { 'account-type': true, 'customer': true };
+      default:
+        return { 'account-type': true, 'not-provided': true };
+    }
+  }
+
+  onInputChange(event: any) {
+    const searchInputValue = event.target.value.trim().toLowerCase();
+    this.accountSearchInputValue = searchInputValue;
+  
+    if (this.accountSearchInputValue.length > 0) {
+      this.countAccounts();
+      this.filteredAccounts = this.allAccounts.filter((account: any) => {
+        const name = account.name?.toLowerCase() ?? '';
+        const phoneNumber = account.phone_number?.toLowerCase() ?? '';
+        const email = account.email?.toLowerCase() ?? '';
+        const type = this.getAccountStatus(account.account_type_id).toLowerCase();
+  
+        return name.includes(this.accountSearchInputValue) ||
+          phoneNumber.includes(this.accountSearchInputValue) ||
+          email.includes(this.accountSearchInputValue) ||
+          type.includes(this.accountSearchInputValue);
+      });
+    } else {
+      this.countAccounts();
+      this.filteredAccounts = this.allAccounts;
+    }
+  }
+
+  countAccounts(): void {
+    this.account_count = this.filteredAccounts.length;
+    this.account_type_prospect_count = this.filteredAccounts.filter((account: any) => account.account_type_id === 1).length;
+    this.account_type_customer_count = this.filteredAccounts.filter((account: any) => account.account_type_id === 2).length;
+  } 
+  
+  filterAccountStatus(account_type_id: number): void {
+      this.active_type_filter = account_type_id;
+      if (account_type_id === this.previous_type_filter) {
           this.getAccounts();
-          this.activeTypeFilter = 'All types';
-          this.previousType = 0;
+          this.previous_type_filter = 0;
       } else {
-          if (typeId === 0) {
-            this.activeTypeFilter = 'All status';
+          if (account_type_id === 0) {
             this.getAccounts();
           } else {
               this.accountService.getAccounts(this.currentWorkspaceId).subscribe(response => {
-                  this.ACCOUNT = response;
-                  this.ACCOUNT = this.ACCOUNT.filter((account: any) => account.type_id === typeId);
-                  this.previousType = typeId;
-                  this.activeTypeFilter = this.getType(typeId.toString());
+                  this.filteredAccounts = response as any[];
+                  this.countAccounts();
+                  this.filteredAccounts = this.filteredAccounts.filter((account: any) => account.account_type_id === account_type_id);
+                  this.previous_type_filter = account_type_id;
+                  this.activeStatusFilter = this.getAccountStatus(account_type_id);
               });
           }
       }
   }
 
-  onInputChange(event: any) {
-    const searchInputValue = event.target.value.trim();
-    this.accountSearchInputValue = searchInputValue;
-  
-    if (this.accountSearchInputValue === '') {
-      this.getAccounts();
-    } else {
-      this.ACCOUNT = this.ACCOUNT.filter((account: any) => {
-        const accountName = account.account_name?.toLowerCase() ?? '';
-        const phoneNumber = account.phone_number?.toLowerCase() ?? '';
-        const email = account.email?.toLowerCase() ?? '';
-        const type = this.getType(account.type_id).toLowerCase();
-  
-        return accountName.includes(this.accountSearchInputValue.toLowerCase()) ||
-          type.includes(this.accountSearchInputValue.toLowerCase()) ||
-          phoneNumber.includes(this.accountSearchInputValue.toLowerCase()) ||
-          email.includes(this.accountSearchInputValue.toLowerCase());
-        });
-    }
-  }  
+  openAccountsActionSidebar(account: any): void {
+    // Setting the account details
+    this.account_id = account.account_id;
+    this.name = account.name;
+    this.phone_number = account.phone_number;
+    this.email = account.email;
+    this.account_type_id = account.account_type_id;
+    this.photo_url = account.photo_url;
+    this.source = account.source;
+    this.created_at = account.created_at;
+    this.updated_at = account.updated_at
+    // Opening the accounts action sidebar
+    // this.onReset();
+    this.accounts_action_sidebar_container = true;
+  }
 
-  // CSV Exporting
+  openAccountStatusMenu(account: any): void {
+    this.account_type_id = account.account_type_id;
+    this.account_id = account.account_id;
+    this.name = account.name;
+    this.phone_number = account.phone_number;
+    this.email = account.email;
+    this.photo_url = account.photo_url;
+    this.source = account.source;
+    this.account_action_type_menu = true;
+  }
+
+  updateAccountStatus(account_type_id: any): void {
+    let updatedAccount = {
+      account_type_id: account_type_id, // Take from new selected type
+      account_id: this.account_id,
+      name: this.name,
+      phone_number: this.phone_number,
+      email: this.email,
+      photo_url: this.photo_url,
+      source: this.source,
+      updated_at: new Date().toISOString(),
+      workspace_id: this.currentWorkspaceId
+      };
+
+    this.accountService.updateAccount(updatedAccount).subscribe(response => {
+      console.log(response);
+      this.getAccounts();
+      this.onReset();
+    });
+  }
+
+  sortAccounts(sortFactor: any): void {
+    if (sortFactor === 'name') {
+      this.filteredAccounts.sort((a: any, b: any) => {
+        const nameA = a.name;
+        const nameB = b.name;
+
+        this.active_sort_factor = 'By Account Name';
+
+        return nameA.localeCompare(nameB);
+      });
+    }
+
+    if (sortFactor === 'type') {
+      this.filteredAccounts.sort((a: any, b: any) => {
+        const typeA = a.account_type_id;
+        const typeB = b.account_type_id;
+
+        this.active_sort_factor = 'By Status';
+
+        return typeA - typeB;
+      });
+    }
+
+    if (sortFactor === 'created_at') {
+      this.filteredAccounts.sort((a: any, b: any) => {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
+
+        this.active_sort_factor = 'By Creation Date';
+
+        return dateB.getTime() - dateA.getTime();
+      });
+    }
+
+    this.sort_by_dropdown = false;
+  }
+
+  // // CSV Exporting
 
   generateCSV(): string {
-    let csv = 'Account Name,Type,Phone Number,Email,Source\n';
+    let csv = 'Name, Phone Number, Email, Account Type, Source, Owner\n';
 
-    this.ACCOUNT.forEach((account: any) => {
-      const row = `${account.account_name || ''},${this.getType(account.type_id.toString())},${account.phone_number || ''},${account.email || ''}, ${account.source || 'N/A'}\n`;
-      csv += row;
+    this.filteredAccounts.forEach((account: any) => {
+      csv += `${account.title}, ${account.phone_number}, ${account.email}, ${this.getAccountStatus(account.account_type_id)}, ${account.source}, ${account.owner}\n`;
     });
 
     return csv;
@@ -201,86 +351,60 @@ export class AccountsComponent {
     window.URL.revokeObjectURL(url);
   }
 
-  toggleAccountCardDropdown(account: any): void {
-    this.ACCOUNT.forEach((c: any) => {
-      if (c !== account) {
-        c.showSubSetting = false;
-      }
-    });
-    account.showSubSetting = !account.showSubSetting;
-  }
-
-  deleteAccount(account: any): void {
-    if (confirm('Are you sure you want to delete this account?')) {
-      this.accountService.deleteAccount(account.account_id).subscribe(response => {
-        this.getAccounts();
-      });
+  printData(): void {
+    // Print in csv format
+    const csvData = this.generateCSV();
+    const printWindow = window.open('', '', 'height=400,width=800');
+    if (printWindow) {
+      printWindow.document.write('<html><head><title>Accounts</title>');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<pre>');
+      printWindow.document.write(csvData);
+      printWindow.document.write('</pre>');
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
     }
   }
 
-  closeAccountDetailsPopUp(): void {
-    const accountDetailsPopUp = this.elementRef.nativeElement.querySelector('.account-details-pop-up');
-    accountDetailsPopUp.style.display = 'none';
-
-    this.account_id = undefined;
-    this.account_name = undefined;
-    this.phone_number = undefined;
-    this.email = undefined;
-    this.description = undefined;
-    this.account_name = undefined;
-    this.source = undefined;
-    this.type = undefined;
-    this.type_id = undefined;
-
-    this.accountsEditMode = false;
+  // Card and list views
+  toggleCardView() {
+    this.card_view = !this.card_view;
+    if (this.card_view && this.list_view) {
+      this.list_view = false;
+    } else if (!this.card_view && !this.list_view) {
+      this.card_view = true;
+    }
   }
 
-  openAccountDetailsPopUp(account: any): void {
-    this.account_id = account.account_id;
-    this.account_name = account.account_name;
-    this.phone_number = account.phone_number;
-    this.email = account.email;
-    this.description = account.description;
-    this.source = account.source;
-    this.type = this.getType(account.type_id);
-    this.type_id = account.type_id;
-
-    const accountDetailsPopUp = this.elementRef.nativeElement.querySelector('.account-details-pop-up');
-    accountDetailsPopUp.style.display = 'block';
-  }
-
-  updateAccount(): void {
-    let updatedAccount = {
-      account_id: this.account_id,
-      account_name: this.account_name,
-      phone_number: this.phone_number,
-      email: this.email,
-      description: this.description,
-      source: this.source,
-      type_id: this.type_id
-    };
-
-    this.accountService.updateAccount(updatedAccount).subscribe(response => {
-      console.log(response);
-      this.getAccounts();
-      this.closeAccountDetailsPopUp();
-    });
-  }
-
-  accountsEditMode: boolean = false;
-
-  toggleAccountsEditMode(): void {
-    this.accountsEditMode = !this.accountsEditMode;
+  toggleListView() {
+    this.list_view = !this.list_view;
+    if (this.list_view && this.card_view) {
+      this.card_view = false;
+    } else if (!this.list_view && !this.card_view) {
+      this.list_view = true;
+    }
   }
 
   onReset(): void {
     // Reset the new account form
-    this.account_name = '';
-    this.source = '';
+    this.name = '';
     this.phone_number = '';
     this.email = '';
-    this.type_id = undefined;
-    this.description = undefined;
+    this.account_type_id = '';
+    this.photo_url = '';
+    this.source = '';
+    this.created_at = '';
+    this.updated_at = '';
+
+    // Close any open components
+    this.accounts_action_sidebar_container = false;
+    this.accounts_action_container = false
+    this.account_edit_mode = false;
+    this.account_action_type_menu = false;
+    this.more_info_dropdown = false;
+    this.filterAccountStatus(0);
+    this.getAccounts();
   }
 
   isWorkspacePath(): boolean {
@@ -289,13 +413,18 @@ export class AccountsComponent {
 
   ngOnInit() {
     if (this.isWorkspacePath()) {
-      this.route.queryParams.subscribe(params => {
-        this.currentWorkspaceId = params['workspace_id'] || '';
-        this.getAccounts();
+      this.authService.user$.subscribe(user => {
+        if (user && user.sub) {
+          this.sub = user.sub;
+          this.username = user.nickname;
+          this.route.queryParams.subscribe(params => {
+            this.currentWorkspaceId = params['workspace_id'] || '';
+            this.getAccounts();
+          });
+        }
       });
     } else {
       console.log('Not a workspace path');
     }
   }
-
 }
