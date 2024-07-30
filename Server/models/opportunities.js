@@ -13,7 +13,7 @@ class Opportunities {
     }
 
     async getOpportunitiesByWorkspaceId (workspace_id) {
-        const query = `SELECT opportunity_id, workspace_id, sub, title, value, account_id, creation_date, description, opportunity_status_id FROM ceasar.opportunities WHERE workspace_id = $1`;
+        const query = `SELECT opportunity_id, workspace_id, sub, account_id, contact_id, title, value, created_at, updated_at, prediction_score, closing_date, opportunity_status_id FROM ceasar.opportunities WHERE workspace_id = $1`;
         const values = [workspace_id];
         try {
             const { rows } = await this.pool.query(query, values);

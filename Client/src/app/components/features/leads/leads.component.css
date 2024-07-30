@@ -119,6 +119,8 @@
   align-items: center;
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 .leads-main-container-body-categories .category {
   display: flex;

@@ -1,13 +1,14 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faUser, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSackDollar } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { OpportunityService } from '../../../services/opportunity/opportunity.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AccountService } from '../../../services/accounts/account.service';
 import { LoadingComponent } from '../../loading/loading.component';
+import { AuthService } from '@auth0/auth0-angular';
+import { NoDataComponent } from "../../no-data/no-data.component";
 
 @Component({
   selector: 'app-opportunities',
@@ -19,241 +20,374 @@ import { LoadingComponent } from '../../loading/loading.component';
     DatePipe,
     CommonModule,
     FormsModule,
-    LoadingComponent
-  ],
+    LoadingComponent,
+    NoDataComponent
+],
   templateUrl: './opportunities.component.html',
   styleUrl: './opportunities.component.css'
 })
 export class OpportunitiesComponent {
-  // Opportunity card variables
+  // User components
+  username: string | undefined;
+
+  // Opportunity components
   OPPORTUNITY: any;
+  sub: string | undefined;
   opportunity_id: string | undefined;
-  opportunityName: string | undefined;
-  value: string | undefined;
-  title: string | undefined;
-  description: string | undefined;
-  creation_date: string | undefined;
-  opportunity_status_id: string | undefined;
-  opportunity_status: string | undefined;
-
-  // Accounts
-  ACCOUNT: any;
-  account_name: string | undefined;
+  workspace_id: string | undefined;
   account_id: string | undefined;
-  accountNamesMap: { [key: string]: string } = {};
+  contact_id: string | undefined;
+  opportunity_status_id: string | undefined = '';
+  title: string | undefined;
+  closing_date: string | undefined;
+  value: string | undefined;
+  prediction_score: string | undefined;
+  created_at: string | undefined;
+  updated_at: string | undefined;
 
-  // Users
-  USER: any[] = [];
-  user_name: string | undefined;
-  user_id: string | undefined;
-
+  // Component actions
+  opportunities_action_container: boolean = false;
+  opportunities_action_sidebar_container: boolean = false;
+  opportunity_edit_mode: boolean = false;
   loading: boolean = true;
+  more_info_dropdown: boolean = false;
+  card_view: boolean = true;
+  list_view: boolean = false;
+  sort_by_dropdown: boolean = false;
+  opportunity_action_status_menu: boolean = false;
+
+  // Other variables
+  opportunity_status: string | undefined;
+  opportunity_count: number = 0;
+  opportunity_status_new_count: number = 0;
+  opportunity_status_talking_count: number = 0;
+  opportunity_status_meeting_count: number = 0;
+  opportunity_status_proposal_count: number = 0;
+  opportunity_status_closed_won_count: number = 0;
+  opportunity_status_closed_lost_count: number = 0;
+  previous_status_filter: number = 0;
+  active_status_filter: number = 0;
+  active_sort_factor: string = 'By Title';
+  allOpportunities: any[] = [];  // This should be initialized with the complete list of opportunities
+  filteredOpportunities: any[] = [];
+
+  // Font Awesome icons
+  faChevronDown = faChevronDown;
+  faSearch = faSearch;
+  faDownload = faDownload;
+  faPhone = faPhone;
+  faEnvelope = faEnvelope;
+  faEllipsisV = faEllipsisV;
+  faCircleInfo = faCircleInfo;
+  faEye = faEye;
+  faEdit = faEdit;
+  faTrash = faTrash;
+  faArrowLeft = faArrowLeft;
+  faUserAlt = faUserAlt;
+  faSort = faSort;
+  faBars = faBars;
+  faTableCells = faTableCells;
+  faArrowRightToBracket = faArrowRightToBracket;
+  faXmark = faXmark;
+  faPenToSquare = faPenToSquare;
+  faSquare = faSquare;
+
   currentWorkspaceId: string | undefined;
 
   opportunitySearchInputValue: string = '';
   activeStatusFilter: string = 'All status';
 
-  newOpportunityCount: number = 0;
-  qualificationOpportunityCount: number = 0;
-  negotiationOpportunityCount: number = 0;
-  closedOpportunityCount: number = 0;
-
   ShapesBanner = "assets/images/shapes-banner.svg";
-  faChevronDown = faChevronDown;
-  faSearch = faSearch;
-  faDownload = faDownload;
-  faUser = faUser;
-  faEnvelope = faEnvelope;
-  faEllipsisV = faEllipsisV;
-  faCircleInfo = faCircleInfo;
   DefaultPFP = "assets/images/default-pfp.svg";
-  faEye = faEye;
-  faEdit = faEdit;
-  faTrash = faTrash;
-  faArrowLeft = faArrowLeft;
-  faSackDollar = faSackDollar;
 
-  constructor( private accountService: AccountService, private opportunityService: OpportunityService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef ) { }
+  constructor( private opportunityService: OpportunityService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService ) { }
 
-  getOpportunity(): void {
-    // Get opportunity from the API
-    this.opportunityService.getOpportunities(this.currentWorkspaceId).subscribe(response => {
-      this.OPPORTUNITY = response;
-      this.countOpportunity();
+  getOpportunities(): void {
+    // Get opportunities from the API
+    this.opportunityService.getOpportunities(this.currentWorkspaceId).subscribe((opportunities: any) => {
+      this.allOpportunities = opportunities;
+      this.filteredOpportunities = opportunities;
+      this.countOpportunities();
+      this.sortOpportunities('title'); // Sort by title by default
       this.loading = false;
     });
   }
 
-  getAccounts(): void {
-    // Get accounts from the API
-    this.accountService.getAccounts(this.currentWorkspaceId).subscribe(response => {
-      this.ACCOUNT = response;
-      this.accountNamesMap = {};
-
-      this.ACCOUNT.forEach((account: any) => {
-        this.accountNamesMap[account.account_id] = account.account_name;
-      });
-    });
-  }
-
-  getAccountNameByAccountId(accountId: string): string {
-    return this.accountNamesMap[accountId] || 'Unassigned';
-  }
-
-  getUsers(): void {
-    this.USER = [
-    {
-      user_name: 'John Doe', // Placeholder
-      user_id: '1' // Placeholder
-    }
-  ];
-  }
-
-  countOpportunity(): void {
-    // Count the number of opportunity in each status
-    this.newOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === 1).length;
-    this.qualificationOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === 2).length;
-    this.negotiationOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === 3).length;
-    this.closedOpportunityCount = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === 4).length;
-  }
-
-  getStatus(statusId: string): string {
-    switch (statusId) {
-      case '1':
-        return 'New';
-      case '2':
-        return 'Qualification';
-      case '3':
-        return 'Negotiation';
-      case '4':
-        return 'Closed';
-      default:
-        return 'Unassigned';
-    }
-  }
-
-  getStatusClasses(statusId: string): any {
-    switch (statusId) {
-      case '1':
-        return { 'status': true, 'new': true };
-      case '2':
-        return { 'status': true, 'qualification': true };
-      case '3':
-        return { 'status': true, 'negotation': true };
-      case '4':
-        return { 'status': true, 'closed': true };
-      default:
-        return { 'status': true, 'unassigned': true };
-    }
-  }
-
-  openNewOpportunityPopup(): void {
-    // Open the new opportunity popup
-    const newOpportunityPopup = this.elementRef.nativeElement.querySelector('.create-opportunity-pop-up');
-    newOpportunityPopup.style.display = 'block';
-
-    // Also get the accounts and assignees
-    this.getAccounts();
-    this.getUsers();
-  }
-
-  closeNewOpportunityPopup(): void {
-    // Close the new opportunity popup
-    const newOpportunityPopup = this.elementRef.nativeElement.querySelector('.create-opportunity-pop-up');
-    newOpportunityPopup.style.display = 'none';
-    this.onReset();
-  }
-
   createOpportunity(): void {
     let newOpportunity = {
-      title: this.title,
-      value: this.value,
-      user_id: this.user_id,
+      sub  : this.sub,
+      workspace_id : this.currentWorkspaceId,
+      title : this.title,
       account_id: this.account_id,
-      description: this.description,
-      workspace_id: this.currentWorkspaceId,
-      opportunity_status_id: this.opportunity_status_id
+      contact_id: this.contact_id,
+      opportunity_status_id: this.opportunity_status_id,
+      closing_date: this.closing_date,
+      value: this.value,
+      prediction_score: this.prediction_score,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     this.opportunityService.createOpportunity(newOpportunity).subscribe(response => {
       console.log(response);
-      this.getOpportunity();
-      this.closeNewOpportunityPopup();
+      this.getOpportunities();
+      this.onReset();
     });
   }
-  statusFilterDropdownActive: boolean = false;
 
-  openFilterStatusDropdown(): void {
-    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-    if (statusFilterDropdown) {
-      this.statusFilterDropdownActive = !this.statusFilterDropdownActive;
-      statusFilterDropdown.style.display = this.statusFilterDropdownActive ? 'flex' : 'none';
+  updateOpportunity(): void {
+    if (confirm('Are you sure you want to make changes to this opportunity? All changes are final and cannot be undone.')) {
+      let updatedOpportunity = {
+        opportunity_id: this.opportunity_id,
+        title: this.title,
+        account_id: this.account_id,
+        contact_id: this.contact_id,
+        closing_date: this.closing_date,
+        value: this.value,
+        prediction_score: this.prediction_score,
+        opportunity_status_id: this.opportunity_status_id,
+        updated_at: new Date().toISOString(),
+        workspace_id: this.currentWorkspaceId
+      };
+
+      this.opportunityService.updateOpportunity(updatedOpportunity).subscribe(response => {
+        console.log(response);
+        this.getOpportunities();
+        this.onReset();
+      });
     }
   }
-  
-  closeFilterStatusDropdown(): void {
-    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-    if (statusFilterDropdown) {
-      statusFilterDropdown.style.display = 'none';
-      this.statusFilterDropdownActive = false;
+
+  deleteOpportunity(): void {
+    if (confirm('Are you sure you want to delete this opportunity? This action cannot be undone.')) {
+      this.opportunityService.deleteOpportunity(this.opportunity_id).subscribe(response => {
+        console.log(response);
+        this.getOpportunities();
+        this.onReset();
+      });
     }
-  }  
+  }
+
+  // Deletion from directly within the list
+  deleteOpportunityById(opportunity_id: string): void {
+    if (confirm('Are you sure you want to delete this opportunity? This action cannot be undone.')) {
+      this.opportunityService.deleteOpportunity(opportunity_id).subscribe(response => {
+        console.log(response);
+        this.getOpportunities();
+      });
+    }
+  }
+
+  getOpportunityStatus(opportunity_status_id: any) {
+    switch (opportunity_status_id) {
+      case 1:
+        return 'New';
+      case 2:
+        return 'Talking';
+      case 3:
+        return 'Meeting';
+      case 4:
+        return 'Proposal';
+      case 5:
+        return 'Closed-Won';
+      case 6:
+        return 'Closed-Lost';
+      default:
+        return 'Not provided';
+    }
+  }
+
+  getOpportunityStatusClasses(opportunity_status_id: any) {
+    switch (opportunity_status_id) {
+      case 1:
+        return { 'opportunity-status': true, 'new': true };
+      case 2:
+        return { 'opportunity-status': true, 'talking': true };
+      case 3:
+        return { 'opportunity-status': true, 'meeting': true };
+      case 4:
+        return { 'opportunity-status': true, 'proposal': true };
+      case 5:
+        return { 'opportunity-status': true, 'closed-won': true };
+      case 6:
+        return { 'opportunity-status': true, 'closed-lost': true };
+      default:
+        return { 'opportunity-status': true, 'not-provided': true };
+    }
+  }
+
+  onInputChange(event: any) {
+    const searchInputValue = event.target.value.trim().toLowerCase();
+    this.opportunitySearchInputValue = searchInputValue;
   
-  previousStatus: number = 0;
-  filterStatus(statusId: number): void {
-    this.closeFilterStatusDropdown();
-      if (statusId === this.previousStatus) {
-          this.getOpportunity();
-          this.activeStatusFilter = 'All status';
-          this.previousStatus = 0;
+    if (this.opportunitySearchInputValue.length > 0) {
+      this.countOpportunities();
+      this.filteredOpportunities = this.allOpportunities.filter((opportunity: any) => {
+        const title = opportunity.title?.toLowerCase() ?? '';
+        const closing_date = opportunity.closing_date?.toLowerCase() ?? '';
+        const value = opportunity.value?.toLowerCase() ?? '';
+        const prediction_score = opportunity.prediction_score?.toLowerCase() ?? '';
+        const status = this.getOpportunityStatus(opportunity.opportunity_status_id).toLowerCase();
+  
+        return title.includes(this.opportunitySearchInputValue) ||
+          closing_date.includes(this.opportunitySearchInputValue) ||
+          value.includes(this.opportunitySearchInputValue) ||
+          prediction_score.includes(this.opportunitySearchInputValue) ||
+          status.includes(this.opportunitySearchInputValue);
+      });
+    } else {
+      this.countOpportunities();
+      this.filteredOpportunities = this.allOpportunities;
+    }
+  }
+
+  countOpportunities(): void {
+    this.opportunity_count = this.filteredOpportunities.length;
+    this.opportunity_status_new_count = this.filteredOpportunities.filter((opportunity: any) => opportunity.opportunity_status_id === 1).length;
+    this.opportunity_status_talking_count = this.filteredOpportunities.filter((opportunity: any) => opportunity.opportunity_status_id === 2).length;
+    this.opportunity_status_meeting_count = this.filteredOpportunities.filter((opportunity: any) => opportunity.opportunity_status_id === 3).length;
+    this.opportunity_status_proposal_count = this.filteredOpportunities.filter((opportunity: any) => opportunity.opportunity_status_id === 4).length;
+    this.opportunity_status_closed_won_count = this.filteredOpportunities.filter((opportunity: any) => opportunity.opportunity_status_id === 5).length
+    this.opportunity_status_closed_lost_count = this.filteredOpportunities.filter((opportunity: any) => opportunity.opportunity_status_id === 6).length;
+  } 
+  
+  filterOpportunityStatus(opportunity_status_id: number): void {
+      this.active_status_filter = opportunity_status_id;
+      if (opportunity_status_id === this.previous_status_filter) {
+          this.getOpportunities();
+          this.previous_status_filter = 0;
       } else {
-          if (statusId === 0) {
-            this.activeStatusFilter = 'All status';
-            this.getOpportunity();
+          if (opportunity_status_id === 0) {
+            this.getOpportunities();
           } else {
               this.opportunityService.getOpportunities(this.currentWorkspaceId).subscribe(response => {
-                  this.OPPORTUNITY = response;
-                  this.countOpportunity();
-                  this.OPPORTUNITY = this.OPPORTUNITY.filter((opportunity: any) => opportunity.opportunity_status_id === statusId);
-                  this.previousStatus = statusId;
-                  this.activeStatusFilter = this.getStatus(statusId.toString());
+                  this.filteredOpportunities = response as any[];
+                  this.countOpportunities();
+                  this.filteredOpportunities = this.filteredOpportunities.filter((opportunity: any) => opportunity.opportunity_status_id === opportunity_status_id);
+                  this.previous_status_filter = opportunity_status_id;
+                  this.activeStatusFilter = this.getOpportunityStatus(opportunity_status_id);
               });
           }
       }
   }
 
-  onInputChange(event: any) {
-    const searchInputValue = event.target.value.trim();
-    this.opportunitySearchInputValue = searchInputValue;
-  
-    if (this.opportunitySearchInputValue === '') {
-      this.getOpportunity();
-    } else {
-      this.countOpportunity();
-      this.OPPORTUNITY = this.OPPORTUNITY.filter((opportunity: any) => {
-        const title = opportunity.title?.toLowerCase() ?? '';
-        const accountName = opportunity.account_name?.toLowerCase() ?? '';
-        const user_name = opportunity.user_name?.toLowerCase() ?? '';
-        const value = opportunity.value?.toString() ?? '';
-        const status = this.getStatus(opportunity.opportunity_status_id).toLowerCase();
-  
-        return title.includes(this.opportunitySearchInputValue.toLowerCase()) ||
-          accountName.includes(this.opportunitySearchInputValue.toLowerCase()) ||
-          user_name.includes(this.opportunitySearchInputValue.toLowerCase()) ||
-          value.includes(this.opportunitySearchInputValue.toLowerCase()) ||
-          status.includes(this.opportunitySearchInputValue.toLowerCase());
+  openOpportunitiesActionSidebar(opportunity: any): void {
+    // Setting the opportunity details
+    this.opportunity_id = opportunity.opportunity_id;
+    this.title = opportunity.title;
+    this.account_id = opportunity.account_id;
+    this.contact_id = opportunity.contact_id;
+    this.closing_date = opportunity.closing_date;
+    this.value = opportunity.value;
+    this.prediction_score = opportunity.prediction_score;
+    this.opportunity_status_id = opportunity.opportunity_status_id;
+    this.created_at = opportunity.created_at;
+    this.updated_at = opportunity.updated_at
+    this.opportunities_action_sidebar_container = true;
+  }
+
+  openOpportunityStatusMenu(opportunity: any): void {
+    this.opportunity_status_id = opportunity.opportunity_status_id;
+    this.opportunity_id = opportunity.opportunity_id;
+    this.title = opportunity.title;
+    this.account_id = opportunity.account_id;
+    this.contact_id = opportunity.contact_id;
+    this.closing_date = opportunity.closing_date;
+    this.value = opportunity.value;
+    this.prediction_score = opportunity.prediction_score;
+    this.created_at = opportunity.created_at;
+    this.updated_at = opportunity.updated_at;
+    this.opportunity_status_id = opportunity.opportunity_status_id;
+    this.opportunity_action_status_menu = true;
+  }
+
+  updateOpportunityStatus(opportunity_status_id: any): void {
+    let updatedOpportunity = {
+      opportunity_status_id: opportunity_status_id, // Take from new selected status
+      opportunity_id: this.opportunity_id,
+      title: this.title,
+      account_id : this.account_id,
+      contact_id : this.contact_id,
+      closing_date: this.closing_date,
+      value: this.value,
+      prediction_score: this.prediction_score,
+      updated_at: new Date().toISOString(),
+      workspace_id: this.currentWorkspaceId
+      };
+
+    this.opportunityService.updateOpportunity(updatedOpportunity).subscribe(response => {
+      console.log(response);
+      this.getOpportunities();
+      this.onReset();
+    });
+  }
+
+  sortOpportunities(sortFactor: any): void {
+    if (sortFactor === 'last_name') {
+      this.filteredOpportunities.sort((a: any, b: any) => {
+        const lastNameA = a.last_name?.toLowerCase() ?? '';
+        const lastNameB = b.last_name?.toLowerCase() ?? '';
+
+        this.active_sort_factor = 'By Last Name';
+
+        return lastNameA.localeCompare(lastNameB);
       });
     }
-  }  
 
-  // CSV Exporting
+    if (sortFactor === 'first_name') {
+      this.filteredOpportunities.sort((a: any, b: any) => {
+        const firstNameA = a.first_name?.toLowerCase() ?? '';
+        const firstNameB = b.first_name?.toLowerCase() ?? '';
+
+        this.active_sort_factor = 'By First Name';
+
+        return firstNameA.localeCompare(firstNameB);
+      });
+    }
+
+    if (sortFactor === 'company') {
+      this.filteredOpportunities.sort((a: any, b: any) => {
+        const companyA = a.company?.toLowerCase() ?? '';
+        const companyB = b.company?.toLowerCase() ?? '';
+
+        this.active_sort_factor = 'By Company';
+
+        return companyA.localeCompare(companyB);
+      });
+    }
+
+    if (sortFactor === 'status') {
+      this.filteredOpportunities.sort((a: any, b: any) => {
+        const statusA = a.opportunity_status_id;
+        const statusB = b.opportunity_status_id;
+
+        this.active_sort_factor = 'By Status';
+
+        return statusA - statusB;
+      });
+    }
+
+    if (sortFactor === 'created_at') {
+      this.filteredOpportunities.sort((a: any, b: any) => {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
+
+        this.active_sort_factor = 'By Creation Date';
+
+        return dateB.getTime() - dateA.getTime();
+      });
+    }
+
+    this.sort_by_dropdown = false;
+  }
+
+  // // CSV Exporting
 
   generateCSV(): string {
-    let csv = 'Title,Value,Account Name,Status,Assigned To,Description \n';
+    let csv = 'Last Name, First Name, Title, Company, Phone Number, Email, Status, Source, Owner\n';
 
-    this.OPPORTUNITY.forEach((opportunity: any) => {
-      const row = `${opportunity.title || ''},${opportunity.value || ''},${this.getAccountNameByAccountId(opportunity.account_id) || ''},${this.getStatus(opportunity.opportunity_status_id.toString())},${opportunity.user_name || ''},${opportunity.description || ''}\n`;
-      csv += row;
+    this.filteredOpportunities.forEach((opportunity: any) => {
+      csv += `${opportunity.last_name}, ${opportunity.first_name}, ${opportunity.title}, ${opportunity.company}, ${opportunity.phone_number}, ${opportunity.email}, ${this.getOpportunityStatus(opportunity.opportunity_status_id)}, ${opportunity.source}, ${opportunity.owner}\n`;
     });
 
     return csv;
@@ -272,80 +406,61 @@ export class OpportunitiesComponent {
     window.URL.revokeObjectURL(url);
   }
 
-  toggleOpportunityCardDropdown(opportunity: any): void {
-    this.OPPORTUNITY.forEach((l: any) => {
-      if (l !== opportunity) {
-        l.showSubSetting = false;
-      }
-    });
-    opportunity.showSubSetting = !opportunity.showSubSetting;
-  }
-
-  deleteOpportunity(opportunity: any): void {
-    if (confirm('Are you sure you want to delete this opportunity?')) {
-      this.opportunityService.deleteOpportunity(opportunity.opportunity_id).subscribe(response => {
-        this.getOpportunity();
-      });
+  printData(): void {
+    // Print in csv format
+    const csvData = this.generateCSV();
+    const printWindow = window.open('', '', 'height=400,width=800');
+    if (printWindow) {
+      printWindow.document.write('<html><head><title>Opportunities</title>');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<pre>');
+      printWindow.document.write(csvData);
+      printWindow.document.write('</pre>');
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
     }
   }
 
-  closeOpportunityDetailsPopUp(): void {
-    const opportunityDetailsPopUp = this.elementRef.nativeElement.querySelector('.opportunity-details-pop-up');
-    opportunityDetailsPopUp.style.display = 'none';
-
-    this.opportunity_id = undefined;
-    this.description = undefined;
-
-    this.opportunitiesEditMode = false;
+  // Card and list views
+  toggleCardView() {
+    this.card_view = !this.card_view;
+    if (this.card_view && this.list_view) {
+      this.list_view = false;
+    } else if (!this.card_view && !this.list_view) {
+      this.card_view = true;
+    }
   }
 
-  openOpportunityDetailsPopUp(opportunity: any): void {
-    this.opportunity_id = opportunity.opportunity_id;
-    this.description = opportunity.description;
-    this.title = opportunity.title;
-    this.value = opportunity.value;
-    this.user_name = opportunity.user_name;
-    this.user_id = opportunity.user_id;
-    this.account_name = opportunity.account_name;
-    this.account_id = opportunity.account_id;
-    this.opportunity_status_id = opportunity.opportunity_status_id;
-    this.opportunity_status = this.getStatus(opportunity.opportunity_status_id.toString());
-
-    const opportunityDetailsPopUp = this.elementRef.nativeElement.querySelector('.opportunity-details-pop-up');
-    opportunityDetailsPopUp.style.display = 'block';
-  }
-
-  updateOpportunity(): void {
-    let updatedOpportunity = {
-      opportunity_id: this.opportunity_id,
-      description: this.description,
-      title: this.title,
-      value: this.value,
-      user_id: this.user_id,
-      account_id: this.account_id,
-      opportunity_status_id: this.opportunity_status_id
-    };
-
-    this.opportunityService.updateOpportunity(updatedOpportunity).subscribe(response => {
-      console.log(response);
-      this.getOpportunity();
-      this.closeOpportunityDetailsPopUp();
-    });
-  }
-
-  opportunitiesEditMode: boolean = false;
-
-  toggleOpportunitiesEditMode(): void {
-    this.opportunitiesEditMode = !this.opportunitiesEditMode;
+  toggleListView() {
+    this.list_view = !this.list_view;
+    if (this.list_view && this.card_view) {
+      this.card_view = false;
+    } else if (!this.list_view && !this.card_view) {
+      this.list_view = true;
+    }
   }
 
   onReset(): void {
     // Reset the new opportunity form
-    this.description = undefined;
-    this.user_name = undefined;
-    this.account_name = undefined;
-    this.title = '',
-    this.value = ''
+    this.title = '';
+    this.account_id = '';
+    this.contact_id = '';
+    this.value = '';
+    this.prediction_score = '';
+    this.closing_date = '';
+    this.opportunity_status_id = '';
+    this.created_at = '';
+    this.updated_at = '';
+
+    // Close any open components
+    this.opportunities_action_sidebar_container = false;
+    this.opportunities_action_container = false
+    this.opportunity_edit_mode = false;
+    this.opportunity_action_status_menu = false;
+    this.more_info_dropdown = false;
+    this.filterOpportunityStatus(0);
+    this.getOpportunities();
   }
 
   isWorkspacePath(): boolean {
@@ -354,10 +469,15 @@ export class OpportunitiesComponent {
 
   ngOnInit() {
     if (this.isWorkspacePath()) {
-      this.route.queryParams.subscribe(params => {
-        this.currentWorkspaceId = params['workspace_id'] || '';
-        this.getOpportunity();
-        this.getAccounts();
+      this.authService.user$.subscribe(user => {
+        if (user && user.sub) {
+          this.sub = user.sub;
+          this.username = user.nickname;
+          this.route.queryParams.subscribe(params => {
+            this.currentWorkspaceId = params['workspace_id'] || '';
+            this.getOpportunities();
+          });
+        }
       });
     } else {
       console.log('Not a workspace path');

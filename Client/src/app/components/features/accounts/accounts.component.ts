@@ -104,7 +104,7 @@ export class AccountsComponent {
       this.allAccounts = accounts;
       this.filteredAccounts = accounts;
       this.countAccounts();
-      this.sortAccounts('last_name'); // Sort by last name by default
+      this.sortAccounts('name'); // Sort by name by default
       this.loading = false;
     });
   }
