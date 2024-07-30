@@ -36,6 +36,7 @@ export class AccountsComponent {
   account_id: string | undefined;
   workspace_id: string | undefined;
   name: string | undefined;
+  division: string | undefined;
   source: string | undefined;
   account_type_id: string | undefined = "";
   photo_url: string | undefined;
@@ -113,6 +114,7 @@ export class AccountsComponent {
       sub  : this.sub,
       workspace_id : this.currentWorkspaceId,
       name : this.name,
+      division: this.division,
       phone_number: this.phone_number,
       email: this.email,
       account_type_id: this.account_type_id,
@@ -134,6 +136,7 @@ export class AccountsComponent {
       let updatedAccount = {
         account_id: this.account_id,
         name: this.name,
+        division: this.division,
         phone_number: this.phone_number,
         email: this.email,
         account_type_id: this.account_type_id,
@@ -201,11 +204,13 @@ export class AccountsComponent {
       this.countAccounts();
       this.filteredAccounts = this.allAccounts.filter((account: any) => {
         const name = account.name?.toLowerCase() ?? '';
+        const division = account.division?.toLowerCase() ?? '';
         const phoneNumber = account.phone_number?.toLowerCase() ?? '';
         const email = account.email?.toLowerCase() ?? '';
         const type = this.getAccountType(account.account_type_id).toLowerCase();
   
         return name.includes(this.accountSearchInputValue) ||
+          division.includes(this.accountSearchInputValue) ||
           phoneNumber.includes(this.accountSearchInputValue) ||
           email.includes(this.accountSearchInputValue) ||
           type.includes(this.accountSearchInputValue);
@@ -246,6 +251,7 @@ export class AccountsComponent {
     // Setting the account details
     this.account_id = account.account_id;
     this.name = account.name;
+    this.division = account.division;
     this.phone_number = account.phone_number;
     this.email = account.email;
     this.account_type_id = account.account_type_id;
@@ -262,6 +268,7 @@ export class AccountsComponent {
     this.account_type_id = account.account_type_id;
     this.account_id = account.account_id;
     this.name = account.name;
+    this.division = account.division;
     this.phone_number = account.phone_number;
     this.email = account.email;
     this.photo_url = account.photo_url;
@@ -274,6 +281,7 @@ export class AccountsComponent {
       account_type_id: account_type_id, // Take from new selected type
       account_id: this.account_id,
       name: this.name,
+      division: this.division,
       phone_number: this.phone_number,
       email: this.email,
       photo_url: this.photo_url,
@@ -329,10 +337,10 @@ export class AccountsComponent {
   // // CSV Exporting
 
   generateCSV(): string {
-    let csv = 'Name, Phone Number, Email, Account Type, Source, Owner\n';
+    let csv = 'Name, Division, Phone Number, Email, Account Type, Source, Owner\n';
 
     this.filteredAccounts.forEach((account: any) => {
-      csv += `${account.title}, ${account.phone_number}, ${account.email}, ${this.getAccountType(account.account_type_id)}, ${account.source}, ${account.owner}\n`;
+      csv += `${account.name},${account.division}, ${account.phone_number}, ${account.email}, ${this.getAccountType(account.account_type_id)}, ${account.source}, ${account.owner}\n`;
     });
 
     return csv;
@@ -389,6 +397,7 @@ export class AccountsComponent {
   onReset(): void {
     // Reset the new account form
     this.name = '';
+    this.division = '';
     this.phone_number = '';
     this.email = '';
     this.account_type_id = '';

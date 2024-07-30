@@ -242,12 +242,12 @@
   color: #888888;
 }
 .account-card-footer .account-type.customer {
-  background-color: rgba(255, 158, 103, 0.1);
-  color: rgb(255,158,103);
+  background-color: rgba(58, 134, 255, 0.1);
+  color: rgb(58,134,255);
 }
 .account-card-footer .account-type.prospect {
-  background-color: rgba(249,199,79, 0.1);
-  color: rgb(249,199,79);
+  background-color: rgba(165, 113, 238, 0.1);
+  color: rgb(165, 113, 238);
 }
 .account-card-footer fa-icon {
   color: #777777;
@@ -646,12 +646,12 @@
   color: #888888;
 }
 .accounts-table .account-type.customer {
-  background-color: rgba(255, 158, 103, 0.1);
-  color: rgb(255,158,103);
+  background-color: rgba(58, 134, 255, 0.1);
+  color: rgb(58,134,255);
 }
 .accounts-table .account-type.prospect {
-  background-color: rgba(249,199,79, 0.1);
-  color: rgb(249,199,79);
+  background-color: rgba(165, 113, 238, 0.1);
+  color: rgb(165, 113, 238);
 }
 .accounts-table .more-account-btn {
   border: none;

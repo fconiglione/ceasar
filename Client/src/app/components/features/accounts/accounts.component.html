@@ -81,7 +81,7 @@
                             </div>
                             <div>
                                 <h3>{{account.name}}</h3>
-                                <!-- <p>{{account.contact}}</p> -->
+                                <p>{{account.division}}</p>
                             </div>
                         </div>
                         <div class="account-card-header-right">
@@ -127,7 +127,7 @@
                             </button>
                         </td>
                         <td>{{account.created_at | date: 'longDate'}}</td>
-                        <td class="name-td" (click)="openAccountsActionSidebar(account)">{{account.name}}</td>
+                        <td class="name-td" (click)="openAccountsActionSidebar(account)">{{account.name}} <span *ngIf="account.division">- {{account.division}}</span></td>
                         <td>{{account.phone_number || 'Not provided'}}</td>
                         <td>{{account.email || 'Not provided'}}</td>
                         <td (click)="openAccountTypeMenu(account)" [ngClass]="getAccountTypeClasses(account.account_type_id)">{{getAccountType(account.account_type_id)}}</td>
@@ -184,6 +184,10 @@
                             <fieldset>
                                 <label for="accountName">Account name<span class="red">*</span></label>
                                 <input type="text" id="accountName" name="accountName" placeholder="Enter account name" maxlength="50" [(ngModel)]="name" required>
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountDivision">Division</label>
+                                <input type="text" id="accountDivision" name="accountDivision" placeholder="Enter division" maxlength="50" [(ngModel)]="division">
                             </fieldset>
                             <fieldset>
                                 <label for="accountType">Type<span class="red">*</span></label>
@@ -252,6 +256,10 @@
                             <fieldset>
                                 <label for="accountName">Account name<span class="red">*</span></label>
                                 <input [disabled]="!account_edit_mode" type="text" id="accountName" name="accountName" [placeholder]="account_edit_mode ? 'Enter account name' : ''" maxlength="50" [(ngModel)]="name">
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountDivision">Division</label>
+                                <input [disabled]="!account_edit_mode" type="text" id="accountDivision" name="accountDivision" [placeholder]="account_edit_mode ? 'Enter division' : ''" maxlength="50" [(ngModel)]="division">
                             </fieldset>
                             <fieldset>
                                 <label for="accountType">Type<span class="red">*</span></label>

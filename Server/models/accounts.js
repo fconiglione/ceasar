@@ -13,7 +13,7 @@ class Accounts {
     }
 
     async getAccountsByWorkspaceId (workspace_id) {
-        const query = `SELECT account_id, sub, name, phone_number, email, account_type_id, photo_url, source, created_at, updated_at FROM ceasar.accounts WHERE workspace_id = $1`;
+        const query = `SELECT account_id, sub, name, division, phone_number, email, account_type_id, photo_url, source, created_at, updated_at FROM ceasar.accounts WHERE workspace_id = $1`;
         const values = [workspace_id];
         try {
             const { rows } = await this.pool.query(query, values);
@@ -24,10 +24,10 @@ class Accounts {
         }
     }
 
-    async createAccount (workspace_id, sub, name, phone_number, email, account_type_id, photo_url, source, created_at, updated_at) {
-        const query = `INSERT INTO ceasar.accounts (workspace_id, sub, name, phone_number, email, account_type_id, photo_url, source, created_at, updated_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
-        const values = [workspace_id, sub, name, phone_number, email, account_type_id, photo_url, source, created_at, updated_at];
+    async createAccount (workspace_id, sub, name, division, phone_number, email, account_type_id, photo_url, source, created_at, updated_at) {
+        const query = `INSERT INTO ceasar.accounts (workspace_id, sub, name, division, phone_number, email, account_type_id, photo_url, source, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`;
+        const values = [workspace_id, sub, name, division, phone_number, email, account_type_id, photo_url, source, created_at, updated_at];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;
@@ -47,9 +47,9 @@ class Accounts {
         }
     }
 
-    async updateAccount (workspace_id, name, phone_number, email, account_type_id, photo_url, source, updated_at) {
-        const query = `UPDATE ceasar.accounts SET name = $2, phone_number = $3, email = $4, account_type_id = $5, photo_url = $6, source = $7, updated_at = $8 WHERE workspace_id = $1`;
-        const values = [workspace_id, name, phone_number, email, account_type_id, photo_url, source, updated_at];
+    async updateAccount (workspace_id, name, division, phone_number, email, account_type_id, photo_url, source, updated_at, account_id) {
+        const query = `UPDATE ceasar.accounts SET name = $2, phone_number = $3, email = $4, account_type_id = $5, photo_url = $6, source = $7, updated_at = $8, division = $9 WHERE workspace_id = $1 AND account_id = $10`;
+        const values = [workspace_id, name, phone_number, email, account_type_id, photo_url, source, updated_at, division, account_id];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;
