@@ -90,7 +90,7 @@ export class AccountsComponent {
   currentWorkspaceId: string | undefined;
 
   accountSearchInputValue: string = '';
-  activeStatusFilter: string = 'All types';
+  activeTypeFilter: string = 'All types';
 
   DefaultPFP = "assets/images/default-pfp.svg";
 
@@ -171,7 +171,7 @@ export class AccountsComponent {
     }
   }
 
-  getAccountStatus(account_type_id: any) {
+  getAccountType(account_type_id: any) {
     switch (account_type_id) {
       case 1:
         return 'Customer';
@@ -182,7 +182,7 @@ export class AccountsComponent {
     }
   }
 
-  getAccountStatusClasses(account_type_id: any) {
+  getAccountTypeClasses(account_type_id: any) {
     switch (account_type_id) {
       case 1:
         return { 'account-type': true, 'prospect': true };
@@ -203,7 +203,7 @@ export class AccountsComponent {
         const name = account.name?.toLowerCase() ?? '';
         const phoneNumber = account.phone_number?.toLowerCase() ?? '';
         const email = account.email?.toLowerCase() ?? '';
-        const type = this.getAccountStatus(account.account_type_id).toLowerCase();
+        const type = this.getAccountType(account.account_type_id).toLowerCase();
   
         return name.includes(this.accountSearchInputValue) ||
           phoneNumber.includes(this.accountSearchInputValue) ||
@@ -222,7 +222,7 @@ export class AccountsComponent {
     this.account_type_customer_count = this.filteredAccounts.filter((account: any) => account.account_type_id === 2).length;
   } 
   
-  filterAccountStatus(account_type_id: number): void {
+  filterAccountType(account_type_id: number): void {
       this.active_type_filter = account_type_id;
       if (account_type_id === this.previous_type_filter) {
           this.getAccounts();
@@ -236,7 +236,7 @@ export class AccountsComponent {
                   this.countAccounts();
                   this.filteredAccounts = this.filteredAccounts.filter((account: any) => account.account_type_id === account_type_id);
                   this.previous_type_filter = account_type_id;
-                  this.activeStatusFilter = this.getAccountStatus(account_type_id);
+                  this.activeTypeFilter = this.getAccountType(account_type_id);
               });
           }
       }
@@ -258,7 +258,7 @@ export class AccountsComponent {
     this.accounts_action_sidebar_container = true;
   }
 
-  openAccountStatusMenu(account: any): void {
+  openAccountTypeMenu(account: any): void {
     this.account_type_id = account.account_type_id;
     this.account_id = account.account_id;
     this.name = account.name;
@@ -269,7 +269,7 @@ export class AccountsComponent {
     this.account_action_type_menu = true;
   }
 
-  updateAccountStatus(account_type_id: any): void {
+  updateAccountType(account_type_id: any): void {
     let updatedAccount = {
       account_type_id: account_type_id, // Take from new selected type
       account_id: this.account_id,
@@ -306,7 +306,7 @@ export class AccountsComponent {
         const typeA = a.account_type_id;
         const typeB = b.account_type_id;
 
-        this.active_sort_factor = 'By Status';
+        this.active_sort_factor = 'By Type';
 
         return typeA - typeB;
       });
@@ -332,7 +332,7 @@ export class AccountsComponent {
     let csv = 'Name, Phone Number, Email, Account Type, Source, Owner\n';
 
     this.filteredAccounts.forEach((account: any) => {
-      csv += `${account.title}, ${account.phone_number}, ${account.email}, ${this.getAccountStatus(account.account_type_id)}, ${account.source}, ${account.owner}\n`;
+      csv += `${account.title}, ${account.phone_number}, ${account.email}, ${this.getAccountType(account.account_type_id)}, ${account.source}, ${account.owner}\n`;
     });
 
     return csv;
@@ -403,7 +403,7 @@ export class AccountsComponent {
     this.account_edit_mode = false;
     this.account_action_type_menu = false;
     this.more_info_dropdown = false;
-    this.filterAccountStatus(0);
+    this.filterAccountType(0);
     this.getAccounts();
   }
 

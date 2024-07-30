@@ -1,1 +1,332 @@
-<h1>Accounts</h1>
+<div class="accounts-main-container">
+    <div class="accounts-main-container-header">
+        <div class="accounts-main-container-item">
+            <h1>Accounts</h1>
+        </div>
+        <div class="accounts-main-container-header-nav">
+            <div>
+                <button class="create-account-btn" (click)="accounts_action_container = true">New Account</button>
+            </div>
+            <div>
+                <button class="more-account-btn" (click)="more_info_dropdown = !more_info_dropdown">
+                    <fa-icon [icon]="faEllipsisV"></fa-icon>
+                </button>
+                <div class="more-account-dropdown" *ngIf="more_info_dropdown">
+                    <span>Import Accounts</span>
+                    <span (click)="downloadCSV()">Export Accounts</span>
+                    <span (click)="printData()">Print Accounts</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="accounts-main-container-body">
+        <div class="accounts-main-container-body-filtering">
+            <div class="accounts-main-container-body-filtering-container">
+                <div class="accounts-search">
+                    <fa-icon [icon]="faSearch"></fa-icon>
+                    <input (input)="onInputChange($event)" type="text" placeholder="Search for accounts..." id="accountSearchInput">
+                </div>
+                <div class="accounts-filters">
+                    <div class="accounts-owners">
+                        <button class="accounts-owner-btn">
+                            <fa-icon [icon]="faUserAlt"></fa-icon>
+                            <span>All Employees</span>
+                            <fa-icon [icon]="faChevronDown"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="accounts-sort">
+                        <button class="accounts-sort-btn" (click)="sort_by_dropdown = !sort_by_dropdown">
+                            <fa-icon [icon]="faSort"></fa-icon>
+                            <span>{{active_sort_factor}}</span>
+                            <fa-icon [icon]="faChevronDown"></fa-icon>
+                        </button>
+                        <div class="accounts-sort-dropdown" *ngIf="sort_by_dropdown">
+                            <span (click)="sortAccounts('name')">By Account Name</span>
+                            <span (click)="sortAccounts('type')">By Type</span>
+                            <span (click)="sortAccounts('created_at')">By Date Created</span>
+                        </div>
+                    </div>
+                    <div class="accounts-view">
+                        <button class="accounts-card-view-btn" (click)="toggleCardView()">
+                            <fa-icon [icon]="faTableCells"></fa-icon>
+                        </button>
+                        <button class="accounts-list-view-btn" (click)="toggleListView()">
+                            <fa-icon [icon]="faBars"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accounts-main-container-body-categories">
+            <div class="category active" [class.active]="active_type_filter === 0" (click)="filterAccountType(0)">
+                <span>All</span>
+                <span class="category-number">{{account_count}}</span>
+            </div>
+            <div class="category" [class.active]="active_type_filter === 1" (click)="filterAccountType(1)">
+                <span>Customer</span>
+                <span class="category-number">{{account_type_customer_count}}</span>
+            </div>
+            <div class="category" [class.active]="active_type_filter === 2" (click)="filterAccountType(2)">
+                <span>Prospect</span>
+                <span class="category-number">{{account_type_prospect_count}}</span>
+            </div>
+        </div>
+        <div class="accounts-main-container-body-accounts-cv" *ngIf="card_view">
+            <div class="account-card" *ngFor="let account of filteredAccounts">
+                <div class="account-card-container">
+                    <div class="account-card-header">
+                        <div class="account-card-header-left">
+                            <div>
+                                <img [src]="DefaultPFP" alt="Default profile picture image">
+                            </div>
+                            <div>
+                                <h3>{{account.title}} {{account.first_name}} {{account.last_name}}</h3>
+                                <p>{{account.company}}</p>
+                            </div>
+                        </div>
+                        <div class="account-card-header-right">
+                            <span class="account-cdate">{{account.created_at | date: 'longDate'}}</span>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="account-card-body">
+                        <div>
+                            <fa-icon [icon]="faPhone"></fa-icon>
+                            <span>{{account.phone_number || 'Not provided'}}</span>
+                        </div>
+                        <div>
+                            <fa-icon [icon]="faEnvelope"></fa-icon>
+                            <span>{{account.email || 'Not provided'}}</span>
+                        </div>
+                    </div>
+                    <div class="account-card-footer">
+                        <span (click)="openAccountTypeMenu(account)" [ngClass]="getAccountTypeClasses(account.account_type_id)">{{getAccountType(account.account_type_id)}}</span>
+                        <fa-icon [icon]="faArrowRightToBracket" (click)="openAccountsActionSidebar(account)"></fa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accounts-main-container-body-accounts-lv" *ngIf="list_view && filteredAccounts.length > 0">
+            <table class="accounts-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Date Created</th>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th class="type-th">Type</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let account of filteredAccounts">
+                        <td class="select-td">
+                            <button class="account-select-btn" (click)="deleteAccountById(account.account_id)">
+                                <fa-icon [icon]="faTrash"></fa-icon>
+                            </button>
+                        </td>
+                        <td>{{account.created_at | date: 'longDate'}}</td>
+                        <td class="name-td" (click)="openAccountsActionSidebar(account)">{{account.title}} {{account.first_name}} {{account.last_name}}</td>
+                        <td>{{account.company}}</td>
+                        <td>{{account.phone_number || 'Not provided'}}</td>
+                        <td>{{account.email || 'Not provided'}}</td>
+                        <td (click)="openAccountTypeMenu(account)" [ngClass]="getAccountTypeClasses(account.account_type_id)">{{getAccountType(account.account_type_id)}}</td>
+                        <td class="more-account-btn">
+                            <fa-icon [icon]="faArrowRightToBracket" (click)="openAccountsActionSidebar(account)"></fa-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div *ngIf="filteredAccounts && filteredAccounts.length === 0 && !loading">
+        <app-no-data></app-no-data>
+    </div>
+    <div id="loading" *ngIf="loading">
+        <app-loading></app-loading>
+    </div>
+</div>
+<div class="accounts-action" *ngIf="accounts_action_container">
+    <div class="accounts-action-container">
+        <div class="accounts-action-content">
+            <div class="account-action-row accounts-action-header">
+                <div>
+                <h1>Create new account</h1>
+                </div>
+                <div>
+                <button class="close-account-action-btn-1" (click)="accounts_action_container = false">
+                    <fa-icon [icon]="faXmark"></fa-icon>
+                </button>
+                </div>
+            </div>
+            <div class="account-action-row">
+                <div>
+                    <h2>Account information</h2>
+                    <p>Enter the information for your new account.</p>
+                </div>
+                <div class="account-action-info">
+                    <form class="account-action-form">
+                        <div class="account-action-form-content">
+                            <fieldset>
+                                <label for="accountOwner">Account owner<span class="red">*</span></label>
+                                <select disabled name="accountOwner" id="accountOwner">
+                                    <option value="">{{username}}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountSource">Account source</label>
+                                <input type="text" id="accountSource" name="accountSource" placeholder="Enter account source" maxlength="50" [(ngModel)]="source">
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountPhoto">Photo</label>
+                                <input type="file" id="accountPhoto" name="accountPhoto" [(ngModel)]="photo_url">
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountName">Account name<span class="red">*</span></label>
+                                <input type="text" id="accountName" name="accountName" placeholder="Enter account name" maxlength="50" [(ngModel)]="name" required>
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountType">Type<span class="red">*</span></label>
+                                <select name="accountType" id="accountType" [(ngModel)]="account_type_id" required>
+                                    <option value="" disabled selected>--Select Type--</option>
+                                    <option value="1">Customer</option>
+                                    <option value="2">Prospect</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountPhone">Phone</label>
+                                <input type="tel" id="accountPhone" name="accountPhone" placeholder="Enter phone number" maxlength="50" [(ngModel)]="phone_number">
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountEmail">Email</label>
+                                <input type="email" id="accountEmail" name="accountEmail" placeholder="Enter email address" maxlength="50" [(ngModel)]="email">
+                            </fieldset>  
+                        </div>
+                        <div class="account-action-form-nav">
+                            <button class="close-account-action-btn-2" (click)="accounts_action_container = false">Cancel</button>
+                            <button class="save-account-action-btn" (click)="createAccount()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accounts-action-sidebar" *ngIf="accounts_action_sidebar_container">
+    <div class="accounts-action-sidebar-container">
+        <div class="accounts-action-sidebar-content">
+            <div class="accounts-action-sidebar-content-container">
+                <div class="account-action-sidebar-row accounts-action-sidebar-header">
+                    <div>
+                        <button class="close-account-action-btn-1 close-account-sidebar-btn" (click)="onReset()">
+                            <fa-icon [icon]="faArrowLeft"></fa-icon>
+                        </button>
+                        <h1>Account information</h1>
+                    </div>
+                    <div>
+                        <button class="account-appt-btn">
+                            Book Appointment
+                        </button>
+                        <button class="edit-account-action-btn" (click)="account_edit_mode = !account_edit_mode">
+                            Edit Account
+                        </button>
+                    </div>
+                </div>
+                <div class="account-action-sidebar-row">
+                    <form class="account-action-sidebar-form">
+                        <div class="account-action-sidebar-form-content">
+                            <fieldset>
+                                <label for="accountOwner">Account owner<span class="red">*</span></label>
+                                <select disabled name="accountOwner" id="accountOwner">
+                                    <option value="">--Coming Soon--</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountSource">Account source</label>
+                                <input [disabled]="!account_edit_mode" type="text" id="accountSource" name="accountSource" [placeholder]="account_edit_mode ? 'Enter account source' : ''" maxlength="50" [(ngModel)]="source">
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountPhoto">Photo</label>
+                                <input [disabled]="!account_edit_mode" type="file" id="accountPhoto" name="accountPhoto" [(ngModel)]="photo_url">
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountName">Account name<span class="red">*</span></label>
+                                <input [disabled]="!account_edit_mode" type="text" id="accountName" name="accountName" [placeholder]="account_edit_mode ? 'Enter account name' : ''" maxlength="50" [(ngModel)]="name">
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountType">Type<span class="red">*</span></label>
+                                <select [disabled]="!account_edit_mode" name="accountType" id="accountType" [(ngModel)]="account_type_id">
+                                    <option value="" disabled selected>--Select Type--</option>
+                                    <option value="1">New</option>
+                                    <option value="2">Contacted</option>
+                                    <option value="3">Qualified</option>
+                                    <option value="4">Closed-Won</option>
+                                    <option value="5">Closed-Lost</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountPhone">Phone</label>
+                                <input [disabled]="!account_edit_mode" type="tel" id="accountPhone" name="accountPhone" [placeholder]="account_edit_mode ? 'Enter phone number' : ''" maxlength="50" [(ngModel)]="phone_number">
+                            </fieldset>
+                            <fieldset>
+                                <label for="accountEmail">Email</label>
+                                <input [disabled]="!account_edit_mode" type="email" id="accountEmail" name="accountEmail" [placeholder]="account_edit_mode ? 'Enter email address' : ''" maxlength="50" [(ngModel)]="email">
+                            </fieldset>
+                        </div>
+                        <div class="account-action-form-sidebar-nav" [style.display]="account_edit_mode == false ? 'none' : 'flex'">
+                            <div>
+                                <button class="delete-account-action-btn" (click)="deleteAccount()">
+                                    Delete Account
+                                </button>
+                            </div>
+                            <div>
+                                <button class="close-account-action-btn-2" (click)="onReset()">Cancel</button>
+                                <button class="save-account-action-btn" (click)="updateAccount()">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Room for comments/notes to be added in future updates -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="accounts-action-type-menu" *ngIf="account_action_type_menu">
+    <div class="accounts-action-type-menu-container">
+        <div class="accounts-action-type-menu-content">
+            <div class="account-action-type-menu-row accounts-action-type-menu-header">
+                <div>
+                    <h1>Change account type</h1>
+                </div>
+                <div>
+                    <button class="close-account-action-btn-1" (click)="account_action_type_menu = false">
+                        <fa-icon [icon]="faXmark"></fa-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="account-action-type-menu-row">
+                <form class="account-action-type-menu-form">
+                    <div class="account-action-type-menu-form-content">
+                        <fieldset>
+                            <label for="accountType">Type<span class="red">*</span></label>
+                            <select name="accountType" id="accountType" [(ngModel)]="account_type_id">
+                                <option value="" disabled selected>--Select Type--</option>
+                                <option value="1">New</option>
+                                <option value="2">Contacted</option>
+                                <option value="3">Qualified</option>
+                                <option value="4">Closed-Won</option>
+                                <option value="5">Closed-Lost</option>
+                            </select>
+                        </fieldset>
+                    </div>
+                    <div class="account-action-type-menu-form-nav">
+                        <button class="close-account-action-btn-2" (click)="onReset()">Cancel</button>
+                        <button class="save-account-action-btn" (click)="updateAccountType(account_type_id)">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
