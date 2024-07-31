@@ -77,15 +77,15 @@
                 <span>Meeting</span>
                 <span class="category-number">{{opportunity_status_meeting_count}}</span>
             </div>
-            <div class="category" [class.active]="active_status_filter === 3" (click)="filterOpportunityStatus(4)">
+            <div class="category" [class.active]="active_status_filter === 4" (click)="filterOpportunityStatus(4)">
                 <span>Proposal</span>
                 <span class="category-number">{{opportunity_status_proposal_count}}</span>
             </div>
-            <div class="category" [class.active]="active_status_filter === 4" (click)="filterOpportunityStatus(5)">
+            <div class="category" [class.active]="active_status_filter === 5" (click)="filterOpportunityStatus(5)">
                 <span>Closed-Won</span>
                 <span class="category-number">{{opportunity_status_closed_won_count}}</span>
             </div>
-            <div class="category" [class.active]="active_status_filter === 5" (click)="filterOpportunityStatus(6)">
+            <div class="category" [class.active]="active_status_filter === 6" (click)="filterOpportunityStatus(6)">
                 <span>Closed-Lost</span>
                 <span class="category-number">{{opportunity_status_closed_lost_count}}</span>
             </div>
@@ -114,10 +114,15 @@
                             <fa-icon [icon]="faSackDollar"></fa-icon>
                             <span>${{opportunity.value || '-'}}</span>
                         </div>
+                        <div>
+                            <fa-icon [icon]="faCalendarDay"></fa-icon>
+                            <span *ngIf="opportunity.close_date">{{opportunity.closing_date | date: 'longDate' || 'Not provided'}}</span>
+                            <span *ngIf="!opportunity.close_date">Not provided</span>
+                        </div>  
                     </div>
                     <div class="opportunity-card-footer">
                         <div>
-                            <span>{{opportunity.prediction_score}}</span>
+                            <span [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score}}</span>
                             <span (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</span>
                         </div>
                         <div>
@@ -159,7 +164,7 @@
                         </td>
                         <td>{{opportunity.account_id}}</td>
                         <td>{{opportunity.contact_id}}</td>
-                        <td class="prediction-td">{{opportunity.prediction_score || '-'}}</td>
+                        <td class="prediction-td" [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score || '-'}}</td>
                         <td (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</td>
                         <td class="more-opportunity-btn">
                             <fa-icon [icon]="faArrowRightToBracket" (click)="openOpportunitiesActionSidebar(opportunity)"></fa-icon>

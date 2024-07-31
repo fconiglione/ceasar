@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare, faClipboardUser, faSackDollar } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare, faClipboardUser, faSackDollar, faCalendarDay } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { OpportunityService } from '../../../services/opportunity/opportunity.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -104,6 +104,7 @@ export class OpportunitiesComponent {
   faSquare = faSquare;
   faClipboardUser = faClipboardUser;
   faSackDollar = faSackDollar;
+  faCalendarDay = faCalendarDay;
 
   currentWorkspaceId: string | undefined;
 
@@ -238,8 +239,8 @@ export class OpportunitiesComponent {
       this.filteredOpportunities = this.allOpportunities.filter((opportunity: any) => {
         const title = opportunity.title?.toLowerCase() ?? '';
         const closing_date = opportunity.closing_date?.toLowerCase() ?? '';
-        const value = opportunity.value?.toLowerCase() ?? '';
-        const prediction_score = opportunity.prediction_score?.toLowerCase() ?? '';
+        const value = opportunity.value.toString()?.toLowerCase() ?? '';
+        const prediction_score = opportunity.prediction_score.toString()?.toLowerCase() ?? '';
         const status = this.getOpportunityStatus(opportunity.opportunity_status_id).toLowerCase();
   
         return title.includes(this.opportunitySearchInputValue) ||
@@ -478,6 +479,21 @@ export class OpportunitiesComponent {
       this.CONTACT = contacts;
     });
   }
+
+  // Classes for prediction score
+  getPredictionScoreClasses(prediction_score: any) {
+    if (prediction_score >= 75) {
+        return { 'prediction-score': true, 'excellent': true };
+    } else if (prediction_score >= 50) {
+        return { 'prediction-score': true, 'good': true };
+    } else if (prediction_score >= 25) {
+        return { 'prediction-score': true, 'average': true };
+    } else if (prediction_score >= 0) {
+        return { 'prediction-score': true, 'poor': true };
+    } else {
+        return { 'prediction-score': true, 'not-provided': true };
+    }
+}
 
   onReset(): void {
     // Reset the new opportunity form

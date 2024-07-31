@@ -254,13 +254,17 @@
   background-color: rgba(255, 158, 103, 0.1);
   color: rgb(255,158,103);
 }
-.opportunity-card-footer .opportunity-status.contacted {
+.opportunity-card-footer .opportunity-status.talking {
   background-color: rgba(249,199,79, 0.1);
   color: rgb(249,199,79);
 }
-.opportunity-card-footer .opportunity-status.qualified {
+.opportunity-card-footer .opportunity-status.meeting {
   background-color: rgba(144,190,109, 0.1);
   color: rgb(144,190,109);
+}
+.opportunity-card-footer .opportunity-status.proposal {
+  background-color: rgba(68, 200, 156, 0.1);
+  color: rgb(68, 200, 156);
 }
 .opportunity-card-footer .opportunity-status.closed-won, .opportunity-card-footer .opportunity-status.closed-lost {
   background-color: rgba(249,65,68, 0.1);
@@ -667,13 +671,17 @@
   background-color: rgba(255, 158, 103, 0.1);
   color: rgb(255,158,103);
 }
-.opportunities-table .opportunity-status.contacted {
+.opportunities-table .opportunity-status.talking {
   background-color: rgba(249,199,79, 0.1);
   color: rgb(249,199,79);
 }
-.opportunities-table .opportunity-status.qualified {
+.opportunities-table .opportunity-status.meeting {
   background-color: rgba(144,190,109, 0.1);
   color: rgb(144,190,109);
+}
+.opportunities-table .opportunity-status.proposal {
+  background-color: rgba(68, 200, 156, 0.1);
+  color: rgb(68, 200, 156);
 }
 .opportunities-table .opportunity-status.closed-won, .opportunities-table .opportunity-status.closed-lost {
   background-color: rgba(249,65,68, 0.1);
@@ -817,4 +825,34 @@
 
 .opportunity-action-sidebar-form #opportunityPhoto {
   width: 270px;
+}
+
+/* Prediction Score */
+
+.prediction-score {
+  background-color: #f5f7fa;
+  color: #888888;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+.prediction-score.poor, .opportunities-table .prediction-score.poor {
+  background-color: rgba(249,65,68, 0.1);
+  color: rgb(249,65,68);
+}
+.prediction-score.average, .opportunities-table .prediction-score.average {
+  background-color: rgba(243,144,44, 0.1);
+  color: rgb(243,144,44);
+}
+.prediction-score.good, .opportunities-table .prediction-score.good {
+  background-color: rgba(213, 202, 80, 0.1);
+  color: rgb(213, 202, 80);
+}
+.prediction-score.excellent, .opportunities-table .prediction-score.excellent {
+  background-color: rgba(68, 200, 99, 0.1);
+  color: rgb(68, 200, 99);
+}
+.opportunities-table .prediction-score {
+  border-radius: 0;
 }
