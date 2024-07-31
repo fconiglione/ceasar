@@ -11,7 +11,7 @@
                 <button class="more-opportunity-btn" (click)="more_info_dropdown = !more_info_dropdown">
                     <fa-icon [icon]="faEllipsisV"></fa-icon>
                 </button>
-                <div class="more-opportunities-dropdown" *ngIf="more_info_dropdown">
+                <div class="more-opportunity-dropdown" *ngIf="more_info_dropdown">
                     <span>Import opportunity</span>
                     <span (click)="downloadCSV()">Export opportunity</span>
                     <span (click)="printData()">Print opportunity</span>
@@ -43,6 +43,7 @@
                         <div class="opportunities-sort-dropdown" *ngIf="sort_by_dropdown">
                             <span (click)="sortOpportunities('title')">By Title</span>
                             <span (click)="sortOpportunities('value')">By Value</span>
+                            <span (click)="sortOpportunities('status')">By Status</span>
                             <span (click)="sortOpportunities('prediction_Score')">By Prediction Score</span>
                             <span (click)="sortOpportunities('closing_date')">By Closing Date</span>
                             <span (click)="sortOpportunities('created_at')">By Date Created</span>
@@ -323,29 +324,30 @@
                     <h1>Change opportunity status</h1>
                 </div>
                 <div>
-                    <button class="close-opportunities-action-btn-1" (click)="opportunity_action_status_menu = false">
+                    <button class="close-opportunity-action-btn-1" (click)="opportunity_action_status_menu = false">
                         <fa-icon [icon]="faXmark"></fa-icon>
                     </button>
                 </div>
             </div>
             <div class="opportunities-action-status-menu-row">
-                <form class="opportunities-action-status-menu-form">
-                    <div class="opportunities-action-status-menu-form-content">
+                <form class="opportunity-action-status-menu-form">
+                    <div class="opportunity-action-status-menu-form-content">
                         <fieldset>
                             <label for="opportunityStatus">Status<span class="red">*</span></label>
                             <select name="opportunityStatus" id="opportunityStatus" [(ngModel)]="opportunity_status_id">
                                 <option value="" disabled selected>--Select Status--</option>
                                 <option value="1">New</option>
-                                <option value="2">Contacted</option>
-                                <option value="3">Qualified</option>
-                                <option value="4">Closed-Won</option>
-                                <option value="5">Closed-Lost</option>
+                                <option value="2">Talking</option>
+                                <option value="3">Meeting</option>
+                                <option value="4">Proposal</option>
+                                <option value="5">Closed-Won</option>
+                                <option value="6">Closed-Lost</option>
                             </select>
                         </fieldset>
                     </div>
-                    <div class="opportunities-action-status-menu-form-nav">
-                        <button class="close-opportunities-action-btn-2" (click)="onReset()">Cancel</button>
-                        <button class="save-opportunities-action-btn" (click)="updateOpportunityStatus(opportunity_status_id)">Save</button>
+                    <div class="opportunity-action-status-menu-form-nav">
+                        <button class="close-opportunity-action-btn-2" (click)="onReset()">Cancel</button>
+                        <button class="save-opportunity-action-btn" (click)="updateOpportunityStatus(opportunity_status_id)">Save</button>
                     </div>
                 </form>
             </div>

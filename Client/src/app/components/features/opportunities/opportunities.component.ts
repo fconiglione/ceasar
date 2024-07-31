@@ -334,36 +334,36 @@ export class OpportunitiesComponent {
   }
 
   sortOpportunities(sortFactor: any): void {
-    if (sortFactor === 'last_name') {
+    if (sortFactor === 'title') {
       this.filteredOpportunities.sort((a: any, b: any) => {
-        const lastNameA = a.last_name?.toLowerCase() ?? '';
-        const lastNameB = b.last_name?.toLowerCase() ?? '';
+        const titleA = a.title?.toLowerCase() ?? '';
+        const titleB = b.title?.toLowerCase() ?? '';
 
-        this.active_sort_factor = 'By Last Name';
+        this.active_sort_factor = 'By Title';
 
-        return lastNameA.localeCompare(lastNameB);
+        return titleA.localeCompare(titleB);
       });
     }
 
-    if (sortFactor === 'first_name') {
+    if (sortFactor === 'value') {
       this.filteredOpportunities.sort((a: any, b: any) => {
-        const firstNameA = a.first_name?.toLowerCase() ?? '';
-        const firstNameB = b.first_name?.toLowerCase() ?? '';
+        const valueA = a.value;
+        const valueB = b.value;
 
-        this.active_sort_factor = 'By First Name';
+        this.active_sort_factor = 'By Value';
 
-        return firstNameA.localeCompare(firstNameB);
+        return valueB - valueA;
       });
     }
 
-    if (sortFactor === 'company') {
+    if (sortFactor === 'prediction_score') {
       this.filteredOpportunities.sort((a: any, b: any) => {
-        const companyA = a.company?.toLowerCase() ?? '';
-        const companyB = b.company?.toLowerCase() ?? '';
+        const predictionScoreA = a.prediction_score;
+        const predictionScoreB = b.prediction_score;
 
-        this.active_sort_factor = 'By Company';
+        this.active_sort_factor = 'By Prediction Score';
 
-        return companyA.localeCompare(companyB);
+        return predictionScoreB - predictionScoreA;
       });
     }
 
@@ -375,6 +375,17 @@ export class OpportunitiesComponent {
         this.active_sort_factor = 'By Status';
 
         return statusA - statusB;
+      });
+    }
+
+    if (sortFactor === 'closing_date') {
+      this.filteredOpportunities.sort((a: any, b: any) => {
+        const dateA = new Date(a.closing_date);
+        const dateB = new Date(b.closing_date);
+
+        this.active_sort_factor = 'By Closing Date';
+
+        return dateB.getTime() - dateA.getTime();
       });
     }
 
@@ -395,10 +406,10 @@ export class OpportunitiesComponent {
   // // CSV Exporting
 
   generateCSV(): string {
-    let csv = 'Last Name, First Name, Title, Company, Phone Number, Email, Status, Source, Owner\n';
+    let csv = 'Title, Value, Prediction Score, Status, Closing Date, Account, Contact, Owner\n';
 
     this.filteredOpportunities.forEach((opportunity: any) => {
-      csv += `${opportunity.last_name}, ${opportunity.first_name}, ${opportunity.title}, ${opportunity.company}, ${opportunity.phone_number}, ${opportunity.email}, ${this.getOpportunityStatus(opportunity.opportunity_status_id)}, ${opportunity.source}, ${opportunity.owner}\n`;
+      csv += `${opportunity.title}, ${opportunity.value}, ${opportunity.prediction_score}, ${this.getOpportunityStatus(opportunity.opportunity_status_id)}, ${opportunity.closing_date},${opportunity.account_id}, ${opportunity.contact_id}, ${opportunity.username}\n`;
     });
 
     return csv;

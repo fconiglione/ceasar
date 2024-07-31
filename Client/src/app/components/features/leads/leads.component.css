@@ -779,7 +779,7 @@
   padding: 10px;
   font-size: 0.9em;
   height: 45px;
-  width: 75%;
+  width: 100%;
   cursor: pointer;
 }
 .lead-action-status-menu-form-content fieldset select:focus {
