@@ -112,7 +112,7 @@
                         </div>
                         <div>
                             <fa-icon [icon]="faSackDollar"></fa-icon>
-                            <span>${{opportunity.value || '-'}}</span>
+                            <span>{{formatCurrency(opportunity.value) || '-'}}</span>
                         </div>
                         <div>
                             <fa-icon [icon]="faCalendarDay"></fa-icon>
@@ -157,7 +157,7 @@
                         </td>
                         <td>{{opportunity.created_at | date: 'longDate'}}</td>
                         <td class="name-td" (click)="openOpportunitiesActionSidebar(opportunity)">{{opportunity.title}}</td>
-                        <td>${{opportunity.value || '-'}}</td>
+                        <td>{{formatCurrency(opportunity.value) || '-'}}</td>
                         <td>
                             <span *ngIf="opportunity.closing_date">{{opportunity.closing_date | date: 'longDate'}}</span>
                             <span *ngIf="!opportunity.closing_date">Not provided</span>

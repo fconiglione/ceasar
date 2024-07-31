@@ -531,6 +531,10 @@ export class OpportunitiesComponent {
     }
 }
 
+formatCurrency(value: any): string {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+}
+
   onReset(): void {
     // Reset the new opportunity form
     this.title = '';
