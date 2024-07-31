@@ -90,10 +90,10 @@
             </div>
         </div>
         <div class="opportunities-main-container-body-opportunities-cv" *ngIf="card_view">
-            <div class="opportunities-card" *ngFor="let opportunity of filteredOpportunities">
-                <div class="opportunities-card-container">
-                    <div class="opportunities-card-header">
-                        <div class="opportunities-card-header-left">
+            <div class="opportunity-card" *ngFor="let opportunity of filteredOpportunities">
+                <div class="opportunity-card-container">
+                    <div class="opportunity-card-header">
+                        <div class="opportunity-card-header-left">
                             <div>
                                 <img [src]="DefaultPFP" alt="Default profile picture image">
                             </div>
@@ -102,12 +102,12 @@
                                 <p>{{opportunity.company}}</p>
                             </div>
                         </div>
-                        <div class="opportunities-card-header-right">
+                        <div class="opportunity-card-header-right">
                             <span class="opportunities-cdate">{{opportunity.created_at | date: 'longDate'}}</span>
                         </div>
                     </div>
                     <hr />
-                    <div class="opportunities-card-body">
+                    <div class="opportunity-card-body">
                         <div>
                             <fa-icon [icon]="faPhone"></fa-icon>
                             <span>{{opportunity.phone_number || 'Not provided'}}</span>
@@ -117,7 +117,7 @@
                             <span>{{opportunity.email || 'Not provided'}}</span>
                         </div>
                     </div>
-                    <div class="opportunities-card-footer">
+                    <div class="opportunity-card-footer">
                         <span (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</span>
                         <fa-icon [icon]="faArrowRightToBracket" (click)="openOpportunitiesActionSidebar(opportunity)"></fa-icon>
                     </div>
@@ -141,7 +141,7 @@
                 <tbody>
                     <tr *ngFor="let opportunity of filteredOpportunities">
                         <td class="select-td">
-                            <button class="opportunities-select-btn" (click)="deleteOpportunityById(opportunity.opportunity_id)">
+                            <button class="opportunity-select-btn" (click)="deleteOpportunityById(opportunity.opportunity_id)">
                                 <fa-icon [icon]="faTrash"></fa-icon>
                             </button>
                         </td>
