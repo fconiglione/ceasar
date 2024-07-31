@@ -517,6 +517,18 @@ export class OpportunitiesComponent {
     this.getOpportunities();
   }
 
+  // Get Contact Name By Id
+  getContactNameById(contact_id: string): string {
+    const contact = this.CONTACT.find((contact: any) => contact.contact_id === contact_id);
+    return contact ? `${contact.first_name} ${contact.last_name}` : 'Not provided';
+  }
+
+  // Get Account Name By Id
+  getAccountNameById(account_id: string): string {
+    const account = this.ACCOUNT.find((account: any) => account.account_id === account_id);
+    return account ? account.name : 'Not provided';
+  }
+
   isWorkspacePath(): boolean {
     return this.router.url.startsWith('/ws');
   }

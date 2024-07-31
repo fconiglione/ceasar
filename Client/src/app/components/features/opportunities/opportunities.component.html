@@ -97,7 +97,7 @@
                         <div class="opportunity-card-header-left">
                             <div>
                                 <h3>{{opportunity.title}}</h3>
-                                <p>{{opportunity.account_id}}</p>
+                                <p>{{getAccountNameById(opportunity.account_id)}}</p>
                             </div>
                         </div>
                         <div class="opportunity-card-header-right">
@@ -108,7 +108,7 @@
                     <div class="opportunity-card-body">
                         <div>
                             <fa-icon [icon]="faClipboardUser"></fa-icon>
-                            <span>{{opportunity.contact_id || 'Not provided'}}</span>
+                            <span>{{getContactNameById(opportunity.contact_id)}}</span>
                         </div>
                         <div>
                             <fa-icon [icon]="faSackDollar"></fa-icon>
@@ -162,8 +162,8 @@
                             <span ng-if="opportunity.closing_date">{{opportunity.closing_date | date: 'longDate'}}</span>
                             <span ng-if="!opportunity.closing_date">Not provided</span>
                         </td>
-                        <td>{{opportunity.account_id}}</td>
-                        <td>{{opportunity.contact_id}}</td>
+                        <td>{{getAccountNameById(opportunity.account_id)}}</td>
+                        <td>{{getContactNameById(opportunity.contact_id)}}</td>
                         <td class="prediction-td" [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score || '-'}}</td>
                         <td (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</td>
                         <td class="more-opportunity-btn">
