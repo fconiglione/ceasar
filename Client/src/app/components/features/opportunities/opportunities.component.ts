@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare, faClipboardUser, faSackDollar } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { OpportunityService } from '../../../services/opportunity/opportunity.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -102,6 +102,8 @@ export class OpportunitiesComponent {
   faXmark = faXmark;
   faPenToSquare = faPenToSquare;
   faSquare = faSquare;
+  faClipboardUser = faClipboardUser;
+  faSackDollar = faSackDollar;
 
   currentWorkspaceId: string | undefined;
 

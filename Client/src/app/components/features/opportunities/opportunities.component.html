@@ -96,11 +96,8 @@
                     <div class="opportunity-card-header">
                         <div class="opportunity-card-header-left">
                             <div>
-                                <img [src]="DefaultPFP" alt="Default profile picture image">
-                            </div>
-                            <div>
-                                <h3>{{opportunity.title}} {{opportunity.first_name}} {{opportunity.last_name}}</h3>
-                                <p>{{opportunity.company}}</p>
+                                <h3>{{opportunity.title}}</h3>
+                                <p>{{opportunity.account_id}}</p>
                             </div>
                         </div>
                         <div class="opportunity-card-header-right">
@@ -110,17 +107,22 @@
                     <hr />
                     <div class="opportunity-card-body">
                         <div>
-                            <fa-icon [icon]="faPhone"></fa-icon>
-                            <span>{{opportunity.phone_number || 'Not provided'}}</span>
+                            <fa-icon [icon]="faClipboardUser"></fa-icon>
+                            <span>{{opportunity.contact_id || 'Not provided'}}</span>
                         </div>
                         <div>
-                            <fa-icon [icon]="faEnvelope"></fa-icon>
-                            <span>{{opportunity.email || 'Not provided'}}</span>
+                            <fa-icon [icon]="faSackDollar"></fa-icon>
+                            <span>${{opportunity.value || '-'}}</span>
                         </div>
                     </div>
                     <div class="opportunity-card-footer">
-                        <span (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</span>
-                        <fa-icon [icon]="faArrowRightToBracket" (click)="openOpportunitiesActionSidebar(opportunity)"></fa-icon>
+                        <div>
+                            <span>{{opportunity.prediction_score}}</span>
+                            <span (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</span>
+                        </div>
+                        <div>
+                            <fa-icon [icon]="faArrowRightToBracket" (click)="openOpportunitiesActionSidebar(opportunity)"></fa-icon>
+                        </div>
                     </div>
                 </div>
             </div>

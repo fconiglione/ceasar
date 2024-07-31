@@ -233,6 +233,13 @@
   padding-top: 10px;
   align-items: center;
 }
+.opportunity-card-footer div:first-child {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
 .opportunity-card-footer .opportunity-status {
   padding: 5px 10px;
   border-radius: 3px;
