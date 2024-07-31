@@ -531,6 +531,7 @@
   font-size: 0.9em;
   height: 100%;
   cursor: pointer;
+  height: 39px; /* To match the height of the input */
 }
 .opportunity-action-sidebar-form-content fieldset select:focus {
   outline: none;
@@ -694,6 +695,10 @@
 }
 .opportunities-table .name-td:hover {
   color: #0a4afa;
+}
+.opportunities-table .prediction-td {
+  cursor: pointer;
+  text-align: center;
 }
 .opportunities-table .select-td, .opportunities-table .select-th {
   text-align: center;

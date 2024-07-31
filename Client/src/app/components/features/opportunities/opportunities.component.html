@@ -131,10 +131,12 @@
                     <tr>
                         <th></th>
                         <th>Date Created</th>
-                        <th>Name</th>
-                        <th>Company</th>
-                        <th>Phone</th>
-                        <th>Email</th>
+                        <th>Title</th>
+                        <th>Value</th>
+                        <th>Closing Date</th>
+                        <th>Account</th>
+                        <th>Contact</th>
+                        <th class="status-th">Prediction Score</th>
                         <th class="status-th">Status</th>
                         <th></th>
                     </tr>
@@ -147,10 +149,15 @@
                             </button>
                         </td>
                         <td>{{opportunity.created_at | date: 'longDate'}}</td>
-                        <td class="name-td" (click)="openOpportunitiesActionSidebar(opportunity)">{{opportunity.title}} {{opportunity.first_name}} {{opportunity.last_name}}</td>
-                        <td>{{opportunity.company}}</td>
-                        <td>{{opportunity.phone_number || 'Not provided'}}</td>
-                        <td>{{opportunity.email || 'Not provided'}}</td>
+                        <td class="name-td" (click)="openOpportunitiesActionSidebar(opportunity)">{{opportunity.title}}</td>
+                        <td>${{opportunity.value || '-'}}</td>
+                        <td>
+                            <span ng-if="opportunity.closing_date">{{opportunity.closing_date | date: 'longDate'}}</span>
+                            <span ng-if="!opportunity.closing_date">Not provided</span>
+                        </td>
+                        <td>{{opportunity.account_id}}</td>
+                        <td>{{opportunity.contact_id}}</td>
+                        <td class="prediction-td">{{opportunity.prediction_score || '-'}}</td>
                         <td (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</td>
                         <td class="more-opportunity-btn">
                             <fa-icon [icon]="faArrowRightToBracket" (click)="openOpportunitiesActionSidebar(opportunity)"></fa-icon>
@@ -253,23 +260,23 @@
             <div class="opportunities-action-sidebar-content-container">
                 <div class="opportunities-action-sidebar-row opportunities-action-sidebar-header">
                     <div>
-                        <button class="close-opportunities-action-btn-1 close-opportunities-sidebar-btn" (click)="onReset()">
+                        <button class="close-opportunity-action-btn-1 close-opportunity-sidebar-btn" (click)="onReset()">
                             <fa-icon [icon]="faArrowLeft"></fa-icon>
                         </button>
                         <h1>Opportunity info</h1>
                     </div>
                     <div>
-                        <button class="opportunities-appt-btn">
+                        <button class="opportunity-appt-btn">
                             Book Appointment
                         </button>
-                        <button class="edit-opportunities-action-btn" (click)="opportunity_edit_mode = !opportunity_edit_mode">
+                        <button class="edit-opportunity-action-btn" (click)="opportunity_edit_mode = !opportunity_edit_mode">
                             Edit Opportunity
                         </button>
                     </div>
                 </div>
                 <div class="opportunities-action-sidebar-row">
-                    <form class="opportunities-action-sidebar-form">
-                        <div class="opportunities-action-sidebar-form-content">
+                    <form class="opportunity-action-sidebar-form">
+                        <div class="opportunity-action-sidebar-form-content">
                             <fieldset>
                                 <label for="opportunityOwner">Opportunity owner<span class="red">*</span></label>
                                 <select disabled name="opportunityOwner" id="opportunityOwner">
@@ -291,22 +298,23 @@
                                 <select [disabled]="!opportunity_edit_mode" name="opportunityStatus" id="opportunityStatus" [(ngModel)]="opportunity_status_id">
                                     <option value="" disabled selected>--Select Status--</option>
                                     <option value="1">New</option>
-                                    <option value="2">Contacted</option>
-                                    <option value="3">Qualified</option>
-                                    <option value="4">Closed-Won</option>
-                                    <option value="5">Closed-Lost</option>
+                                    <option value="2">Talking</option>
+                                    <option value="3">Meeting</option>
+                                    <option value="4">Proposal</option>
+                                    <option value="5">Closed-Won</option>
+                                    <option value="6">Closed-Lost</option>
                                 </select>
                             </fieldset>
                         </div>
-                        <div class="opportunities-action-form-sidebar-nav" [style.display]="opportunity_edit_mode == false ? 'none' : 'flex'">
+                        <div class="opportunity-action-form-sidebar-nav" [style.display]="opportunity_edit_mode == false ? 'none' : 'flex'">
                             <div>
-                                <button class="delete-opportunities-action-btn" (click)="deleteOpportunity()">
+                                <button class="delete-opportunity-action-btn" (click)="deleteOpportunity()">
                                     Delete Opportunity
                                 </button>
                             </div>
                             <div>
-                                <button class="close-opportunities-action-btn-2" (click)="onReset()">Cancel</button>
-                                <button class="save-opportunities-action-btn" (click)="updateOpportunity()">Save</button>
+                                <button class="close-opportunity-action-btn-2" (click)="onReset()">Cancel</button>
+                                <button class="save-opportunity-action-btn" (click)="updateOpportunity()">Save</button>
                             </div>
                         </div>
                     </form>
