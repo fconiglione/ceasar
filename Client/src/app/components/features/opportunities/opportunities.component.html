@@ -291,14 +291,23 @@
                                 </select>
                             </fieldset>
                             <fieldset>
-                                <label for="opportunityTitle">Title</label>
-                                <select [disabled]="!opportunity_edit_mode" name="opportunityTitle" id="opportunityTitle" [(ngModel)]="title">
-                                    <option value="" disabled selected>--None--</option>
-                                    <option value="Mr.">Mr.</option>
-                                    <option value="Mrs.">Mrs.</option>
-                                    <option value="Ms.">Ms.</option>
-                                    <option value="Dr.">Dr.</option>
+                                <label for="opportunityAccount">Account<span class="red">*</span></label>
+                                <select [disabled]="!opportunity_edit_mode" name="opportunityAccount" id="opportunityAccount" [(ngModel)]="account_id">
+                                    <option value="" disabled selected>--Select Account--</option>
+                                    <option *ngFor="let account of ACCOUNT" value="{{account.account_id}}">{{account.name}}</option>
                                 </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="opportunityTitle">Title<span class="red">*</span></label>
+                                <input [disabled]="!opportunity_edit_mode" type="text" name="opportunityTitle" id="opportunityTitle" placeholder="Enter opportunity title" [(ngModel)]="title">
+                            </fieldset>
+                            <fieldset>
+                                <label for="opportunityValue">Value</label>
+                                <input [disabled]="!opportunity_edit_mode" type="number" name="opportunityValue" id="opportunityValue" placeholder="Enter potential value" [(ngModel)]="value" min="1" max="9999999999">
+                            </fieldset>
+                            <fieldset>
+                                <label for="opportunityPredictionScore">Prediction Score</label>
+                                <input [disabled]="!opportunity_edit_mode" type="number" name="opportunityPredictionScore" id="opportunityPredictionScore" placeholder="Enter prediction score" [(ngModel)]="prediction_score" min="1" max="100">
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityStatus">Status<span class="red">*</span></label>
@@ -311,6 +320,17 @@
                                     <option value="5">Closed-Won</option>
                                     <option value="6">Closed-Lost</option>
                                 </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="opportunityContact">Contact<span class="red">*</span></label>
+                                <select [disabled]="!opportunity_edit_mode" name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id">
+                                    <option value="" disabled selected>--Select Contact--</option>
+                                    <option *ngFor="let contact of CONTACT" value="{{contact.contact_id}}">{{contact.title}} {{contact.first_name}} {{contact.last_name}}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="opportunityClosingDate">Closing Date</label>
+                                <input [disabled]="!opportunity_edit_mode" type="date" name="opportunityClosingDate" id="opportunityClosingDate" [(ngModel)]="closing_date">
                             </fieldset>
                         </div>
                         <div class="opportunity-action-form-sidebar-nav" [style.display]="opportunity_edit_mode == false ? 'none' : 'flex'">
