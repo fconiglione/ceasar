@@ -181,7 +181,7 @@
                     <p>Enter the information for your newly generated lead.</p>
                 </div>
                 <div class="lead-action-info">
-                    <form class="lead-action-form">
+                    <form class="lead-action-form" (ngSubmit)="createLead()" #leadForm="ngForm">
                         <div class="lead-action-form-content">
                             <fieldset>
                                 <label for="leadOwner">Lead owner<span class="red">*</span></label>
@@ -209,19 +209,34 @@
                             </fieldset>
                             <fieldset>
                                 <label for="leadFirstName">First name<span class="red">*</span></label>
-                                <input type="text" id="leadFirstName" name="leadFirstName" placeholder="Enter first name" maxlength="50" [(ngModel)]="first_name" required>
+                                <input type="text" id="leadFirstName" name="leadFirstName" placeholder="Enter first name" maxlength="50" [(ngModel)]="first_name" required #firstName="ngModel">
+                                <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert">
+                                    <div *ngIf="firstName.errors && firstName.errors['required']">
+                                        First name is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="leadLastName">Last name<span class="red">*</span></label>
-                                <input type="text" id="leadLastName" name="leadLastName" placeholder="Enter last name" maxlength="50" [(ngModel)]="last_name" required>
+                                <input type="text" id="leadLastName" name="leadLastName" placeholder="Enter last name" maxlength="50" [(ngModel)]="last_name" required #lastName="ngModel">
+                                <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert">
+                                    <div *ngIf="lastName.errors && lastName.errors['required']">
+                                        Last name is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="leadCompany">Company<span class="red">*</span></label>
-                                <input type="text" id="leadCompany" name="leadCompany" placeholder="Enter company name" maxlength="50" [(ngModel)]="company" required>
+                                <input type="text" id="leadCompany" name="leadCompany" placeholder="Enter company name" maxlength="50" [(ngModel)]="company" required #leadCompany="ngModel">
+                                <div *ngIf="leadCompany.invalid && (leadCompany.dirty || leadCompany.touched)" class="alert">
+                                    <div *ngIf="leadCompany.errors && leadCompany.errors['required']">
+                                        Company is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="leadStatus">Status<span class="red">*</span></label>
-                                <select name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id" required>
+                                <select name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id" required #leadStatus="ngModel">
                                     <option value="" disabled selected>--Select Status--</option>
                                     <option value="1">New</option>
                                     <option value="2">Contacted</option>
@@ -229,6 +244,11 @@
                                     <option value="4">Closed-Won</option>
                                     <option value="5">Closed-Lost</option>
                                 </select>
+                                <div *ngIf="leadStatus.invalid && (leadStatus.dirty || leadStatus.touched)" class="alert">
+                                    <div *ngIf="leadStatus.errors && leadStatus.errors['required']">
+                                        Status is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="leadPhone">Phone</label>
@@ -241,7 +261,7 @@
                         </div>
                         <div class="lead-action-form-nav">
                             <button class="close-lead-action-btn-2" (click)="leads_action_container = false">Cancel</button>
-                            <button class="save-lead-action-btn" (click)="createLead()">Save</button>
+                            <button class="save-lead-action-btn" [disabled]="leadForm.invalid" type="submit">Save</button>
                         </div>
                     </form>
                 </div>
