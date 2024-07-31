@@ -801,6 +801,7 @@
   height: 45px;
   width: 100%;
   cursor: pointer;
+  box-sizing: border-box;
 }
 .opportunity-action-status-menu-form-content fieldset select:focus {
   outline: none;
@@ -813,6 +814,7 @@
   font-size: 0.9em;
   width: 100%;
   cursor: pointer;
+  box-sizing: border-box;
 }
 .opportunity-action-status-menu-form-content fieldset input:focus {
   outline: none;

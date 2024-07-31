@@ -781,6 +781,7 @@
   height: 45px;
   width: 100%;
   cursor: pointer;
+  box-sizing: border-box;
 }
 .lead-action-status-menu-form-content fieldset select:focus {
   outline: none;

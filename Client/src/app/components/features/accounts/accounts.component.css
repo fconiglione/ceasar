@@ -764,6 +764,7 @@
   font-size: 0.9em;
   height: 45px;
   width: 100%;
+  box-sizing: border-box;
   cursor: pointer;
 }
 .account-action-type-menu-form-content fieldset select:focus {
