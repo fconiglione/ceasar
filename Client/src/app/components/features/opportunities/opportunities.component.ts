@@ -524,7 +524,7 @@ export class OpportunitiesComponent {
         return { 'prediction-score': true, 'good': true };
     } else if (prediction_score >= 25) {
         return { 'prediction-score': true, 'average': true };
-    } else if (prediction_score >= 0) {
+    } else if (prediction_score > 0) {
         return { 'prediction-score': true, 'poor': true };
     } else {
         return { 'prediction-score': true, 'not-provided': true };

@@ -47,9 +47,9 @@ class Opportunities {
         }
     }
 
-    async updateOpportunity (opportunity_id, title, value, account_id, description, opportunity_status_id) {
-        const query = `UPDATE ceasar.opportunities SET title = $2, value = $3, account_id = $4, description = $5, opportunity_status_id = $6 WHERE opportunity_id = $1`;
-        const values = [opportunity_id, title, value, account_id, description, opportunity_status_id];
+    async updateOpportunity (opportunity_id, title, value, prediction_score, contact_id, account_id, closing_date, opportunity_status_id, updated_at) {
+        const query = `UPDATE ceasar.opportunities SET title = $2, value = $3, prediction_score = $4, contact_id = $5, account_id = $6, closing_date = $7, opportunity_status_id = $8, updated_at = $9 WHERE opportunity_id = $1`;
+        const values = [opportunity_id, title, value, prediction_score, contact_id, account_id, closing_date, opportunity_status_id, updated_at];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;

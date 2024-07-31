@@ -116,13 +116,13 @@
                         </div>
                         <div>
                             <fa-icon [icon]="faCalendarDay"></fa-icon>
-                            <span *ngIf="opportunity.close_date">{{opportunity.closing_date | date: 'longDate' || 'Not provided'}}</span>
-                            <span *ngIf="!opportunity.close_date">Not provided</span>
+                            <span *ngIf="opportunity.closing_date">{{opportunity.closing_date | date: 'longDate'}}</span>
+                            <span *ngIf="!opportunity.closing_date">Not provided</span>
                         </div>  
                     </div>
                     <div class="opportunity-card-footer">
                         <div>
-                            <span (click)="openOpportunityPredictionScoreMenu(opportunity)" [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score}}</span>
+                            <span (click)="openOpportunityPredictionScoreMenu(opportunity)" [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score || 'N/A'}}</span>
                             <span (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</span>
                         </div>
                         <div>
@@ -159,12 +159,12 @@
                         <td class="name-td" (click)="openOpportunitiesActionSidebar(opportunity)">{{opportunity.title}}</td>
                         <td>${{opportunity.value || '-'}}</td>
                         <td>
-                            <span ng-if="opportunity.closing_date">{{opportunity.closing_date | date: 'longDate'}}</span>
-                            <span ng-if="!opportunity.closing_date">Not provided</span>
+                            <span *ngIf="opportunity.closing_date">{{opportunity.closing_date | date: 'longDate'}}</span>
+                            <span *ngIf="!opportunity.closing_date">Not provided</span>
                         </td>
                         <td>{{getAccountNameById(opportunity.account_id)}}</td>
                         <td>{{getContactNameById(opportunity.contact_id)}}</td>
-                        <td class="prediction-td" (click)="openOpportunityPredictionScoreMenu(opportunity)" [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score || '-'}}</td>
+                        <td class="prediction-td" (click)="openOpportunityPredictionScoreMenu(opportunity)" [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score || 'N/A'}}</td>
                         <td (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</td>
                         <td class="more-opportunity-btn">
                             <fa-icon [icon]="faArrowRightToBracket" (click)="openOpportunitiesActionSidebar(opportunity)"></fa-icon>

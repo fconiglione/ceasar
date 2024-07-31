@@ -203,10 +203,10 @@ router.delete('/opportunities/:opportunity_id', async (req, res) => {
 });
 
 router.put('/opportunities/update', async (req, res) => {
-    const { opportunity_id, title, value, account_id, description, opportunity_status_id } = req.body.opportunity;
+    const { opportunity_id, title, value, prediction_score, contact_id, account_id, closing_date, opportunity_status_id, updated_at } = req.body.opportunity;
     const opportunities = new Opportunities();
     try {
-        const result = await opportunities.updateOpportunity(opportunity_id, title, value, account_id, description, opportunity_status_id);
+        const result = await opportunities.updateOpportunity(opportunity_id, title, value, prediction_score, contact_id, account_id, closing_date, opportunity_status_id, updated_at);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error updating opportunity:", error);
