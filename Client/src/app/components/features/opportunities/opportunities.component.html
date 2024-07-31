@@ -122,7 +122,7 @@
                     </div>
                     <div class="opportunity-card-footer">
                         <div>
-                            <span [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score}}</span>
+                            <span (click)="openOpportunityPredictionScoreMenu(opportunity)" [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score}}</span>
                             <span (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</span>
                         </div>
                         <div>
@@ -164,7 +164,7 @@
                         </td>
                         <td>{{getAccountNameById(opportunity.account_id)}}</td>
                         <td>{{getContactNameById(opportunity.contact_id)}}</td>
-                        <td class="prediction-td" [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score || '-'}}</td>
+                        <td class="prediction-td" (click)="openOpportunityPredictionScoreMenu(opportunity)" [ngClass]="getPredictionScoreClasses(opportunity.prediction_score)">{{opportunity.prediction_score || '-'}}</td>
                         <td (click)="openOpportunityStatusMenu(opportunity)" [ngClass]="getOpportunityStatusClasses(opportunity.opportunity_status_id)">{{getOpportunityStatus(opportunity.opportunity_status_id)}}</td>
                         <td class="more-opportunity-btn">
                             <fa-icon [icon]="faArrowRightToBracket" (click)="openOpportunitiesActionSidebar(opportunity)"></fa-icon>
@@ -363,6 +363,36 @@
                     <div class="opportunity-action-status-menu-form-nav">
                         <button class="close-opportunity-action-btn-2" (click)="onReset()">Cancel</button>
                         <button class="save-opportunity-action-btn" (click)="updateOpportunityStatus(opportunity_status_id)">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="opportunities-action-status-menu" *ngIf="opportunity_action_status_menu_2">
+    <div class="opportunities-action-status-menu-container">
+        <div class="opportunities-action-status-menu-content">
+            <div class="opportunities-action-status-menu-row opportunities-action-status-menu-header">
+                <div>
+                    <h1>Change prediction score</h1>
+                </div>
+                <div>
+                    <button class="close-opportunity-action-btn-1" (click)="opportunity_action_status_menu_2 = false">
+                        <fa-icon [icon]="faXmark"></fa-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="opportunities-action-status-menu-row">
+                <form class="opportunity-action-status-menu-form">
+                    <div class="opportunity-action-status-menu-form-content">
+                        <fieldset>
+                            <label for="opportunityStatus">Value</label>
+                            <input type="number" name="opportunityPredictionScore" id="opportunityPredictionScore" placeholder="Enter prediction score" [(ngModel)]="prediction_score" min="1" max="100">
+                        </fieldset>
+                    </div>
+                    <div class="opportunity-action-status-menu-form-nav">
+                        <button class="close-opportunity-action-btn-2" (click)="onReset()">Cancel</button>
+                        <button class="save-opportunity-action-btn" (click)="updateOpportunityPredictionScore(prediction_score)">Save</button>
                     </div>
                 </form>
             </div>

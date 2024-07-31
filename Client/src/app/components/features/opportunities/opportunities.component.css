@@ -806,6 +806,18 @@
   outline: none;
   border-color: #FF9e67;
 }
+.opportunity-action-status-menu-form-content fieldset input {
+  border: 1px solid #eeeeee;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 0.9em;
+  width: 100%;
+  cursor: pointer;
+}
+.opportunity-action-status-menu-form-content fieldset input:focus {
+  outline: none;
+  border-color: #FF9e67;
+}
 .opportunity-action-status-menu-form-content fieldset label {
   font-size: 0.9em;
   color: #777777;

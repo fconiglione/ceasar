@@ -66,6 +66,7 @@ export class OpportunitiesComponent {
   list_view: boolean = false;
   sort_by_dropdown: boolean = false;
   opportunity_action_status_menu: boolean = false;
+  opportunity_action_status_menu_2: boolean = false;
 
   // Other variables
   opportunity_status: string | undefined;
@@ -336,6 +337,41 @@ export class OpportunitiesComponent {
     });
   }
 
+  openOpportunityPredictionScoreMenu(opportunity: any): void {
+    this.opportunity_id = opportunity.opportunity_id;
+    this.title = opportunity.title;
+    this.account_id = opportunity.account_id;
+    this.contact_id = opportunity.contact_id;
+    this.closing_date = opportunity.closing_date;
+    this.value = opportunity.value;
+    this.prediction_score = opportunity.prediction_score;
+    this.created_at = opportunity.created_at;
+    this.updated_at = opportunity.updated_at;
+    this.opportunity_status_id = opportunity.opportunity_status_id;
+    this.opportunity_action_status_menu_2 = true;
+  }
+
+  updateOpportunityPredictionScore(prediction_score: any): void {
+    let updatedOpportunity = {
+      opportunity_id: this.opportunity_id,
+      title: this.title,
+      account_id: this.account_id,
+      contact_id: this.contact_id,
+      closing_date: this.closing_date,
+      value: this.value,
+      prediction_score: prediction_score,
+      opportunity_status_id: this.opportunity_status_id,
+      updated_at: new Date().toISOString(),
+      workspace_id: this.currentWorkspaceId
+    };
+
+    this.opportunityService.updateOpportunity(updatedOpportunity).subscribe(response => {
+      console.log(response);
+      this.getOpportunities();
+      this.onReset();
+    });
+  }
+
   sortOpportunities(sortFactor: any): void {
     if (sortFactor === 'title') {
       this.filteredOpportunities.sort((a: any, b: any) => {
@@ -512,6 +548,7 @@ export class OpportunitiesComponent {
     this.opportunities_action_container = false
     this.opportunity_edit_mode = false;
     this.opportunity_action_status_menu = false;
+    this.opportunity_action_status_menu_2 = false;
     this.more_info_dropdown = false;
     this.filterOpportunityStatus(0);
     this.getOpportunities();
