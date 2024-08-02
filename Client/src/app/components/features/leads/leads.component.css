@@ -529,7 +529,7 @@
   border-radius: 4px;
   padding: 10px;
   font-size: 0.9em;
-  height: 100%;
+  height: 39px;
   cursor: pointer;
 }
 .lead-action-sidebar-form-content fieldset select:focus {

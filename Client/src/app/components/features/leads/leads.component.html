@@ -290,7 +290,7 @@
                     </div>
                 </div>
                 <div class="lead-action-sidebar-row">
-                    <form class="lead-action-sidebar-form">
+                    <form class="lead-action-sidebar-form" (ngSubmit)="updateLead()" #leadActionForm="ngForm">
                         <div class="lead-action-sidebar-form-content">
                             <fieldset>
                                 <label for="leadOwner">Lead owner<span class="red">*</span></label>
@@ -318,19 +318,34 @@
                             </fieldset>
                             <fieldset>
                                 <label for="leadFirstName">First name<span class="red">*</span></label>
-                                <input [disabled]="!lead_edit_mode" type="text" id="leadFirstName" name="leadFirstName" [placeholder]="lead_edit_mode ? 'Enter first name' : ''" maxlength="50" [(ngModel)]="first_name">
+                                <input [disabled]="!lead_edit_mode" type="text" id="leadFirstName" name="leadFirstName" [placeholder]="lead_edit_mode ? 'Enter first name' : ''" maxlength="50" [(ngModel)]="first_name" #firstName="ngModel" required>
+                                <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert">
+                                    <div *ngIf="firstName.errors && firstName.errors['required']">
+                                        First name is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="leadLastName">Last name<span class="red">*</span></label>
-                                <input [disabled]="!lead_edit_mode" type="text" id="leadLastName" name="leadLastName" [placeholder]="lead_edit_mode ? 'Enter last name' : ''" maxlength="50" [(ngModel)]="last_name">
+                                <input [disabled]="!lead_edit_mode" type="text" id="leadLastName" name="leadLastName" [placeholder]="lead_edit_mode ? 'Enter last name' : ''" maxlength="50" [(ngModel)]="last_name" required #lastName="ngModel">
+                                <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert">
+                                    <div *ngIf="lastName.errors && lastName.errors['required']">
+                                        Last name is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="leadCompany">Company<span class="red">*</span></label>
-                                <input [disabled]="!lead_edit_mode" type="text" id="leadCompany" name="leadCompany" [placeholder]="lead_edit_mode ? 'Enter company name' : ''" maxlength="50" [(ngModel)]="company">
+                                <input [disabled]="!lead_edit_mode" type="text" id="leadCompany" name="leadCompany" [placeholder]="lead_edit_mode ? 'Enter company name' : ''" maxlength="50" [(ngModel)]="company" required #leadCompany="ngModel">
+                                <div *ngIf="leadCompany.invalid && (leadCompany.dirty || leadCompany.touched)" class="alert">
+                                    <div *ngIf="leadCompany.errors && leadCompany.errors['required']">
+                                        Company is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="leadStatus">Status<span class="red">*</span></label>
-                                <select [disabled]="!lead_edit_mode" name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id">
+                                <select [disabled]="!lead_edit_mode" name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id" required #leadStatus="ngModel">
                                     <option value="" disabled selected>--Select Status--</option>
                                     <option value="1">New</option>
                                     <option value="2">Contacted</option>
@@ -338,6 +353,11 @@
                                     <option value="4">Closed-Won</option>
                                     <option value="5">Closed-Lost</option>
                                 </select>
+                                <div *ngIf="leadStatus.invalid && (leadStatus.dirty || leadStatus.touched)" class="alert">
+                                    <div *ngIf="leadStatus.errors && leadStatus.errors['required']">
+                                        Status is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="leadPhone">Phone</label>
@@ -356,7 +376,7 @@
                             </div>
                             <div>
                                 <button class="close-lead-action-btn-2" (click)="onReset()">Cancel</button>
-                                <button class="save-lead-action-btn" (click)="updateLead()">Save</button>
+                                <button type="submit" class="save-lead-action-btn" [disabled]="leadActionForm.invalid">Save</button>
                             </div>
                         </div>
                     </form>
