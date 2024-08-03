@@ -400,11 +400,11 @@
                 </div>
             </div>
             <div class="lead-action-status-menu-row">
-                <form class="lead-action-status-menu-form">
+                <form class="lead-action-status-menu-form" (ngSubmit)="updateLeadStatus(lead_status_id)" #leadActionForm="ngForm">
                     <div class="lead-action-status-menu-form-content">
                         <fieldset>
                             <label for="leadStatus">Status<span class="red">*</span></label>
-                            <select name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id">
+                            <select name="leadStatus" id="leadStatus" [(ngModel)]="lead_status_id" required #leadStatus="ngModel">
                                 <option value="" disabled selected>--Select Status--</option>
                                 <option value="1">New</option>
                                 <option value="2">Contacted</option>
@@ -412,6 +412,11 @@
                                 <option value="4">Closed-Won</option>
                                 <option value="5">Closed-Lost</option>
                             </select>
+                            <div *ngIf="leadStatus.invalid && (leadStatus.dirty || leadStatus.touched)" class="alert">
+                                <div *ngIf="leadStatus.errors && leadStatus.errors['required']">
+                                    Status is required.
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="lead-action-status-menu-form-nav">
