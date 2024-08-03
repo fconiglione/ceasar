@@ -791,3 +791,11 @@
 .account-action-sidebar-form #accountPhoto {
   width: 270px;
 }
+
+/* Form alerts */
+
+form .alert {
+  color: #d90429;
+  font-size: 0.7em;
+  margin-top: 2px;
+}

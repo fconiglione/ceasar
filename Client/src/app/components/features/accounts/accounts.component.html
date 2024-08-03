@@ -165,7 +165,7 @@
                     <p>Enter the information for your new account.</p>
                 </div>
                 <div class="account-action-info">
-                    <form class="account-action-form">
+                    <form class="account-action-form" (ngSubmit)="createAccount()" #accountForm="ngForm">
                         <div class="account-action-form-content">
                             <fieldset>
                                 <label for="accountOwner">Account owner<span class="red">*</span></label>
@@ -183,7 +183,12 @@
                             </fieldset>
                             <fieldset>
                                 <label for="accountName">Account name<span class="red">*</span></label>
-                                <input type="text" id="accountName" name="accountName" placeholder="Enter account name" maxlength="50" [(ngModel)]="name" required>
+                                <input type="text" id="accountName" name="accountName" placeholder="Enter account name" maxlength="50" [(ngModel)]="name" required #accountName="ngModel">
+                                <div *ngIf="accountName.invalid && (accountName.dirty || accountName.touched)" class="alert">
+                                    <div *ngIf="accountName.errors && accountName.errors['required']">
+                                        Account name is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="accountDivision">Division</label>
@@ -191,11 +196,16 @@
                             </fieldset>
                             <fieldset>
                                 <label for="accountType">Type<span class="red">*</span></label>
-                                <select name="accountType" id="accountType" [(ngModel)]="account_type_id" required>
+                                <select name="accountType" id="accountType" [(ngModel)]="account_type_id" required #accountType="ngModel">
                                     <option value="" disabled selected>--Select Type--</option>
                                     <option value="1">Customer</option>
                                     <option value="2">Prospect</option>
                                 </select>
+                                <div *ngIf="accountType.invalid && (accountType.dirty || accountType.touched)" class="alert">
+                                    <div *ngIf="accountType.errors && accountType.errors['required']">
+                                        Account type is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="accountPhone">Phone</label>
@@ -208,7 +218,7 @@
                         </div>
                         <div class="account-action-form-nav">
                             <button class="close-account-action-btn-2" (click)="accounts_action_container = false">Cancel</button>
-                            <button class="save-account-action-btn" (click)="createAccount()">Save</button>
+                            <button class="save-account-action-btn" type="submit" [disabled]="accountForm.invalid">Save</button>
                         </div>
                     </form>
                 </div>
@@ -237,7 +247,7 @@
                     </div>
                 </div>
                 <div class="account-action-sidebar-row">
-                    <form class="account-action-sidebar-form">
+                    <form class="account-action-sidebar-form" (ngSubmit)="updateAccount()" #accountActionForm="ngForm">
                         <div class="account-action-sidebar-form-content">
                             <fieldset>
                                 <label for="accountOwner">Account owner<span class="red">*</span></label>
@@ -255,7 +265,12 @@
                             </fieldset>
                             <fieldset>
                                 <label for="accountName">Account name<span class="red">*</span></label>
-                                <input [disabled]="!account_edit_mode" type="text" id="accountName" name="accountName" [placeholder]="account_edit_mode ? 'Enter account name' : ''" maxlength="50" [(ngModel)]="name">
+                                <input [disabled]="!account_edit_mode" type="text" id="accountName" name="accountName" [placeholder]="account_edit_mode ? 'Enter account name' : ''" maxlength="50" [(ngModel)]="name" required #accountName="ngModel">
+                                <div *ngIf="accountName.invalid && (accountName.dirty || accountName.touched)" class="alert">
+                                    <div *ngIf="accountName.errors && accountName.errors['required']">
+                                        Account name is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="accountDivision">Division</label>
@@ -263,11 +278,16 @@
                             </fieldset>
                             <fieldset>
                                 <label for="accountType">Type<span class="red">*</span></label>
-                                <select [disabled]="!account_edit_mode" name="accountType" id="accountType" [(ngModel)]="account_type_id">
+                                <select [disabled]="!account_edit_mode" name="accountType" id="accountType" [(ngModel)]="account_type_id" required #accountType="ngModel">
                                     <option value="" disabled selected>--Select Type--</option>
                                     <option value="1">Customer</option>
                                     <option value="2">Prospect</option>
                                 </select>
+                                <div *ngIf="accountType.invalid && (accountType.dirty || accountType.touched)" class="alert">
+                                    <div *ngIf="accountType.errors && accountType.errors['required']">
+                                        Account type is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="accountPhone">Phone</label>
@@ -286,7 +306,7 @@
                             </div>
                             <div>
                                 <button class="close-account-action-btn-2" (click)="onReset()">Cancel</button>
-                                <button class="save-account-action-btn" (click)="updateAccount()">Save</button>
+                                <button class="save-account-action-btn" type="submit" [disabled]="accountActionForm.invalid">Save</button>
                             </div>
                         </div>
                     </form>
@@ -310,20 +330,25 @@
                 </div>
             </div>
             <div class="account-action-type-menu-row">
-                <form class="account-action-type-menu-form">
+                <form class="account-action-type-menu-form" (ngSubmit)="updateAccountType(account_type_id)" #accountStatusForm="ngForm">
                     <div class="account-action-type-menu-form-content">
                         <fieldset>
                             <label for="accountType">Type<span class="red">*</span></label>
-                            <select name="accountType" id="accountType" [(ngModel)]="account_type_id">
+                            <select name="accountType" id="accountType" [(ngModel)]="account_type_id" required #accountType="ngModel">
                                 <option value="" disabled selected>--Select Type--</option>
                                 <option value="1">Customer</option>
                                 <option value="2">Prospect</option>
                             </select>
+                            <div *ngIf="accountType.invalid && (accountType.dirty || accountType.touched)" class="alert">
+                                <div *ngIf="accountType.errors && accountType.errors['required']">
+                                    Account type is required.
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="account-action-type-menu-form-nav">
                         <button class="close-account-action-btn-2" (click)="onReset()">Cancel</button>
-                        <button class="save-account-action-btn" (click)="updateAccountType(account_type_id)">Save</button>
+                        <button class="save-account-action-btn" (click)="updateAccountType(account_type_id)" [disabled]="accountStatusForm.invalid">Save</button>
                     </div>
                 </form>
             </div>

@@ -273,7 +273,7 @@
                         </div>
                         <div class="opportunity-action-form-nav">
                             <button class="close-opportunity-action-btn-2" (click)="opportunities_action_container = false">Cancel</button>
-                            <button class="save-opportunity-action-btn" type="submit">Save</button>
+                            <button class="save-opportunity-action-btn" type="submit" [disabled]="opportunityForm.invalid">Save</button>
                         </div>
                     </form>
                 </div>
@@ -381,7 +381,7 @@
                             </div>
                             <div>
                                 <button class="close-opportunity-action-btn-2" (click)="onReset()">Cancel</button>
-                                <button class="save-opportunity-action-btn" type="submit">Save</button>
+                                <button class="save-opportunity-action-btn" type="submit" [disabled]="opportunityActionForm.invalid">Save</button>
                             </div>
                         </div>
                     </form>
@@ -405,7 +405,7 @@
                 </div>
             </div>
             <div class="opportunities-action-status-menu-row">
-                <form class="opportunity-action-status-menu-form" (ngSubmit)="updateOpportunityStatus(opportunity_status_id)" #opportunityActionForm="ngForm">
+                <form class="opportunity-action-status-menu-form" (ngSubmit)="updateOpportunityStatus(opportunity_status_id)" #opportunityStatusActionForm="ngForm">
                     <div class="opportunity-action-status-menu-form-content">
                         <fieldset>
                             <label for="opportunityStatus">Status<span class="red">*</span></label>
@@ -427,7 +427,7 @@
                     </div>
                     <div class="opportunity-action-status-menu-form-nav">
                         <button class="close-opportunity-action-btn-2" (click)="onReset()">Cancel</button>
-                        <button class="save-opportunity-action-btn" type="submit">Save</button>
+                        <button class="save-opportunity-action-btn" type="submit" [disabled]="opportunityStatusActionForm.invalid">Save</button>
                     </div>
                 </form>
             </div>

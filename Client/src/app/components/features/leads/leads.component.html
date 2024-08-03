@@ -400,7 +400,7 @@
                 </div>
             </div>
             <div class="lead-action-status-menu-row">
-                <form class="lead-action-status-menu-form" (ngSubmit)="updateLeadStatus(lead_status_id)" #leadActionForm="ngForm">
+                <form class="lead-action-status-menu-form" (ngSubmit)="updateLeadStatus(lead_status_id)" #leadStatusActionForm="ngForm">
                     <div class="lead-action-status-menu-form-content">
                         <fieldset>
                             <label for="leadStatus">Status<span class="red">*</span></label>
@@ -421,7 +421,7 @@
                     </div>
                     <div class="lead-action-status-menu-form-nav">
                         <button class="close-lead-action-btn-2" (click)="onReset()">Cancel</button>
-                        <button class="save-lead-action-btn" (click)="updateLeadStatus(lead_status_id)">Save</button>
+                        <button class="save-lead-action-btn" (click)="updateLeadStatus(lead_status_id)" [disabled]="leadStatusActionForm.invalid">Save</button>
                     </div>
                 </form>
             </div>
