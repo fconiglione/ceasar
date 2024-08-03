@@ -252,7 +252,7 @@
                             </fieldset>
                             <fieldset>
                                 <label for="leadPhone">Phone</label>
-                                <input type="tel" id="leadPhone" name="leadPhone" placeholder="Enter phone number" maxlength="50" [(ngModel)]="phone_number">
+                                <input type="tel" id="leadPhone" name="leadPhone" placeholder="Enter phone number" maxlength="14" [(ngModel)]="phone_number" (input)="onPhoneNumberChange($event)">
                             </fieldset>
                             <fieldset>
                                 <label for="leadEmail">Email</label>
@@ -361,7 +361,7 @@
                             </fieldset>
                             <fieldset>
                                 <label for="leadPhone">Phone</label>
-                                <input [disabled]="!lead_edit_mode" type="tel" id="leadPhone" name="leadPhone" [placeholder]="lead_edit_mode ? 'Enter phone number' : ''" maxlength="50" [(ngModel)]="phone_number">
+                                <input [disabled]="!lead_edit_mode" type="tel" id="leadPhone" name="leadPhone" [placeholder]="lead_edit_mode ? 'Enter phone number' : ''" maxlength="14" [(ngModel)]="phone_number" (input)="onPhoneNumberChange($event)">
                             </fieldset>
                             <fieldset>
                                 <label for="leadEmail">Email</label>

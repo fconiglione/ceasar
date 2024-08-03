@@ -451,6 +451,30 @@ export class LeadsComponent {
     }
   }
 
+  // Phone number formatting
+  onPhoneNumberChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const numericValue = input.value.replace(/\D/g, '');
+    
+    this.phone_number = numericValue;
+    this.formatPhoneNumber();
+    input.value = this.phone_number;
+  }
+
+  formatPhoneNumber(): void {
+    if (this.phone_number) {
+      let formatted = this.phone_number;
+      if (formatted.length > 6) {
+        formatted = `(${formatted.slice(0, 3)}) ${formatted.slice(3, 6)}-${formatted.slice(6, 10)}`;
+      } else if (formatted.length > 3) {
+        formatted = `(${formatted.slice(0, 3)}) ${formatted.slice(3)}`;
+      } else {
+        formatted = formatted.slice(0, 3);
+      }
+      this.phone_number = formatted;
+    }
+  }
+
   onReset(): void {
     // Reset the new lead form
     this.title = '';
