@@ -200,7 +200,7 @@
                     <p>Enter the information for your newly generated opportunity.</p>
                 </div>
                 <div class="opportunity-action-info">
-                    <form class="opportunity-action-form">
+                    <form class="opportunity-action-form" (ngSubmit)="createOpportunity()" #opportunityForm="ngForm">
                         <div class="opportunity-action-form-content">
                             <fieldset>
                                 <label for="opportunityOwner">Opportunity owner<span class="red">*</span></label>
@@ -210,14 +210,24 @@
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityAccount">Account<span class="red">*</span></label>
-                                <select name="opportunityAccount" id="opportunityAccount" [(ngModel)]="account_id" required>
+                                <select name="opportunityAccount" id="opportunityAccount" [(ngModel)]="account_id" required #opportunityAccount="ngModel">
                                     <option value="" disabled selected>--Select Account--</option>
                                     <option *ngFor="let account of ACCOUNT" value="{{account.account_id}}">{{account.name}}</option>
                                 </select>
+                                <div *ngIf="opportunityAccount.invalid && (opportunityAccount.dirty || opportunityAccount.touched)" class="alert">
+                                    <div *ngIf="opportunityAccount.errors && opportunityAccount.errors['required']">
+                                        Account is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityTitle">Title<span class="red">*</span></label>
-                                <input type="text" name="opportunityTitle" id="opportunityTitle" placeholder="Enter opportunity title" [(ngModel)]="title" required>
+                                <input type="text" name="opportunityTitle" id="opportunityTitle" placeholder="Enter opportunity title" [(ngModel)]="title" required #opportunityTitle="ngModel">
+                                <div *ngIf="opportunityTitle.invalid && (opportunityTitle.dirty || opportunityTitle.touched)" class="alert">
+                                    <div *ngIf="opportunityTitle.errors && opportunityTitle.errors['required']">
+                                        Title is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityValue">Value</label>
@@ -229,7 +239,7 @@
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityStatus">Status<span class="red">*</span></label>
-                                <select name="opportunityStatus" id="opportunityStatus" [(ngModel)]="opportunity_status_id" required>
+                                <select name="opportunityStatus" id="opportunityStatus" [(ngModel)]="opportunity_status_id" required #opportunityStatus="ngModel">
                                     <option value="" disabled selected>--Select Status--</option>
                                     <option value="1">New</option>
                                     <option value="2">Talking</option>
@@ -238,13 +248,23 @@
                                     <option value="5">Closed-Won</option>
                                     <option value="6">Closed-Lost</option>
                                 </select>
+                                <div *ngIf="opportunityStatus.invalid && (opportunityStatus.dirty || opportunityStatus.touched)" class="alert">
+                                    <div *ngIf="opportunityStatus.errors && opportunityStatus.errors['required']">
+                                        Status is required.
+                                    </div>
+                                </div>
                             </fieldset> 
                             <fieldset>
                                 <label for="opportunityContact">Contact<span class="red">*</span></label>
-                                <select name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id">
+                                <select name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id" required #opportunityContact="ngModel">
                                     <option value="" disabled selected>--Select Contact--</option>
                                     <option *ngFor="let contact of CONTACT" value="{{contact.contact_id}}">{{contact.title}} {{contact.first_name}} {{contact.last_name}}</option>
                                 </select>
+                                <div *ngIf="opportunityContact.invalid && (opportunityContact.dirty || opportunityContact.touched)" class="alert">
+                                    <div *ngIf="opportunityContact.errors && opportunityContact.errors['required']">
+                                        Contact is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityClosingDate">Closing Date</label>
@@ -253,7 +273,7 @@
                         </div>
                         <div class="opportunity-action-form-nav">
                             <button class="close-opportunity-action-btn-2" (click)="opportunities_action_container = false">Cancel</button>
-                            <button class="save-opportunity-action-btn" (click)="createOpportunity()">Save</button>
+                            <button class="save-opportunity-action-btn" type="submit">Save</button>
                         </div>
                     </form>
                 </div>
@@ -282,7 +302,7 @@
                     </div>
                 </div>
                 <div class="opportunities-action-sidebar-row">
-                    <form class="opportunity-action-sidebar-form">
+                    <form class="opportunity-action-sidebar-form" (ngSubmit)="updateOpportunity()" #opportunityActionForm="ngForm">
                         <div class="opportunity-action-sidebar-form-content">
                             <fieldset>
                                 <label for="opportunityOwner">Opportunity owner<span class="red">*</span></label>
@@ -292,14 +312,24 @@
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityAccount">Account<span class="red">*</span></label>
-                                <select [disabled]="!opportunity_edit_mode" name="opportunityAccount" id="opportunityAccount" [(ngModel)]="account_id">
+                                <select [disabled]="!opportunity_edit_mode" name="opportunityAccount" id="opportunityAccount" [(ngModel)]="account_id" required #opportunityAccount="ngModel">
                                     <option value="" disabled selected>--Select Account--</option>
                                     <option *ngFor="let account of ACCOUNT" value="{{account.account_id}}">{{account.name}}</option>
                                 </select>
+                                <div *ngIf="opportunityAccount.invalid && (opportunityAccount.dirty || opportunityAccount.touched)" class="alert">
+                                    <div *ngIf="opportunityAccount.errors && opportunityAccount.errors['required']">
+                                        Account is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityTitle">Title<span class="red">*</span></label>
-                                <input [disabled]="!opportunity_edit_mode" type="text" name="opportunityTitle" id="opportunityTitle" placeholder="Enter opportunity title" [(ngModel)]="title">
+                                <input [disabled]="!opportunity_edit_mode" type="text" name="opportunityTitle" id="opportunityTitle" placeholder="Enter opportunity title" [(ngModel)]="title" required #opportunityTitle="ngModel">
+                                <div *ngIf="opportunityTitle.invalid && (opportunityTitle.dirty || opportunityTitle.touched)" class="alert">
+                                    <div *ngIf="opportunityTitle.errors && opportunityTitle.errors['required']">
+                                        Title is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityValue">Value</label>
@@ -311,7 +341,7 @@
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityStatus">Status<span class="red">*</span></label>
-                                <select [disabled]="!opportunity_edit_mode" name="opportunityStatus" id="opportunityStatus" [(ngModel)]="opportunity_status_id">
+                                <select [disabled]="!opportunity_edit_mode" name="opportunityStatus" id="opportunityStatus" [(ngModel)]="opportunity_status_id" required #opportunityStatus="ngModel">
                                     <option value="" disabled selected>--Select Status--</option>
                                     <option value="1">New</option>
                                     <option value="2">Talking</option>
@@ -320,13 +350,23 @@
                                     <option value="5">Closed-Won</option>
                                     <option value="6">Closed-Lost</option>
                                 </select>
+                                <div *ngIf="opportunityStatus.invalid && (opportunityStatus.dirty || opportunityStatus.touched)" class="alert">
+                                    <div *ngIf="opportunityStatus.errors && opportunityStatus.errors['required']">
+                                        Status is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityContact">Contact<span class="red">*</span></label>
-                                <select [disabled]="!opportunity_edit_mode" name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id">
+                                <select [disabled]="!opportunity_edit_mode" name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id" required #opportunityContact="ngModel">
                                     <option value="" disabled selected>--Select Contact--</option>
                                     <option *ngFor="let contact of CONTACT" value="{{contact.contact_id}}">{{contact.title}} {{contact.first_name}} {{contact.last_name}}</option>
                                 </select>
+                                <div *ngIf="opportunityContact.invalid && (opportunityContact.dirty || opportunityContact.touched)" class="alert">
+                                    <div *ngIf="opportunityContact.errors && opportunityContact.errors['required']">
+                                        Contact is required.
+                                    </div>
+                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityClosingDate">Closing Date</label>
@@ -341,7 +381,7 @@
                             </div>
                             <div>
                                 <button class="close-opportunity-action-btn-2" (click)="onReset()">Cancel</button>
-                                <button class="save-opportunity-action-btn" (click)="updateOpportunity()">Save</button>
+                                <button class="save-opportunity-action-btn" type="submit">Save</button>
                             </div>
                         </div>
                     </form>
@@ -365,11 +405,11 @@
                 </div>
             </div>
             <div class="opportunities-action-status-menu-row">
-                <form class="opportunity-action-status-menu-form">
+                <form class="opportunity-action-status-menu-form" (ngSubmit)="updateOpportunityStatus(opportunity_status_id)" #opportunityActionForm="ngForm">
                     <div class="opportunity-action-status-menu-form-content">
                         <fieldset>
                             <label for="opportunityStatus">Status<span class="red">*</span></label>
-                            <select name="opportunityStatus" id="opportunityStatus" [(ngModel)]="opportunity_status_id">
+                            <select name="opportunityStatus" id="opportunityStatus" [(ngModel)]="opportunity_status_id" required #opportunityStatus="ngModel">
                                 <option value="" disabled selected>--Select Status--</option>
                                 <option value="1">New</option>
                                 <option value="2">Talking</option>
@@ -378,11 +418,16 @@
                                 <option value="5">Closed-Won</option>
                                 <option value="6">Closed-Lost</option>
                             </select>
+                            <div *ngIf="opportunityStatus.invalid && (opportunityStatus.dirty || opportunityStatus.touched)" class="alert">
+                                <div *ngIf="opportunityStatus.errors && opportunityStatus.errors['required']">
+                                    Status is required.
+                                </div>
+                            </div>
                         </fieldset>
                     </div>
                     <div class="opportunity-action-status-menu-form-nav">
                         <button class="close-opportunity-action-btn-2" (click)="onReset()">Cancel</button>
-                        <button class="save-opportunity-action-btn" (click)="updateOpportunityStatus(opportunity_status_id)">Save</button>
+                        <button class="save-opportunity-action-btn" type="submit">Save</button>
                     </div>
                 </form>
             </div>

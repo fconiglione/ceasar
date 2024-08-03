@@ -872,3 +872,11 @@
   background-color: #f5f7fa;
   color: #888888; 
 }
+
+/* Form alerts */
+
+form .alert {
+  color: #d90429;
+  font-size: 0.7em;
+  margin-top: 2px;
+}
