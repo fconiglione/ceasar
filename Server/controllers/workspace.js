@@ -21,10 +21,10 @@ router.post('/create', async (req, res) => {
     if (!sub) {
         return res.status(401).send("No sub available.");
     }
-    const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date } = req.body.workspace;
+    const { title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, created_at } = req.body.workspace;
     const workspace = new Workspace();
     try {
-        const result = await workspace.createWorkspace(sub, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, creation_date);
+        const result = await workspace.createWorkspace(sub, title, description, has_leads, has_accounts, has_opportunities, has_reports, has_files, has_contacts, created_at);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error creating workspace:", error);
