@@ -255,16 +255,11 @@
                                 </div>
                             </fieldset> 
                             <fieldset>
-                                <label for="opportunityContact">Contact<span class="red">*</span></label>
-                                <select name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id" required #opportunityContact="ngModel">
-                                    <option value="" disabled selected>--Select Contact--</option>
+                                <label for="opportunityContact">Contact</label>
+                                <select name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id">
+                                    <option [ngValue]="null" selected>--Select Contact--</option>
                                     <option *ngFor="let contact of CONTACT" value="{{contact.contact_id}}">{{contact.title}} {{contact.first_name}} {{contact.last_name}}</option>
                                 </select>
-                                <div *ngIf="opportunityContact.invalid && (opportunityContact.dirty || opportunityContact.touched)" class="alert">
-                                    <div *ngIf="opportunityContact.errors && opportunityContact.errors['required']">
-                                        Contact is required.
-                                    </div>
-                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityClosingDate">Closing Date</label>
@@ -357,16 +352,11 @@
                                 </div>
                             </fieldset>
                             <fieldset>
-                                <label for="opportunityContact">Contact<span class="red">*</span></label>
-                                <select [disabled]="!opportunity_edit_mode" name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id" required #opportunityContact="ngModel">
-                                    <option value="" disabled selected>--Select Contact--</option>
+                                <label for="opportunityContact">Contact</label>
+                                <select [disabled]="!opportunity_edit_mode" name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id">
+                                    <option [ngValue]="null" selected>--Select Contact--</option>
                                     <option *ngFor="let contact of CONTACT" value="{{contact.contact_id}}">{{contact.title}} {{contact.first_name}} {{contact.last_name}}</option>
                                 </select>
-                                <div *ngIf="opportunityContact.invalid && (opportunityContact.dirty || opportunityContact.touched)" class="alert">
-                                    <div *ngIf="opportunityContact.errors && opportunityContact.errors['required']">
-                                        Contact is required.
-                                    </div>
-                                </div>
                             </fieldset>
                             <fieldset>
                                 <label for="opportunityClosingDate">Closing Date</label>
