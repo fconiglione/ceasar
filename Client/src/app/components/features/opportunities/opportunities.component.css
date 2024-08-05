@@ -616,7 +616,7 @@
 }
 .more-opportunity-dropdown {
   display: flex;
-  position: fixed;
+  position: absolute;
   background-color: #ffffff;
   z-index: 1;
   border: 1px solid #ffffff;
