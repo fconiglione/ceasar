@@ -257,7 +257,7 @@
                             <fieldset>
                                 <label for="opportunityContact">Contact</label>
                                 <select name="opportunityContact" id="opportunityContact" [(ngModel)]="contact_id">
-                                    <option [ngValue]="null" selected>--Select Contact--</option>
+                                    <option [ngValue]="undefined" selected>--Select Contact--</option>
                                     <option *ngFor="let contact of CONTACT" value="{{contact.contact_id}}">{{contact.title}} {{contact.first_name}} {{contact.last_name}}</option>
                                 </select>
                             </fieldset>

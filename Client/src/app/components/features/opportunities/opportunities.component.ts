@@ -39,7 +39,7 @@ export class OpportunitiesComponent {
   opportunity_id: string | undefined;
   workspace_id: string | undefined;
   account_id: string | undefined = '';
-  contact_id: string | undefined = '';
+  contact_id: string | undefined;
   opportunity_status_id: string | undefined = '';
   title: string | undefined;
   closing_date: string | undefined;
@@ -539,7 +539,7 @@ formatCurrency(value: any): string {
     // Reset the new opportunity form
     this.title = '';
     this.account_id = '';
-    this.contact_id = '';
+    this.contact_id = undefined;
     this.value = '';
     this.prediction_score = '';
     this.closing_date = '';
