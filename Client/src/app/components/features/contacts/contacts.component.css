@@ -233,23 +233,15 @@
   padding-top: 10px;
   align-items: center;
 }
-.contact-card-footer .contact-type {
+.contact-card-footer .priority-alert {
   padding: 5px 10px;
   border-radius: 3px;
   font-size: 0.9em;
   cursor: pointer;
 }
-.contact-card-footer .contact-type.not-provided {
-  background-color: #f5f7fa;
-  color: #888888;
-}
-.contact-card-footer .contact-type.customer {
-  background-color: rgba(58, 134, 255, 0.1);
-  color: rgb(58,134,255);
-}
-.contact-card-footer .contact-type.prospect {
-  background-color: rgba(165, 113, 238, 0.1);
-  color: rgb(165, 113, 238);
+.contact-card-footer .priority-alert {
+  background-color: rgba(249,65,68, 0.1);
+  color: rgb(249,65,68);
 }
 .contact-card-footer fa-icon {
   color: #777777;
@@ -639,22 +631,14 @@
 .contacts-table .type-th {
   text-align: center;
 }
-.contacts-table .contact-type {
+.contacts-table .priority-alert {
   font-size: 0.9em;
   cursor: pointer;
   text-align: center;
 }
-.contacts-table .contact-type.not-provided {
-  background-color: #f5f7fa;
-  color: #888888;
-}
-.contacts-table .contact-type.customer {
-  background-color: rgba(58, 134, 255, 0.1);
-  color: rgb(58,134,255);
-}
-.contacts-table .contact-type.prospect {
-  background-color: rgba(165, 113, 238, 0.1);
-  color: rgb(165, 113, 238);
+.contacts-table .priority-alert {
+  background-color: rgba(249,65,68, 0.1);
+  color: rgb(249,65,68);
 }
 .contacts-table .more-contact-btn {
   border: none;
@@ -703,88 +687,6 @@
 }
 .contacts-table tr:nth-child(even) {
   background-color: #fafafa;
-}
-
-/* Contact action type menu (.contact-type-action-menu) */
-
-.contacts-action-type-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
-}
-.contacts-action-type-menu-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-}
-.contacts-action-type-menu-content {
-  background-color: #ffffff;
-  border-radius: 6px;
-  padding: 40px 50px;
-  width: 400px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
-}
-.contacts-action-type-menu-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: row;
-}
-.contacts-action-type-menu h1 {
-  font-size: 1.5em;
-  margin: 0;
-  padding: 0;
-}
-.contact-action-type-menu-form-nav {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-direction: row;
-  gap: 15px;
-}
-.contact-action-type-menu-form-content fieldset {
-  border: none;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-}
-.contact-action-type-menu-form-content fieldset select {
-  border: 1px solid #eeeeee;
-  border-radius: 4px;
-  padding: 10px;
-  font-size: 0.9em;
-  height: 45px;
-  width: 100%;
-  box-sizing: border-box;
-  cursor: pointer;
-}
-.contact-action-type-menu-form-content fieldset select:focus {
-  outline: none;
-  border-color: #FF9e67;
-}
-.contact-action-type-menu-form-content fieldset label {
-  font-size: 0.9em;
-  color: #777777;
-  margin: 0 0 4px 0;
-}
-.contact-action-type-menu-form .red {
-  color: #ff0800;
-}
-.contact-action-type-menu-form {
-  padding: 10px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
 }
 
 /* File Upload Styling */

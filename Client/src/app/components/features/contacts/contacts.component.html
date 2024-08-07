@@ -97,7 +97,7 @@
                         </div>
                     </div>
                     <div class="contact-card-footer">
-                        <span class="priority-alert">High-Priority</span>
+                        <span class="priority-alert" (click)="openContactsActionSidebar(contact)">High-Priority</span>
                         <fa-icon [icon]="faArrowRightToBracket"></fa-icon>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                         <td>{{contact.phone_number || 'Not provided'}}</td>
                         <td>{{contact.email || 'Not provided'}}</td>
                         <td>{{contact.account_id}}</td>
-                        <td class="high-priority">High-Priority</td>
+                        <td class="priority-alert" (click)="openContactsActionSidebar(contact)">High-Priority</td>
                         <td class="more-contact-btn">
                             <fa-icon [icon]="faArrowRightToBracket" (click)="openContactsActionSidebar(contact)"></fa-icon>
                         </td>
