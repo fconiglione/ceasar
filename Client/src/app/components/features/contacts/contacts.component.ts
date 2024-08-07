@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../loading/loading.component';
 import { AuthService } from '@auth0/auth0-angular';
 import { NoDataComponent } from "../../no-data/no-data.component";
+import { AccountService } from '../../../services/accounts/account.service';
 
 @Component({
   selector: 'app-contacts',
@@ -52,6 +53,10 @@ export class ContactsComponent {
   priority: boolean = false;
   created_at: string | undefined;
   updated_at: string | undefined;
+
+  // Account Declarations
+  ACCOUNT: any;
+  name: string | undefined;
 
   // Component actions
   contacts_action_container: boolean = false;
@@ -133,7 +138,7 @@ export class ContactsComponent {
 
   DefaultPFP = "assets/images/default-pfp.svg";
 
-  constructor( private contactService: ContactService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService ) { }
+  constructor( private contactService: ContactService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService, private accountService: AccountService ) { }
 
   getContacts(): void {
     // Get contacts from the API
@@ -434,6 +439,13 @@ export class ContactsComponent {
     }
   }
 
+  // Get accounts
+  getAccounts(): void {
+    this.accountService.getAccounts(this.currentWorkspaceId).subscribe((accounts: any) => {
+      this.ACCOUNT = accounts;
+    });
+  }
+
   onReset(): void {
     // Reset the new contact form
     this.title = '';
@@ -477,6 +489,7 @@ export class ContactsComponent {
           this.route.queryParams.subscribe(params => {
             this.currentWorkspaceId = params['workspace_id'] || '';
             this.getContacts();
+            this.getAccounts();
           });
         }
       });
