@@ -1,44 +1,81 @@
 import { Component, ElementRef } from '@angular/core';
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import { FaIconComponent } from "@fortawesome/angular-fontawesome";
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
+import { ContactService } from '../../../services/contact/contact.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ContactService } from '../../../services/contact/contact.service';
 import { LoadingComponent } from '../../loading/loading.component';
+import { AuthService } from '@auth0/auth0-angular';
+import { NoDataComponent } from "../../no-data/no-data.component";
 
 @Component({
   selector: 'app-contacts',
   standalone: true,
   imports: [
     FaIconComponent,
-    NgFor, NgIf, DatePipe,
+    NgFor,
+    NgIf,
+    DatePipe,
     CommonModule,
-    FormsModule, LoadingComponent
-  ],
+    FormsModule,
+    LoadingComponent,
+    NoDataComponent
+],
   templateUrl: './contacts.component.html',
   styleUrl: './contacts.component.css'
 })
 export class ContactsComponent {
-  // Contacts card
+  // User components
+  username: string | undefined;
+
+  // Contact components
   CONTACT: any;
+  sub: string | undefined;
   contact_id: string | undefined;
+  workspace_id: string | undefined;
+  account_id: string | undefined;
+  title: string | undefined = '';
   first_name: string | undefined;
   last_name: string | undefined;
-  company: string | undefined;
+  nickname: string | undefined;
+  photo_url: string | undefined;
   phone_number: string | undefined;
   email: string | undefined;
-  description: string | undefined;
-  creation_date: string | undefined;
+  street_number: string | undefined;
+  street_name: string | undefined;
+  city: string | undefined;
+  state: string | undefined;
+  postal_code: string | undefined;
+  country: string | undefined = '';
+  priority: boolean = false;
+  created_at: string | undefined;
+  updated_at: string | undefined;
+
+  // Component actions
+  contacts_action_container: boolean = false;
+  contacts_action_sidebar_container: boolean = false;
+  contact_edit_mode: boolean = false;
   loading: boolean = true;
-  currentWorkspaceId: string | undefined;
+  more_info_dropdown: boolean = false;
+  card_view: boolean = true;
+  list_view: boolean = false;
+  sort_by_dropdown: boolean = false;
 
-  full_name: string | undefined;
+  // Other variables
+  contact_type: string | undefined;
+  contact_count: number = 0;
+  contact_type_prospect_count: number = 0;
+  contact_type_customer_count: number = 0;
+  previous_type_filter: number = 0;
+  active_type_filter: number = 0;
+  active_sort_factor: string = 'By Contact Name';
+  allContacts: any[] = [];
+  filteredContacts: any[] = [];
+  street_address: string | undefined;
 
-  contactSearchInputValue: string = '';
-
-  ShapesBanner = "assets/images/shapes-banner.svg";
+  // Font Awesome icons
   faChevronDown = faChevronDown;
   faSearch = faSearch;
   faDownload = faDownload;
@@ -46,128 +83,280 @@ export class ContactsComponent {
   faEnvelope = faEnvelope;
   faEllipsisV = faEllipsisV;
   faCircleInfo = faCircleInfo;
-  DefaultPFP = "assets/images/default-pfp.svg";
   faEye = faEye;
   faEdit = faEdit;
   faTrash = faTrash;
   faArrowLeft = faArrowLeft;
+  faUserAlt = faUserAlt;
+  faSort = faSort;
+  faBars = faBars;
+  faTableCells = faTableCells;
+  faArrowRightToBracket = faArrowRightToBracket;
+  faXmark = faXmark;
+  faPenToSquare = faPenToSquare;
+  faSquare = faSquare;
+  
+// Define all countries in an array
+  countries = [
+  'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua and Barbuda', 'Argentina', 
+  'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 
+  'Belarus', 'Belgium', 'Belize', 'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 
+  'Brazil', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cabo Verde', 'Cambodia', 'Cameroon', 
+  'Canada', 'Central African Republic', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo, Democratic Republic of the', 
+  'Congo, Republic of the', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 
+  'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 
+  'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 
+  'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 
+  'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 
+  'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 
+  'Kenya', 'Kiribati', 'Korea, North', 'Korea, South', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos', 
+  'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 
+  'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 
+  'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 
+  'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 
+  'Niger', 'Nigeria', 'North Macedonia', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 
+  'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 
+  'Romania', 'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines', 
+  'Samoa', 'San Marino', 'Sao Tome and Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 
+  'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 
+  'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria', 
+  'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Timor-Leste', 'Togo', 'Tonga', 'Trinidad and Tobago', 
+  'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 
+  'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 
+  'Yemen', 'Zambia', 'Zimbabwe'
+  ];
 
-  constructor(private contactService: ContactService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef) { }
+  currentWorkspaceId: string | undefined;
+
+  contactSearchInputValue: string = '';
+  activeTypeFilter: string = 'All types';
+
+  DefaultPFP = "assets/images/default-pfp.svg";
+
+  constructor( private contactService: ContactService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService ) { }
 
   getContacts(): void {
     // Get contacts from the API
-    this.contactService.getContacts(this.currentWorkspaceId).subscribe(response => {
-      this.CONTACT = response;
-      this.applyFilter();
+    this.contactService.getContacts(this.currentWorkspaceId).subscribe((contacts: any) => {
+      // this.filteredContacts = response;
+      this.allContacts = contacts;
+      this.filteredContacts = contacts;
+      this.countContacts();
+      this.sortContacts('name'); // Sort by name by default
       this.loading = false;
     });
   }
 
-  applyFilter(): void {
-    if (this.activeFilter === 'Name') {
-        this.CONTACT.sort((a: any, b: any) => a.first_name.localeCompare(b.first_name));
-    } else if (this.activeFilter === 'Company') {
-        this.CONTACT.sort((a: any, b: any) => a.company.localeCompare(b.company));
-    } else if (this.activeFilter === 'Creation Date') {
-        this.CONTACT.sort((a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime());
+  parseStreetAddress(street_address: string | undefined): void {
+      if (street_address) {
+        const addressParts = street_address.split(' ');
+        this.street_number = addressParts[0];
+        this.street_name = addressParts.slice(1).join(' ');
+      } else {
+        this.street_number = '';
+        this.street_name = '';
+      }
     }
-}
-
-  openNewContactPopup(): void {
-    // Open the new contact popup
-    const newcontactPopup = this.elementRef.nativeElement.querySelector('.create-contact-pop-up');
-    newcontactPopup.style.display = 'block';
-  }
-
-  closeNewContactPopup(): void {
-    // Close the new contact popup
-    const newcontactPopup = this.elementRef.nativeElement.querySelector('.create-contact-pop-up');
-    newcontactPopup.style.display = 'none';
-    this.onReset();
-  }
 
   createContact(): void {
+    this.parseStreetAddress(this.street_address); // Parse the street address
     let newContact = {
-      full_name: this.full_name,
-      company: this.company,
+      sub  : this.sub,
+      workspace_id : this.currentWorkspaceId,
+      account_id : this.account_id,
+      title : this.title,
+      first_name: this.first_name,
+      last_name: this.last_name,
+      nickname: this.nickname,
       phone_number: this.phone_number,
       email: this.email,
-      description: this.description,
-      workspace_id: this.currentWorkspaceId
+      photo_url: this.photo_url,
+      street_number: this.street_number,
+      street_name: this.street_name,
+      city: this.city,
+      state: this.state,
+      postal_code: this.postal_code,
+      country: this.country,
+      priority: this.priority,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
 
     this.contactService.createContact(newContact).subscribe(response => {
       console.log(response);
       this.getContacts();
-      this.closeNewContactPopup();
+      this.onReset();
     });
   }
-  statusFilterDropdownActive: boolean = false;
 
-  openFilterStatusDropdown(): void {
-    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-    if (statusFilterDropdown) {
-      this.statusFilterDropdownActive = !this.statusFilterDropdownActive;
-      statusFilterDropdown.style.display = this.statusFilterDropdownActive ? 'flex' : 'none';
+  updateContact(): void {
+    if (confirm('Are you sure you want to make changes to this contact? All changes are final and cannot be undone.')) {
+      let updatedContact = {
+        contact_id: this.contact_id,
+        account_id: this.account_id,
+        title: this.title,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        nickname: this.nickname,
+        phone_number: this.phone_number,
+        email: this.email,
+        photo_url: this.photo_url,
+        street_number: this.street_number,
+        street_name: this.street_name,
+        city: this.city,
+        state: this.state,
+        postal_code: this.postal_code,
+        country: this.country,
+        priority: this.priority,
+        updated_at: new Date().toISOString(),
+        workspace_id: this.currentWorkspaceId
+      };
+
+      this.contactService.updateContact(updatedContact).subscribe(response => {
+        console.log(response);
+        this.getContacts();
+        this.onReset();
+      });
     }
   }
-  
-  closeFilterStatusDropdown(): void {
-    const statusFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-    if (statusFilterDropdown) {
-      statusFilterDropdown.style.display = 'none';
-      this.statusFilterDropdownActive = false;
+
+  deleteContact(): void {
+    if (confirm('Are you sure you want to delete this contact? This action cannot be undone.')) {
+      this.contactService.deleteContact(this.contact_id).subscribe(response => {
+        console.log(response);
+        this.getContacts();
+        this.onReset();
+      });
     }
-  }  
+  }
 
-  previousFilter: string = 'Name';
-  activeFilter: string = 'Name';
-
-filterStatus(activeFilter: string): void {
-    this.closeFilterStatusDropdown();
-    if (activeFilter === this.previousFilter) {
-        this.activeFilter = 'Name';
-        this.previousFilter = 'Name';
-    } else {
-        this.activeFilter = activeFilter;
-        this.previousFilter = activeFilter;
+  // Deletion from directly within the list
+  deleteContactById(contact_id: string): void {
+    if (confirm('Are you sure you want to delete this contact? This action cannot be undone.')) {
+      this.contactService.deleteContact(contact_id).subscribe(response => {
+        console.log(response);
+        this.getContacts();
+      });
     }
-    this.getContacts();
-}
-
-
+  }
 
   onInputChange(event: any) {
-    const searchInputValue = event.target.value.trim();
+    const searchInputValue = event.target.value.trim().toLowerCase();
     this.contactSearchInputValue = searchInputValue;
   
-    if (this.contactSearchInputValue === '') {
-      this.getContacts();
-    } else {
-      this.CONTACT = this.CONTACT.filter((contact: any) => {
-        const firstName = contact.first_name?.toLowerCase() ?? '';
-        const lastName = contact.last_name?.toLowerCase() ?? '';
-        const company = contact.company?.toLowerCase() ?? '';
+    if (this.contactSearchInputValue.length > 0) {
+      this.countContacts();
+      this.filteredContacts = this.allContacts.filter((contact: any) => {
+        const name = contact.name?.toLowerCase() ?? '';
+        const nickname = contact.nickname?.toLowerCase() ?? '';
         const phoneNumber = contact.phone_number?.toLowerCase() ?? '';
         const email = contact.email?.toLowerCase() ?? '';
   
-        return firstName.includes(this.contactSearchInputValue.toLowerCase()) ||
-          lastName.includes(this.contactSearchInputValue.toLowerCase()) ||
-          company.includes(this.contactSearchInputValue.toLowerCase()) ||
-          phoneNumber.includes(this.contactSearchInputValue.toLowerCase()) ||
-          email.includes(this.contactSearchInputValue.toLowerCase());
-        });
+        return name.includes(this.contactSearchInputValue) ||
+          nickname.includes(this.contactSearchInputValue) ||
+          phoneNumber.includes(this.contactSearchInputValue) ||
+          email.includes(this.contactSearchInputValue);
+      });
+    } else {
+      this.countContacts();
+      this.filteredContacts = this.allContacts;
     }
-  }  
+  }
 
-  // CSV Exporting
+  countContacts(): void {
+    this.contact_count = this.filteredContacts.length;
+    this.contact_type_customer_count = this.filteredContacts.filter((contact: any) => contact.contact_type_id === 1).length;
+    this.contact_type_prospect_count = this.filteredContacts.filter((contact: any) => contact.contact_type_id === 2).length;
+  } 
+  
+  filterContactType(contact_type_id: number): void {
+      this.active_type_filter = contact_type_id;
+      if (contact_type_id === this.previous_type_filter) {
+          this.getContacts();
+          this.previous_type_filter = 0;
+      } else {
+          if (contact_type_id === 0) {
+            this.getContacts();
+          } else {
+              this.contactService.getContacts(this.currentWorkspaceId).subscribe(response => {
+                  this.filteredContacts = response as any[];
+                  this.countContacts();
+                  this.filteredContacts = this.filteredContacts.filter((contact: any) => contact.contact_type_id === contact_type_id);
+                  this.previous_type_filter = contact_type_id;
+              });
+          }
+      }
+  }
+
+  openContactsActionSidebar(contact: any): void {
+    // Setting the contact details
+    this.contact_id = contact.contact_id;
+    this.account_id = contact.account_id;
+    this.title = contact.title;
+    this.nickname = contact.nickname;
+    this.first_name = contact.first_name;
+    this.last_name = contact.last_name;
+    this.phone_number = contact.phone_number;
+    this.email = contact.email;
+    this.photo_url = contact.photo_url;
+    this.street_number = contact.street_number;
+    this.street_name = contact.street_name;
+    this.city = contact.city;
+    this.state = contact.state;
+    this.postal_code = contact.postal_code;
+    this.country = contact.country;
+    this.priority = contact.priority;
+    this.created_at = contact.created_at;
+    this.updated_at = contact.updated_at
+    // Opening the contacts action sidebar
+    // this.onReset();
+    this.contacts_action_sidebar_container = true;
+  }
+
+  sortContacts(sortFactor: any): void {
+    if (sortFactor === 'name') {
+      this.filteredContacts.sort((a: any, b: any) => {
+        const nameA = a.name;
+        const nameB = b.name;
+
+        this.active_sort_factor = 'By Contact Name';
+
+        return nameA.localeCompare(nameB);
+      });
+    }
+
+    if (sortFactor === 'type') {
+      this.filteredContacts.sort((a: any, b: any) => {
+        const typeA = a.contact_type_id;
+        const typeB = b.contact_type_id;
+
+        this.active_sort_factor = 'By Type';
+
+        return typeA - typeB;
+      });
+    }
+
+    if (sortFactor === 'created_at') {
+      this.filteredContacts.sort((a: any, b: any) => {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
+
+        this.active_sort_factor = 'By Creation Date';
+
+        return dateB.getTime() - dateA.getTime();
+      });
+    }
+
+    this.sort_by_dropdown = false;
+  }
+
+  // // CSV Exporting
 
   generateCSV(): string {
-    let csv = 'Last Name,First Name,Company,Phone Number,Email\n';
+    let csv = 'Name, nickname, Phone Number, Email, Contact Type, Source, Owner\n';
 
-    this.CONTACT.forEach((contact: any) => {
-      const row = `${contact.last_name || ''},${contact.first_name || ''},${contact.company || ''},${contact.phone_number || ''},${contact.email || ''}, ${contact.creation_date}\n`;
-      csv += row;
+    this.filteredContacts.forEach((contact: any) => {
+      csv += `${contact.name},${contact.nickname}, ${contact.phone_number}, ${contact.email}, ${contact.source}, ${contact.owner}\n`;
     });
 
     return csv;
@@ -186,83 +375,93 @@ filterStatus(activeFilter: string): void {
     window.URL.revokeObjectURL(url);
   }
 
-  toggleContactCardDropdown(contact: any): void {
-    this.CONTACT.forEach((c: any) => {
-      if (c !== contact) {
-        c.showSubSetting = false;
-      }
-    });
-    contact.showSubSetting = !contact.showSubSetting;
-  }
-
-  deleteContact(contact: any): void {
-    if (confirm('Are you sure you want to delete this contact?')) {
-      this.contactService.deleteContact(contact.contact_id).subscribe(response => {
-        this.getContacts();
-      });
+  printData(): void {
+    // Print in csv format
+    const csvData = this.generateCSV();
+    const printWindow = window.open('', '', 'height=400,width=800');
+    if (printWindow) {
+      printWindow.document.write('<html><head><title>Contacts</title>');
+      printWindow.document.write('</head><body>');
+      printWindow.document.write('<pre>');
+      printWindow.document.write(csvData);
+      printWindow.document.write('</pre>');
+      printWindow.document.write('</body></html>');
+      printWindow.document.close();
+      printWindow.print();
     }
   }
 
-  closeContactDetailsPopUp(): void {
-    const contactDetailsPopUp = this.elementRef.nativeElement.querySelector('.contact-details-pop-up');
-    contactDetailsPopUp.style.display = 'none';
-
-    this.contact_id = undefined;
-    this.first_name = undefined;
-    this.last_name = undefined;
-    this.company = undefined;
-    this.phone_number = undefined;
-    this.email = undefined;
-    this.description = undefined;
-    this.full_name = undefined;
-
-    this.contactsEditMode = false;
+  // Card and list views
+  toggleCardView() {
+    this.card_view = !this.card_view;
+    if (this.card_view && this.list_view) {
+      this.list_view = false;
+    } else if (!this.card_view && !this.list_view) {
+      this.card_view = true;
+    }
   }
 
-  openContactDetailsPopUp(contact: any): void {
-    this.contact_id = contact.contact_id;
-    this.first_name = contact.first_name;
-    this.last_name = contact.last_name;
-    this.full_name = `${contact.first_name} ${contact.last_name}`;
-    this.company = contact.company;
-    this.phone_number = contact.phone_number;
-    this.email = contact.email;
-    this.description = contact.description;
-
-    const contactDetailsPopUp = this.elementRef.nativeElement.querySelector('.contact-details-pop-up');
-    contactDetailsPopUp.style.display = 'block';
+  toggleListView() {
+    this.list_view = !this.list_view;
+    if (this.list_view && this.card_view) {
+      this.card_view = false;
+    } else if (!this.list_view && !this.card_view) {
+      this.list_view = true;
+    }
   }
 
-  updateContact(): void {
-    let updatedContact = {
-      contact_id: this.contact_id,
-      full_name: this.full_name,
-      company: this.company,
-      phone_number: this.phone_number,
-      email: this.email,
-      description: this.description
-    };
-
-    this.contactService.updateContact(updatedContact).subscribe(response => {
-      console.log(response);
-      this.getContacts();
-      this.closeContactDetailsPopUp();
-    });
+  // Phone number formatting
+  onPhoneNumberChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const numericValue = input.value.replace(/\D/g, '');
+    
+    this.phone_number = numericValue;
+    this.formatPhoneNumber();
+    input.value = this.phone_number;
   }
-
-  contactsEditMode: boolean = false;
-
-  toggleContactsEditMode(): void {
-    this.contactsEditMode = !this.contactsEditMode;
+  
+  formatPhoneNumber(): void {
+    if (this.phone_number) {
+      let formatted = this.phone_number;
+      if (formatted.length > 6) {
+        formatted = `(${formatted.slice(0, 3)}) ${formatted.slice(3, 6)}-${formatted.slice(6, 10)}`;
+      } else if (formatted.length > 3) {
+        formatted = `(${formatted.slice(0, 3)}) ${formatted.slice(3)}`;
+      } else {
+        formatted = formatted.slice(0, 3);
+      }
+      this.phone_number = formatted;
+    }
   }
 
   onReset(): void {
     // Reset the new contact form
-    this.full_name = '';
-    this.company = '';
+    this.title = '';
+    this.nickname = '';
+    this.first_name = '';
+    this.last_name = '';
     this.phone_number = '';
     this.email = '';
-    this.description = undefined;
+    this.photo_url = '';
+    this.street_number = '';
+    this.street_name = '';
+    this.street_address = '';
+    this.city = '';
+    this.state = '';
+    this.postal_code = '';
+    this.country = '';
+    this.priority = false;
+    this.created_at = '';
+    this.updated_at = '';
+    this.account_id = undefined;
+
+    // Close any open components
+    this.contacts_action_sidebar_container = false;
+    this.contacts_action_container = false
+    this.contact_edit_mode = false;
+    this.more_info_dropdown = false;
+    this.filterContactType(0);
+    this.getContacts();
   }
 
   isWorkspacePath(): boolean {
@@ -271,13 +470,18 @@ filterStatus(activeFilter: string): void {
 
   ngOnInit() {
     if (this.isWorkspacePath()) {
-      this.route.queryParams.subscribe(params => {
-        this.currentWorkspaceId = params['workspace_id'] || '';
-        this.getContacts();
+      this.authService.user$.subscribe(user => {
+        if (user && user.sub) {
+          this.sub = user.sub;
+          this.username = user.nickname;
+          this.route.queryParams.subscribe(params => {
+            this.currentWorkspaceId = params['workspace_id'] || '';
+            this.getContacts();
+          });
+        }
       });
     } else {
       console.log('Not a workspace path');
     }
   }
-
 }

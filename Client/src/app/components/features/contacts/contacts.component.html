@@ -1,155 +1,346 @@
-<div class="contact-details-pop-up" id="contact-details-pop-up">
-    <div class="details-contact-pop-up-container">
-        <div class="details-contact-form">
-            <div class="details-contact-pop-up-row contact-details-nav">
-                <div>
-                    <fa-icon class="return-to-contacts-btn" [icon]="faArrowLeft" (click)="closeContactDetailsPopUp()"></fa-icon>
-                    <h1>Contact details</h1>
-                </div>
-                <div class="edit-contact-pop-up-btn" (click)="toggleContactsEditMode()">
-                    <fa-icon [icon]="faEdit"></fa-icon>
-                    <span>Edit contact</span>
-                </div>
-            </div>
-            <div class="details-contact-pop-up-row">
-            <form>
-                <div>
-                    <img [src]="DefaultPFP" alt="Default profile picture image">
-                    <div class="contact-details-content">
-                        <input type="text" id="contactName" name="contactName" required  maxlength="50" [(ngModel)]="full_name" [disabled]="!contactsEditMode" required>
-                        <input [disabled]="!contactsEditMode" type="text" id="contactCompany" name="contactCompany" required  maxlength="50" [(ngModel)]="company" required>
-                        <input [disabled]="!contactsEditMode" type="tel" id="contactPhoneNumber" name="contactPhoneNumber" required  pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
-                        <input [disabled]="!contactsEditMode" type="text" id="contactEmail" name="contactEmail" required maxlength="50" [(ngModel)]="email" required>
-                    </div>
-                </div>
-                <hr />
-                <h2 class="contact-details-h2">Description</h2>
-                <textarea [disabled]="!contactsEditMode" name="text" id="contactDescription" name="contactDescription" maxlength="255" [(ngModel)]="description"></textarea>
-                <div class="details-contact-pop-up-nav">
-                <button *ngIf="contactsEditMode" type="button" id="cancelcontactBtn" (click)="closeContactDetailsPopUp()">Cancel</button>
-                <button *ngIf="contactsEditMode" type="submit" id="createcontactBtn" (click)="updateContact()">Save</button>
-                </div>
-            </form>
-        </div>
-        </div>
-    </div>
-</div>
-<div class="create-contact-pop-up" id="create-contact-pop-up">
-    <div class="create-contact-pop-up-container">
-      <div class="create-contact-form">
-        <div class="create-contact-pop-up-row">
-          <h1>Add a new contact</h1>
-        </div>
-        <div class="create-contact-pop-up-row">
-          <form>
-            <input type="text" id="contactName" name="contactName" required placeholder="Enter full name" maxlength="50" [(ngModel)]="full_name" required>
-            <div>
-                <input type="text" id="contactCompany" name="contactCompany" required placeholder="Enter company name" maxlength="50" [(ngModel)]="company" required>
-                <input type="tel" id="contactPhoneNumber" name="contactPhoneNumber" required placeholder="Enter phone number" pattern="[0-9]{10,11}" [(ngModel)]="phone_number" required>
-            </div>
-            <input type="text" id="contactEmail" name="contactEmail" required placeholder="Enter email" maxlength="50" [(ngModel)]="email" required>
-            <textarea name="text" id="contactDescription" name="contactDescription" placeholder="Enter description (optional)" maxlength="255" [(ngModel)]="description"></textarea>
-            <div class="create-contact-pop-up-nav">
-              <button type="button" id="cancelcontactBtn" (click)="closeNewContactPopup()">Cancel</button>
-              <button type="submit" id="createcontactBtn" (click)="createContact()">Add</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-<div class="contacts-container">
-    <div class="contacts-header">
-        <div class="contacts-item">
+<div class="contacts-main-container">
+    <div class="contacts-main-container-header">
+        <div class="contacts-main-container-item">
             <h1>Contacts</h1>
         </div>
-        <div class="contacts-item">
-            <button class="create-btn" (click)="openNewContactPopup()">New Contact</button>
-            <button class="export-btn" (click)="downloadCSV()">
-                <fa-icon [icon]="faDownload"></fa-icon>
-                <span>Export as CSV</span>
-            </button>
-        </div>
-    </div>
-    <div class="contacts-body">
-        <div class="contacts-body-row">
-            <div class="contacts-body-item">
-                <div class="contacts-filter" (click)="openFilterStatusDropdown()">
-                    <span>{{ activeFilter }}</span>
-                    <fa-icon [icon]="faChevronDown"></fa-icon>
-                </div>
-                <div class="filter-dropdown">
-                    <span (click)="filterStatus('Name')">Name</span>
-                    <span (click)="filterStatus('Company')">Company</span>
-                    <span (click)="filterStatus('Creation Date')">Creation Date</span>
+        <div class="contacts-main-container-header-nav">
+            <div>
+                <button class="create-contact-btn" (click)="contacts_action_container = true">New Contact</button>
+            </div>
+            <div>
+                <button class="more-contact-btn" (click)="more_info_dropdown = !more_info_dropdown">
+                    <fa-icon [icon]="faEllipsisV"></fa-icon>
+                </button>
+                <div class="more-contact-dropdown" *ngIf="more_info_dropdown">
+                    <span>Import Contacts</span>
+                    <span (click)="downloadCSV()">Export Contacts</span>
+                    <span (click)="printData()">Print Contacts</span>
                 </div>
             </div>
-            <div class="contacts-body-item">
+        </div>
+    </div>
+    <div class="contacts-main-container-body">
+        <div class="contacts-main-container-body-filtering">
+            <div class="contacts-main-container-body-filtering-container">
                 <div class="contacts-search">
                     <fa-icon [icon]="faSearch"></fa-icon>
-                    <input type="text" placeholder="Search..." id="contactsearchInput" [(ngModel)]="contactSearchInputValue" (input)="onInputChange($event)">
+                    <input (input)="onInputChange($event)" type="text" placeholder="Search for contacts..." id="contactSearchInput">
                 </div>
-            </div>  
-        </div>
-        <div class="contacts-body-row" *ngIf="CONTACT && CONTACT.length > 0">
-            <div class="contacts">
-                <div class="contact-card" *ngFor="let contact of CONTACT">
-                    <div class="contact-card-container">
-                        <div class="contact-card-container-item contact-card-header">
-                            <div class="contact-card-container-column">
-                                <div (click)="openContactDetailsPopUp(contact)">
-                                    <img [src]="DefaultPFP" alt="Default profile picture image" class="contact-pfp">
-                                </div>
-                                <div (click)="openContactDetailsPopUp(contact)">
-                                    <h3>{{ contact.first_name }} {{ contact.last_name }}</h3>
-                                    <p>{{ contact.company }}</p>
-                                </div>
-                            </div> 
-                            <div class="contact-card-container-column contact-card-editor-area">
-                                <fa-icon class="contact-card-sub-editor" [icon]="faEllipsisV" (click)="toggleContactCardDropdown(contact)"></fa-icon>
-                                <div class="contact-card-dropdown" *ngIf="contact.showSubSetting">
-                                    <ul>
-                                        <li (click)="openContactDetailsPopUp(contact)">
-                                            <fa-icon [icon]="faEye"></fa-icon>
-                                            <span>View</span>
-                                        </li>
-                                        <li (click)="openContactDetailsPopUp(contact)" (click)="toggleContactsEditMode()">
-                                            <fa-icon [icon]="faEdit"></fa-icon>
-                                            <span>Edit</span>
-                                        </li>  
-                                        <li (click)="deleteContact(contact)">
-                                            <fa-icon [icon]="faTrash"></fa-icon>
-                                            <span>Delete</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                <div class="contacts-filters">
+                    <div class="contacts-owners">
+                        <button class="contacts-owner-btn">
+                            <fa-icon [icon]="faUserAlt"></fa-icon>
+                            <span>All Employees</span>
+                            <fa-icon [icon]="faChevronDown"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="contacts-sort">
+                        <button class="contacts-sort-btn" (click)="sort_by_dropdown = !sort_by_dropdown">
+                            <fa-icon [icon]="faSort"></fa-icon>
+                            <span>{{active_sort_factor}}</span>
+                            <fa-icon [icon]="faChevronDown"></fa-icon>
+                        </button>
+                        <div class="contacts-sort-dropdown" *ngIf="sort_by_dropdown">
+                            <span (click)="sortContacts('name')">By Contact Name</span>
+                            <span (click)="sortContacts('type')">By Type</span>
+                            <span (click)="sortContacts('created_at')">By Date Created</span>
                         </div>
-                        <hr />
-                        <div class="contact-card-container-item">
-                            <div class="contact-card-container-row">
-                                <fa-icon [icon]="faPhone"></fa-icon>
-                                <span>{{ contact.phone_number || "Unknown" }}</span>
-                            </div>
-                            <div class="contact-card-container-row">
-                                <fa-icon [icon]="faEnvelope"></fa-icon>
-                                <span>{{ contact.email.toLowerCase() }}</span>
-                            </div>
-                            <div class="contact-card-container-row">
-                                <span class="contact-creation-date">Created {{ contact.creation_date | date: 'longDate' }}</span>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="contacts-view">
+                        <button class="contacts-card-view-btn" (click)="toggleCardView()">
+                            <fa-icon [icon]="faTableCells"></fa-icon>
+                        </button>
+                        <button class="contacts-list-view-btn" (click)="toggleListView()">
+                            <fa-icon [icon]="faBars"></fa-icon>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="contacts-main-container-body-categories">
+            <div class="category active" [class.active]="active_type_filter === 0" (click)="filterContactType(0)">
+                <span>All</span>
+                <span class="category-number">{{contact_count}}</span>
+            </div>
+            <div class="category" [class.active]="active_type_filter === 1" (click)="filterContactType(1)">
+                <span>High-Priority</span>
+                <span class="category-number">{{contact_type_customer_count}}</span>
+            </div>
+        </div>
+        <div class="contacts-main-container-body-contacts-cv" *ngIf="card_view">
+            <div class="contact-card" *ngFor="let contact of filteredContacts">
+                <div class="contact-card-container">
+                    <div class="contact-card-header">
+                        <div class="contact-card-header-left">
+                            <div>
+                                <img [src]="DefaultPFP" alt="Default profile picture image">
+                            </div>
+                            <div>
+                                <h3>{{contact.title}} {{contact.first_name}} {{contact.last_name}}</h3>
+                                <p>{{contact.nickname}}</p>
+                            </div>
+                        </div>
+                        <div class="contact-card-header-right">
+                            <span class="contact-cdate">{{contact.created_at | date: 'longDate'}}</span>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="contact-card-body">
+                        <div>
+                            <fa-icon [icon]="faPhone"></fa-icon>
+                            <span>{{contact.phone_number || 'Not provided'}}</span>
+                        </div>
+                        <div>
+                            <fa-icon [icon]="faEnvelope"></fa-icon>
+                            <span>{{contact.email || 'Not provided'}}</span>
+                        </div>
+                    </div>
+                    <div class="contact-card-footer">
+                        <span class="priority-alert">High-Priority</span>
+                        <fa-icon [icon]="faArrowRightToBracket"></fa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="contacts-main-container-body-contacts-lv" *ngIf="list_view && filteredContacts.length > 0">
+            <table class="contacts-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Date Created</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th class="type-th">Priority</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let contact of filteredContacts">
+                        <td class="select-td">
+                            <button class="contact-select-btn" (click)="deleteContactById(contact.contact_id)">
+                                <fa-icon [icon]="faTrash"></fa-icon>
+                            </button>
+                        </td>
+                        <td>{{contact.created_at | date: 'longDate'}}</td>
+                        <td class="name-td" (click)="openContactsActionSidebar(contact)">{{contact.name}} <span *ngIf="contact.nickname">- {{contact.nickname}}</span></td>
+                        <td>{{contact.phone_number || 'Not provided'}}</td>
+                        <td>{{contact.email || 'Not provided'}}</td>
+                        <td class="priority-alert">High-Priority</td>
+                        <td class="more-contact-btn">
+                            <fa-icon [icon]="faArrowRightToBracket" (click)="openContactsActionSidebar(contact)"></fa-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div class="no-contacts" *ngIf="CONTACT && CONTACT.length === 0 && !loading">
-        <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
-        <p class="uh-oh">Uh oh! We couldn't find any existing contacts.</p>
-        <p>Start a new contact by clicking <span (click)="openNewContactPopup()">here</span>, or by clicking the 'New contact' button at the top of your screen.</p>
+    <div *ngIf="filteredContacts && filteredContacts.length === 0 && !loading">
+        <app-no-data></app-no-data>
     </div>
     <div id="loading" *ngIf="loading">
         <app-loading></app-loading>
+    </div>
+</div>
+<div class="contacts-action" *ngIf="contacts_action_container">
+    <div class="contacts-action-container">
+        <div class="contacts-action-content">
+            <div class="contact-action-row contacts-action-header">
+                <div>
+                <h1>Create new contact</h1>
+                </div>
+                <div>
+                <button class="close-contact-action-btn-1" (click)="contacts_action_container = false">
+                    <fa-icon [icon]="faXmark"></fa-icon>
+                </button>
+                </div>
+            </div>
+            <div class="contact-action-row">
+                <div>
+                    <h2>Contact information</h2>
+                    <p>Enter the information for your new contact.</p>
+                </div>
+                <div class="contact-action-info">
+                    <form class="contact-action-form" (ngSubmit)="createContact()" #contactForm="ngForm">
+                        <div class="contact-action-form-content">
+                            <fieldset>
+                                <label for="contactOwner">Contact owner<span class="red">*</span></label>
+                                <select disabled name="contactOwner" id="contactOwner">
+                                    <option value="">{{username}}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactPhoto">Photo</label>
+                                <input type="file" id="contactPhoto" name="contactPhoto" [(ngModel)]="photo_url">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactTitle">Title</label>
+                                <select name="contactTitle" id="contactTitle" [(ngModel)]="title">
+                                    <option value="" disabled selected>--None--</option>
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Ms.">Ms.</option>
+                                    <option value="Dr.">Dr.</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactnickname">Preferred Name</label>
+                                <input type="text" id="contactnickname" name="contactnickname" placeholder="Enter nickname" maxlength="50" [(ngModel)]="nickname">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactFirstName">First name<span class="red">*</span></label>
+                                <input type="text" id="contactFirstName" name="contactFirstName" placeholder="Enter first name" maxlength="50" [(ngModel)]="first_name" required #firstName="ngModel">
+                                <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert">
+                                    <div *ngIf="firstName.errors && firstName.errors['required']">
+                                        First name is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactLastName">Last name<span class="red">*</span></label>
+                                <input type="text" id="contactLastName" name="contactLastName" placeholder="Enter last name" maxlength="50" [(ngModel)]="last_name" required #lastName="ngModel">
+                                <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert">
+                                    <div *ngIf="lastName.errors && lastName.errors['required']">
+                                        Last name is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactPhone">Phone</label>
+                                <input type="tel" id="contactPhone" name="contactPhone" placeholder="Enter phone number" maxlength="14" [(ngModel)]="phone_number" (input)="onPhoneNumberChange($event)">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactEmail">Email</label>
+                                <input type="email" id="contactEmail" name="contactEmail" placeholder="Enter email address" maxlength="50" [(ngModel)]="email">
+                            </fieldset>  
+                            <fieldset>
+                                <label for="contactStreet">Street</label>
+                                <input type="text" id="contactStreet" name="contactStreet" placeholder="Enter street address" maxlength="50" [(ngModel)]="street_address">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactCity">City</label>
+                                <input type="text" id="contactCity" name="contactCity" placeholder="Enter city" maxlength="50" [(ngModel)]="city">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactState">Province/State</label>
+                                <input type="text" id="contactState" name="contactState" placeholder="Enter state" maxlength="50" [(ngModel)]="state">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactZip">Zip/Postal Code</label>
+                                <input type="text" id="contactZip" name="contactZip" placeholder="Enter zip/postal code" maxlength="10" [(ngModel)]="postal_code">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactCountry">Country</label>
+                                <select name="contactCountry" id="contactCountry" [(ngModel)]="country">
+                                    <option value="" disabled selected>--Select Country--</option>
+                                    <!-- for every country in the countries array -->
+                                    <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+                                </select>
+                            </fieldset>
+                        </div>
+                        <div class="contact-action-form-nav-prev">
+                            <fieldset>
+                                <label for="contactPriority">Is this a high-priority contact?</label>
+                                <input type="checkbox" id="contactPriority" name="contactPriority" [(ngModel)]="priority">
+                            </fieldset>
+                            <div class="contact-action-form-nav">
+                                <button class="close-contact-action-btn-2" (click)="contacts_action_container = false">Cancel</button>
+                                <button class="save-contact-action-btn" type="submit" [disabled]="contactForm.invalid">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="contacts-action-sidebar" *ngIf="contacts_action_sidebar_container">
+    <div class="contacts-action-sidebar-container">
+        <div class="contacts-action-sidebar-content">
+            <div class="contacts-action-sidebar-content-container">
+                <div class="contact-action-sidebar-row contacts-action-sidebar-header">
+                    <div>
+                        <button class="close-contact-action-btn-1 close-contact-sidebar-btn" (click)="onReset()">
+                            <fa-icon [icon]="faArrowLeft"></fa-icon>
+                        </button>
+                        <h1>Contact info</h1>
+                    </div>
+                    <div>
+                        <button class="contact-appt-btn">
+                            Book Appointment
+                        </button>
+                        <button class="edit-contact-action-btn" (click)="contact_edit_mode = !contact_edit_mode">
+                            Edit Contact
+                        </button>
+                    </div>
+                </div>
+                <div class="contact-action-sidebar-row">
+                    <form class="contact-action-sidebar-form" (ngSubmit)="updateContact()" #contactActionForm="ngForm">
+                        <div class="contact-action-sidebar-form-content">
+                            <fieldset>
+                                <label for="contactOwner">Contact owner<span class="red">*</span></label>
+                                <select disabled name="contactOwner" id="contactOwner">
+                                    <option value="">--Coming Soon--</option>
+                                </select>
+                            </fieldset>
+                            <!-- <fieldset>
+                                <label for="contactSource">Contact source</label>
+                                <input [disabled]="!contact_edit_mode" type="text" id="contactSource" name="contactSource" [placeholder]="contact_edit_mode ? 'Enter contact source' : ''" maxlength="50" [(ngModel)]="source">
+                            </fieldset> -->
+                            <fieldset>
+                                <label for="contactPhoto">Photo</label>
+                                <input [disabled]="!contact_edit_mode" type="file" id="contactPhoto" name="contactPhoto" [(ngModel)]="photo_url">
+                            </fieldset>
+                            <!-- <fieldset>
+                                <label for="contactName">Contact name<span class="red">*</span></label>
+                                <input [disabled]="!contact_edit_mode" type="text" id="contactName" name="contactName" [placeholder]="contact_edit_mode ? 'Enter contact name' : ''" maxlength="50" [(ngModel)]="name" required #contactName="ngModel">
+                                <div *ngIf="contactName.invalid && (contactName.dirty || contactName.touched)" class="alert">
+                                    <div *ngIf="contactName.errors && contactName.errors['required']">
+                                        Contact name is required.
+                                    </div>
+                                </div>
+                            </fieldset> -->
+                            <fieldset>
+                                <label for="contactnickname">nickname</label>
+                                <input [disabled]="!contact_edit_mode" type="text" id="contactnickname" name="contactnickname" [placeholder]="contact_edit_mode ? 'Enter nickname' : ''" maxlength="50" [(ngModel)]="nickname">
+                            </fieldset>
+                            <!-- <fieldset>
+                                <label for="contactType">Type<span class="red">*</span></label>
+                                <select [disabled]="!contact_edit_mode" name="contactType" id="contactType" [(ngModel)]="contact_type_id" required #contactType="ngModel">
+                                    <option value="" disabled selected>--Select Type--</option>
+                                    <option value="1">Customer</option>
+                                    <option value="2">Prospect</option>
+                                </select>
+                                <div *ngIf="contactType.invalid && (contactType.dirty || contactType.touched)" class="alert">
+                                    <div *ngIf="contactType.errors && contactType.errors['required']">
+                                        Contact type is required.
+                                    </div>
+                                </div>
+                            </fieldset> -->
+                            <fieldset>
+                                <label for="contactPhone">Phone</label>
+                                <input [disabled]="!contact_edit_mode" type="tel" id="contactPhone" name="contactPhone" [placeholder]="contact_edit_mode ? 'Enter phone number' : ''" maxlength="14" [(ngModel)]="phone_number" (input)="onPhoneNumberChange($event)">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactEmail">Email</label>
+                                <input [disabled]="!contact_edit_mode" type="email" id="contactEmail" name="contactEmail" [placeholder]="contact_edit_mode ? 'Enter email address' : ''" maxlength="50" [(ngModel)]="email">
+                            </fieldset>
+                        </div>
+                        <div class="contact-action-form-sidebar-nav" [style.display]="contact_edit_mode == false ? 'none' : 'flex'">
+                            <div>
+                                <button class="delete-contact-action-btn" (click)="deleteContact()">
+                                    Delete Contact
+                                </button>
+                            </div>
+                            <div>
+                                <button class="close-contact-action-btn-2" (click)="onReset()">Cancel</button>
+                                <button class="save-contact-action-btn" type="submit" [disabled]="contactActionForm.invalid">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Room for comments/notes to be added in future updates -->
+                </div>
+            </div>
+        </div>
     </div>
 </div>
