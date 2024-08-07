@@ -13,7 +13,7 @@ class Contacts {
     }
 
     async getContactsByWorkspaceId (workspace_id) {
-        const query = `SELECT contact_id, photo_url, first_name, last_name, phone_number, email FROM ceasar.contacts WHERE workspace_id = $1`;
+        const query = `SELECT sub, workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, created_at, updated_at, priority, nickname FROM ceasar.contacts WHERE workspace_id = $1`;
         const values = [workspace_id];
         try {
             const { rows } = await this.pool.query(query, values);
