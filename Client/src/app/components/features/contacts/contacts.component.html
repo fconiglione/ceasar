@@ -41,8 +41,9 @@
                             <fa-icon [icon]="faChevronDown"></fa-icon>
                         </button>
                         <div class="contacts-sort-dropdown" *ngIf="sort_by_dropdown">
-                            <span (click)="sortContacts('name')">By Contact Name</span>
-                            <span (click)="sortContacts('type')">By Type</span>
+                            <span (click)="sortContacts('first_name')">By First Name</span>
+                            <span (click)="sortContacts('last_name')">By Last Name</span>
+                            <span (click)="sortContacts('priority')">By Priority</span>
                             <span (click)="sortContacts('created_at')">By Date Created</span>
                         </div>
                     </div>

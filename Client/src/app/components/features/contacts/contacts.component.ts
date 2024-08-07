@@ -75,7 +75,7 @@ export class ContactsComponent {
   contact_type_customer_count: number = 0;
   previous_type_filter: number = 0;
   active_type_filter: number = 0;
-  active_sort_factor: string = 'By Contact Name';
+  active_sort_factor: string = 'By Last Name';
   allContacts: any[] = [];
   filteredContacts: any[] = [];
   street_address: string | undefined;
@@ -147,7 +147,7 @@ export class ContactsComponent {
       this.allContacts = contacts;
       this.filteredContacts = contacts;
       this.countContacts();
-      this.sortContacts('name'); // Sort by name by default
+      this.sortContacts('last_name'); // Sort by last name by default
       this.loading = false;
     });
   }
@@ -319,25 +319,36 @@ export class ContactsComponent {
   }
 
   sortContacts(sortFactor: any): void {
-    if (sortFactor === 'name') {
+    if (sortFactor === 'first_name') {
       this.filteredContacts.sort((a: any, b: any) => {
-        const nameA = a.name;
-        const nameB = b.name;
+        const nameA = a.first_name.toUpperCase();
+        const nameB = b.first_name.toUpperCase();
 
-        this.active_sort_factor = 'By Contact Name';
+        this.active_sort_factor = 'By First Name';
 
         return nameA.localeCompare(nameB);
       });
     }
 
-    if (sortFactor === 'type') {
+    if (sortFactor === 'last_name') {
       this.filteredContacts.sort((a: any, b: any) => {
-        const typeA = a.contact_type_id;
-        const typeB = b.contact_type_id;
+        const nameA = a.last_name.toUpperCase();
+        const nameB = b.last_name.toUpperCase();
 
-        this.active_sort_factor = 'By Type';
+        this.active_sort_factor = 'By Last Name';
 
-        return typeA - typeB;
+        return nameA.localeCompare(nameB);
+      });
+    }
+
+    if (sortFactor === 'priority') {
+      this.filteredContacts.sort((a: any, b: any) => {
+        const priorityA = a.priority;
+        const priorityB = b.priority;
+
+        this.active_sort_factor = 'By Priority';
+
+        return priorityB - priorityA;
       });
     }
 
