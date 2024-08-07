@@ -71,10 +71,9 @@ export class ContactsComponent {
   // Other variables
   contact_type: string | undefined;
   contact_count: number = 0;
-  contact_type_prospect_count: number = 0;
-  contact_type_customer_count: number = 0;
-  previous_type_filter: number = 0;
-  active_type_filter: number = 0;
+  contact_high_priority_count: number = 0;
+  previous_priority_filter: boolean = false;
+  active_priority_filter: boolean = false;
   active_sort_factor: string = 'By Last Name';
   allContacts: any[] = [];
   filteredContacts: any[] = [];
@@ -270,28 +269,28 @@ export class ContactsComponent {
 
   countContacts(): void {
     this.contact_count = this.filteredContacts.length;
-    this.contact_type_customer_count = this.filteredContacts.filter((contact: any) => contact.contact_type_id === 1).length;
-    this.contact_type_prospect_count = this.filteredContacts.filter((contact: any) => contact.contact_type_id === 2).length;
+    this.contact_high_priority_count = this.filteredContacts.filter((contact: any) => contact.priority === true).length;
   } 
-  
-  filterContactType(contact_type_id: number): void {
-      this.active_type_filter = contact_type_id;
-      if (contact_type_id === this.previous_type_filter) {
-          this.getContacts();
-          this.previous_type_filter = 0;
-      } else {
-          if (contact_type_id === 0) {
-            this.getContacts();
-          } else {
-              this.contactService.getContacts(this.currentWorkspaceId).subscribe(response => {
-                  this.filteredContacts = response as any[];
-                  this.countContacts();
-                  this.filteredContacts = this.filteredContacts.filter((contact: any) => contact.contact_type_id === contact_type_id);
-                  this.previous_type_filter = contact_type_id;
-              });
-          }
-      }
+
+filterContactPriority(priority: boolean): void {
+  if (priority === this.previous_priority_filter) {
+    this.getContacts();
+  } else {
+    if (priority === false) {
+      this.active_priority_filter = false;
+      this.previous_priority_filter = false;
+      this.getContacts();
+    } else {
+      this.contactService.getContacts(this.currentWorkspaceId).subscribe(response => {
+        this.filteredContacts = response as any[];
+        this.countContacts();
+        this.filteredContacts = this.filteredContacts.filter((contact: any) => contact.priority === priority);
+        this.previous_priority_filter = true;
+        this.active_priority_filter = true;
+      });
+    }
   }
+}
 
   openContactsActionSidebar(contact: any): void {
     // Setting the contact details
@@ -366,7 +365,7 @@ export class ContactsComponent {
     this.sort_by_dropdown = false;
   }
 
-  // // CSV Exporting
+  // CSV Exporting
 
   generateCSV(): string {
     let csv = 'Name, nickname, Phone Number, Email, Contact Type, Source, Owner\n';
@@ -483,7 +482,7 @@ export class ContactsComponent {
     this.contacts_action_container = false
     this.contact_edit_mode = false;
     this.more_info_dropdown = false;
-    this.filterContactType(0);
+    this.filterContactPriority(false);
     this.getContacts();
   }
 

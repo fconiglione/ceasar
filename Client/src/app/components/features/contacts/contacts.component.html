@@ -59,13 +59,13 @@
             </div>
         </div>
         <div class="contacts-main-container-body-categories">
-            <div class="category active" [class.active]="active_type_filter === 0" (click)="filterContactType(0)">
+            <div class="category active" [class.active]="active_priority_filter === false" (click)=" filterContactPriority(false)">
                 <span>All</span>
                 <span class="category-number">{{contact_count}}</span>
             </div>
-            <div class="category" [class.active]="active_type_filter === 1" (click)="filterContactType(1)">
+            <div class="category" [class.active]="active_priority_filter === true" (click)=" filterContactPriority(true)">
                 <span>High-Priority</span>
-                <span class="category-number">{{contact_type_customer_count}}</span>
+                <span class="category-number">{{contact_high_priority_count}}</span>
             </div>
         </div>
         <div class="contacts-main-container-body-contacts-cv" *ngIf="card_view">
