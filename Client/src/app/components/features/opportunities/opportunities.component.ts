@@ -38,7 +38,7 @@ export class OpportunitiesComponent {
   sub: string | undefined;
   opportunity_id: string | undefined;
   workspace_id: string | undefined;
-  account_id: string | undefined = '';
+  account_id: string | undefined;
   contact_id: string | undefined;
   opportunity_status_id: string | undefined = '';
   title: string | undefined;
@@ -433,7 +433,7 @@ export class OpportunitiesComponent {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
 
-        this.active_sort_factor = 'By Creation Date';
+        this.active_sort_factor = 'By Date Created';
 
         return dateB.getTime() - dateA.getTime();
       });
@@ -538,11 +538,11 @@ formatCurrency(value: any): string {
   onReset(): void {
     // Reset the new opportunity form
     this.title = '';
-    this.account_id = '';
+    this.account_id = undefined;
     this.contact_id = undefined;
-    this.value = '';
-    this.prediction_score = '';
-    this.closing_date = '';
+    this.value = undefined;
+    this.prediction_score = undefined;
+    this.closing_date = undefined;
     this.opportunity_status_id = '';
     this.created_at = '';
     this.updated_at = '';

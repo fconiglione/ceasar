@@ -73,13 +73,10 @@ router.post('/contacts', async (req, res) => {
 });
 
 router.post('/contacts/create', async (req, res) => {
-    const { workspace_id, photo_url, full_name, phone_number, email, company, description } = req.body.contact;
-    const nameParts = full_name.trim().split(' ');
-    const first_name = nameParts[0];
-    const last_name = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+    const { sub, workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, created_at, updated_at, priority, nickname } = req.body.contact;
     const contacts = new Contacts();
     try {
-        const result = await contacts.createContact(workspace_id, photo_url, first_name, last_name, phone_number, email, company, description);
+        const result = await contacts.createContact(sub, workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, created_at, updated_at, priority, nickname);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error creating contact:", error);
@@ -88,13 +85,10 @@ router.post('/contacts/create', async (req, res) => {
 });
 
 router.put('/contacts/update', async (req, res) => {
-    const { contact_id, photo_url, full_name, phone_number, email, company, description } = req.body.contact;
-    const nameParts = full_name.trim().split(' ');
-    const first_name = nameParts[0];
-    const last_name = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+    const { workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, updated_at, priority, nickname, contact_id } = req.body.contact;
     const contacts = new Contacts();
     try {
-        const result = await contacts.updateContact(contact_id, photo_url, first_name, last_name, phone_number, email, company, description);
+        const result = await contacts.updateContact(workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, updated_at, priority, nickname, contact_id);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error updating contact:", error);

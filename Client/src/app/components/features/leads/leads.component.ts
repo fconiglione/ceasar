@@ -382,7 +382,7 @@ export class LeadsComponent {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
 
-        this.active_sort_factor = 'By Creation Date';
+        this.active_sort_factor = 'By Date Created';
 
         return dateB.getTime() - dateA.getTime();
       });

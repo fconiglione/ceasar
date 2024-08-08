@@ -13,7 +13,7 @@ class Contacts {
     }
 
     async getContactsByWorkspaceId (workspace_id) {
-        const query = `SELECT contact_id, photo_url, first_name, last_name, phone_number, email, company, description, creation_date FROM ceasar.contacts WHERE workspace_id = $1`;
+        const query = `SELECT contact_id, sub, workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, created_at, updated_at, priority, nickname FROM ceasar.contacts WHERE workspace_id = $1`;
         const values = [workspace_id];
         try {
             const { rows } = await this.pool.query(query, values);
@@ -24,14 +24,15 @@ class Contacts {
         }
     }
 
-    async createContact (workspace_id, photo_url, first_name, last_name, phone_number, email, company, description) {
-        const query = `INSERT INTO ceasar.contacts (workspace_id, photo_url, first_name, last_name, phone_number, email, company, description)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`;
-        const values = [workspace_id, photo_url, first_name, last_name, phone_number, email, company, description];
+    async createContact (sub, workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, created_at, updated_at, priority, nickname) {
+        console.log(sub, workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, created_at, updated_at, priority, nickname);
+        const query = `INSERT INTO ceasar.contacts (sub, workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, created_at, updated_at, priority, nickname) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)`;
+        const values = [sub, workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, created_at, updated_at, priority, nickname];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;
         } catch (error) {
+            console.log(error);
             throw error;
         }
     }
@@ -47,9 +48,9 @@ class Contacts {
         }
     }
 
-    async updateContact (contact_id, photo_url, first_name, last_name, phone_number, email, company, description) {
-        const query = `UPDATE ceasar.contacts SET photo_url = $2, first_name = $3, last_name = $4, phone_number = $5, email = $6, company = $7, description = $8 WHERE contact_id = $1`;
-        const values = [contact_id, photo_url, first_name, last_name, phone_number, email, company, description];
+    async updateContact (workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, updated_at, priority, nickname, contact_id) {
+        const query = `UPDATE ceasar.contacts SET photo_url = $2, title = $3, first_name = $4, last_name = $5, phone_number = $6, email = $7, account_id = $8, street_number = $9, street_name = $10, city = $11, state = $12, country = $13, postal_code = $14, updated_at = $15, priority = $16, nickname = $17 WHERE workspace_id = $1 AND contact_id = $18`;
+        const values = [workspace_id, photo_url, title, first_name, last_name, phone_number, email, account_id, street_number, street_name, city, state, country, postal_code, updated_at, priority, nickname, contact_id];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;

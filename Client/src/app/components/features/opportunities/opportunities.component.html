@@ -211,7 +211,7 @@
                             <fieldset>
                                 <label for="opportunityAccount">Account<span class="red">*</span></label>
                                 <select name="opportunityAccount" id="opportunityAccount" [(ngModel)]="account_id" required #opportunityAccount="ngModel">
-                                    <option value="" disabled selected>--Select Account--</option>
+                                    <option [ngValue]="undefined" disabled selected>--Select Account--</option>
                                     <option *ngFor="let account of ACCOUNT" value="{{account.account_id}}">{{account.name}}</option>
                                 </select>
                                 <div *ngIf="opportunityAccount.invalid && (opportunityAccount.dirty || opportunityAccount.touched)" class="alert">
@@ -308,7 +308,7 @@
                             <fieldset>
                                 <label for="opportunityAccount">Account<span class="red">*</span></label>
                                 <select [disabled]="!opportunity_edit_mode" name="opportunityAccount" id="opportunityAccount" [(ngModel)]="account_id" required #opportunityAccount="ngModel">
-                                    <option value="" disabled selected>--Select Account--</option>
+                                    <option [ngValue]="undefined" disabled selected>--Select Account--</option>
                                     <option *ngFor="let account of ACCOUNT" value="{{account.account_id}}">{{account.name}}</option>
                                 </select>
                                 <div *ngIf="opportunityAccount.invalid && (opportunityAccount.dirty || opportunityAccount.touched)" class="alert">
