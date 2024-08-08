@@ -278,10 +278,12 @@
   padding: 40px 50px;
   width: 700px;
   height: auto;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
   gap: 30px;
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+  overflow-y: scroll; /* Enable scrolling for form overflow */
 }
 .contacts-action-header {
   display: flex;
