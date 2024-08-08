@@ -77,7 +77,7 @@
                                 <img [src]="DefaultPFP" alt="Default profile picture image">
                             </div>
                             <div>
-                                <h3>{{contact.title}} {{contact.first_name}} {{contact.last_name}}</h3>
+                                <h3>{{contact.title}} <span *ngIf="!contact.nickname">{{contact.first_name}}</span><span *ngIf="contact.nickname">{{contact.nickname}}</span> {{contact.last_name}}</h3>
                                 <p>{{getAccountNameById(contact.account_id)}}</p>
                             </div>
                         </div>
@@ -130,7 +130,7 @@
                         <td class="name-td" (click)="openContactsActionSidebar(contact)">{{contact.title}} <span *ngIf="contact.nickname">{{contact.nickname}}</span><span *ngIf="!contact.nickname">{{contact.first_name}}</span> {{contact.last_name}}</td>
                         <td>{{contact.phone_number || 'Not provided'}}</td>
                         <td>{{contact.email || 'Not provided'}}</td>
-                        <td>{{getAccountNameById(contact.account_id)}}</td>
+                        <td>{{getAccountNameById(contact.account_id) || "Not provided"}}</td>
                         <td *ngIf="contact.priority" class="priority-alert" (click)="openContactsActionSidebar(contact)">High-Priority</td>
                         <td *ngIf="!contact.priority" class="non-priority-alert" (click)="openContactsActionSidebar(contact)">None</td>
                         <td class="more-contact-btn">
@@ -296,40 +296,49 @@
                                     <option value="">--Coming Soon--</option>
                                 </select>
                             </fieldset>
-                            <!-- <fieldset>
-                                <label for="contactSource">Contact source</label>
-                                <input [disabled]="!contact_edit_mode" type="text" id="contactSource" name="contactSource" [placeholder]="contact_edit_mode ? 'Enter contact source' : ''" maxlength="50" [(ngModel)]="source">
-                            </fieldset> -->
                             <fieldset>
                                 <label for="contactPhoto">Photo</label>
                                 <input [disabled]="!contact_edit_mode" type="file" id="contactPhoto" name="contactPhoto" [(ngModel)]="photo_url">
                             </fieldset>
-                            <!-- <fieldset>
-                                <label for="contactName">Contact name<span class="red">*</span></label>
-                                <input [disabled]="!contact_edit_mode" type="text" id="contactName" name="contactName" [placeholder]="contact_edit_mode ? 'Enter contact name' : ''" maxlength="50" [(ngModel)]="name" required #contactName="ngModel">
-                                <div *ngIf="contactName.invalid && (contactName.dirty || contactName.touched)" class="alert">
-                                    <div *ngIf="contactName.errors && contactName.errors['required']">
-                                        Contact name is required.
-                                    </div>
-                                </div>
-                            </fieldset> -->
                             <fieldset>
-                                <label for="contactnickname">nickname</label>
+                                <label for="contactAccount">Account</label>
+                                <select [disabled]="!contact_edit_mode" name="contactAccount" id="contactAccount" [(ngModel)]="account_id">
+                                    <option [ngValue]="undefined" disabled selected>--Select Account--</option>
+                                    <option *ngFor="let account of ACCOUNT" value="{{account.account_id}}">{{getAccountNameById(account.account_id)}}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactTitle">Title</label>
+                                <select [disabled]="!contact_edit_mode" name="contactTitle" id="contactTitle" [(ngModel)]="title">
+                                    <option value="" disabled selected>--None--</option>
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Ms.">Ms.</option>
+                                    <option value="Dr.">Dr.</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactnickname">Preferred Name</label>
                                 <input [disabled]="!contact_edit_mode" type="text" id="contactnickname" name="contactnickname" [placeholder]="contact_edit_mode ? 'Enter nickname' : ''" maxlength="50" [(ngModel)]="nickname">
                             </fieldset>
-                            <!-- <fieldset>
-                                <label for="contactType">Type<span class="red">*</span></label>
-                                <select [disabled]="!contact_edit_mode" name="contactType" id="contactType" [(ngModel)]="contact_type_id" required #contactType="ngModel">
-                                    <option value="" disabled selected>--Select Type--</option>
-                                    <option value="1">Customer</option>
-                                    <option value="2">Prospect</option>
-                                </select>
-                                <div *ngIf="contactType.invalid && (contactType.dirty || contactType.touched)" class="alert">
-                                    <div *ngIf="contactType.errors && contactType.errors['required']">
-                                        Contact type is required.
+                            <fieldset>
+                                <label for="contactFirstName">First name<span class="red">*</span></label>
+                                <input [disabled]="!contact_edit_mode" type="text" id="contactFirstName" name="contactFirstName" [placeholder]="contact_edit_mode ? 'Enter first name' : ''" maxlength="50" [(ngModel)]="first_name" required #firstName="ngModel">
+                                <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert">
+                                    <div *ngIf="firstName.errors && firstName.errors['required']">
+                                        First name is required.
                                     </div>
                                 </div>
-                            </fieldset> -->
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactLastName">Last name<span class="red">*</span></label>
+                                <input [disabled]="!contact_edit_mode" type="text" id="contactLastName" name="contactLastName" [placeholder]="contact_edit_mode ? 'Enter last name' : ''" maxlength="50" [(ngModel)]="last_name" required #lastName="ngModel">
+                                <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert">
+                                    <div *ngIf="lastName.errors && lastName.errors['required']">
+                                        Last name is required.
+                                    </div>
+                                </div>
+                            </fieldset>
                             <fieldset>
                                 <label for="contactPhone">Phone</label>
                                 <input [disabled]="!contact_edit_mode" type="tel" id="contactPhone" name="contactPhone" [placeholder]="contact_edit_mode ? 'Enter phone number' : ''" maxlength="14" [(ngModel)]="phone_number" (input)="onPhoneNumberChange($event)">
@@ -337,6 +346,34 @@
                             <fieldset>
                                 <label for="contactEmail">Email</label>
                                 <input [disabled]="!contact_edit_mode" type="email" id="contactEmail" name="contactEmail" [placeholder]="contact_edit_mode ? 'Enter email address' : ''" maxlength="50" [(ngModel)]="email">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactStreet">Street</label>
+                                <input [disabled]="!contact_edit_mode" type="text" id="contactStreet" name="contactStreet" [placeholder]="contact_edit_mode ? 'Enter street address' : ''" maxlength="50" [(ngModel)]="street_address">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactCity">City</label>
+                                <input [disabled]="!contact_edit_mode" type="text" id="contactCity" name="contactCity" [placeholder]="contact_edit_mode ? 'Enter city' : ''" maxlength="50" [(ngModel)]="city">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactState">Province/State</label>
+                                <input [disabled]="!contact_edit_mode" type="text" id="contactState" name="contactState" [placeholder]="contact_edit_mode ? 'Enter state' : ''" maxlength="50" [(ngModel)]="state">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactZip">Zip/Postal Code</label>
+                                <input [disabled]="!contact_edit_mode" type="text" id="contactZip" name="contactZip" [placeholder]="contact_edit_mode ? 'Enter zip/postal code' : ''" maxlength="10" [(ngModel)]="postal_code">
+                            </fieldset>
+                            <fieldset>
+                                <label for="contactCountry">Country</label>
+                                <select [disabled]="!contact_edit_mode" name="contactCountry" id="contactCountry" [(ngModel)]="country">
+                                    <option value="" disabled selected>--Select Country--</option>
+                                    <!-- for every country in the countries array -->
+                                    <option *ngFor="let country of countries" [value]="country">{{country}}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset class="contact-priority">
+                                <label for="contactPriority">Is this a high-priority contact?</label>
+                                <input [disabled]="!contact_edit_mode" type="checkbox" id="contactPriority" name="contactPriority" [(ngModel)]="priority">
                             </fieldset>
                         </div>
                         <div class="contact-action-form-sidebar-nav" [style.display]="contact_edit_mode == false ? 'none' : 'flex'">

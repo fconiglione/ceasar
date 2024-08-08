@@ -419,11 +419,10 @@
 }
 .contacts-action-sidebar-content {
   background-color: #ffffff;
-  /* border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px; */
   width: 700px;
   height: 100%;
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+  overflow-y: scroll; /* Enable scrolling for form overflow */
 }
 .contacts-action-sidebar-content-container {
   padding: 40px 50px;
@@ -514,7 +513,7 @@
   border-radius: 4px;
   padding: 10px;
   font-size: 0.9em;
-  height: 100%;
+  height: 39px;
   cursor: pointer;
 }
 .contact-action-sidebar-form-content fieldset select:focus {
@@ -726,4 +725,15 @@ form .alert {
   font-size: 0.9em;
   color: #777777;
   margin: 0;
+}
+
+/* Contact Priority */
+
+.contact-priority {
+  display: flex;
+  /* Override default styles */
+  flex-direction: row-reverse !important;
+  gap: 10px !important;
+  justify-content: flex-end;
+  margin: 14px 0;
 }
