@@ -78,7 +78,7 @@
                             </div>
                             <div>
                                 <h3>{{contact.title}} {{contact.first_name}} {{contact.last_name}}</h3>
-                                <p>{{contact.account_id}}</p>
+                                <p>{{getAccountNameById(contact.account_id)}}</p>
                             </div>
                         </div>
                         <div class="contact-card-header-right">
@@ -97,8 +97,10 @@
                         </div>
                     </div>
                     <div class="contact-card-footer">
-                        <span class="priority-alert" (click)="openContactsActionSidebar(contact)">High-Priority</span>
-                        <fa-icon [icon]="faArrowRightToBracket"></fa-icon>
+                        <span *ngIf="contact.priority" class="priority-alert" (click)="openContactsActionSidebar(contact)">High-Priority</span>
+                        <!-- Blank span to allow 'justify-content: space-between;' formatting -->
+                        <span *ngIf="!contact.priority"></span> 
+                        <fa-icon [icon]="faArrowRightToBracket" (click)="openContactsActionSidebar(contact)"></fa-icon>
                     </div>
                 </div>
             </div>
@@ -128,8 +130,9 @@
                         <td class="name-td" (click)="openContactsActionSidebar(contact)">{{contact.title}} <span *ngIf="contact.nickname">{{contact.nickname}}</span><span *ngIf="!contact.nickname">{{contact.first_name}}</span> {{contact.last_name}}</td>
                         <td>{{contact.phone_number || 'Not provided'}}</td>
                         <td>{{contact.email || 'Not provided'}}</td>
-                        <td>{{contact.account_id}}</td>
-                        <td class="priority-alert" (click)="openContactsActionSidebar(contact)">High-Priority</td>
+                        <td>{{getAccountNameById(contact.account_id)}}</td>
+                        <td *ngIf="contact.priority" class="priority-alert" (click)="openContactsActionSidebar(contact)">High-Priority</td>
+                        <td *ngIf="!contact.priority" class="non-priority-alert" (click)="openContactsActionSidebar(contact)">None</td>
                         <td class="more-contact-btn">
                             <fa-icon [icon]="faArrowRightToBracket" (click)="openContactsActionSidebar(contact)"></fa-icon>
                         </td>
@@ -180,7 +183,7 @@
                                 <label for="contactAccount">Account</label>
                                 <select name="contactAccount" id="contactAccount" [(ngModel)]="account_id">
                                     <option [ngValue]="undefined" disabled selected>--Select Account--</option>
-                                    <option *ngFor="let account of ACCOUNT" value="{{account.account_id}}">{{account.name}}</option>
+                                    <option *ngFor="let account of ACCOUNT" value="{{account.account_id}}">{{getAccountNameById(account.account_id)}}</option>
                                 </select>
                             </fieldset>
                             <fieldset>

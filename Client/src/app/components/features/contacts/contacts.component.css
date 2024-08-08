@@ -631,7 +631,7 @@
 .contacts-table .type-th {
   text-align: center;
 }
-.contacts-table .priority-alert {
+.contacts-table .priority-alert, .contacts-table .non-priority-alert {
   font-size: 0.9em;
   cursor: pointer;
   text-align: center;
@@ -639,6 +639,10 @@
 .contacts-table .priority-alert {
   background-color: rgba(249,65,68, 0.1);
   color: rgb(249,65,68);
+}
+.contacts-table .non-priority-alert {
+  background-color: #f5f7fa;
+  color: #888888;
 }
 .contacts-table .more-contact-btn {
   border: none;

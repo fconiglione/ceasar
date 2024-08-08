@@ -251,15 +251,22 @@ export class ContactsComponent {
     if (this.contactSearchInputValue.length > 0) {
       this.countContacts();
       this.filteredContacts = this.allContacts.filter((contact: any) => {
-        const name = contact.name?.toLowerCase() ?? '';
+        const first_name = contact.first_name?.toLowerCase() ?? '';
+        const last_name = contact.last_name?.toLowerCase() ?? '';
         const nickname = contact.nickname?.toLowerCase() ?? '';
         const phoneNumber = contact.phone_number?.toLowerCase() ?? '';
         const email = contact.email?.toLowerCase() ?? '';
+        const street_number = contact.street_number?.toLowerCase() ?? '';
+        const street_name = contact.street_name?.toLowerCase() ?? '';
+        const city = contact.city?.toLowerCase() ?? '';
+        const state = contact.state?.toLowerCase() ?? '';
+        const postal_code = contact.postal_code?.toLowerCase() ?? '';
+        const country = contact.country?.toLowerCase() ?? '';
+        const priority = contact.priority ? 'high-priority' : 'none';
+        const account_name = this.getAccountNameById(contact.account_id);
+        const address = `${street_number} ${street_name} ${city} ${state} ${postal_code} ${country}`;
   
-        return name.includes(this.contactSearchInputValue) ||
-          nickname.includes(this.contactSearchInputValue) ||
-          phoneNumber.includes(this.contactSearchInputValue) ||
-          email.includes(this.contactSearchInputValue);
+        return first_name.includes(searchInputValue) || last_name.includes(searchInputValue) || nickname.includes(searchInputValue) || phoneNumber.includes(searchInputValue) || email.includes(searchInputValue) || street_number.includes(searchInputValue) || street_name.includes(searchInputValue) || city.includes(searchInputValue) || state.includes(searchInputValue) || postal_code.includes(searchInputValue) || country.includes(searchInputValue) || account_name.includes(searchInputValue) || address.includes(searchInputValue) || priority.toString().includes(searchInputValue);
       });
     } else {
       this.countContacts();
@@ -368,10 +375,12 @@ filterContactPriority(priority: boolean): void {
   // CSV Exporting
 
   generateCSV(): string {
-    let csv = 'Name, nickname, Phone Number, Email, Contact Type, Source, Owner\n';
+    let csv = 'Title, Last Name, First Name, Preferred Name, Account, Phone Number, Email, Street Address, City, Province/State, ZIP/Postal Code, Country, Priority, Owner\n';
 
     this.filteredContacts.forEach((contact: any) => {
-      csv += `${contact.name},${contact.nickname}, ${contact.phone_number}, ${contact.email}, ${contact.source}, ${contact.owner}\n`;
+      csv += `${contact.title}, ${contact.last_name}, ${contact.first_name}, ${contact.nickname}, ${contact.account_name}, ${contact.phone_number}, ${contact.email}, ${contact.street_number} ${contact.street_name}, ${contact.city}, ${contact.state}, ${contact.postal_code}, ${contact.country}, 
+            ${contact.priority ? 'High-Priority' : 'None'}, 
+            ${contact.owner}\n`;
     });
 
     return csv;
@@ -454,6 +463,12 @@ filterContactPriority(priority: boolean): void {
     this.accountService.getAccounts(this.currentWorkspaceId).subscribe((accounts: any) => {
       this.ACCOUNT = accounts;
     });
+  }
+
+  // Get Account Name By Id
+  getAccountNameById(account_id: string): string {
+    const account = this.ACCOUNT.find((account: any) => account.account_id === account_id);
+    return account ? account.name : '';
   }
 
   onReset(): void {
