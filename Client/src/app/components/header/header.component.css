@@ -29,8 +29,8 @@ header {
   height: 20px;
 }
 .header-logo {
-  height: 50px;
-  margin-bottom: -5px;
+  height: 60px;
+  margin: -5px 0;
 }
 .header-search-bar {
   padding: 5px 10px;
