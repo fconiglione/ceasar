@@ -1,85 +1,404 @@
-<div class="files-container">
-    <div class="files-header">
-        <div class="files-item">
+<div class="files-main-container">
+    <div class="files-main-container-header">
+        <div class="files-main-container-item">
             <h1>Files</h1>
         </div>
-        <div class="files-item">
-            <button class="import-btn" (click)="fileInput.click()">
-                <fa-icon [icon]="faUpload"></fa-icon>
-                <span>Import File(s)</span>
-            </button>
-            <input type="file" #fileInput style="display: none;" (change)="importFile($event)">
+        <div class="files-main-container-header-nav">
+            <div>
+                <button class="create-file-btn" (click)="fileInput.click()">Upload File</button>
+                <input type="file" #fileInput style="display: none;" (change)="importFile($event)">
+            </div>
+            <div>
+                <button class="more-file-btn" (click)="more_info_dropdown = !more_info_dropdown">
+                    <fa-icon [icon]="faEllipsisV"></fa-icon>
+                </button>
+                <div class="more-file-dropdown" *ngIf="more_info_dropdown">
+                    <span>Import Files</span>
+                    <span (click)="downloadCSV()">Export Files</span>
+                    <span (click)="printData()">Print Files</span>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="files-body">
-        <div class="files-body-row">
-            <div class="files-body-item">
-                <div class="files-filter" (click)="openFilterFilesDropdown()">
-                    <span>{{ activeFilter }}</span>
-                    <fa-icon [icon]="faChevronDown"></fa-icon>
-                </div>
-                <div class="filter-dropdown">
-                    <span (click)="filterFiles('Name')">Name</span>
-                    <span (click)="filterFiles('Type')">Type</span>
-                    <span (click)="filterFiles('Size')">Size</span>
-                    <span (click)="filterFiles('Creation Date')">Creation Date</span>
-                </div>
-            </div>
-            <div class="files-body-item">
+    <div class="files-main-container-body">
+        <div class="files-main-container-body-filtering">
+            <div class="files-main-container-body-filtering-container">
                 <div class="files-search">
                     <fa-icon [icon]="faSearch"></fa-icon>
-                    <input type="text" placeholder="Search..." id="filesearchInput" [(ngModel)]="fileSearchInputValue" (input)="onInputChange($event)">
+                    <input (input)="onInputChange($event)" type="text" placeholder="Search for files..." id="fileSearchInput">
                 </div>
-            </div>  
-        </div>
-        <div class="files-body-row" *ngIf="FILE && FILE.length > 0">
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <!-- <th></th> -->
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Size</th>
-                            <th>Date Added</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let file of FILE">
-                            <!-- <td>
-                                <input type="checkbox" id="file-{{ file.file_id }}" name="{{file.file_id}}">
-                            </td> -->
-                            <td>
-                                <div (click)="downloadFile(file)">
-                                    <fa-icon *ngIf="file.resource_type == 'raw'" [icon]="faFile"></fa-icon>
-                                    <fa-icon *ngIf="file.resource_type == 'image'" [icon]="faImage"></fa-icon>
-                                    <fa-icon *ngIf="file.resource_type == 'video'" [icon]="faVideo"></fa-icon>
-                                    <fa-icon *ngIf="file.resource_type != 'raw' && file.resource_type != 'image' && file.resource_type != 'video'" [icon]="faFile"></fa-icon> <!-- Default file icon -->
-                                    <span>{{ file.name }}</span>
-                                </div>
-                            </td>
-                            <td>{{ file.resource_type }}</td>
-                            <td>{{ convertFileSize(file.size) }}</td>
-                            <td>{{ file.creation_date | date: 'longDate' }}</td>
-                            <td>
-                                <div>
-                                    <fa-icon [icon]="faDownload" (click)="downloadFile(file)"></fa-icon>
-                                    <fa-icon [icon]="faTrash" (click)="deleteFile(file.public_id, file.resource_type)"></fa-icon>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="files-filters">
+                    <div class="files-owners">
+                        <button class="files-owner-btn">
+                            <fa-icon [icon]="faUserAlt"></fa-icon>
+                            <span>All Employees</span>
+                            <fa-icon [icon]="faChevronDown"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="files-sort">
+                        <button class="files-sort-btn" (click)="sort_by_dropdown = !sort_by_dropdown">
+                            <fa-icon [icon]="faSort"></fa-icon>
+                            <span>{{active_sort_factor}}</span>
+                            <fa-icon [icon]="faChevronDown"></fa-icon>
+                        </button>
+                        <div class="files-sort-dropdown" *ngIf="sort_by_dropdown">
+                            <span (click)="sortFiles('name')">By File Name</span>
+                            <span (click)="sortFiles('type')">By Type</span>
+                            <span (click)="sortFiles('size')">By Size</span>
+                            <span (click)="sortFiles('created_at')">By Date Created</span>
+                        </div>
+                    </div>
+                    <div class="files-view">
+                        <button class="files-card-view-btn" (click)="toggleCardView()">
+                            <fa-icon [icon]="faTableCells"></fa-icon>
+                        </button>
+                        <button class="files-list-view-btn" (click)="toggleListView()">
+                            <fa-icon [icon]="faBars"></fa-icon>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>  
-    <div class="no-files" *ngIf="FILE && FILE.length === 0 && !loading">
-        <img [src]="ShapesBanner" alt="A triangle, a square, a circle, and a trapezoid.">
-        <p class="uh-oh">Uh oh! We couldn't find any existing files.</p>
-        <p>Upload a new file by clicking <span (click)="fileInput.click()">here</span>, or by clicking the 'Import File(s)' button at the top of your screen.</p>
+        <div class="files-main-container-body-files-cv" *ngIf="card_view">
+            <div class="file-card" *ngFor="let file of filteredFiles">
+                <div class="file-card-container">
+                    <div class="file-card-header">
+                        <div class="file-card-header-left">
+                            <div>
+                                <img [src]="DefaultPFP" alt="Default profile picture image">
+                            </div>
+                            <div>
+                                <h3>{{file.title}} {{file.first_name}} {{file.last_name}}</h3>
+                                <p>{{file.company}}</p>
+                            </div>
+                        </div>
+                        <div class="file-card-header-right">
+                            <span class="file-cdate">{{file.created_at | date: 'longDate'}}</span>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="file-card-body">
+                        <div>
+                            <fa-icon [icon]="faPhone"></fa-icon>
+                            <span>{{file.phone_number || 'Not provided'}}</span>
+                        </div>
+                        <div>
+                            <fa-icon [icon]="faEnvelope"></fa-icon>
+                            <span>{{file.email || 'Not provided'}}</span>
+                        </div>
+                    </div>
+                    <div class="file-card-footer">
+                        <span (click)="openFileStatusMenu(file)" [ngClass]="getFileStatusClasses(file.file_status_id)">{{getFileStatus(file.file_status_id)}}</span>
+                        <fa-icon [icon]="faArrowRightToBracket" (click)="openFilesActionSidebar(file)"></fa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="files-main-container-body-files-lv" *ngIf="list_view && filteredFiles.length > 0">
+            <table class="files-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Date Created</th>
+                        <th>Name</th>
+                        <th>Company</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th class="status-th">Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let file of filteredFiles">
+                        <td class="select-td">
+                            <button class="file-select-btn">
+                                <fa-icon [icon]="faTrash"></fa-icon>
+                            </button>
+                        </td>
+                        <td>{{file.created_at | date: 'longDate'}}</td>
+                        <td class="name-td" (click)="openFilesActionSidebar(file)">{{file.title}} {{file.first_name}} {{file.last_name}}</td>
+                        <td>{{file.company}}</td>
+                        <td>{{file.phone_number || 'Not provided'}}</td>
+                        <td>{{file.email || 'Not provided'}}</td>
+                        <td (click)="openFileStatusMenu(file)" [ngClass]="getFileStatusClasses(file.file_status_id)">{{getFileStatus(file.file_status_id)}}</td>
+                        <td class="more-file-btn">
+                            <fa-icon [icon]="faArrowRightToBracket" (click)="openFilesActionSidebar(file)"></fa-icon>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div *ngIf="filteredFiles && filteredFiles.length === 0 && !loading">
+        <app-no-data></app-no-data>
     </div>
     <div id="loading" *ngIf="loading">
         <app-loading></app-loading>
+    </div>
+</div>
+<div class="files-action" *ngIf="files_action_container">
+    <div class="files-action-container">
+        <div class="files-action-content">
+            <div class="file-action-row files-action-header">
+                <div>
+                <h1>Create new file</h1>
+                </div>
+                <div>
+                <button class="close-file-action-btn-1" (click)="files_action_container = false">
+                    <fa-icon [icon]="faXmark"></fa-icon>
+                </button>
+                </div>
+            </div>
+            <div class="file-action-row">
+                <div>
+                    <h2>File information</h2>
+                    <p>Enter the information for your newly generated file.</p>
+                </div>
+                <div class="file-action-info">
+                    <form class="file-action-form" #fileForm="ngForm">
+                        <div class="file-action-form-content">
+                            <fieldset>
+                                <label for="fileOwner">File owner<span class="red">*</span></label>
+                                <select disabled name="fileOwner" id="fileOwner">
+                                    <option value="">{{username}}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileSource">File source</label>
+                                <input type="text" id="fileSource" name="fileSource" placeholder="Enter file source" maxlength="50" [(ngModel)]="source">
+                            </fieldset>
+                            <fieldset>
+                                <label for="filePhoto">Photo</label>
+                                <input type="file" id="filePhoto" name="filePhoto" [(ngModel)]="photo_url">
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileTitle">Title</label>
+                                <select name="fileTitle" id="fileTitle" [(ngModel)]="title">
+                                    <option value="" disabled selected>--None--</option>
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Ms.">Ms.</option>
+                                    <option value="Dr.">Dr.</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileFirstName">First name<span class="red">*</span></label>
+                                <input type="text" id="fileFirstName" name="fileFirstName" placeholder="Enter first name" maxlength="50" [(ngModel)]="first_name" required #firstName="ngModel">
+                                <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert">
+                                    <div *ngIf="firstName.errors && firstName.errors['required']">
+                                        First name is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileLastName">Last name<span class="red">*</span></label>
+                                <input type="text" id="fileLastName" name="fileLastName" placeholder="Enter last name" maxlength="50" [(ngModel)]="last_name" required #lastName="ngModel">
+                                <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert">
+                                    <div *ngIf="lastName.errors && lastName.errors['required']">
+                                        Last name is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileCompany">Company<span class="red">*</span></label>
+                                <input type="text" id="fileCompany" name="fileCompany" placeholder="Enter company name" maxlength="50" [(ngModel)]="company" required #fileCompany="ngModel">
+                                <div *ngIf="fileCompany.invalid && (fileCompany.dirty || fileCompany.touched)" class="alert">
+                                    <div *ngIf="fileCompany.errors && fileCompany.errors['required']">
+                                        Company is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileStatus">Status<span class="red">*</span></label>
+                                <select name="fileStatus" id="fileStatus" [(ngModel)]="file_status_id" required #fileStatus="ngModel">
+                                    <option value="" disabled selected>--Select Status--</option>
+                                    <option value="1">New</option>
+                                    <option value="2">Contacted</option>
+                                    <option value="3">Qualified</option>
+                                    <option value="4">Closed-Won</option>
+                                    <option value="5">Closed-Lost</option>
+                                </select>
+                                <div *ngIf="fileStatus.invalid && (fileStatus.dirty || fileStatus.touched)" class="alert">
+                                    <div *ngIf="fileStatus.errors && fileStatus.errors['required']">
+                                        Status is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="filePhone">Phone</label>
+                                <input type="tel" id="filePhone" name="filePhone" placeholder="Enter phone number" maxlength="14" [(ngModel)]="phone_number" (input)="onPhoneNumberChange($event)">
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileEmail">Email</label>
+                                <input type="email" id="fileEmail" name="fileEmail" placeholder="Enter email address" maxlength="50" [(ngModel)]="email">
+                            </fieldset>  
+                        </div>
+                        <div class="file-action-form-nav">
+                            <button class="close-file-action-btn-2" (click)="files_action_container = false">Cancel</button>
+                            <button class="save-file-action-btn" [disabled]="fileForm.invalid" type="submit">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="files-action-sidebar" *ngIf="files_action_sidebar_container">
+    <div class="files-action-sidebar-container">
+        <div class="files-action-sidebar-content">
+            <div class="files-action-sidebar-content-container">
+                <div class="file-action-sidebar-row files-action-sidebar-header">
+                    <div>
+                        <button class="close-file-action-btn-1 close-file-sidebar-btn" (click)="onReset()">
+                            <fa-icon [icon]="faArrowLeft"></fa-icon>
+                        </button>
+                        <h1>File info</h1>
+                    </div>
+                    <div>
+                        <button class="file-appt-btn">
+                            Book Appointment
+                        </button>
+                        <button class="edit-file-action-btn" (click)="file_edit_mode = !file_edit_mode">
+                            Edit File
+                        </button>
+                    </div>
+                </div>
+                <div class="file-action-sidebar-row">
+                    <form class="file-action-sidebar-form" #fileActionForm="ngForm">
+                        <div class="file-action-sidebar-form-content">
+                            <fieldset>
+                                <label for="fileOwner">File owner<span class="red">*</span></label>
+                                <select disabled name="fileOwner" id="fileOwner">
+                                    <option value="">--Coming Soon--</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileSource">File source</label>
+                                <input [disabled]="!file_edit_mode" type="text" id="fileSource" name="fileSource" [placeholder]="file_edit_mode ? 'Enter file source' : ''" maxlength="50" [(ngModel)]="source">
+                            </fieldset>
+                            <fieldset>
+                                <label for="filePhoto">Photo</label>
+                                <input [disabled]="!file_edit_mode" type="file" id="filePhoto" name="filePhoto" [(ngModel)]="photo_url">
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileTitle">Title</label>
+                                <select [disabled]="!file_edit_mode" name="fileTitle" id="fileTitle" [(ngModel)]="title">
+                                    <option value="" disabled selected>--None--</option>
+                                    <option value="Mr.">Mr.</option>
+                                    <option value="Mrs.">Mrs.</option>
+                                    <option value="Ms.">Ms.</option>
+                                    <option value="Dr.">Dr.</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileFirstName">First name<span class="red">*</span></label>
+                                <input [disabled]="!file_edit_mode" type="text" id="fileFirstName" name="fileFirstName" [placeholder]="file_edit_mode ? 'Enter first name' : ''" maxlength="50" [(ngModel)]="first_name" #firstName="ngModel" required>
+                                <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="alert">
+                                    <div *ngIf="firstName.errors && firstName.errors['required']">
+                                        First name is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileLastName">Last name<span class="red">*</span></label>
+                                <input [disabled]="!file_edit_mode" type="text" id="fileLastName" name="fileLastName" [placeholder]="file_edit_mode ? 'Enter last name' : ''" maxlength="50" [(ngModel)]="last_name" required #lastName="ngModel">
+                                <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="alert">
+                                    <div *ngIf="lastName.errors && lastName.errors['required']">
+                                        Last name is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileCompany">Company<span class="red">*</span></label>
+                                <input [disabled]="!file_edit_mode" type="text" id="fileCompany" name="fileCompany" [placeholder]="file_edit_mode ? 'Enter company name' : ''" maxlength="50" [(ngModel)]="company" required #fileCompany="ngModel">
+                                <div *ngIf="fileCompany.invalid && (fileCompany.dirty || fileCompany.touched)" class="alert">
+                                    <div *ngIf="fileCompany.errors && fileCompany.errors['required']">
+                                        Company is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileStatus">Status<span class="red">*</span></label>
+                                <select [disabled]="!file_edit_mode" name="fileStatus" id="fileStatus" [(ngModel)]="file_status_id" required #fileStatus="ngModel">
+                                    <option value="" disabled selected>--Select Status--</option>
+                                    <option value="1">New</option>
+                                    <option value="2">Contacted</option>
+                                    <option value="3">Qualified</option>
+                                    <option value="4">Closed-Won</option>
+                                    <option value="5">Closed-Lost</option>
+                                </select>
+                                <div *ngIf="fileStatus.invalid && (fileStatus.dirty || fileStatus.touched)" class="alert">
+                                    <div *ngIf="fileStatus.errors && fileStatus.errors['required']">
+                                        Status is required.
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <label for="filePhone">Phone</label>
+                                <input [disabled]="!file_edit_mode" type="tel" id="filePhone" name="filePhone" [placeholder]="file_edit_mode ? 'Enter phone number' : ''" maxlength="14" [(ngModel)]="phone_number" (input)="onPhoneNumberChange($event)">
+                            </fieldset>
+                            <fieldset>
+                                <label for="fileEmail">Email</label>
+                                <input [disabled]="!file_edit_mode" type="email" id="fileEmail" name="fileEmail" [placeholder]="file_edit_mode ? 'Enter email address' : ''" maxlength="50" [(ngModel)]="email">
+                            </fieldset>
+                        </div>
+                        <div class="file-action-form-sidebar-nav" [style.display]="file_edit_mode == false ? 'none' : 'flex'">
+                            <div>
+                                <button class="delete-file-action-btn">
+                                    Delete File
+                                </button>
+                            </div>
+                            <div>
+                                <button class="close-file-action-btn-2" (click)="onReset()">Cancel</button>
+                                <button type="submit" class="save-file-action-btn" [disabled]="fileActionForm.invalid">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Room for comments/notes to be added in future updates -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="files-action-status-menu" *ngIf="file_action_status_menu">
+    <div class="files-action-status-menu-container">
+        <div class="files-action-status-menu-content">
+            <div class="file-action-status-menu-row files-action-status-menu-header">
+                <div>
+                    <h1>Change file status</h1>
+                </div>
+                <div>
+                    <button class="close-file-action-btn-1" (click)="file_action_status_menu = false">
+                        <fa-icon [icon]="faXmark"></fa-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="file-action-status-menu-row">
+                <form class="file-action-status-menu-form" #fileStatusActionForm="ngForm">
+                    <div class="file-action-status-menu-form-content">
+                        <fieldset>
+                            <label for="fileStatus">Status<span class="red">*</span></label>
+                            <select name="fileStatus" id="fileStatus" [(ngModel)]="file_status_id" required #fileStatus="ngModel">
+                                <option value="" disabled selected>--Select Status--</option>
+                                <option value="1">New</option>
+                                <option value="2">Contacted</option>
+                                <option value="3">Qualified</option>
+                                <option value="4">Closed-Won</option>
+                                <option value="5">Closed-Lost</option>
+                            </select>
+                            <div *ngIf="fileStatus.invalid && (fileStatus.dirty || fileStatus.touched)" class="alert">
+                                <div *ngIf="fileStatus.errors && fileStatus.errors['required']">
+                                    Status is required.
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div class="file-action-status-menu-form-nav">
+                        <button class="close-file-action-btn-2" (click)="onReset()">Cancel</button>
+                        <button class="save-file-action-btn" [disabled]="fileStatusActionForm.invalid">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
