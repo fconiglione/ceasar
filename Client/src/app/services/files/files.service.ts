@@ -15,10 +15,10 @@ export class FilesService {
     return this.http.post(`${this.appServerUrl}/features/files`, {workspaceId});
   }
 
-  uploadFile(file: any, workspaceId: any) {
+  uploadFile(file: any, info: any) {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('workspaceId', workspaceId);
+    formData.append('info', JSON.stringify(info));
     return this.http.post(`${this.appServerUrl}/features/files/upload`, formData);
   }
 

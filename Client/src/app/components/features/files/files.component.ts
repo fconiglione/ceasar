@@ -118,7 +118,12 @@ export class FilesComponent {
   importFile(event: any) {
     // Import the file
     const file = event.target.files[0];
-    this.fileService.uploadFile(file, this.currentWorkspaceId).subscribe(response => {
+    const info = {
+      sub: this.sub,
+      created_at: new Date().toISOString(),
+      workspace_id: this.currentWorkspaceId
+    };
+    this.fileService.uploadFile(file, info).subscribe(response => {
       console.log(response);
       this.getFiles();
     });

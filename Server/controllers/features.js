@@ -223,14 +223,14 @@ router.post('/files', async (req, res) => {
 });
 
 router.post('/files/upload', upload.single('file'), (req, res) => {
-    const { workspaceId } = req.body;
-    const sub = null; // temporary null sub
+    const { workspace_id, sub, created_at } = JSON.parse(req.body.info);
+
     const files = new Files();
     const stream = cloudinary.uploader.upload_stream(
       { resource_type: 'auto' },
       (error, result) => {
         if (result) {
-            files.uploadFileToDatabase(workspaceId, req.file.originalname, result.secure_url, sub, req.file.size, req.file.mimetype, result.public_id, result.resource_type);
+            files.uploadFileToDatabase(workspace_id, req.file.originalname, result.secure_url, sub, req.file.size, req.file.mimetype, result.public_id, result.resource_type, created_at);
             res.status(200).send(result);
         } else {
           res.status(500).send(error);
