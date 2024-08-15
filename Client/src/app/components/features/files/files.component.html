@@ -63,32 +63,14 @@
             <div class="file-card" *ngFor="let file of filteredFiles">
                 <div class="file-card-container">
                     <div class="file-card-header">
-                        <div class="file-card-header-left">
-                            <div>
-                                <img [src]="DefaultPFP" alt="Default profile picture image">
-                            </div>
-                            <div>
-                                <h3>{{file.title}} {{file.first_name}} {{file.last_name}}</h3>
-                                <p>{{file.company}}</p>
-                            </div>
-                        </div>
-                        <div class="file-card-header-right">
-                            <span class="file-cdate">{{file.created_at | date: 'longDate'}}</span>
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="file-card-body">
-                        <div>
-                            <fa-icon [icon]="faPhone"></fa-icon>
-                            <span>{{file.phone_number || 'Not provided'}}</span>
-                        </div>
-                        <div>
-                            <fa-icon [icon]="faEnvelope"></fa-icon>
-                            <span>{{file.email || 'Not provided'}}</span>
+                        <div class="file-card-header-content">
+                            <img [src]="file.photo_url || 'assets/images/default-avatar.png'" alt="file photo">
+                            <h3>{{file.name | slice:0:25}}{{file.name.length > 25 ? '...' : ''}}</h3>
+                            <p>{{file.created_at | date: 'longDate'}}</p>
                         </div>
                     </div>
                     <div class="file-card-footer">
-                        <span (click)="openFileStatusMenu(file)" [ngClass]="getFileStatusClasses(file.file_status_id)">{{getFileStatus(file.file_status_id)}}</span>
+                        <span>{{file.owner || "Owner"}}</span>
                         <fa-icon [icon]="faArrowRightToBracket" (click)="openFilesActionSidebar(file)"></fa-icon>
                     </div>
                 </div>
