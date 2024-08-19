@@ -232,24 +232,7 @@ export class FilesComponent {
       this.filteredFiles = this.allFiles;
     }
   }
-  
-  filterFileStatus(file_status_id: number): void {
-      this.active_status_filter = file_status_id;
-      if (file_status_id === this.previous_status_filter) {
-          this.getFiles();
-          this.previous_status_filter = 0;
-      } else {
-          if (file_status_id === 0) {
-            this.getFiles();
-          } else {
-              this.fileService.getFiles(this.currentWorkspaceId).subscribe(response => {
-                  this.filteredFiles = response as any[];
-                  this.filteredFiles = this.filteredFiles.filter((file: any) => file.file_status_id === file_status_id);
-                  this.previous_status_filter = file_status_id;
-              });
-          }
-      }
-  }
+
 
   openFilesActionSidebar(file: any): void {
     // Setting the file details
@@ -308,48 +291,48 @@ export class FilesComponent {
   // }
 
   sortFiles(sortFactor: any): void {
-    if (sortFactor === 'last_name') {
+    if (sortFactor === 'name') {
       this.filteredFiles.sort((a: any, b: any) => {
-        const lastNameA = a.last_name?.toLowerCase() ?? '';
-        const lastNameB = b.last_name?.toLowerCase() ?? '';
+        const nameA = a.name?.toLowerCase() ?? '';
+        const nameB = b.name?.toLowerCase() ?? '';
 
-        this.active_sort_factor = 'By Last Name';
-
-        return lastNameA.localeCompare(lastNameB);
+        return nameA.localeCompare(nameB);
       });
+
+      this.filteredFolders.sort((a: any, b: any) => {
+        const nameA = a.name?.toLowerCase() ?? '';
+        const nameB = b.name?.toLowerCase() ?? '';
+
+        return nameA.localeCompare(nameB);
+      });
+      this.active_sort_factor = 'By File Name';
     }
 
-    if (sortFactor === 'first_name') {
+    if (sortFactor === 'type') {
       this.filteredFiles.sort((a: any, b: any) => {
-        const firstNameA = a.first_name?.toLowerCase() ?? '';
-        const firstNameB = b.first_name?.toLowerCase() ?? '';
+        const typeA = a.resource_type?.toLowerCase() ?? '';
+        const typeB = b.resource_type?.toLowerCase() ?? '';
 
-        this.active_sort_factor = 'By First Name';
-
-        return firstNameA.localeCompare(firstNameB);
+        return typeA.localeCompare(typeB);
       });
+      this.active_sort_factor = 'By File Type';
     }
 
-    if (sortFactor === 'company') {
+    if (sortFactor === 'size') {
       this.filteredFiles.sort((a: any, b: any) => {
-        const companyA = a.company?.toLowerCase() ?? '';
-        const companyB = b.company?.toLowerCase() ?? '';
+        const sizeA = a.size;
+        const sizeB = b.size;
 
-        this.active_sort_factor = 'By Company';
-
-        return companyA.localeCompare(companyB);
+        return sizeA - sizeB;
       });
-    }
 
-    if (sortFactor === 'status') {
-      this.filteredFiles.sort((a: any, b: any) => {
-        const statusA = a.file_status_id;
-        const statusB = b.file_status_id;
+      this.filteredFolders.sort((a: any, b: any) => {
+        const sizeA = a.size;
+        const sizeB = b.size;
 
-        this.active_sort_factor = 'By Status';
-
-        return statusA - statusB;
+        return sizeA - sizeB;
       });
+      this.active_sort_factor = 'By File Size';
     }
 
     if (sortFactor === 'created_at') {
@@ -357,10 +340,16 @@ export class FilesComponent {
         const dateA = new Date(a.created_at);
         const dateB = new Date(b.created_at);
 
-        this.active_sort_factor = 'By Date Created';
+        return dateB.getTime() - dateA.getTime();
+      });
+
+      this.filteredFolders.sort((a: any, b: any) => {
+        const dateA = new Date(a.created_at);
+        const dateB = new Date(b.created_at);
 
         return dateB.getTime() - dateA.getTime();
       });
+      this.active_sort_factor = 'By Date Created';
     }
 
     this.sort_by_dropdown = false;
@@ -484,7 +473,6 @@ export class FilesComponent {
     this.file_edit_mode = false;
     this.file_action_status_menu = false;
     this.more_info_dropdown = false;
-    this.filterFileStatus(0);
     this.getFiles();
   }
 
