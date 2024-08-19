@@ -97,21 +97,35 @@
                 </div>
             </div>
         </div>
-        <div class="files-main-container-body-files-lv" *ngIf="list_view && filteredFiles.length > 0">
+        <div class="files-main-container-body-files-lv" *ngIf="list_view && (filteredFiles.length > 0 || filteredFolders.length > 0)">
             <table class="files-table">
                 <thead>
                     <tr>
                         <th></th>
                         <th>Date Created</th>
                         <th>Name</th>
-                        <th>Company</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th class="status-th">Status</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Owner</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
+                    <tr *ngFor="let folder of filteredFolders">
+                        <td class="select-td">
+                            <button class="file-select-btn">
+                                <fa-icon [icon]="faTrash"></fa-icon>
+                            </button>
+                        </td>
+                        <td>{{folder.created_at | date: 'longDate'}}</td>
+                        <td class="name-td" (click)="openFilesActionSidebar(folder)">{{folder.name}}</td>
+                        <td>Folder</td>
+                        <td></td>
+                        <td>N/A</td>
+                        <td class="more-file-btn">
+                            <fa-icon [icon]="faArrowRightToBracket" (click)="openFilesActionSidebar(folder)"></fa-icon>
+                        </td>
+                    </tr>
                     <tr *ngFor="let file of filteredFiles">
                         <td class="select-td">
                             <button class="file-select-btn">
@@ -119,10 +133,13 @@
                             </button>
                         </td>
                         <td>{{file.created_at | date: 'longDate'}}</td>
-                        <td class="name-td" (click)="openFilesActionSidebar(file)">{{file.title}} {{file.first_name}} {{file.last_name}}</td>
-                        <td>{{file.company}}</td>
-                        <td>{{file.phone_number || 'Not provided'}}</td>
-                        <td>{{file.email || 'Not provided'}}</td>
+                        <td class="name-td" (click)="openFilesActionSidebar(file)">{{file.name}}</td>
+                        <td *ngIf="file.resource_type == 'raw'">Doc</td>
+                        <td *ngIf="file.resource_type == 'image'">Image</td>
+                        <td *ngIf="file.resource_type == 'video'">Video</td>
+                        <td *ngIf="file.resource_type != 'raw' && file.resource_type != 'image' && file.resource_type != 'video'">N/A</td>
+                        <td>{{convertFileSize(file.size) || "N/A"}}</td>
+                        <td>N/A</td>
                         <td class="more-file-btn">
                             <fa-icon [icon]="faArrowRightToBracket" (click)="openFilesActionSidebar(file)"></fa-icon>
                         </td>
