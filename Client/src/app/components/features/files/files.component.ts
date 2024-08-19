@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare, faFile, faFileVideo, faFileImage, faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { FilesService } from '../../../services/files/files.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -92,6 +92,10 @@ export class FilesComponent {
   faXmark = faXmark;
   faPenToSquare = faPenToSquare;
   faSquare = faSquare;
+  faFile = faFile;
+  faFileVideo = faFileVideo;
+  faFileImage = faFileImage;
+  faFileLines = faFileLines;
 
   currentWorkspaceId: string | undefined;
 

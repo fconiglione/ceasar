@@ -64,13 +64,16 @@
                 <div class="file-card-container">
                     <div class="file-card-header">
                         <div class="file-card-header-content">
-                            <img [src]="file.photo_url || 'assets/images/default-avatar.png'" alt="file photo">
+                            <fa-icon *ngIf="file.resource_type == 'raw'" [icon]="faFileLines" class="file-icon"></fa-icon>
+                            <fa-icon *ngIf="file.resource_type == 'image'" [icon]="faFileImage" class="image-icon"></fa-icon>
+                            <fa-icon *ngIf="file.resource_type == 'video'" [icon]="faFileVideo" class="video-icon"></fa-icon>
+                            <fa-icon *ngIf="file.resource_type != 'raw' && file.resource_type != 'image' && file.resource_type != 'video'" [icon]="faFile" class="unknown-file-icon"></fa-icon>
                             <h3>{{file.name | slice:0:25}}{{file.name.length > 25 ? '...' : ''}}</h3>
                             <p>{{file.created_at | date: 'longDate'}}</p>
                         </div>
                     </div>
                     <div class="file-card-footer">
-                        <span>{{file.owner || "Owner"}}</span>
+                        <img [src]="DefaultPFP" alt="Profile Picture" class="file-card-footer-img">
                         <fa-icon [icon]="faArrowRightToBracket" (click)="openFilesActionSidebar(file)"></fa-icon>
                     </div>
                 </div>

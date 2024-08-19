@@ -234,8 +234,13 @@
     flex-direction: row;
     gap: 10px;
     justify-content: space-between;
-    padding-top: 10px;
     align-items: center;
+  }
+  .file-card-footer img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
   }
   .file-card-footer .file-status {
     padding: 5px 10px;
@@ -819,3 +824,21 @@
     font-size: 0.7em;
     margin-top: 2px;
   }
+
+  /* File Thumbnails */
+
+.file-card-header-content fa-icon {
+    font-size: 2em;
+}
+.file-card-header-content .file-icon {
+    color: rgb(58, 134, 255);
+}
+.file-card-header-content .image-icon {
+    color: rgb(249, 65, 68);
+}
+.file-card-header-content .video-icon {
+    color: rgb(144, 190, 109);
+}
+.file-card-header-content .unknown-file-icon {
+    color: #777777;
+}
