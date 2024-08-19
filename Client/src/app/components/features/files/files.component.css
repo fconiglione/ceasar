@@ -33,6 +33,21 @@
     background-color: #FF8e57;
     border-color: #FF8e57;
   }
+  .create-folder-btn {
+    background-color: transparent;
+    border: 1px solid #FF9e67;
+    border-radius: 3px;
+    padding: 6px 12px;
+    font-size: 1em;
+    cursor: pointer;
+    color: #FF9e67;
+    transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+    height: 100%;
+  }
+.create-folder-btn:hover {
+    border-color: #FF8e57;
+    color: #FF8e57;
+}
   .more-file-btn {
     border: 1px solid #777777;
     border-radius: 3px;

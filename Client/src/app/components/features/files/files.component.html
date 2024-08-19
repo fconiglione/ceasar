@@ -9,6 +9,9 @@
                 <input type="file" #fileInput style="display: none;" (change)="importFile($event)">
             </div>
             <div>
+                <button class="create-folder-btn" (click)="folder_action_container = true">New Folder</button>
+            </div>
+            <div>
                 <button class="more-file-btn" (click)="more_info_dropdown = !more_info_dropdown">
                     <fa-icon [icon]="faEllipsisV"></fa-icon>
                 </button>
@@ -240,9 +243,6 @@
                         <h1>File info</h1>
                     </div>
                     <div>
-                        <button class="file-appt-btn">
-                            Book Appointment
-                        </button>
                         <button class="edit-file-action-btn" (click)="file_edit_mode = !file_edit_mode">
                             Edit File
                         </button>

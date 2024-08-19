@@ -57,6 +57,7 @@ export class FilesComponent {
   list_view: boolean = false;
   sort_by_dropdown: boolean = false;
   file_action_status_menu: boolean = false;
+  folder_action_container: boolean = false;
 
   // Other variables
   file_status: string | undefined;
