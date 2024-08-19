@@ -175,7 +175,7 @@
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
   }
-  .file-card {
+  .file-card, .folder-card {
     background-color: #ffffff;
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
@@ -183,112 +183,86 @@
     height: auto;
     padding: 20px;
   }
-  .file-card-container {
+  .file-card-container, .folder-card-container {
     height: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
     justify-content: space-between;
   }
-  .file-card-header {
+  .file-card-header, .folder-card-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
-  .file-card-header-content {
+  .file-card-header-content, .folder-card-header-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 10px;
   }
-  .file-card-header-content p {
+  .file-card-header-content p, .folder-card-header-content p {
     color: #777777;
     font-size: 0.9em;
   }
-  .file-card-header h3 {
+  .file-card-header h3, .folder-card-header h3 {
     font-size: 1em;
   }
-  .file-card-header h3, .file-card-header p {
+  .file-card-header h3, .file-card-header p, .folder-card-header h3, .folder-card-header p {
     margin: 0;
   }
-  .file-card img {
+  .file-card img, .folder-card img {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
   }
-  .file-card-header-right span {
-    font-size: 0.8em;
-    color: #777777;
-  }
-  .file-card hr {
+  .file-card hr, .folder-card hr {
     margin: 10px 0;
     border: none;
     border-top: 1px solid #f5f7fa;
   }
-  .file-card-body {
+  .file-card-body, .folder-card-body {
     display: flex;
     flex-direction: column;
     gap: 10px;
     justify-content: center;
   }
-  .file-card-body div {
+  .file-card-body div, .folder-card-body div {
     display: flex;
     flex-direction: row;
     gap: 10px;
   }
-  .file-card-body div span {
+  .file-card-body div span, .folder-card-body div span {
     color: #777777;
     font-size: 1em;
   }
-  .file-card-body div fa-icon {
+  .file-card-body div fa-icon, .folder-card-body div fa-icon {
     color: #777777;
   }
-  .file-card-footer {
+  .file-card-footer, .folder-card-footer {
     display: flex;
     flex-direction: row;
     gap: 10px;
     justify-content: space-between;
     align-items: center;
   }
-  .file-card-footer img {
+  .file-card-footer img, .folder-card-footer img {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     object-fit: cover;
   }
-  .file-card-footer .file-status {
-    padding: 5px 10px;
-    border-radius: 3px;
-    font-size: 0.9em;
-    cursor: pointer;
-  }
   .file-card-footer .file-status.not-provided {
     background-color: #f5f7fa;
     color: #888888;
   }
-  .file-card-footer .file-status.new {
-    background-color: rgba(255, 158, 103, 0.1);
-    color: rgb(255,158,103);
-  }
-  .file-card-footer .file-status.contacted {
-    background-color: rgba(249,199,79, 0.1);
-    color: rgb(249,199,79);
-  }
-  .file-card-footer .file-status.qualified {
-    background-color: rgba(144,190,109, 0.1);
-    color: rgb(144,190,109);
-  }
-  .file-card-footer .file-status.closed-won, .file-card-footer .file-status.closed-lost {
-    background-color: rgba(249,65,68, 0.1);
-    color: rgb(249,65,68);
-  }
-  .file-card-footer fa-icon {
+  .file-card-footer fa-icon, .folder-card-footer fa-icon {
     color: #777777;
     cursor: pointer;
     transition: color 0.1s ease-in-out;
   }
-  .file-card-footer fa-icon:hover {
+  .file-card-footer fa-icon:hover, .folder-card-footer fa-icon:hover {
     color: #555555;
   }
   
@@ -842,7 +816,7 @@
 
   /* File Thumbnails */
 
-.file-card-header-content fa-icon {
+.file-card-header-content fa-icon, .folder-card-header-content fa-icon {
     font-size: 2em;
 }
 .file-card-header-content .file-icon {
@@ -856,4 +830,7 @@
 }
 .file-card-header-content .unknown-file-icon {
     color: #777777;
+}
+.folder-card-header-content .folder-icon {
+    color: rgb(249, 199, 79);
 }

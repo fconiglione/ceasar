@@ -15,6 +15,10 @@ export class FilesService {
     return this.http.post(`${this.appServerUrl}/features/files`, {workspaceId});
   }
 
+  getFolders(workspaceId: any) {
+    return this.http.post(`${this.appServerUrl}/features/files/folders`, {workspaceId});
+  }
+
   uploadFile(file: any, info: any) {
     const formData = new FormData();
     formData.append('file', file);

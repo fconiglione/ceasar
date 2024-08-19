@@ -222,6 +222,18 @@ router.post('/files', async (req, res) => {
     }
 });
 
+router.post('/files/folders', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const files = new Files();
+    try {
+        const result = await files.getFoldersByWorkspaceId(workspace_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error getting folders information:", error);
+        res.status(500).send(error);
+    }
+});
+
 router.post('/files/upload', upload.single('file'), (req, res) => {
     const { workspace_id, sub, created_at } = JSON.parse(req.body.info);
 

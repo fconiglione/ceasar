@@ -46,6 +46,18 @@ class Files {
             throw error;
         }
     }
+
+    async getFoldersByWorkspaceId (workspace_id) {
+        const query = `SELECT folder_id, parent_folder_id, sub workspace_id, name, created_at, updated_at FROM ceasar.folders WHERE workspace_id = $1`;
+        const values = [workspace_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    }
     
 }
 

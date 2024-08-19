@@ -1,6 +1,6 @@
 import { Component, ElementRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare, faFile, faFileVideo, faFileImage, faFileLines } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare, faFile, faFileVideo, faFileImage, faFileLines, faFolder } from '@fortawesome/free-solid-svg-icons';
 import { NgFor, NgIf, DatePipe } from '@angular/common';
 import { FilesService } from '../../../services/files/files.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -29,6 +29,15 @@ import { NoDataComponent } from "../../no-data/no-data.component";
 export class FilesComponent {
   // User components
   username: string | undefined;
+
+  // Folder components
+  folder_id: string | undefined;
+  name: string | undefined;
+  parent_folder_id: string | undefined;
+  // sub: string | undefined;
+  // workspace_id: string | undefined;
+  // created_at: string | undefined;
+  // updated_at: string | undefined;
 
   // File components
   LEAD: any;
@@ -72,6 +81,8 @@ export class FilesComponent {
   active_sort_factor: string = 'By File Name';
   allFiles: any[] = [];  // This should be initialized with the complete list of files
   filteredFiles: any[] = [];
+  allFolders: any[] = [];
+  filteredFolders: any[] = [];
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -97,6 +108,7 @@ export class FilesComponent {
   faFileVideo = faFileVideo;
   faFileImage = faFileImage;
   faFileLines = faFileLines;
+  faFolder = faFolder;
 
   currentWorkspaceId: string | undefined;
 
@@ -114,8 +126,16 @@ export class FilesComponent {
       // this.filteredFiles = response;
       this.allFiles = files;
       this.filteredFiles = files;
-      this.countFiles();
       this.sortFiles('name'); // Sort by name by default
+      this.loading = false;
+    });
+  }
+
+  getFolders(): void {
+    // Get folders from the API
+    this.fileService.getFolders(this.currentWorkspaceId).subscribe((folders: any) => {
+      this.allFolders = folders;
+      this.filteredFolders = folders;
       this.loading = false;
     });
   }
@@ -180,77 +200,38 @@ export class FilesComponent {
   //   }
   // }
 
-  getFileStatus(file_status_id: any) {
-    switch (file_status_id) {
-      case 1:
-        return 'New';
-      case 2:
-        return 'Contacted';
-      case 3:
-        return 'Qualified';
-      case 4:
-        return 'Closed-Won';
-      case 5:
-        return 'Closed-Lost';
-      default:
-        return 'Not provided';
-    }
-  }
-
-  getFileStatusClasses(file_status_id: any) {
-    switch (file_status_id) {
-      case 1:
-        return { 'file-status': true, 'new': true };
-      case 2:
-        return { 'file-status': true, 'contacted': true };
-      case 3:
-        return { 'file-status': true, 'qualified': true };
-      case 4:
-        return { 'file-status': true, 'closed-won': true };
-      case 5:
-        return { 'file-status': true, 'closed-lost': true };
-      default:
-        return { 'file-status': true, 'not-provided': true };
-    }
-  }
-
   onInputChange(event: any) {
     const searchInputValue = event.target.value.trim().toLowerCase();
     this.fileSearchInputValue = searchInputValue;
   
     if (this.fileSearchInputValue.length > 0) {
-      this.countFiles();
       this.filteredFiles = this.allFiles.filter((file: any) => {
-        const title = file.title?.toLowerCase() ?? '';
-        const firstName = file.first_name?.toLowerCase() ?? '';
-        const lastName = file.last_name?.toLowerCase() ?? '';
-        const company = file.company?.toLowerCase() ?? '';
-        const phoneNumber = file.phone_number?.toLowerCase() ?? '';
-        const email = file.email?.toLowerCase() ?? '';
-        const status = this.getFileStatus(file.file_status_id).toLowerCase();
+        const name = file.name?.toLowerCase() ?? '';
+        const resource_type = file.resource_type?.toLowerCase() ?? '';
+        const created_at = file.created_at?.toLowerCase() ?? '';
+        const updated_at = file.updated_at?.toLowerCase() ?? '';
   
-        return title.includes(this.fileSearchInputValue) ||
-          firstName.includes(this.fileSearchInputValue) ||
-          lastName.includes(this.fileSearchInputValue) ||
-          company.includes(this.fileSearchInputValue) ||
-          phoneNumber.includes(this.fileSearchInputValue) ||
-          email.includes(this.fileSearchInputValue) ||
-          status.includes(this.fileSearchInputValue);
-      });
+        return name.includes(this.fileSearchInputValue) ||
+          resource_type.includes(this.fileSearchInputValue) ||
+          created_at.includes(this.fileSearchInputValue) ||
+          updated_at.includes(this.fileSearchInputValue);
+        });
+
+        this.filteredFolders = this.allFolders.filter((folder: any) => {
+          const name = folder.name?.toLowerCase() ?? '';
+          const created_at = folder.created_at?.toLowerCase() ?? '';
+          const updated_at = folder.updated_at?.toLowerCase() ?? '';
+
+          return name.includes(this.fileSearchInputValue) ||
+            created_at.includes(this.fileSearchInputValue) ||
+            updated_at.includes(this.fileSearchInputValue);
+        }
+      );
     } else {
-      this.countFiles();
+      this.filteredFolders = this.allFolders;
       this.filteredFiles = this.allFiles;
     }
   }
-
-  countFiles(): void {
-    this.file_count = this.filteredFiles.length;
-    this.file_status_new_count = this.filteredFiles.filter((file: any) => file.file_status_id === 1).length;
-    this.file_status_contacted_count = this.filteredFiles.filter((file: any) => file.file_status_id === 2).length;
-    this.file_status_qualified_count = this.filteredFiles.filter((file: any) => file.file_status_id === 3).length;
-    this.file_status_closed_won_count = this.filteredFiles.filter((file: any) => file.file_status_id === 4).length;
-    this.file_status_closed_lost_count = this.filteredFiles.filter((file: any) => file.file_status_id === 5).length;
-  } 
   
   filterFileStatus(file_status_id: number): void {
       this.active_status_filter = file_status_id;
@@ -263,10 +244,8 @@ export class FilesComponent {
           } else {
               this.fileService.getFiles(this.currentWorkspaceId).subscribe(response => {
                   this.filteredFiles = response as any[];
-                  this.countFiles();
                   this.filteredFiles = this.filteredFiles.filter((file: any) => file.file_status_id === file_status_id);
                   this.previous_status_filter = file_status_id;
-                  this.activeStatusFilter = this.getFileStatus(file_status_id);
               });
           }
       }
@@ -407,7 +386,7 @@ export class FilesComponent {
     let csv = 'Last Name, First Name, Title, Company, Phone Number, Email, Status, Source, Owner\n';
 
     this.filteredFiles.forEach((file: any) => {
-      csv += `${file.last_name}, ${file.first_name}, ${file.title}, ${file.company}, ${file.phone_number}, ${file.email}, ${this.getFileStatus(file.file_status_id)}, ${file.source}, ${file.owner}\n`;
+      csv += `${file.last_name}, ${file.first_name}, ${file.title}, ${file.company}, ${file.phone_number}, ${file.email}, ${file.source}, ${file.owner}\n`;
     });
 
     return csv;
@@ -522,6 +501,7 @@ export class FilesComponent {
           this.route.queryParams.subscribe(params => {
             this.currentWorkspaceId = params['workspace_id'] || '';
             this.getFiles();
+            this.getFolders();
           });
         }
       });
