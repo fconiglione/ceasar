@@ -200,6 +200,12 @@
                                 </select>
                             </fieldset>
                             <fieldset>
+                                <label for="fileFolder">Folder</label>
+                                <select disabled name="fileFolder" id="fileFolder">
+                                    <option value="">--Coming Soon--</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
                                 <label for="fileCreationDate">Date Created</label>
                                 <input [disabled]="true" type="text" id="fileCreationDate" name="fileCreationDate" [placeholder]="created_at" [value]="created_at | date: 'longDate'">
                             </fieldset>
@@ -255,7 +261,7 @@
                             </fieldset>
                             <fieldset>
                                 <label for="folderName">Folder name<span class="red">*</span></label>
-                                <input type="text" id="folderName" name="folderName" placeholder="Enter folder name" maxlength="50" [(ngModel)]="name" required #folderName="ngModel">
+                                <input type="text" id="folderName" name="folderName" placeholder="Enter folder name" minlength="1" maxlength="50" [(ngModel)]="name" required #folderName="ngModel">
                                 <div *ngIf="folderName.invalid && (folderName.dirty || folderName.touched)" class="alert">
                                     <div *ngIf="folderName.errors && folderName.errors['required']">
                                         Folder name is required.
