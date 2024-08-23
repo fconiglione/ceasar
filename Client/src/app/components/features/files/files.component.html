@@ -216,7 +216,7 @@
                             </div>
                             <div>
                                 <button class="close-file-action-btn-2" (click)="onReset()">Cancel</button>
-                                <button type="submit" class="save-file-action-btn" [disabled]="fileActionForm.invalid">Save</button>
+                                <button type="submit" class="save-file-action-btn" [disabled]="fileActionForm.invalid" (click)="updateFile()">Save</button>
                             </div>
                         </div>
                     </form>

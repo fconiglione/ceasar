@@ -26,6 +26,10 @@ export class FilesService {
     return this.http.post(`${this.appServerUrl}/features/files/upload`, formData);
   }
 
+  updateFile(file: any) {
+    return this.http.put(`${this.appServerUrl}/features/files`, {file});
+  }
+
   deleteFile(public_id: any, resourceType: any) {
     return this.http.delete(`${this.appServerUrl}/features/files/${public_id}?resourceType=${resourceType}`);
   }

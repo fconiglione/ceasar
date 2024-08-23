@@ -152,30 +152,24 @@ export class FilesComponent {
     this.getFiles();
   }
 
-  // updateFile(): void {
-  //   if (confirm('Are you sure you want to make changes to this file? All changes are final and cannot be undone.')) {
-  //     let updatedFile = {
-  //       file_id: this.file_id,
-  //       title: this.title,
-  //       first_name: this.first_name,
-  //       last_name: this.last_name,
-  //       company: this.company,
-  //       phone_number: this.phone_number,
-  //       email: this.email,
-  //       file_status_id: this.file_status_id,
-  //       photo_url: this.photo_url,
-  //       source: this.source,
-  //       updated_at: new Date().toISOString(),
-  //       workspace_id: this.currentWorkspaceId
-  //     };
+  updateFile(): void {
+    if (confirm('Are you sure you want to make changes to this file? All changes are final and cannot be undone.')) {
+      let updatedFile = {
+        file_id: this.file_id,
+        name: this.name,
+        description: this.description,
+        sub: this.sub,
+        updated_at: new Date().toISOString(),
+        workspace_id: this.currentWorkspaceId
+      };
 
-  //     this.fileService.updateFile(updatedFile).subscribe(response => {
-  //       console.log(response);
-  //       this.getFiles();
-  //       this.onReset();
-  //     });
-  //   }
-  // }
+      this.fileService.updateFile(updatedFile).subscribe(response => {
+        console.log(response);
+        this.getFiles();
+        this.onReset();
+      });
+    }
+  }
 
   deleteFile(): void {
     if (confirm('Are you sure you want to delete this file? This action cannot be undone.')) {

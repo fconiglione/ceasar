@@ -278,6 +278,18 @@ router.post('/files/folders/create', async (req, res) => {
     }
 });
 
+router.put('/files', async (req, res) => {
+    const { workspace_id, name, description, updated_at, file_id, sub } = req.body.file;
+    const files = new Files();
+    try {
+        const result = await files.updateFile(workspace_id, name, description, updated_at, file_id, sub);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error updating file:", error);
+        res.status(500).send(error);
+    }
+});
+
 // Home
 
 router.post('/home/leads', async (req, res) => {

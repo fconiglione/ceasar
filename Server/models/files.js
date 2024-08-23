@@ -59,6 +59,17 @@ class Files {
         }
     }
 
+    async updateFile (workspace_id, name, description, updated_at, file_id, sub) {
+        const query = `UPDATE ceasar.files SET name = $2, description = $3, updated_at = $4 WHERE workspace_id = $1 AND file_id = $5 AND sub = $6`;
+        const values = [workspace_id, name, description, updated_at, file_id, sub];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async createFolder (workspace_id, parent_folder_id, sub, name, created_at) {
         const query = `INSERT INTO ceasar.folders (workspace_id, parent_folder_id, sub, name, created_at) VALUES ($1, $2, $3, $4, $5)`;
         const values = [workspace_id, parent_folder_id, sub, name, created_at];
