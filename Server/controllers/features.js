@@ -266,6 +266,18 @@ router.delete('/files/:public_id', async (req, res) => {
     }
 });
 
+router.post('/files/folders/create', async (req, res) => {
+    const { workspace_id, parent_folder_id, sub, name, created_at, updated_at } = req.body.folder;
+    const files = new Files();
+    try {
+        const result = await files.createFolder(workspace_id, parent_folder_id, sub, name, created_at, updated_at);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error creating folder:", error);
+        res.status(500).send(error);
+    }
+});
+
 // Home
 
 router.post('/home/leads', async (req, res) => {

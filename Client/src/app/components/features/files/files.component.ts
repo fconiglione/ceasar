@@ -453,6 +453,24 @@ export class FilesComponent {
     }
   }
 
+  // Folder actions
+  createFolder(): void {
+    const newFolder = {
+      sub: this.sub,
+      name: this.name,
+      // parent_folder_id: this.parent_folder_id,
+      workspace_id: this.currentWorkspaceId,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    this.fileService.createFolder(newFolder).subscribe(response => {
+      console.log(response);
+      this.onReset();
+      this.getFolders();
+    });
+  }
+
   onReset(): void {
     // Reset the new file form
     this.title = '';
@@ -473,6 +491,7 @@ export class FilesComponent {
     this.file_edit_mode = false;
     this.file_action_status_menu = false;
     this.more_info_dropdown = false;
+    this.folder_action_container = false;
     this.getFiles();
   }
 

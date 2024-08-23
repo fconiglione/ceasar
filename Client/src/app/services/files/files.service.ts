@@ -29,4 +29,8 @@ export class FilesService {
   deleteFile(public_id: any, resourceType: any) {
     return this.http.delete(`${this.appServerUrl}/features/files/${public_id}?resourceType=${resourceType}`);
   }
+
+  createFolder(folder: any) {
+    return this.http.post(`${this.appServerUrl}/features/files/folders/create`, {folder});
+  }
 }

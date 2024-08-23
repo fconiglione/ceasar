@@ -58,6 +58,17 @@ class Files {
             throw error;
         }
     }
+
+    async createFolder (workspace_id, parent_folder_id, sub, name, created_at) {
+        const query = `INSERT INTO ceasar.folders (workspace_id, parent_folder_id, sub, name, created_at) VALUES ($1, $2, $3, $4, $5)`;
+        const values = [workspace_id, parent_folder_id, sub, name, created_at];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

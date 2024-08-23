@@ -376,44 +376,49 @@
         </div>
     </div>
 </div>
-<div class="files-action-status-menu" *ngIf="file_action_status_menu">
-    <div class="files-action-status-menu-container">
-        <div class="files-action-status-menu-content">
-            <div class="file-action-status-menu-row files-action-status-menu-header">
+<div class="folder-action" *ngIf="folder_action_container">
+    <div class="folder-action-container">
+        <div class="folder-action-content">
+            <div class="folder-action-row folder-action-header">
                 <div>
-                    <h1>Change file status</h1>
+                    <h1>Create new folder</h1>
                 </div>
                 <div>
-                    <button class="close-file-action-btn-1" (click)="file_action_status_menu = false">
+                    <button class="close-folder-action-btn-1" (click)="folder_action_container = false">
                         <fa-icon [icon]="faXmark"></fa-icon>
                     </button>
                 </div>
             </div>
-            <div class="file-action-status-menu-row">
-                <form class="file-action-status-menu-form" #fileStatusActionForm="ngForm">
-                    <div class="file-action-status-menu-form-content">
-                        <fieldset>
-                            <label for="fileStatus">Status<span class="red">*</span></label>
-                            <select name="fileStatus" id="fileStatus" [(ngModel)]="file_status_id" required #fileStatus="ngModel">
-                                <option value="" disabled selected>--Select Status--</option>
-                                <option value="1">New</option>
-                                <option value="2">Contacted</option>
-                                <option value="3">Qualified</option>
-                                <option value="4">Closed-Won</option>
-                                <option value="5">Closed-Lost</option>
-                            </select>
-                            <div *ngIf="fileStatus.invalid && (fileStatus.dirty || fileStatus.touched)" class="alert">
-                                <div *ngIf="fileStatus.errors && fileStatus.errors['required']">
-                                    Status is required.
+            <div class="folder-action-row">
+                <div>
+                    <h2>Folder information</h2>
+                    <p>Enter the information for your newly generated folder.</p>
+                </div>
+                <div class="folder-action-info">
+                    <form class="folder-action-form" #folderForm="ngForm" (click)="createFolder()">
+                        <div class="folder-action-form-content">
+                            <fieldset>
+                                <label for="folderOwner">Folder owner<span class="red">*</span></label>
+                                <select disabled name="folderOwner" id="folderOwner">
+                                    <option value="">{{username}}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="folderName">Folder name<span class="red">*</span></label>
+                                <input type="text" id="folderName" name="folderName" placeholder="Enter folder name" maxlength="50" [(ngModel)]="name" required #folderName="ngModel">
+                                <div *ngIf="folderName.invalid && (folderName.dirty || folderName.touched)" class="alert">
+                                    <div *ngIf="folderName.errors && folderName.errors['required']">
+                                        Folder name is required.
+                                    </div>
                                 </div>
-                            </div>
-                        </fieldset>
-                    </div>
-                    <div class="file-action-status-menu-form-nav">
-                        <button class="close-file-action-btn-2" (click)="onReset()">Cancel</button>
-                        <button class="save-file-action-btn" [disabled]="fileStatusActionForm.invalid">Save</button>
-                    </div>
-                </form>
+                            </fieldset>
+                        </div>
+                        <div class="folder-action-form-nav">
+                            <button class="close-folder-action-btn-2" (click)="folder_action_container = false">Cancel</button>
+                            <button class="save-folder-action-btn" [disabled]="folderForm.invalid" type="submit">Save</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
