@@ -60,6 +60,9 @@ export class HeaderComponent {
   workspace_title_edit: boolean = false;
   workspace_dropdown: boolean = false;
 
+  // Other components
+  DefaultPFP = "assets/images/default-pfp.svg";
+
   constructor(private elementRef: ElementRef, private cookieService : CookieService, private router: Router, private workspaceService: WorkspaceService, private route: ActivatedRoute, public featureService: FeatureService, public authService: AuthService, private userService: UserService ) {}
   isActive: boolean = false;
 
