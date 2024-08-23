@@ -32,7 +32,7 @@ export class FilesComponent {
 
   // Folder components
   folder_id: string | undefined;
-  name: string | undefined;
+  name: string | undefined = ''; // Prevents form submission with empty name
   parent_folder_id: string | undefined;
   // sub: string | undefined;
   // workspace_id: string | undefined;
