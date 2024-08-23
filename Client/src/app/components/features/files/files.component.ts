@@ -44,17 +44,14 @@ export class FilesComponent {
   sub: string | undefined;
   file_id: string | undefined;
   workspace_id: string | undefined;
-  title: string | undefined = "";
-  first_name: string | undefined;
-  last_name: string | undefined;
-  file_status_id: string | undefined = "";
-  photo_url: string | undefined;
-  company: string | undefined;
-  phone_number: string | undefined;
-  email: string | undefined;
-  source: string | undefined;
   created_at: string | undefined;
   updated_at: string | undefined;
+  description: string | undefined;
+  size: number | undefined;
+  resource_type: string | undefined;
+  public_id: string | undefined;
+  file_url: string | undefined;
+  type: string | undefined;
 
   // Component actions
   files_action_container: boolean = false;
@@ -180,25 +177,15 @@ export class FilesComponent {
   //   }
   // }
 
-  // deleteFile(): void {
-  //   if (confirm('Are you sure you want to delete this file? This action cannot be undone.')) {
-  //     this.fileService.deleteFile(this.file_id).subscribe(response => {
-  //       console.log(response);
-  //       this.getFiles();
-  //       this.onReset();
-  //     });
-  //   }
-  // }
-
-  // // Deletion from directly within the list
-  // deleteFileById(file_id: string): void {
-  //   if (confirm('Are you sure you want to delete this file? This action cannot be undone.')) {
-  //     this.fileService.deleteFile(file_id).subscribe(response => {
-  //       console.log(response);
-  //       this.getFiles();
-  //     });
-  //   }
-  // }
+  deleteFile(): void {
+    if (confirm('Are you sure you want to delete this file? This action cannot be undone.')) {
+      this.fileService.deleteFile(this.public_id, this.resource_type).subscribe(response => {
+        console.log(response);
+        this.getFiles();
+        this.onReset();
+      });
+    }
+  }
 
   onInputChange(event: any) {
     const searchInputValue = event.target.value.trim().toLowerCase();
@@ -237,58 +224,19 @@ export class FilesComponent {
   openFilesActionSidebar(file: any): void {
     // Setting the file details
     this.file_id = file.file_id;
-    this.title = file.title;
-    this.first_name = file.first_name;
-    this.last_name = file.last_name;
-    this.company = file.company;
-    this.phone_number = file.phone_number;
-    this.email = file.email;
-    this.file_status_id = file.file_status_id;
-    this.photo_url = file.photo_url;
-    this.source = file.source;
+    this.name = file.name;
+    this.description = file.description;
     this.created_at = file.created_at;
-    this.updated_at = file.updated_at
+    this.updated_at = file.updated_at;
+    this.size = file.size;
+    this.resource_type = file.resource_type;
+    this.public_id = file.public_id;
+    this.file_url = file.file_url;
+    this.type = file.type;
     // Opening the files action sidebar
     // this.onReset();
     this.files_action_sidebar_container = true;
   }
-
-  openFileStatusMenu(file: any): void {
-    this.file_status_id = file.file_status_id;
-    this.file_id = file.file_id;
-    this.first_name = file.first_name;
-    this.last_name = file.last_name;
-    this.title = file.title;
-    this.company = file.company;
-    this.phone_number = file.phone_number;
-    this.email = file.email;
-    this.photo_url = file.photo_url;
-    this.source = file.source;
-    this.file_action_status_menu = true;
-  }
-
-  // updateFileStatus(file_status_id: any): void {
-  //   let updatedFile = {
-  //     file_status_id: file_status_id, // Take from new selected status
-  //     file_id: this.file_id,
-  //     title: this.title,
-  //     first_name: this.first_name,
-  //     last_name: this.last_name,
-  //     company: this.company,
-  //     phone_number: this.phone_number,
-  //     email: this.email,
-  //     photo_url: this.photo_url,
-  //     source: this.source,
-  //     updated_at: new Date().toISOString(),
-  //     workspace_id: this.currentWorkspaceId
-  //     };
-
-  //   this.fileService.updateFile(updatedFile).subscribe(response => {
-  //     console.log(response);
-  //     this.getFiles();
-  //     this.onReset();
-  //   });
-  // }
 
   sortFiles(sortFactor: any): void {
     if (sortFactor === 'name') {
@@ -429,30 +377,6 @@ export class FilesComponent {
     }
   }
 
-  // Phone number formatting
-  onPhoneNumberChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const numericValue = input.value.replace(/\D/g, '');
-    
-    this.phone_number = numericValue;
-    this.formatPhoneNumber();
-    input.value = this.phone_number;
-  }
-
-  formatPhoneNumber(): void {
-    if (this.phone_number) {
-      let formatted = this.phone_number;
-      if (formatted.length > 6) {
-        formatted = `(${formatted.slice(0, 3)}) ${formatted.slice(3, 6)}-${formatted.slice(6, 10)}`;
-      } else if (formatted.length > 3) {
-        formatted = `(${formatted.slice(0, 3)}) ${formatted.slice(3)}`;
-      } else {
-        formatted = formatted.slice(0, 3);
-      }
-      this.phone_number = formatted;
-    }
-  }
-
   // Folder actions
   createFolder(): void {
     const newFolder = {
@@ -473,17 +397,16 @@ export class FilesComponent {
 
   onReset(): void {
     // Reset the new file form
-    this.title = '';
-    this.first_name = '';
-    this.last_name = '';
-    this.company = '';
-    this.phone_number = '';
-    this.email = '';
-    this.file_status_id = '';
-    this.photo_url = '';
-    this.source = '';
     this.created_at = '';
     this.updated_at = '';
+    this.description = '';
+    this.size = 0;
+    this.resource_type = '';
+    this.public_id = '';
+    this.file_url = '';
+    this.type = '';
+    this.file_id = '';
+    this.name = '';
 
     // Close any open components
     this.files_action_sidebar_container = false;

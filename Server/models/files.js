@@ -13,7 +13,7 @@ class Files {
     }
 
    async getFilesByWorkspaceId (workspace_id) {
-        const query = `SELECT resource_type, public_id, folder_id, file_id, workspace_id, name, file_url, created_at, updated_at, sub, size, type FROM ceasar.files WHERE workspace_id = $1`;
+        const query = `SELECT resource_type, public_id, folder_id, file_id, workspace_id, name, file_url, created_at, updated_at, sub, size, type, description FROM ceasar.files WHERE workspace_id = $1`;
         const values = [workspace_id];
         try {
             const { rows } = await this.pool.query(query, values);

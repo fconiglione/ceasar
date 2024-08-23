@@ -502,34 +502,53 @@
     padding: 10px 0;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 10px;
   }
   .file-action-sidebar-form-content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 10px
   }
-  .file-action-sidebar-form-content fieldset {
+  .file-action-sidebar-form textarea {
+    border: 1px solid #eeeeee;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 0.9em;
+    resize: none;
+    height: 75px;
+  }
+  .file-action-sidebar-form hr {
+    border: none;
+    border-top: 1px solid #eeeeee;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    width: 100%;
+  }
+    .file-action-sidebar-form textarea:focus {
+        outline: none;
+    }
+  .file-action-sidebar-form fieldset {
     border: none;
     padding: 0;
     display: flex;
     flex-direction: column;
   }
-  .file-action-sidebar-form-content fieldset label {
+  .file-action-sidebar-form fieldset label {
     font-size: 0.9em;
     color: #777777;
     margin: 0 0 4px 0;
   }
-  .file-action-sidebar-form-content fieldset input {
+  .file-action-sidebar-form fieldset input {
     border: 1px solid #eeeeee;
     border-radius: 4px;
     padding: 10px;
     font-size: 0.9em;
   }
-  .file-action-sidebar-form-content fieldset input:focus {
+  .file-action-sidebar-form fieldset input:focus {
     outline: none;
   }
-  .file-action-sidebar-form-content fieldset select {
+  .file-action-sidebar-form fieldset select {
     border: 1px solid #eeeeee;
     border-radius: 4px;
     padding: 10px;
@@ -537,10 +556,10 @@
     height: 39px;
     cursor: pointer;
   }
-  .file-action-sidebar-form-content fieldset select:focus {
+  .file-action-sidebar-form fieldset select:focus {
     outline: none;
   }
-  .file-action-sidebar-form-content fieldset input:focus, .file-action-sidebar-form-content fieldset select:focus {
+  .file-action-sidebar-form fieldset input:focus, .file-action-sidebar-form fieldset select:focus, .file-action-sidebar-form textarea:focus {
     border-color: #FF9e67;
   }
   .file-action-form-sidebar-nav {
@@ -977,4 +996,26 @@
 }
 .folder-action-info .red, .folder-action-sidebar-form .red {
     color: #ff0800;
+}
+
+/* Download File Btn */
+
+.file-download-btn {
+    background-color: #FF9e67;
+    border: 1px solid #FF9e67;
+    border-radius: 3px;
+    padding: 6px 12px;
+    font-size: 1em;
+    cursor: pointer;
+    color: #ffffff;
+    transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.file-download-btn:hover {
+    background-color: #FF8e57;
+    border-color: #FF8e57;
 }
