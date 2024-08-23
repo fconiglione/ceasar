@@ -167,7 +167,7 @@
                         <h1>File info</h1>
                     </div>
                     <div>
-                        <button class="file-download-btn">
+                        <button class="file-download-btn" (click)="downloadFile(file_url, name)">
                             <span>Download</span>
                             <fa-icon [icon]="faDownload"></fa-icon>
                         </button>

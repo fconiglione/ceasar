@@ -395,6 +395,20 @@ export class FilesComponent {
     });
   }
 
+  // Download files action
+
+  downloadUrl: string = '';
+
+  downloadFile(file_url: any, name: any) {
+    const downloadUrl = `${file_url}`;
+    const anchor = document.createElement('a');
+    anchor.href = downloadUrl;
+    anchor.download = name || 'unknown';
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  }
+
   onReset(): void {
     // Reset the new file form
     this.created_at = '';
