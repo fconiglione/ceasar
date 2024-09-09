@@ -415,7 +415,7 @@ export class FilesComponent {
   }
 
   getParentFolders() {
-    this.parentFolders = this.allFolders.filter(folder => folder.folder_id !== this.currentFolderId);
+    this.parentFolders = this.allFolders.filter(folder => folder.folder_id !== this.currentFolderId && folder.parent_folder_id === null);
   }
 
   // Folder actions
