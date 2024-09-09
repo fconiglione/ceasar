@@ -131,7 +131,7 @@ export class FilesComponent {
       this.allFiles = files;
       this.filteredFiles = files;
       this.sortFiles('name'); // Sort by name by default
-      this.loading = false;
+      this.loading = false; // Hide the loading spinner since getFiles() takes longer to execute than getFolders()
     });
   }
 
@@ -140,7 +140,6 @@ export class FilesComponent {
     this.fileService.getFolders(this.currentWorkspaceId).subscribe((folders: any) => {
       this.allFolders = folders;
       this.filteredFolders = folders;
-      this.loading = false;
     });
   }
 
