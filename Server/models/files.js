@@ -91,6 +91,17 @@ class Files {
             throw error;
         }
     }
+
+    async deleteFolder (folder_id) {
+        const query = `DELETE FROM ceasar.folders WHERE folder_id = $1`;
+        const values = [folder_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

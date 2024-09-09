@@ -302,6 +302,18 @@ router.put('/files/folders', async (req, res) => {
     }
 });
 
+router.delete('/files/folders/:folder_id', async (req, res) => {
+    const folder_id = req.params.folder_id;
+    const files = new Files();
+    try {
+        const result = await files.deleteFolder(folder_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error deleting folder:", error);
+        res.status(500).send(error);
+    }
+});
+
 // Home
 
 router.post('/home/leads', async (req, res) => {

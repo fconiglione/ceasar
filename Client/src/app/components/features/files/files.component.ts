@@ -188,7 +188,15 @@ export class FilesComponent {
     }
   }
 
-  deleteFolder(): void {  }
+  deleteFolder(): void { 
+    if (confirm('Are you sure you want to delete this folder and all its containing files? This action cannot be undone.')) {
+      this.fileService.deleteFolder(this.folder_id).subscribe(response => {
+        console.log(response);
+        this.getFolders();
+        this.onReset();
+      });
+    }
+   }
 
   updateFolder(): void { 
     if (confirm('Are you sure you want to make changes to this folder? All changes are final and cannot be undone.')) {

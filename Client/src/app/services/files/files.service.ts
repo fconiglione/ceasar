@@ -41,4 +41,8 @@ export class FilesService {
   createFolder(folder: any) {
     return this.http.post(`${this.appServerUrl}/features/files/folders/create`, {folder});
   }
+
+  deleteFolder(folder_id: any) {
+    return this.http.delete(`${this.appServerUrl}/features/files/folders/${folder_id}`);
+  }
 }
