@@ -120,7 +120,7 @@
                         <td>{{folder.created_at | date: 'longDate'}}</td>
                         <td class="name-td" (click)="openFoldersActionSidebar(folder)">{{folder.name}}</td>
                         <td>Folder</td>
-                        <td></td>
+                        <td>{{getFolderSize(folder.folder_id) || "-"}}</td>
                         <td>N/A</td>
                         <td class="more-file-btn">
                             <fa-icon [icon]="faArrowRightToBracket" (click)="openFoldersActionSidebar(folder)"></fa-icon>
@@ -285,7 +285,7 @@
                             </fieldset>
                             <fieldset>
                                 <label for="folderSize">Folder Size</label>
-                                <input [disabled]="true" type="text" id="folderSize" name="folderSize" [placeholder]="convertFileSize(size)" [value]="convertFileSize(size)">
+                                <input [disabled]="true" type="text" id="folderSize" name="folderSize" [placeholder]="getFolderSize(folder_id)" [value]="getFolderSize(folder_id)">
                             </fieldset>
                         </div>
                         <div class="folder-action-form-sidebar-nav" [style.display]="folder_edit_mode == false ? 'none' : 'flex'">

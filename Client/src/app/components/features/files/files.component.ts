@@ -86,6 +86,7 @@ export class FilesComponent {
   filteredFolders: any[] = [];
   currentFolderId: string | undefined;
   parentFolders: any[] = [];
+  folder_size: number = 0;
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -354,6 +355,21 @@ export class FilesComponent {
   }
 }
 
+getFolderSize(folder_id: any) {
+  this.folder_size = 0;
+  this.allFiles.forEach((file: any) => {
+    if (file.folder_id === folder_id) {
+      this.folder_size += file.size;
+    }
+  });
+
+  // Remove leading zeroes
+  const sizeWithoutLeadingZeroes = Number(this.folder_size).toString();
+  
+  // Convert the size to a readable format
+  return this.convertFileSize(sizeWithoutLeadingZeroes);
+}
+
   // // CSV Exporting
 
   generateCSV(): string {
@@ -465,7 +481,7 @@ export class FilesComponent {
     this.folder_id = null;
     this.parent_folder_id = null;
     this.currentFolderId = '';
-
+    this.folder_size = 0;
     // Close any open components
     this.files_action_sidebar_container = false;
     this.files_action_container = false
