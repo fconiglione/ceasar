@@ -74,7 +74,7 @@
                     </div>
                     <div class="folder-card-footer">
                         <img [src]="DefaultPFP" alt="Profile Picture" class="folder-card-footer-img">
-                        <!-- <fa-icon [icon]="faArrowRightToBracket" (click)="openFilesActionSidebar(folder)"></fa-icon> -->
+                        <fa-icon [icon]="faArrowRightToBracket" (click)="openFoldersActionSidebar(folder)"></fa-icon>
                     </div>
                 </div>
             </div>
@@ -118,12 +118,12 @@
                             </button>
                         </td>
                         <td>{{folder.created_at | date: 'longDate'}}</td>
-                        <td class="name-td" (click)="openFilesActionSidebar(folder)">{{folder.name}}</td>
+                        <td class="name-td" (click)="openFoldersActionSidebar(folder)">{{folder.name}}</td>
                         <td>Folder</td>
                         <td></td>
                         <td>N/A</td>
                         <td class="more-file-btn">
-                            <fa-icon [icon]="faArrowRightToBracket" (click)="openFilesActionSidebar(folder)"></fa-icon>
+                            <fa-icon [icon]="faArrowRightToBracket" (click)="openFoldersActionSidebar(folder)"></fa-icon>
                         </td>
                     </tr>
                     <tr *ngFor="let file of filteredFiles">
@@ -201,8 +201,9 @@
                             </fieldset>
                             <fieldset>
                                 <label for="fileFolder">Folder</label>
-                                <select disabled name="fileFolder" id="fileFolder">
-                                    <option value="">--Coming Soon--</option>
+                                <select [disabled]="!file_edit_mode" name="fileFolder" id="fileFolder" [(ngModel)]="folder_id">
+                                    <option [ngValue]="null" selected>--No Folder--</option>
+                                    <option *ngFor="let folder of allFolders" value="{{folder.folder_id}}">{{folder.name}}</option>
                                 </select>
                             </fieldset>
                             <fieldset>
@@ -232,6 +233,79 @@
         </div>
     </div>
 </div>
+<div class="folders-action-sidebar" *ngIf="folders_action_sidebar_container">
+    <div class="folders-action-sidebar-container">
+        <div class="folders-action-sidebar-content">
+            <div class="folders-action-sidebar-content-container">
+                <div class="folder-action-sidebar-row folders-action-sidebar-header">
+                    <div>
+                        <button class="close-folder-action-btn-1 close-folder-sidebar-btn" (click)="onReset()">
+                            <fa-icon [icon]="faArrowLeft"></fa-icon>
+                        </button>
+                        <h1>Folder info</h1>
+                    </div>
+                    <div>
+                        <button class="folder-download-btn" (click)="downloadFile(file_url, name)">
+                            <span>Download</span>
+                            <fa-icon [icon]="faDownload"></fa-icon>
+                        </button>
+                        <button class="edit-folder-action-btn" (click)="folder_edit_mode = !folder_edit_mode">
+                            Edit Folder
+                        </button>
+                    </div>
+                </div>
+                <div class="folder-action-sidebar-row">
+                    <form class="folder-action-sidebar-form" #folderActionForm="ngForm">
+                        <fieldset>
+                            <label for="folderName">Folder Name<span class="red">*</span></label>
+                            <input [disabled]="!folder_edit_mode" type="text" id="folderName" name="folderName" [placeholder]="folder_edit_mode ? 'Enter folder name' : ''" maxlength="255" [(ngModel)]="name" #folderName="ngModel" required>
+                            <div *ngIf="folderName.invalid && (folderName.dirty || folderName.touched)" class="alert">
+                                <div *ngIf="folderName.errors && folderName.errors['required']">
+                                    Folder name is required.
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="folder-action-sidebar-form-content">
+                            <fieldset>
+                                <label for="folderOwner">Folder Owner<span class="red">*</span></label>
+                                <select disabled name="folderOwner" id="folderOwner">
+                                    <option value="">--Coming Soon--</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="folderParentFolder">Parent Folder</label>
+                                <select [disabled]="!folder_edit_mode" name="folderParentFolder" id="folderParentFolder" [(ngModel)]="parent_folder_id">
+                                    <option [ngValue]="null" selected>--No Parent Folder--</option>
+                                    <option *ngFor="let folder of parentFolders" value="{{folder.folder_id}}">{{folder.name}}</option>
+                                </select>
+                            </fieldset>
+                            <fieldset>
+                                <label for="folderCreationDate">Date Created</label>
+                                <input [disabled]="true" type="text" id="folderCreationDate" name="folderCreationDate" [placeholder]="created_at" [value]="created_at | date: 'longDate'">
+                            </fieldset>
+                            <fieldset>
+                                <label for="folderSize">Folder Size</label>
+                                <input [disabled]="true" type="text" id="folderSize" name="folderSize" [placeholder]="convertFileSize(size)" [value]="convertFileSize(size)">
+                            </fieldset>
+                        </div>
+                        <div class="folder-action-form-sidebar-nav" [style.display]="folder_edit_mode == false ? 'none' : 'flex'">
+                            <div>
+                                <button class="delete-folder-action-btn" (click)="deleteFolder()">
+                                    Delete Folder
+                                </button>
+                            </div>
+                            <div>
+                                <button class="close-folder-action-btn-2" (click)="onReset()">Cancel</button>
+                                <button type="submit" class="save-folder-action-btn" [disabled]="folderActionForm.invalid" (click)="updateFolder()">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Room for comments/notes to be added in future updates -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="folder-action" *ngIf="folder_action_container">
     <div class="folder-action-container">
         <div class="folder-action-content">
@@ -251,7 +325,7 @@
                     <p>Enter the information for your newly generated folder.</p>
                 </div>
                 <div class="folder-action-info">
-                    <form class="folder-action-form" #folderForm="ngForm" (click)="createFolder()">
+                    <form class="folder-action-form" #folderForm="ngForm" (ngSubmit)="createFolder()">
                         <div class="folder-action-form-content">
                             <fieldset>
                                 <label for="folderOwner">Folder owner<span class="red">*</span></label>

@@ -31,9 +31,10 @@ export class FilesComponent {
   username: string | undefined;
 
   // Folder components
-  folder_id: string | undefined;
+  FOLDER: any;
+  // folder_id: string | undefined;
   name: string | undefined = ''; // Prevents form submission with empty name
-  parent_folder_id: string | undefined;
+  parent_folder_id: string | null | undefined;
   // sub: string | undefined;
   // workspace_id: string | undefined;
   // created_at: string | undefined;
@@ -42,6 +43,7 @@ export class FilesComponent {
   // File components
   LEAD: any;
   sub: string | undefined;
+  folder_id: string | null | undefined;
   file_id: string | undefined;
   workspace_id: string | undefined;
   created_at: string | undefined;
@@ -57,6 +59,7 @@ export class FilesComponent {
   files_action_container: boolean = false;
   files_action_sidebar_container: boolean = false;
   file_edit_mode: boolean = false;
+  folder_edit_mode: boolean = false;
   loading: boolean = true;
   more_info_dropdown: boolean = false;
   card_view: boolean = true;
@@ -64,6 +67,7 @@ export class FilesComponent {
   sort_by_dropdown: boolean = false;
   file_action_status_menu: boolean = false;
   folder_action_container: boolean = false;
+  folders_action_sidebar_container: boolean = false;
 
   // Other variables
   file_status: string | undefined;
@@ -80,6 +84,8 @@ export class FilesComponent {
   filteredFiles: any[] = [];
   allFolders: any[] = [];
   filteredFolders: any[] = [];
+  currentFolderId: string | undefined;
+  parentFolders: any[] = [];
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -160,7 +166,8 @@ export class FilesComponent {
         description: this.description,
         sub: this.sub,
         updated_at: new Date().toISOString(),
-        workspace_id: this.currentWorkspaceId
+        workspace_id: this.currentWorkspaceId,
+        folder_id: this.folder_id
       };
 
       this.fileService.updateFile(updatedFile).subscribe(response => {
@@ -180,6 +187,27 @@ export class FilesComponent {
       });
     }
   }
+
+  deleteFolder(): void {  }
+
+  updateFolder(): void { 
+    if (confirm('Are you sure you want to make changes to this folder? All changes are final and cannot be undone.')) {
+      let updatedFolder = {
+        folder_id: this.folder_id,
+        name: this.name,
+        sub: this.sub,
+        updated_at: new Date().toISOString(),
+        workspace_id: this.currentWorkspaceId,
+        parent_folder_id: this.parent_folder_id
+      };
+
+      this.fileService.updateFolder(updatedFolder).subscribe(response => {
+        console.log(response);
+        this.getFolders();
+        this.onReset();
+      });
+    }
+   }
 
   onInputChange(event: any) {
     const searchInputValue = event.target.value.trim().toLowerCase();
@@ -227,9 +255,24 @@ export class FilesComponent {
     this.public_id = file.public_id;
     this.file_url = file.file_url;
     this.type = file.type;
+    this.folder_id = file.folder_id;
     // Opening the files action sidebar
     // this.onReset();
     this.files_action_sidebar_container = true;
+  }
+
+  openFoldersActionSidebar(folder: any): void {
+    // Setting the folder details
+    this.folder_id = folder.folder_id;
+    this.name = folder.name;
+    this.created_at = folder.created_at;
+    this.updated_at = folder.updated_at;
+    this.parent_folder_id = folder.parent_folder_id;
+    // Opening the folders action sidebar container
+    this.folders_action_sidebar_container = true;
+    // Getting parent folders
+    this.currentFolderId = folder.folder_id;
+    this.getParentFolders();
   }
 
   sortFiles(sortFactor: any): void {
@@ -371,6 +414,10 @@ export class FilesComponent {
     }
   }
 
+  getParentFolders() {
+    this.parentFolders = this.allFolders.filter(folder => folder.folder_id !== this.currentFolderId);
+  }
+
   // Folder actions
   createFolder(): void {
     const newFolder = {
@@ -415,6 +462,9 @@ export class FilesComponent {
     this.type = '';
     this.file_id = '';
     this.name = '';
+    this.folder_id = null;
+    this.parent_folder_id = null;
+    this.currentFolderId = '';
 
     // Close any open components
     this.files_action_sidebar_container = false;
@@ -423,6 +473,8 @@ export class FilesComponent {
     this.file_action_status_menu = false;
     this.more_info_dropdown = false;
     this.folder_action_container = false;
+    this.folders_action_sidebar_container = false;
+    this.folder_edit_mode = false;
     this.getFiles();
   }
 
@@ -448,185 +500,3 @@ export class FilesComponent {
     }
   }
 }
-
-// import { Component, ElementRef, ViewChild } from '@angular/core';
-// import { faUpload, faSearch, faChevronDown, faEye, faDownload, faTrash, faFile, faImage, faVideo } from '@fortawesome/free-solid-svg-icons';
-// import { FaIconComponent } from "@fortawesome/angular-fontawesome";
-// import { Router, ActivatedRoute } from '@angular/router';
-// import { FilesService } from '../../../services/files/files.service';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
-// import { LoadingComponent } from '../../loading/loading.component';
-
-// @Component({
-//   selector: 'app-files',
-//   standalone: true,
-//   imports: [
-//     FaIconComponent,
-//     CommonModule, FormsModule,
-//     LoadingComponent
-//   ],
-//   templateUrl: './files.component.html',
-//   styleUrl: './files.component.css'
-// })
-// export class FilesComponent {
-//   @ViewChild('fileInput') fileInput!: ElementRef;
-//   // Files info
-//   FILE: any;
-
-//   faUpload = faUpload;
-//   faSearch = faSearch;
-//   faChevronDown = faChevronDown;
-//   faDownload = faDownload;
-//   faTrash = faTrash;
-//   faFile = faFile;
-//   faEye = faEye;
-//   faImage = faImage;
-//   faVideo = faVideo;
-
-//   ShapesBanner = "assets/images/shapes-banner.svg";
-//   loading: boolean = true;
-//   currentWorkspaceId: string | undefined;
-
-//   constructor(private elementRef: ElementRef, private filesService: FilesService, private route: ActivatedRoute, private router: Router) { }
-
-//   getFiles(): void {
-//     // Get files from the API
-//     this.filesService.getFiles(this.currentWorkspaceId).subscribe(response => {
-//       this.FILE = response;
-//       this.applyFilter();
-//       this.loading = false;
-//     });
-//   }
-
-//   openNewFilePopup(): void {
-//     // Open the new file popup
-//     const newFilePopup = this.elementRef.nativeElement.querySelector('.create-file-pop-up');
-//     newFilePopup.style.display = 'block';
-//   }
-
-//   filesFilterDropdownActive: boolean = false;
-
-//   closeFilterFilesDropdown(): void {
-//     const filesFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-//     if (filesFilterDropdown) {
-//       filesFilterDropdown.style.display = 'none';
-//       this.filesFilterDropdownActive = false;
-//     }
-//   }  
-
-//   openFilterFilesDropdown(): void {
-//     const filesFilterDropdown = this.elementRef.nativeElement.querySelector('.filter-dropdown');
-//     if (filesFilterDropdown) {
-//       this.filesFilterDropdownActive = !this.filesFilterDropdownActive;
-//       filesFilterDropdown.style.display = this.filesFilterDropdownActive ? 'flex' : 'none';
-//     }
-//   }
-
-//   previousFilter: string = 'Name';
-//   activeFilter: string = 'Name';
-
-//   filterFiles(activeFilter: string): void {
-//     this.closeFilterFilesDropdown();
-//     if (activeFilter === this.previousFilter) {
-//         this.activeFilter = 'Name';
-//         this.previousFilter = 'Name';
-//     } else {
-//         this.activeFilter = activeFilter;
-//         this.previousFilter = activeFilter;
-//     }
-//     this.getFiles();
-// }
-
-// applyFilter(): void {
-//   if (this.activeFilter === 'Name') {
-//       this.FILE.sort((a: any, b: any) => a.name.localeCompare(b.name));
-//   } else if (this.activeFilter === 'Type') {
-//       this.FILE.sort((a: any, b: any) => a.resource_type.localeCompare(b.resource_type));
-//   } else if (this.activeFilter === 'Size') {
-//     this.FILE.sort((a: any, b: any) => a.size.localeCompare(b.size));
-//   } else if (this.activeFilter === 'Creation Date') {
-//     this.FILE.sort((a: any, b: any) => new Date(a.creation_date).getTime() - new Date(b.creation_date).getTime());
-// }
-// }
-
-// convertFileSize(size: any) {
-//   if (size < 1024) {
-//     return size + ' Bytes';
-//   } else if (size >= 1024 && size < 1048576) {
-//     return (size / 1024).toFixed(2) + ' KB';
-//   } else if (size >= 1048576 && size < 1073741824) {
-//     return (size / 1048576).toFixed(2) + ' MB';
-//   } else if (size >= 1073741824) {
-//     return (size / 1073741824).toFixed(2) + ' GB';
-//   } else {
-//     return 0 + ' Bytes';
-//   }
-// }
-
-// fileSearchInputValue: string = '';
-
-// onInputChange(event: any) {
-//   const searchInputValue = event.target.value.trim();
-//   this.fileSearchInputValue = searchInputValue;
-
-//   if (this.fileSearchInputValue === '') {
-//     this.getFiles();
-//   } else {
-//     this.FILE = this.FILE.filter((file: any) => {
-//       const name = file.name?.toLowerCase() ?? '';
-//       const type = file.type?.toLowerCase() ?? '';
-//       const size = file.size?.toLowerCase() ?? '';
-//       const resourceType = file.resource_type?.toLowerCase() ?? '';
-
-//       return name.includes(this.fileSearchInputValue.toLowerCase()) ||
-//         type.includes(this.fileSearchInputValue.toLowerCase()) ||
-//         size.includes(this.fileSearchInputValue.toLowerCase()) ||
-//         resourceType.includes(this.fileSearchInputValue.toLowerCase());
-//             });
-//   }
-// }  
-
-// downloadUrl: string = '';
-
-// downloadFile(file: any) {
-//   this.downloadUrl = `${file.file_url}`;
-//   window.open(this.downloadUrl, '_blank');
-// }
-
-// deleteFile(publicId: any, resourceType: any) {
-//   if (confirm('Are you sure you want to delete this file?')) {
-//     // Delete the file
-//     this.filesService.deleteFile(publicId, resourceType).subscribe(response => {
-//       console.log(response);
-//       this.getFiles();
-//     });
-//   }
-// }
-
-// isWorkspacePath(): boolean {
-//   return this.router.url.startsWith('/ws');
-// }
-
-// ngOnInit() {
-//   if (this.isWorkspacePath()) {
-//     this.route.queryParams.subscribe(params => {
-//       this.currentWorkspaceId = params['workspace_id'] || '';
-//       this.getFiles();
-//     });
-//   } else {
-//     console.log('Not a workspace path');
-//   }
-// }
-
-// importFile(event: any) {
-//   // Import the file
-//   const file = event.target.files[0];
-//   this.filesService.uploadFile(file, this.currentWorkspaceId).subscribe(response => {
-//     console.log(response);
-//     this.getFiles();
-//   });
-//   this.getFiles();
-// }
-
-// }

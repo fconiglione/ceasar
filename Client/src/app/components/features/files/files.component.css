@@ -601,6 +601,189 @@
     background-color: #d90429;
     border-color: #d90429;
   }
+
+    /* Folders Sidebar Action Container (.folders-sidebar-action-container) */
+  
+    .folders-action-sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+    .folders-action-sidebar-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+      width: 100%;
+    }
+    .folders-action-sidebar-content {
+      background-color: #ffffff;
+      /* border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px; */
+      width: 700px;
+      height: 100%;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.15);
+    }
+    .folders-action-sidebar-content-container {
+      padding: 40px 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      height: 100%;
+    }
+    .folders-action-sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+    }
+    .folders-action-sidebar-header div {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      align-items: center;
+    }
+    .close-folder-sidebar-btn {
+      color: #000000;
+    }
+    .close-folder-sidebar-btn:hover {
+      color: #111111;
+    }
+    .edit-folder-action-btn {
+      border: 1px solid #ff9e67;
+      background-color: transparent;
+      cursor: pointer;
+      font-size: 1em;
+      color: #ff9e67;
+      transition: color 0.1s ease-in-out, border 0.1s ease-in-out;
+      padding: 6px 12px;
+      border-radius: 3px;
+    }
+    .edit-folder-action-btn:hover {
+      color: #ff8e57;
+      border: 1px solid #ff8e57;
+    }
+    .folder-appt-btn {
+      border: 1px solid #007BFF;
+      background-color: #007BFF;
+      color: #ffffff;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.1s ease-in-out, border 0.1s ease-in-out;
+      padding: 6px 12px;
+      border-radius: 3px;
+    }
+    .folder-appt-btn:hover {
+      background-color: #2962FF;
+      border: 1px solid #2962FF;
+    }
+    .folder-action-sidebar-form {
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .folder-action-sidebar-form-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 10px
+    }
+    .folder-action-sidebar-form textarea {
+      border: 1px solid #eeeeee;
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 0.9em;
+      resize: none;
+      height: 75px;
+    }
+    .folder-action-sidebar-form hr {
+      border: none;
+      border-top: 1px solid #eeeeee;
+      border-bottom: none;
+      border-left: none;
+      border-right: none;
+      width: 100%;
+    }
+      .folder-action-sidebar-form textarea:focus {
+          outline: none;
+      }
+    .folder-action-sidebar-form fieldset {
+      border: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .folder-action-sidebar-form fieldset label {
+      font-size: 0.9em;
+      color: #777777;
+      margin: 0 0 4px 0;
+    }
+    .folder-action-sidebar-form fieldset input {
+      border: 1px solid #eeeeee;
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 0.9em;
+    }
+    .folder-action-sidebar-form fieldset input:focus {
+      outline: none;
+    }
+    .folder-action-sidebar-form fieldset select {
+      border: 1px solid #eeeeee;
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 0.9em;
+      height: 39px;
+      cursor: pointer;
+    }
+    .folder-action-sidebar-form fieldset select:focus {
+      outline: none;
+    }
+    .folder-action-sidebar-form fieldset input:focus, .folder-action-sidebar-form fieldset select:focus, .folder-action-sidebar-form textarea:focus {
+      border-color: #FF9e67;
+    }
+    .folder-action-form-sidebar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      gap: 15px;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      padding: 30px;
+      width: 640px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px;
+      background-color: #f5f7fa;
+    }
+    .folder-action-form-sidebar-nav p {
+      color: #777777;
+      font-size: 0.9em;
+      margin: 0;
+    }
+    .folder-action-form-sidebar-nav div {
+      display: flex;
+      flex-direction: row;
+      gap: 15px;
+      align-items: center;
+    }
+    .delete-folder-action-btn {
+      background-color: #ef233c;
+      border: 1px solid #ef233c;
+      border-radius: 4px;
+      padding: 10px 30px;
+      font-size: 1em;
+      cursor: pointer;
+      color: #ffffff;
+      transition: border-color 0.1s ease-in-out, background-color 0.1s ease-in-out;
+    }
+    .delete-folder-action-btn:hover {
+      background-color: #d90429;
+      border-color: #d90429;
+    }
   
   /* Dropdowns */
   
@@ -1000,7 +1183,7 @@
 
 /* Download File Btn */
 
-.file-download-btn {
+.file-download-btn, .folder-download-btn {
     background-color: #FF9e67;
     border: 1px solid #FF9e67;
     border-radius: 3px;
@@ -1015,7 +1198,7 @@
     justify-content: center;
     gap: 10px;
 }
-.file-download-btn:hover {
+.file-download-btn:hover, .folder-download-btn:hover {
     background-color: #FF8e57;
     border-color: #FF8e57;
 }

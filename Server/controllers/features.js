@@ -279,13 +279,25 @@ router.post('/files/folders/create', async (req, res) => {
 });
 
 router.put('/files', async (req, res) => {
-    const { workspace_id, name, description, updated_at, file_id, sub } = req.body.file;
+    const { workspace_id, name, description, updated_at, file_id, sub, folder_id } = req.body.file;
     const files = new Files();
     try {
-        const result = await files.updateFile(workspace_id, name, description, updated_at, file_id, sub);
+        const result = await files.updateFile(workspace_id, name, description, updated_at, file_id, sub, folder_id);
         res.status(200).send(result);
     } catch (error) {
         console.error("Error updating file:", error);
+        res.status(500).send(error);
+    }
+});
+
+router.put('/files/folders', async (req, res) => {
+    const { workspace_id, name, updated_at, sub, folder_id, parent_folder_id } = req.body.folder;
+    const files = new Files();
+    try {
+        const result = await files.updateFolder(workspace_id, name, updated_at, sub, folder_id, parent_folder_id);
+        res.status(200).send(result);
+    } catch (error) {
+        console.error("Error updating folder:", error);
         res.status(500).send(error);
     }
 });

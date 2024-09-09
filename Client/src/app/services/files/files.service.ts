@@ -30,6 +30,10 @@ export class FilesService {
     return this.http.put(`${this.appServerUrl}/features/files`, {file});
   }
 
+  updateFolder(folder: any) {
+    return this.http.put(`${this.appServerUrl}/features/files/folders`, {folder});
+  }
+
   deleteFile(public_id: any, resourceType: any) {
     return this.http.delete(`${this.appServerUrl}/features/files/${public_id}?resourceType=${resourceType}`);
   }
