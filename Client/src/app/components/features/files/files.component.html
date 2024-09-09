@@ -16,9 +16,9 @@
                     <fa-icon [icon]="faEllipsisV"></fa-icon>
                 </button>
                 <div class="more-file-dropdown" *ngIf="more_info_dropdown">
-                    <span>Import Files</span>
-                    <span (click)="downloadCSV()">Export Files</span>
-                    <span (click)="printData()">Print Files</span>
+                    <span (click)="fileInput.click()">Import Files</span>
+                    <input type="file" #fileInput style="display: none;" (change)="importFile($event)">
+                    <span (click)="exportAllFiles()">Export Files</span>
                 </div>
             </div>
         </div>

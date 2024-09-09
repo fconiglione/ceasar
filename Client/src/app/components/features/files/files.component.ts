@@ -370,44 +370,14 @@ getFolderSize(folder_id: any) {
   return this.convertFileSize(sizeWithoutLeadingZeroes);
 }
 
-  // // CSV Exporting
-
-  generateCSV(): string {
-    let csv = 'Last Name, First Name, Title, Company, Phone Number, Email, Status, Source, Owner\n';
-
-    this.filteredFiles.forEach((file: any) => {
-      csv += `${file.last_name}, ${file.first_name}, ${file.title}, ${file.company}, ${file.phone_number}, ${file.email}, ${file.source}, ${file.owner}\n`;
-    });
-
-    return csv;
-  }
-
-  downloadCSV(): void {
-    const csvData = this.generateCSV();
-    const blob = new Blob([csvData], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'files.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-  }
-
-  printData(): void {
-    // Print in csv format
-    const csvData = this.generateCSV();
-    const printWindow = window.open('', '', 'height=400,width=800');
-    if (printWindow) {
-      printWindow.document.write('<html><head><title>Files</title>');
-      printWindow.document.write('</head><body>');
-      printWindow.document.write('<pre>');
-      printWindow.document.write(csvData);
-      printWindow.document.write('</pre>');
-      printWindow.document.write('</body></html>');
-      printWindow.document.close();
-      printWindow.print();
+  exportAllFiles(): void {
+    // Download all files in a zip format
+    if (confirm('Are you sure you want to download all files? This action may take a while depending on the number and size of files.')) {
+      this.allFiles.forEach(file => {
+        if (file.file_url && file.name) {
+          this.downloadFile(file.file_url, file.name);
+        }
+      });
     }
   }
 
