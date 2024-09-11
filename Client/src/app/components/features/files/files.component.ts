@@ -451,7 +451,7 @@ getFolderSize(folder_id: any) {
     const currentFolder = this.allFolders.find((folder: any) => folder.folder_id === currentFolderId);
     if (currentFolder) {
       // Filters still need to include folders in previous parent folders
-      this.parentFolders = this.allFolders.filter((folder: any) => (folder.folder_id !== currentFolderId && folder.parent_folder_id === currentFolder.parent_folder_id) || (folder.parent_folder_id === null && folder.folder_id !== currentFolderId));
+      this.parentFolders = this.allFolders.filter((folder: any) => (folder.folder_id !== currentFolderId && folder.parent_folder_id === currentFolder.parent_folder_id) || (folder.parent_folder_id === null && folder.folder_id !== currentFolderId) || (folder.folder_id === currentFolder.parent_folder_id));
     } else {
       this.parentFolders = this.allFolders.filter((folder: any) => folder.parent_folder_id === null);
     }
