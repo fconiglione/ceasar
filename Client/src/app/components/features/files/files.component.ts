@@ -447,11 +447,12 @@ getFolderSize(folder_id: any) {
   }
 
   getParentFolders() {
+    // if the current folder has a parent folder, get all folders with the same parent folder id
     if (this.currentFolderId) {
       const currentFolder = this.allFolders.find(folder => folder.folder_id === this.currentFolderId);
       if (currentFolder) {
         this.parentFolders = this.allFolders.filter(folder => folder.folder_id !== this.currentFolderId && folder.parent_folder_id === currentFolder.parent_folder_id);
-      }
+      } 
     } else {
       this.parentFolders = this.allFolders.filter(folder => folder.parent_folder_id === null);
     }
@@ -533,10 +534,10 @@ getFolderSize(folder_id: any) {
 
   calculateStoragePercentage(): string {
   if (this.total_storage === 0) {
-    return '0'; // Avoid division by zero
+    return '0';
   }
   const percentage = (this.used_storage / this.total_storage) * 100;
-  return percentage.toFixed(2); // Format to 2 decimal places
+  return percentage.toFixed(2);
   }
 
   isWorkspacePath(): boolean {
