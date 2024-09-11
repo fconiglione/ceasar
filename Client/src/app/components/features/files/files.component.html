@@ -1,7 +1,9 @@
 <div class="files-main-container">
     <div class="files-main-container-header">
         <div class="files-main-container-item">
-            <h1>Files</h1>
+            <h1 (click)="clearFolderSelection()"><span>Files</span></h1>
+            <!-- Display open folders here -->
+             <h1 *ngFor="let folder of openFolders"> / <span (click)="getFolderComponents(folder)">{{folder.name}}</span></h1>
         </div>
         <div class="files-main-container-header-nav">
             <div>
@@ -65,7 +67,7 @@
         <div class="files-main-container-body-files-cv" *ngIf="card_view">
             <div class="folder-card" *ngFor="let folder of filteredFolders">
                 <div class="folder-card-container">
-                    <div class="folder-card-header">
+                    <div class="folder-card-header" (click)="getFolderComponents(folder)">
                         <div class="folder-card-header-content">
                             <fa-icon [icon]="faFolder" class="folder-icon"></fa-icon>
                             <h3>{{folder.name | slice:0:25}}{{folder.name.length > 25 ? '...' : ''}}</h3>
@@ -118,7 +120,7 @@
                             </button>
                         </td>
                         <td>{{folder.created_at | date: 'longDate'}}</td>
-                        <td class="name-td" (click)="openFoldersActionSidebar(folder)">{{folder.name}}</td>
+                        <td class="name-td" (click)="getFolderComponents(folder)">{{folder.name}}</td>
                         <td>Folder</td>
                         <td>{{getFolderSize(folder.folder_id) || "-"}}</td>
                         <td>N/A</td>
@@ -148,7 +150,7 @@
             </table>
         </div>
     </div>
-    <div *ngIf="filteredFiles && filteredFiles.length === 0 && !loading">
+    <div *ngIf="filteredFiles && filteredFiles.length === 0 && !loading && filteredFolders && filteredFolders.length === 0">
         <app-no-data></app-no-data>
     </div>
     <div id="loading" *ngIf="loading">

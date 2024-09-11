@@ -1202,3 +1202,16 @@
     background-color: #FF8e57;
     border-color: #FF8e57;
 }
+
+/* Miscellaneous */
+
+.files-main-container-item h1 span:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+.files-main-container-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}

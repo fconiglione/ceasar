@@ -87,6 +87,8 @@ export class FilesComponent {
   currentFolderId: string | undefined;
   parentFolders: any[] = [];
   folder_size: number = 0;
+  openFolders: any[] = [];
+  folderIndex: number[] = [];
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -126,22 +128,48 @@ export class FilesComponent {
 
   getFiles(): void {
     // Get files from the API
-    this.fileService.getFiles(this.currentWorkspaceId).subscribe((files: any) => {
-      // this.filteredFiles = response;
-      this.allFiles = files;
-      this.filteredFiles = files;
-      this.sortFiles('name'); // Sort by name by default
-      this.loading = false; // Hide the loading spinner since getFiles() takes longer to execute than getFolders()
+    this.fileService.getFiles(this.currentWorkspaceId).subscribe({
+      next: (files: any) => {
+        // Store all files and filter for files with no folder_id
+        this.allFiles = files;
+        this.filteredFiles = files.filter((file: any) => file.folder_id === null);
+        this.sortFiles('name'); // Sort by name by default
+        this.loading = false; // Hide the loading spinner
+      },
+      error: (err) => {
+        console.error('Failed to load files', err);
+        this.loading = false; // Hide the loading spinner in case of error
+      }
     });
   }
-
+  
   getFolders(): void {
     // Get folders from the API
-    this.fileService.getFolders(this.currentWorkspaceId).subscribe((folders: any) => {
-      this.allFolders = folders;
-      this.filteredFolders = folders;
+    this.fileService.getFolders(this.currentWorkspaceId).subscribe({
+      next: (folders: any) => {
+        this.allFolders = folders;
+        this.filteredFolders = folders.filter((folder: any) => folder.parent_folder_id === null);
+      },
+      error: (err) => {
+        console.error('Failed to load folders', err);
+      }
     });
   }
+  
+  getFolderComponents(selected_folder: any) {
+    if (selected_folder.folder_id) {
+      const folderIndexValue = this.openFolders.findIndex(folder => folder.folder_id === selected_folder.folder_id);
+  
+      if (folderIndexValue > -1) {
+        this.openFolders.splice(folderIndexValue + 1);
+      } else {
+        this.openFolders.push(selected_folder);
+      }
+      this.filteredFiles = this.allFiles.filter((file: any) => file.folder_id === selected_folder.folder_id);
+      this.filteredFolders = this.allFolders.filter((folder: any) => folder.parent_folder_id === selected_folder.folder_id);
+    }
+  }
+  
 
   importFile(event: any) {
     // Import the file
@@ -245,8 +273,10 @@ export class FilesComponent {
         }
       );
     } else {
-      this.filteredFolders = this.allFolders;
-      this.filteredFiles = this.allFiles;
+      this.getFiles();
+      this.getFolders();
+      // this.filteredFolders = this.allFolders;
+      // this.filteredFiles = this.allFiles;
     }
   }
 
@@ -468,7 +498,19 @@ getFolderSize(folder_id: any) {
     this.folder_action_container = false;
     this.folders_action_sidebar_container = false;
     this.folder_edit_mode = false;
+    if (this.openFolders.length < 0) {
+      this.getFiles();
+    }
+  }
+
+  clearFolderSelection() {
+    this.folderIndex = [];
+    this.openFolders = [];
+    this.filteredFiles = [];
+    this.filteredFolders = [];
     this.getFiles();
+    this.getFolders();
+    this.loading = true;
   }
 
   isWorkspacePath(): boolean {
@@ -483,8 +525,8 @@ getFolderSize(folder_id: any) {
           this.username = user.nickname;
           this.route.queryParams.subscribe(params => {
             this.currentWorkspaceId = params['workspace_id'] || '';
-            this.getFiles();
-            this.getFolders();
+            // clear folder index
+            this.clearFolderSelection();
           });
         }
       });
