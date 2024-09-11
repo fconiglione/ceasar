@@ -319,7 +319,7 @@ export class FilesComponent {
     this.folders_action_sidebar_container = true;
     // Getting parent folders
     this.currentFolderId = folder.folder_id;
-    this.getParentFolders();
+    this.getParentFolders(this.currentFolderId);
   }
 
   sortFiles(sortFactor: any): void {
@@ -446,15 +446,14 @@ getFolderSize(folder_id: any) {
     }
   }
 
-  getParentFolders() {
+  getParentFolders(currentFolderId: any) {
     // if the current folder has a parent folder, get all folders with the same parent folder id
-    if (this.currentFolderId) {
-      const currentFolder = this.allFolders.find(folder => folder.folder_id === this.currentFolderId);
-      if (currentFolder) {
-        this.parentFolders = this.allFolders.filter(folder => folder.folder_id !== this.currentFolderId && folder.parent_folder_id === currentFolder.parent_folder_id);
-      } 
+    const currentFolder = this.allFolders.find((folder: any) => folder.folder_id === currentFolderId);
+    if (currentFolder) {
+      // Filters still need to include folders in previous parent folders
+      this.parentFolders = this.allFolders.filter((folder: any) => (folder.folder_id !== currentFolderId && folder.parent_folder_id === currentFolder.parent_folder_id) || (folder.parent_folder_id === null && folder.folder_id !== currentFolderId));
     } else {
-      this.parentFolders = this.allFolders.filter(folder => folder.parent_folder_id === null);
+      this.parentFolders = this.allFolders.filter((folder: any) => folder.parent_folder_id === null);
     }
   }
 
@@ -504,6 +503,7 @@ getFolderSize(folder_id: any) {
     this.name = '';
     this.folder_id = null;
     this.parent_folder_id = null;
+    this.currentFolderId = '';
     this.currentFolderId = '';
     this.folder_size = 0;
     // Close any open components
