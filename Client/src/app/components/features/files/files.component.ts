@@ -68,6 +68,7 @@ export class FilesComponent {
   file_action_status_menu: boolean = false;
   folder_action_container: boolean = false;
   folders_action_sidebar_container: boolean = false;
+  showAllFolders: boolean = false;
 
   // Other variables
   file_status: string | undefined;
@@ -89,6 +90,10 @@ export class FilesComponent {
   folder_size: number = 0;
   openFolders: any[] = [];
   folderIndex: number[] = [];
+
+  // Storage variables
+  used_storage: number = 0;
+  total_storage: number = 0;
 
   // Font Awesome icons
   faChevronDown = faChevronDown;
@@ -170,6 +175,9 @@ export class FilesComponent {
     }
   }
   
+  showMoreFolders() {
+    this.showAllFolders = !this.showAllFolders;
+  }
 
   importFile(event: any) {
     // Import the file
@@ -239,6 +247,7 @@ export class FilesComponent {
 
       this.fileService.updateFolder(updatedFolder).subscribe(response => {
         console.log(response);
+        this.clearFolderSelection();
         this.getFolders();
         this.onReset();
       });
@@ -438,7 +447,14 @@ getFolderSize(folder_id: any) {
   }
 
   getParentFolders() {
-    this.parentFolders = this.allFolders.filter(folder => folder.folder_id !== this.currentFolderId && folder.parent_folder_id === null);
+    if (this.currentFolderId) {
+      const currentFolder = this.allFolders.find(folder => folder.folder_id === this.currentFolderId);
+      if (currentFolder) {
+        this.parentFolders = this.allFolders.filter(folder => folder.folder_id !== this.currentFolderId && folder.parent_folder_id === currentFolder.parent_folder_id);
+      }
+    } else {
+      this.parentFolders = this.allFolders.filter(folder => folder.parent_folder_id === null);
+    }
   }
 
   // Folder actions
@@ -511,6 +527,16 @@ getFolderSize(folder_id: any) {
     this.getFiles();
     this.getFolders();
     this.loading = true;
+  }
+
+  // Storage formatting
+
+  calculateStoragePercentage(): string {
+  if (this.total_storage === 0) {
+    return '0'; // Avoid division by zero
+  }
+  const percentage = (this.used_storage / this.total_storage) * 100;
+  return percentage.toFixed(2); // Format to 2 decimal places
   }
 
   isWorkspacePath(): boolean {

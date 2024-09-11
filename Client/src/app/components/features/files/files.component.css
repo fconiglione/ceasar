@@ -1203,6 +1203,15 @@
     border-color: #FF8e57;
 }
 
+/* Storage Indicator */
+
+.storage-indicator {
+  position: fixed;
+  bottom: 4px;
+  right: 2%;
+  font-size: 8px;
+}
+
 /* Miscellaneous */
 
 .files-main-container-item h1 span:hover {
@@ -1214,4 +1223,5 @@
   flex-direction: row;
   align-items: center;
   gap: 10px;
+  overflow-x: auto;
 }
