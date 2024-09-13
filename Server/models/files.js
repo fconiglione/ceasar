@@ -92,16 +92,52 @@ class Files {
         }
     }
 
-    async deleteFolder (folder_id) {
-        const query = `DELETE FROM ceasar.folders WHERE folder_id = $1`;
-        const values = [folder_id];
+    async deleteFolder(folder_id) {
+        const client = await this.pool.connect();
         try {
-            const { rows } = await this.pool.query(query, values);
-            return rows;
+            await client.query('BEGIN');
+    
+            // Find all folders to delete recursively
+            const findFoldersQuery = `
+                WITH RECURSIVE folder_tree AS (
+                    SELECT folder_id
+                    FROM ceasar.folders
+                    WHERE folder_id = $1
+                    UNION ALL
+                    SELECT f.folder_id
+                    FROM ceasar.folders f
+                    INNER JOIN folder_tree ft ON f.parent_folder_id = ft.folder_id
+                )
+                SELECT folder_id FROM folder_tree;
+            `;
+            const { rows: foldersToDelete } = await client.query(findFoldersQuery, [folder_id]);
+    
+            // Extract the folder IDs to delete
+            const folderIds = foldersToDelete.map(row => row.folder_id);
+    
+            // Delete files within the identified folders
+            const deleteFilesQuery = `
+                DELETE FROM ceasar.files
+                WHERE folder_id = ANY($1::int[]);
+            `;
+            await client.query(deleteFilesQuery, [folderIds]);
+    
+            // Delete the folders
+            const deleteFoldersQuery = `
+                DELETE FROM ceasar.folders
+                WHERE folder_id = ANY($1::int[]);
+            `;
+            await client.query(deleteFoldersQuery, [folderIds]);
+    
+            await client.query('COMMIT');
+            return { success: true };
         } catch (error) {
+            await client.query('ROLLBACK');
             throw error;
+        } finally {
+            client.release();
         }
-    }
+    }    
 
     async getUsedStorage (workspace_id) {
         const query = `SELECT SUM(size) FROM ceasar.files WHERE workspace_id = $1`;
