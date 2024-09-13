@@ -162,6 +162,7 @@ export class FilesComponent {
   }
 
   getFolderComponents(selected_folder: any) {
+    this.folder_id = selected_folder.folder_id;
     if (selected_folder.folder_id) {
       const folderIndexValue = this.openFolders.findIndex(folder => folder.folder_id === selected_folder.folder_id);
 
@@ -229,6 +230,7 @@ export class FilesComponent {
       this.fileService.deleteFolder(this.folder_id).subscribe(response => {
         console.log(response);
         this.getFolders();
+        this.clearFolderSelection();
         this.onReset();
       });
     }
@@ -516,7 +518,8 @@ export class FilesComponent {
     this.type = '';
     this.file_id = '';
     this.name = '';
-    this.folder_id = null;
+    // Folder_id mustn't be reset to allow for folder deletion outside of the folder action sidebar
+    // this.folder_id = null;
     this.parent_folder_id = null;
     this.currentFolderId = '';
     this.currentFolderId = '';
@@ -530,6 +533,7 @@ export class FilesComponent {
     this.folder_action_container = false;
     this.folders_action_sidebar_container = false;
     this.folder_edit_mode = false;
+    this.getStorageDetails();
     if (this.openFolders.length < 0) {
       this.getFiles();
     }
@@ -570,7 +574,12 @@ export class FilesComponent {
   getUsedStorage(): void {
     this.fileService.getUsedStorage(this.currentWorkspaceId).subscribe({
       next: (response: any) => {
-        this.used_storage = response.sum;
+        if (response.sum === null) {
+          this.used_storage = 0;
+          return;
+        } else {
+          this.used_storage = response.sum;
+        }
       },
       error: (err: any) => {
         console.error('Failed to get used storage', err);

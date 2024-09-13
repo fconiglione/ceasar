@@ -22,6 +22,7 @@
                     <span (click)="fileInput.click()">Import Files</span>
                     <input type="file" #fileInput style="display: none;" (change)="importFile($event)">
                     <span (click)="exportAllFiles()">Export Files</span>
+                    <span *ngIf="this.folder_id" (click)="deleteFolder()">Delete Folder</span>
                 </div>
             </div>
         </div>
