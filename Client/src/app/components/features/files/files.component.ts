@@ -540,6 +540,7 @@ export class FilesComponent {
   }
 
   clearFolderSelection() {
+    this.folder_id = null;
     this.folderIndex = [];
     this.openFolders = [];
     this.filteredFiles = [];
