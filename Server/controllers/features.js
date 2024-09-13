@@ -319,7 +319,6 @@ router.post('/files/storage', async (req, res) => {
     const files = new Files();
     try {
         const result = await files.getUsedStorage(workspace_id);
-        console.log(result[0]);
         res.status(200).send(result[0]);
     } catch (error) {
         console.error("Error getting storage information:", error);
