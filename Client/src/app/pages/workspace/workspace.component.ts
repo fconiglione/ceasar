@@ -66,7 +66,7 @@ export class WorkspaceComponent {
   updateLastOpenedDate() {
     this.last_opened_date = new Date().toISOString();
     this.workspaceService.updateLastOpenedDate(this.sub, this.currentWorkspaceId, this.last_opened_date).subscribe(response => {
-      console.log(response);
+      // console.log(response);
     });
   }
 

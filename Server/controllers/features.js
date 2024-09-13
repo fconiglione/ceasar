@@ -314,6 +314,19 @@ router.delete('/files/folders/:folder_id', async (req, res) => {
     }
 });
 
+router.post('/files/storage', async (req, res) => {
+    const workspace_id = req.body.workspaceId;
+    const files = new Files();
+    try {
+        const result = await files.getUsedStorage(workspace_id);
+        console.log(result[0]);
+        res.status(200).send(result[0]);
+    } catch (error) {
+        console.error("Error getting storage information:", error);
+        res.status(500).send(error);
+    }
+});
+
 // Home
 
 router.post('/home/leads', async (req, res) => {

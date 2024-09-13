@@ -225,7 +225,7 @@ export class FilesComponent {
   }
 
   deleteFolder(): void {
-    if (confirm('Are you sure you want to delete this folder and all its containing files? This action cannot be undone.')) {
+    if (confirm('Are you sure you want to delete this folder? All files and folders will also be deleted. This action cannot be undone.')) {
       this.fileService.deleteFolder(this.folder_id).subscribe(response => {
         console.log(response);
         this.getFolders();
@@ -555,14 +555,27 @@ export class FilesComponent {
     return percentage.toFixed(2);
   }
 
-  getTotalStorage(): void {
-    this.total_storage = 500;
+  // Manually converted storage values
+  getTotalStorage(): string {
+    this.total_storage = 100000000; // Manually entered value for testing
+    if (this.total_storage === 100000000) {
+      return '100 MB';
+    } else if (this.total_storage === 5000000000) {
+      return '5 GB';
+    } else {
+      return this.convertFileSize(this.total_storage);
+    }
   }
 
   getUsedStorage(): void {
-    this.allFiles.forEach((file: any) => {
-      this.used_storage += file.size;
-    })
+    this.fileService.getUsedStorage(this.currentWorkspaceId).subscribe({
+      next: (response: any) => {
+        this.used_storage = response.sum;
+      },
+      error: (err: any) => {
+        console.error('Failed to get used storage', err);
+      }
+    });
   }
 
   getStorageDetails(): void {

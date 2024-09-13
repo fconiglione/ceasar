@@ -102,6 +102,17 @@ class Files {
             throw error;
         }
     }
+
+    async getUsedStorage (workspace_id) {
+        const query = `SELECT SUM(size) FROM ceasar.files WHERE workspace_id = $1`;
+        const values = [workspace_id];
+        try {
+            const { rows } = await this.pool.query(query, values);
+            return rows;
+        } catch (error) {
+            throw error;
+        }
+    }
     
 }
 

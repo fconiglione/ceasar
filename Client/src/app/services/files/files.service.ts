@@ -45,4 +45,8 @@ export class FilesService {
   deleteFolder(folder_id: any) {
     return this.http.delete(`${this.appServerUrl}/features/files/folders/${folder_id}`);
   }
+
+  getUsedStorage(workspaceId: any) {
+    return this.http.post(`${this.appServerUrl}/features/files/storage`, {workspaceId});
+  }
 }
