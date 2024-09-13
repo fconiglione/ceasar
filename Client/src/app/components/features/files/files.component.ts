@@ -22,7 +22,7 @@ import { NoDataComponent } from "../../no-data/no-data.component";
     FormsModule,
     LoadingComponent,
     NoDataComponent
-],
+  ],
   templateUrl: './files.component.html',
   styleUrl: './files.component.css'
 })
@@ -129,7 +129,7 @@ export class FilesComponent {
   ShapesBanner = "assets/images/shapes-banner.svg";
   DefaultPFP = "assets/images/default-pfp.svg";
 
-  constructor( private fileService: FilesService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService ) { }
+  constructor(private fileService: FilesService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService) { }
 
   getFiles(): void {
     // Get files from the API
@@ -147,7 +147,7 @@ export class FilesComponent {
       }
     });
   }
-  
+
   getFolders(): void {
     // Get folders from the API
     this.fileService.getFolders(this.currentWorkspaceId).subscribe({
@@ -160,11 +160,11 @@ export class FilesComponent {
       }
     });
   }
-  
+
   getFolderComponents(selected_folder: any) {
     if (selected_folder.folder_id) {
       const folderIndexValue = this.openFolders.findIndex(folder => folder.folder_id === selected_folder.folder_id);
-  
+
       if (folderIndexValue > -1) {
         this.openFolders.splice(folderIndexValue + 1);
       } else {
@@ -174,7 +174,7 @@ export class FilesComponent {
       this.filteredFolders = this.allFolders.filter((folder: any) => folder.parent_folder_id === selected_folder.folder_id);
     }
   }
-  
+
   showMoreFolders() {
     this.showAllFolders = !this.showAllFolders;
   }
@@ -224,7 +224,7 @@ export class FilesComponent {
     }
   }
 
-  deleteFolder(): void { 
+  deleteFolder(): void {
     if (confirm('Are you sure you want to delete this folder and all its containing files? This action cannot be undone.')) {
       this.fileService.deleteFolder(this.folder_id).subscribe(response => {
         console.log(response);
@@ -232,9 +232,9 @@ export class FilesComponent {
         this.onReset();
       });
     }
-   }
+  }
 
-  updateFolder(): void { 
+  updateFolder(): void {
     if (confirm('Are you sure you want to make changes to this folder? All changes are final and cannot be undone.')) {
       let updatedFolder = {
         folder_id: this.folder_id,
@@ -252,34 +252,34 @@ export class FilesComponent {
         this.onReset();
       });
     }
-   }
+  }
 
   onInputChange(event: any) {
     const searchInputValue = event.target.value.trim().toLowerCase();
     this.fileSearchInputValue = searchInputValue;
-  
+
     if (this.fileSearchInputValue.length > 0) {
       this.filteredFiles = this.allFiles.filter((file: any) => {
         const name = file.name?.toLowerCase() ?? '';
         const resource_type = file.resource_type?.toLowerCase() ?? '';
         const created_at = file.created_at?.toLowerCase() ?? '';
         const updated_at = file.updated_at?.toLowerCase() ?? '';
-  
+
         return name.includes(this.fileSearchInputValue) ||
           resource_type.includes(this.fileSearchInputValue) ||
           created_at.includes(this.fileSearchInputValue) ||
           updated_at.includes(this.fileSearchInputValue);
-        });
+      });
 
-        this.filteredFolders = this.allFolders.filter((folder: any) => {
-          const name = folder.name?.toLowerCase() ?? '';
-          const created_at = folder.created_at?.toLowerCase() ?? '';
-          const updated_at = folder.updated_at?.toLowerCase() ?? '';
+      this.filteredFolders = this.allFolders.filter((folder: any) => {
+        const name = folder.name?.toLowerCase() ?? '';
+        const created_at = folder.created_at?.toLowerCase() ?? '';
+        const updated_at = folder.updated_at?.toLowerCase() ?? '';
 
-          return name.includes(this.fileSearchInputValue) ||
-            created_at.includes(this.fileSearchInputValue) ||
-            updated_at.includes(this.fileSearchInputValue);
-        }
+        return name.includes(this.fileSearchInputValue) ||
+          created_at.includes(this.fileSearchInputValue) ||
+          updated_at.includes(this.fileSearchInputValue);
+      }
       );
     } else {
       this.getFiles();
@@ -388,33 +388,33 @@ export class FilesComponent {
   }
 
   convertFileSize(size: any) {
-  if (size < 1024) {
-    return size + ' Bytes';
-  } else if (size >= 1024 && size < 1048576) {
-    return (size / 1024).toFixed(2) + ' KB';
-  } else if (size >= 1048576 && size < 1073741824) {
-    return (size / 1048576).toFixed(2) + ' MB';
-  } else if (size >= 1073741824) {
-    return (size / 1073741824).toFixed(2) + ' GB';
-  } else {
-    return 0 + ' Bytes';
-  }
-}
-
-getFolderSize(folder_id: any) {
-  this.folder_size = 0;
-  this.allFiles.forEach((file: any) => {
-    if (file.folder_id === folder_id) {
-      this.folder_size += file.size;
+    if (size < 1024) {
+      return size + ' Bytes';
+    } else if (size >= 1024 && size < 1048576) {
+      return (size / 1024).toFixed(2) + ' KB';
+    } else if (size >= 1048576 && size < 1073741824) {
+      return (size / 1048576).toFixed(2) + ' MB';
+    } else if (size >= 1073741824) {
+      return (size / 1073741824).toFixed(2) + ' GB';
+    } else {
+      return 0 + ' Bytes';
     }
-  });
+  }
 
-  // Remove leading zeroes
-  const sizeWithoutLeadingZeroes = Number(this.folder_size).toString();
-  
-  // Convert the size to a readable format
-  return this.convertFileSize(sizeWithoutLeadingZeroes);
-}
+  getFolderSize(folder_id: any) {
+    this.folder_size = 0;
+    this.allFiles.forEach((file: any) => {
+      if (file.folder_id === folder_id) {
+        this.folder_size += file.size;
+      }
+    });
+
+    // Remove leading zeroes
+    const sizeWithoutLeadingZeroes = Number(this.folder_size).toString();
+
+    // Convert the size to a readable format
+    return this.convertFileSize(sizeWithoutLeadingZeroes);
+  }
 
   exportAllFiles(): void {
     // Download all files in a zip format
@@ -446,16 +446,31 @@ getFolderSize(folder_id: any) {
     }
   }
 
-  getParentFolders(currentFolderId: any) {
-    // if the current folder has a parent folder, get all folders with the same parent folder id
-    const currentFolder = this.allFolders.find((folder: any) => folder.folder_id === currentFolderId);
-    if (currentFolder) {
-      // Filters still need to include folders in previous parent folders
-      this.parentFolders = this.allFolders.filter((folder: any) => (folder.folder_id !== currentFolderId && folder.parent_folder_id === currentFolder.parent_folder_id) || (folder.parent_folder_id === null && folder.folder_id !== currentFolderId) || (folder.folder_id === currentFolder.parent_folder_id));
-    } else {
-      this.parentFolders = this.allFolders.filter((folder: any) => folder.parent_folder_id === null);
+  getParentFolders(currentFolderId: string | undefined) {
+    if (!currentFolderId) {
+      this.parentFolders = [];
+      return;
     }
-  }
+  
+    // const currentFolder = this.allFolders.find((folder: any) => folder.folder_id === currentFolderId);
+  
+    const descendantFolderIds = new Set<string>();
+    const getDescendants = (folderId: string) => {
+      this.allFolders.forEach((folder: any) => {
+        if (folder.parent_folder_id === folderId) {
+          descendantFolderIds.add(folder.folder_id);
+          getDescendants(folder.folder_id);
+        }
+      });
+    };
+  
+    getDescendants(currentFolderId);
+  
+    this.parentFolders = this.allFolders.filter((folder: any) => {
+      return folder.folder_id !== currentFolderId && // Exclude the current folder
+             !descendantFolderIds.has(folder.folder_id); // Exclude descendant folders
+    });
+  }  
 
   // Folder actions
   createFolder(): void {
@@ -530,14 +545,29 @@ getFolderSize(folder_id: any) {
     this.loading = true;
   }
 
-  // Storage formatting
+  // Storage
 
   calculateStoragePercentage(): string {
-  if (this.total_storage === 0) {
-    return '0';
+    if (this.total_storage === 0) {
+      return '0';
+    }
+    const percentage = (this.used_storage / this.total_storage) * 100;
+    return percentage.toFixed(2);
   }
-  const percentage = (this.used_storage / this.total_storage) * 100;
-  return percentage.toFixed(2);
+
+  getTotalStorage(): void {
+    this.total_storage = 500;
+  }
+
+  getUsedStorage(): void {
+    this.allFiles.forEach((file: any) => {
+      this.used_storage += file.size;
+    })
+  }
+
+  getStorageDetails(): void {
+    this.getTotalStorage();
+    this.getUsedStorage();
   }
 
   isWorkspacePath(): boolean {
@@ -554,6 +584,7 @@ getFolderSize(folder_id: any) {
             this.currentWorkspaceId = params['workspace_id'] || '';
             // clear folder index
             this.clearFolderSelection();
+            this.getStorageDetails();
           });
         }
       });
