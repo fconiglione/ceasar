@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../loading/loading.component';
 import { AuthService } from '@auth0/auth0-angular';
 import { NoDataComponent } from "../../no-data/no-data.component";
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-files',
@@ -68,6 +69,7 @@ export class FilesComponent {
   folder_action_container: boolean = false;
   folders_action_sidebar_container: boolean = false;
   showAllFolders: boolean = false;
+  activeSearch: boolean = false;
 
   // Other variables
   file_status: string | undefined;
@@ -186,6 +188,11 @@ export class FilesComponent {
     this.showAllFolders = !this.showAllFolders;
   }
 
+  delay(ms: number) {
+    this.loading = true;
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   importFile(event: any) {
     if (this.folder_id !== null) {
       const file = event.target.files[0];
@@ -195,8 +202,9 @@ export class FilesComponent {
         workspace_id: this.currentWorkspaceId,
         folder_id: this.folder_id
       };
-      this.fileService.uploadFile(file, info).subscribe(response => {
+      this.fileService.uploadFile(file, info).subscribe(async response => {
         console.log(response);
+        await this.delay(500);
         this.getFiles();
       });
     } else {
@@ -206,8 +214,9 @@ export class FilesComponent {
         created_at: new Date().toISOString(),
         workspace_id: this.currentWorkspaceId
       };
-      this.fileService.uploadFile(file, info).subscribe(response => {
+      this.fileService.uploadFile(file, info).subscribe(async response => {
         console.log(response);
+        await this.delay(500);
         this.getFiles();
       });
     }
@@ -279,6 +288,7 @@ export class FilesComponent {
     this.fileSearchInputValue = searchInputValue;
 
     if (this.fileSearchInputValue.length > 0) {
+      this.activeSearch = true;
       this.filteredFiles = this.allFiles.filter((file: any) => {
         const name = file.name?.toLowerCase() ?? '';
         const resource_type = file.resource_type?.toLowerCase() ?? '';
@@ -302,10 +312,14 @@ export class FilesComponent {
       }
       );
     } else {
-      this.getFiles();
-      this.getFolders();
-      // this.filteredFolders = this.allFolders;
-      // this.filteredFiles = this.allFiles;
+      this.activeSearch = false;
+      if (this.folder_id === null) {
+        this.filteredFiles = this.allFiles.filter((file: any) => file.folder_id === null);
+        this.filteredFolders = this.allFolders.filter((folder: any) => folder.parent_folder_id === null);
+      } else {
+        this.filteredFiles = this.allFiles.filter((file: any) => file.folder_id === this.folder_id);
+        this.filteredFolders = this.allFolders.filter((folder: any) => folder.parent_folder_id === this.folder_id);
+      }
     }
   }
 

@@ -3,7 +3,9 @@
         <div class="files-main-container-item">
             <h1 (click)="clearFolderSelection()"><span>Files</span></h1>
             <!-- Display open folders here -->
+             <span *ngIf="activeSearch == false">
              <h1 *ngFor="let folder of (showAllFolders ? openFolders : (openFolders | slice:0:3))"> / <span (click)="getFolderComponents(folder)">{{folder.name}}</span></h1>
+            </span>
              <h1 *ngIf="openFolders.length > 3"> / <span (click)="showMoreFolders()">...</span></h1>
         </div>
         <div class="files-main-container-header-nav">
