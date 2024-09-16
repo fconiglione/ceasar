@@ -1,10 +1,9 @@
-import { Component, ElementRef } from '@angular/core';
+import { Component, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { FaIconComponent } from "@fortawesome/angular-fontawesome";
 import { faChevronDown, faSearch, faDownload, faPhone, faEnvelope, faEllipsisV, faCircleInfo, faEye, faEdit, faTrash, faArrowLeft, faSort, faBars, faTableCells, faUserAlt, faArrowRightToBracket, faXmark, faPenToSquare, faSquare, faFile, faFileVideo, faFileImage, faFileLines, faFolder } from '@fortawesome/free-solid-svg-icons';
-import { NgFor, NgIf, DatePipe } from '@angular/common';
+import { NgFor, NgIf, DatePipe, CommonModule } from '@angular/common';
 import { FilesService } from '../../../services/files/files.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../loading/loading.component';
 import { AuthService } from '@auth0/auth0-angular';
@@ -129,7 +128,7 @@ export class FilesComponent {
   ShapesBanner = "assets/images/shapes-banner.svg";
   DefaultPFP = "assets/images/default-pfp.svg";
 
-  constructor(private fileService: FilesService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService) { }
+  constructor(private fileService: FilesService, private route: ActivatedRoute, private router: Router, private elementRef: ElementRef, private authService: AuthService, private changeDetector: ChangeDetectorRef) { }
 
   getFiles(): void {
     // Get files from the API
@@ -137,9 +136,15 @@ export class FilesComponent {
       next: (files: any) => {
         // Store all files and filter for files with no folder_id
         this.allFiles = files;
-        this.filteredFiles = files.filter((file: any) => file.folder_id === null);
+        if (this.folder_id === null) {
+          this.filteredFiles = files.filter((file: any) => file.folder_id === null);
+        } else {
+          this.filteredFiles = files.filter((file: any) => file.folder_id === this.folder_id);
+        }
         this.sortFiles('name'); // Sort by name by default
         this.loading = false; // Hide the loading spinner
+        this.changeDetector.detectChanges();
+        this.getStorageDetails();
       },
       error: (err) => {
         console.error('Failed to load files', err);
@@ -154,6 +159,7 @@ export class FilesComponent {
       next: (folders: any) => {
         this.allFolders = folders;
         this.filteredFolders = folders.filter((folder: any) => folder.parent_folder_id === null);
+        this.changeDetector.detectChanges();
       },
       error: (err) => {
         console.error('Failed to load folders', err);
@@ -181,18 +187,30 @@ export class FilesComponent {
   }
 
   importFile(event: any) {
-    // Import the file
-    const file = event.target.files[0];
-    const info = {
-      sub: this.sub,
-      created_at: new Date().toISOString(),
-      workspace_id: this.currentWorkspaceId
-    };
-    this.fileService.uploadFile(file, info).subscribe(response => {
-      console.log(response);
-      this.getFiles();
-    });
-    this.getFiles();
+    if (this.folder_id !== null) {
+      const file = event.target.files[0];
+      const info = {
+        sub: this.sub,
+        created_at: new Date().toISOString(),
+        workspace_id: this.currentWorkspaceId,
+        folder_id: this.folder_id
+      };
+      this.fileService.uploadFile(file, info).subscribe(response => {
+        console.log(response);
+        this.getFiles();
+      });
+    } else {
+      const file = event.target.files[0];
+      const info = {
+        sub: this.sub,
+        created_at: new Date().toISOString(),
+        workspace_id: this.currentWorkspaceId
+      };
+      this.fileService.uploadFile(file, info).subscribe(response => {
+        console.log(response);
+        this.getFiles();
+      });
+    }
   }
 
   updateFile(): void {
@@ -476,20 +494,37 @@ export class FilesComponent {
 
   // Folder actions
   createFolder(): void {
-    const newFolder = {
-      sub: this.sub,
-      name: this.name,
-      // parent_folder_id: this.parent_folder_id,
-      workspace_id: this.currentWorkspaceId,
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    };
+    if (this.folder_id !== null) {
+      const newFolder = {
+        sub: this.sub,
+        name: this.name,
+        parent_folder_id: this.folder_id,
+        workspace_id: this.currentWorkspaceId,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
 
-    this.fileService.createFolder(newFolder).subscribe(response => {
-      console.log(response);
-      this.onReset();
-      this.getFolders();
-    });
+      this.fileService.createFolder(newFolder).subscribe(response => {
+        console.log(response);
+        this.onReset();
+        this.getFolders();
+      });
+    } else {
+      const newFolder = {
+        sub: this.sub,
+        name: this.name,
+        // parent_folder_id: this.parent_folder_id,
+        workspace_id: this.currentWorkspaceId,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+
+      this.fileService.createFolder(newFolder).subscribe(response => {
+        console.log(response);
+        this.onReset();
+        this.getFolders();
+      });
+    }
   }
 
   // Download files action

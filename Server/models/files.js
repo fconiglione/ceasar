@@ -24,10 +24,10 @@ class Files {
         }
     }
 
-    async uploadFileToDatabase (workspace_id, name, file_url, sub, size, type, public_id, resource_type, created_at) {
-        const query = `INSERT INTO ceasar.files (workspace_id, name, file_url, sub, size, type, public_id, resource_type, created_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`;
-        const values = [workspace_id, name, file_url, sub, size, type, public_id, resource_type, created_at];
+    async uploadFileToDatabase (workspace_id, name, file_url, sub, size, type, public_id, resource_type, created_at, folder_id) {
+        const query = `INSERT INTO ceasar.files (workspace_id, name, file_url, sub, size, type, public_id, resource_type, created_at, folder_id)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+        const values = [workspace_id, name, file_url, sub, size, type, public_id, resource_type, created_at, folder_id];
         try {
             const { rows } = await this.pool.query(query, values);
             return rows;
