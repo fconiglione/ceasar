@@ -159,9 +159,13 @@ export class FilesComponent {
     // Get folders from the API
     this.fileService.getFolders(this.currentWorkspaceId).subscribe({
       next: (folders: any) => {
-        this.allFolders = folders;
-        this.filteredFolders = folders.filter((folder: any) => folder.parent_folder_id === null);
-        this.changeDetector.detectChanges();
+        if (this.folder_id === null) {
+          this.allFolders = folders;
+          this.filteredFolders = folders.filter((folder: any) => folder.parent_folder_id === null);
+        } else {
+          this.allFolders = folders;
+          this.filteredFolders = folders.filter((folder: any) => folder.parent_folder_id === this.folder_id);
+        }
       },
       error: (err) => {
         console.error('Failed to load folders', err);
@@ -435,20 +439,21 @@ export class FilesComponent {
     }
   }
 
-  getFolderSize(folder_id: any) {
-    this.folder_size = 0;
-    this.allFiles.forEach((file: any) => {
-      if (file.folder_id === folder_id) {
-        this.folder_size += file.size;
-      }
-    });
-
-    // Remove leading zeroes
-    const sizeWithoutLeadingZeroes = Number(this.folder_size).toString();
-
-    // Convert the size to a readable format
-    return this.convertFileSize(sizeWithoutLeadingZeroes);
-  }
+  // Provides incorrect values
+  getFolderSize(folderId: any): string {
+    // Filter all files by folderId
+    const folderFiles = this.allFiles.filter((file: any) => file.folder_id === folderId);
+  
+    // Sum the size of all files in the folder
+    const folderSize = folderFiles.reduce((acc, file) => {
+      // Ensure file.size is treated as a number
+      const size = Number(file.size);
+      // Check if size is a valid number and not NaN
+      return !isNaN(size) ? acc + size : acc;
+    }, 0);
+  
+    return this.convertFileSize(folderSize);;
+  }  
 
   exportAllFiles(): void {
     // Download all files in a zip format
@@ -570,7 +575,6 @@ export class FilesComponent {
     // Folder_id mustn't be reset to allow for folder deletion outside of the folder action sidebar
     // this.folder_id = null;
     this.parent_folder_id = null;
-    this.currentFolderId = '';
     this.currentFolderId = '';
     this.folder_size = 0;
     // Close any open components
